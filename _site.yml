@@ -2,7 +2,7 @@ name: "blog"
 title: "My Blog"
 description: |
   My Blog
-output_dir: "_site"
+output_dir: "docs"
 navbar:
   logo: images/cup.png
   right:
