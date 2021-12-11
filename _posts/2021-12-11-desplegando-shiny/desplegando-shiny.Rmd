@@ -1,19 +1,23 @@
 ---
 title: "Desplegando mi app de shiny con shiny-server"
 description: |
-  Si hemos creado una aplicación de shiny, es muy probable que hayamos disfrutado el verla corriendo en nuestro computador y de pronto nos preguntemos: ¿Cómo puedo abrir mi aplicación al mundo? ¿Cómo otras personas pueden acceder y usar a mi aplicación? ¿Cómo compartir mi aplicación con usuarios sin que tengan que instalar R, RStudio y poner al correr mi código? Bueno, pues esto es lo que conocemos como desplegar una aplicación. Vamos a "llevar a internet" nuestra aplicación y hacerla accesible al mundo.
+ Vamos a "llevar a internet" nuestra aplicación y hacerla accesible al mundo.
 author:
   - name: Ronny A. Hernández Mora
     url: http://ronnyhdez.rbind.io/
 date: 2020-12-28
+creative_commons: CC BY-NC
+preview: images/app.png
+twitter:
+  creator: "@RonnyHdezM"
 output:
   distill::distill_article:
-    self_contained: false
+    self_contained: true
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 # ¿Porqué necesito saber esto?
@@ -112,6 +116,7 @@ sudo apt-get install unixodbc unixodbc-dev
 
 Luego tomamos un paso para asegurarnos que todos los paquetes de Ubuntu se
 encuentren actualizados en el servidor
+
 ```{bash, eval = FALSE}
 sudo apt update
 sudo apt upgrade
@@ -143,6 +148,7 @@ acá mostrada puede quedar desactualizada.
 
 La versión la validamos con el número que aparece luego de la palabra `shiny-server`
 En este caso, la usada para la guía es (`shiny-server-1.5.13.944`)
+
 ```{bash, eval = FALSE}
 # Damos dirección de donde traemos la descarga
 wget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb
@@ -189,6 +195,7 @@ Dentro del servidor, las aplicaciones deben de estar bajo el siguiente directori
 `/srv/shiny-server`
 
 Allí es donde debemos de llevar nuestra aplicación.
+
 ```{bash, eval = FALSE}
 # Nos cambiamos al directorio
 cd /srv/shiny-server
@@ -216,6 +223,7 @@ sudo su - \
 Si hay algún paquete que no está en el CRAN porque es una versión en desarrollo, 
 podemos echar mano del paquete `remotes` (el cual debimos de incluir en el paso
 anterior)
+
 ```{bash, eval = FALSE}
 # Ejemplo de instalación de paquete en desarrollo:
 sudo su - \
@@ -227,6 +235,7 @@ force = TRUE)
 
 Con todos los pasos anteriores listos, procedemos a detener y volver a iniciar el
 servicio de `shiny-server`, para luego probar si nos podemos conectar a ella:
+
 ```{bash, eval = FALSE}
 # Reiniciar el servicio de manera recomendada:
 sudo systemctl stop shiny-server
