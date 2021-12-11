@@ -6,26 +6,26 @@
       "description": "A place to find notes about my journey creating data science products",
       "author": [],
       "contents": "\nHi! I’m Ronny A. Hernández Mora. I have been working in the data science industry for several years and I have learned from many people who create free resources over the internet and that also are my friends and co-workers. So I decided to be more serious about sharing tricks and tips about R, linux, git and other tools that I use to develop data products.\nFeel free to use and share whatever you find useful in the blog posts!\n\n\n\n",
-      "last_modified": "2021-12-11T14:22:10-07:00"
+      "last_modified": "2021-12-11T14:50:22-07:00"
     },
     {
       "path": "index.html",
       "title": "My Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-12-11T14:22:10-07:00"
+      "last_modified": "2021-12-11T14:50:22-07:00"
     },
     {
       "path": "README.html",
       "author": [],
-      "contents": "\n\nBlogging workflow:\nCreate an issue with the blog post idea\nCreate branch\nUse the distill::create_post() function\nInclude content\nSave file\nUse build > Build Website button\ncommit changes\npush changes\ncreate pull request\nreview pull request\naccept pull request\ncheck site\n\n\n\n",
-      "last_modified": "2021-12-11T14:22:10-07:00"
+      "contents": "\n\nBlogging workflow:\nCreate an issue with the blog post idea\nCreate branch\nUse the distill::create_post() function\nInclude content\nSave file\nUse build > Build Website button\ncommit changes\npush changes\ncreate pull request\nreview pull request\naccept pull request\ncheck site\nOriginal Rmd files are in the _posts folder.\n\n\n\n",
+      "last_modified": "2021-12-11T14:50:22-07:00"
     },
     {
       "path": "README.html",
       "author": [],
-      "contents": "\n\nBlogging workflow:\nCreate an issue with the blog post idea\nCreate branch\nUse the distill::create_post() function\nInclude content\nSave file\nUse build > Build Website button\ncommit changes\npush changes\ncreate pull request\nreview pull request\naccept pull request\ncheck site\n\n\n\n",
-      "last_modified": "2021-12-11T14:22:10-07:00"
+      "contents": "\n\nBlogging workflow:\nCreate an issue with the blog post idea\nCreate branch\nUse the distill::create_post() function\nInclude content\nSave file\nUse build > Build Website button\ncommit changes\npush changes\ncreate pull request\nreview pull request\naccept pull request\ncheck site\nOriginal Rmd files are in the _posts folder.\n\n\n\n",
+      "last_modified": "2021-12-11T14:50:22-07:00"
     }
   ],
   "collections": ["posts/posts.json"]
