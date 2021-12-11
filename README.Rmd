@@ -1,0 +1,27 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Blogging workflow:
+
+ - Create an issue with the blog post idea
+ - Create  branch
+ - Use the `distill::create_post()` function
+ - Include content
+ - Save file
+ - Use `build > Build Website` button
+ - commit changes
+ - push changes
+ - create pull request
+ - review pull request
+ - accept pull request
+ - check site

@@ -6,9 +6,13 @@ author:
   - name: Ronny A. Hernández Mora
     url: http://ronnyhdez.rbind.io/
 date: 2016-04-20
+creative_commons: CC BY-NC
+preview: images/files.png
+twitter:
+  creator: "@RonnyHdezM"
 output:
   distill::distill_article:
-    self_contained: false
+    self_contained: true
 ---
 
 
@@ -24,7 +28,6 @@ tener un control sobre los cambios que se introducen en el documento.
 
 En este tutorial haremos ejemplos con scripts de código en R y cómo los cambios que vayamos trabajando, los podemos registrar, usar, guardar y documentar con mayor eficiencia tanto para trabajar individualemente como grupalmente. 
 
-![](/img/git.png)
 
 ## Esquema de git
 Aqui pretendo aclarar rapidamente que vamos a hacer con git, tener el bosquejo antes de entrar en detalles. Vamos a tener un repositorio remoto o en inglés upstream que será nuestro repositorio en github/gitlab/bitbucket. De este repositorio tendremos uno local que crearemos al hacer el clon. Siempre vamos a trabajar en repositorio local (en nuestra computadora) y esos cambios los vamos a subir al remoto con un push. De igual manera cambios que existan en el repositorio remoto (porque alguien hizo una contribucion, trabajamos desde otra computadora ys ubimos los cambios) lo vamos a hacer con un pull.
@@ -42,22 +45,14 @@ En este segmento vamos a seguir los pasos para tener un repositorio que tenga su
 Si tenemos cuenta en github/gitlab/bitbucket podemos crear un repositorio. Le llamamos repositorio al sitio donde vamos a guardar nuestros archivos. Un repositorio lo podemos visualizar como una carpeta que contendrá nuestro trabajo.
 
 Cuando se crea un nuevo repositorio lo recomendable es iniciarlo con un arhivo que se llama **.gitignore** y con un **readme**. Para hacerlo en github (y algo similar en otras plataformas) es que seleccionemos las opciones de iniciar repositorio con un archivo .gitignore y un readme. El archivo gitignore debe de ser específico para la herramienta que vayamos a usar, en este caso sería *R*
-![](/img/create_repository_github.png)
-
 
 La funcionalidad del .gitignore es que este archivo (es como un archvio de texto) contiene especificaciones sobre los formatos de los archivos que no queremos que se integren en nuestro sistema de control de versiones. Generalmente no deseamos que archivos como imagenes (.png .jpeg) o bien archivos de datos muy grandes (.txt .csv .feather) sean compartidos entre repositorios remotos, locales o personas con las que colaboremos. Un ejemplo de un archivo .gitignore es el siguiente:
         
-![](/img/ejemplo_gitignore.png)
-
 Si no identifican algunos de los elementos de ahí no hay de qué preocuparse, mejor nos enfocámos en los tipos de archivos que nosotros necesitamos que **NO sean tomados en cuenta por git**, es decir, que no queremos que se suban a nuestro repositorio de github por ejemplo ni en la gestión de versiones. Si es el caso que tenemos que hacer el knit de un Rmarkdown y necesitamos un archivo .csv para renderizarlo, pero solamente queremos el archivo Rmakrdown en el sistema de git, pues en nuestro archivo .gitignore escribimos .csv, guardamos el archivo y listo. 
 
 En el caso del **readme** es un archivo que debe de dar una idea  de qué tenemos en el repositorio. Es una guía para nosotros mismos u otros usuarios que vayan a hacer uso del repositorio y nuestro código. En github los readme se ven así:
 
-![](/img/readme.png)
-
 Una vez que el repositorio haya sido creado, vamos a encontrarnos con una opción que dirá **"clone or download"**. Vamos a hacer click en clone y la dirección que allí sale la tenemos que copiar (ctrl + c). La imagen muestra lo que sucede al hacer clone en el botón verde que ofrece github:
-
-![](/img/clone.png)
 
 Ya con la información de la dirección del repositorio copiada, vamos a llevarla a nuestra terminal:
 
