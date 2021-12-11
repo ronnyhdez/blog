@@ -1,0 +1,23 @@
+---
+title: "Using mkdocs and Rmarkdown"
+description: |
+  A how-to blog post on how to use mkdocs and Rmarkdown to create cool documentation.
+author:
+  - name: Ronny A. Hernández Mora
+    url: http://ronnyhdez.rbind.io/ 
+date: 2021-12-11
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
