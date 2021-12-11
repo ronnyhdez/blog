@@ -15,3 +15,5 @@
  - review pull request
  - accept pull request
  - check site
+ 
+ Original Rmd files are in the `_posts` folder.
