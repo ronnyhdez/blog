@@ -6,14 +6,14 @@
       "description": "A place to find notes about my journey creating data science products",
       "author": [],
       "contents": "\nHi! I’m Ronny A. Hernández Mora. I have been working in the data science industry for several years and I have learned from many people who create free resources over the internet and that also are my friends and co-workers. So I decided to be more serious about sharing tricks and tips about R, linux, git and other tools that I use to develop data products.\nFeel free to use and share whatever you find useful in the blog posts!\n\n\n\n",
-      "last_modified": "2022-01-13T15:27:37-07:00"
+      "last_modified": "2022-01-13T15:37:33-07:00"
     },
     {
       "path": "index.html",
       "title": "My Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-01-13T15:27:37-07:00"
+      "last_modified": "2022-01-13T15:37:33-07:00"
     }
   ],
   "collections": ["posts/posts.json"]

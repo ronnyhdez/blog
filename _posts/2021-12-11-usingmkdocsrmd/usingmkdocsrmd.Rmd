@@ -7,7 +7,7 @@ author:
     url: http://ronnyhdez.rbind.io/ 
 date: 2022-01-13
 creative_commons: CC BY-NC
-preview: images/app.png
+preview: images/site_alive.png
 twitter:
   creator: "@RonnyHdezM"
 output:
@@ -232,7 +232,7 @@ git config credential.helper store
 So far, we have our notes. But we are still lacking the part of publishing in
 our web page the notes. There are several steps to do this manually but after
 many times repeating everything I decided to create a small R package to
-automatize this steps.
+automatize this steps. This package is called [dockmaer](https://github.com/ronnyhdez/docmaker)
 
 You can install the package with:
 
