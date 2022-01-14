@@ -70,12 +70,12 @@ nuestra aplicación crezca y querramos que sea usada por más usuarios podemos
 revisar:
 
  - memoria
- - cpu
+ - CPU
  - disco
  
 El sistema operativo puede ser cualquiera de su elección siempre y cuando sea
 Linux. Los pasos en esta guía están basados en la distribución Ubuntu mayor a
-18.04.4. Validar que elegimos **LTS** (Lont Term Support)
+18.04.4. Validar que elegimos **LTS** (Long Term Support)
 
 # Pasos
 
