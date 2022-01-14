@@ -65,13 +65,18 @@ haciendo uso de esta herramienta.
 
 ## Recomendaciones del servidor:
 
-Como mínimo es recomedanble levantar un servidor con las siguientes características:
+Si queremos probar, lo ideal es usar un servidor con el mínimo posible. Conforme
+nuestra aplicación crezca y querramos que sea usada por más usuarios podemos
+revisar:
 
- - Memoria: 16 Gb
- - CPU: 4
- - Disco: 20
- - OS: Ubuntu mayor a 18.04.4 LTS
+ - memoria
+ - cpu
+ - disco
  
+El sistema operativo puede ser cualquiera de su elección siempre y cuando sea
+Linux. Los pasos en esta guía están basados en la distribución Ubuntu mayor a
+18.04.4. Validar que elegimos **LTS** (Lont Term Support)
+
 # Pasos
 
 Si ya tenemos un servidor, vamos a proceder con los siguientes instrucciones:
