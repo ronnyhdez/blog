@@ -191,7 +191,7 @@ Your files in your repository should look something like this:
 ### `.gitignore` advice
 
 In order to not make your control version slow or run out of space in your
-GitHub account, ignore some files writting them in your `.gitignore` file.
+GitHub account, ignore some files writing them in your `.gitignore` file.
 
 Just open that file in RStudio and add the following lines to not include images,
 data, credentials or other files that are not necessary for control versioning:
