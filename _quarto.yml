@@ -1,0 +1,17 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Ronny A. Hernandez Mora"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/ronnyhdez/blog
+      - icon: twitter
+        href: https://twitter.com/ronny_hdezmora
+format:
+  html:
+    theme: yeti 
+    css: styles.css
