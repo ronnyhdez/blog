@@ -1,0 +1,1893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Ronny A. Hernandez Mora</title>
+<link>https://ronnyale.com/index.html</link>
+<atom:link href="https://ronnyale.com/index.xml" rel="self" type="application/rss+xml"/>
+<description>Notes about my journey creating data science products
+</description>
+<generator>quarto-1.0.36</generator>
+<lastBuildDate>Tue, 13 Sep 2022 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>Using Neovim for R Users</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="how-to-install-and-config-nvim-in-ubuntu" class="level1">
+<h1>How to install and config nvim in Ubuntu?</h1>
+<p>There is a ton of tutorials in the internet about this, but after trying several times, the steps that worked for me are the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;">sudo</span> apt install neovim <span class="at" style="color: #657422;">-y</span></span></code></pre></div>
+</div>
+<p>Then you can validate the version with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;">nvim</span> <span class="at" style="color: #657422;">--version</span></span></code></pre></div>
+</div>
+<p>Now that we have nvim installed in our computer, it’s time to configure it. First you need to create the config file that would be in the path <code>~/.config/nvim/</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># Create directory</span></span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;">mkdir</span> ~/.config/nvim/</span>
+<span id="cb3-3"><span class="bu" style="color: null;">cd</span> ~/.config/nvim/</span>
+<span id="cb3-4"></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;"># Create nvim config file</span></span>
+<span id="cb3-6"><span class="ex" style="color: null;">nvim</span> init.vim</span></code></pre></div>
+</div>
+<p>From there, you will see an empty file. We are going to add some configuration. There are many options to adapt nvim to your needs and lots of examples out there. Here I’m going to use a basic configuration so you can get an idea on what you can do.</p>
+<p>To understand the file, take notes on this:</p>
+<ul>
+<li>Every <code>"</code> means that the line is a comment</li>
+<li>All other lines without the <code>"</code> are instructions to set your configuration</li>
+<li><code>Plug</code> means that you want to use a Plugin. You will need a plugin to manage these. (More on this later)</li>
+</ul>
+<p>This is what a basic config file would look like:</p>
+<pre><code>" Cursor as a block
+set guicursor=
+
+" Use relative numbers in files
+set relativenumber
+
+" Line where I'm positioned is the real line number
+set nu
+
+" No saving or keeping buffer in the background
+set hidden
+
+" Indentetation configuration
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+
+" Start scrolling until 8 spaces away
+set scrolloff=8
+
+" Create extra column
+set signcolumn=yes
+
+" Mark 80 characters line
+set colorcolumn=80
+
+" Set encoding
+set encoding=utf-8
+
+" Plugins
+call plug#begin()
+Plug 'jalvesaq/Nvim-R'
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'ncm2/ncm2'
+Plug 'gaalcaras/ncm-R'
+call plug#end()</code></pre>
+<p>A good idea for me is that, when I add a new line of configuration, I will add a comment stating what that command is mean for. That way, it will be easy for me to remember what I was trying to achieve when I made the change.</p>
+<section id="instaling-plug-ins" class="level2">
+<h2 class="anchored" data-anchor-id="instaling-plug-ins">Instaling Plug-ins</h2>
+<p>In the <code>init.vim</code> file above, I included already some of the plugins that I want to use when working with nvim. When using the plugins, these should be in the middle of this call:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="ex" style="color: null;">call</span> plug#begin<span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'~/.vim/plugged'</span><span class="kw" style="color: #003B4F;">)</span></span>
+<span id="cb5-2"></span>
+<span id="cb5-3"><span class="ex" style="color: null;">call</span> plug#end<span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
+</div>
+<p>Now, you can see that they are included in the <code>init.vim</code> file, but still are not installed. For this, the first step is to find out a plugin manager.</p>
+<p>The one that I like is <a href="https://github.com/junegunn/vim-plug">vim-plug</a>. To install it, you will need to:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;">sh</span> <span class="at" style="color: #657422;">-c</span> <span class="st" style="color: #20794D;">'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \</span></span>
+<span id="cb6-2"><span class="st" style="color: #20794D;">       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'</span></span></code></pre></div>
+</div>
+<p>After the <code>vim-plug</code> is installed, you will need to go back to your <code>init.vim</code> document. Then install the rest of plugins with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;">:PlugInstall</span></span></code></pre></div>
+</div>
+<p>When installing the rest of the plugins, you will see something similar to:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">knitr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">include_graphics</span>(<span class="st" style="color: #20794D;">"images/plug_install.png"</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid" width="370"></p>
+</div>
+</div>
+<p>If I want to know which pluggins are installed, with the following vim-plug command we can check them:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;">:PlugStatus</span></span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="nvim-workflow-for-r-projects" class="level1">
+<h1>nvim workflow for R projects</h1>
+<p>At this point, we have a functional and adapted nvim for our daily work. Let’s start on what would the workflow look like when dealing with R projects. At first if you already have an R project, you can move on your terminal to that path and open a file with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;">nvim</span> my_file.R</span></code></pre></div>
+</div>
+<p>This can be done for any R file (Rmd, R, qmd). The configuration will detect the file format and be aware of what it is. Once we have started our nvim session, we need to know a couple of commands to run R from a nvim session:</p>
+<p><code>\rf</code> Connect to R Console</p>
+<p><code>\rq</code> Quit R Console</p>
+<p><code>\d</code> Run current line and move to the next line</p>
+<p><code>\l</code> Run current line, but cursor will stay on the same line.</p>
+<p><code>\pp</code> Run paragraph. But cursor will stay on the same block.</p>
+<p><code>\pd</code> Runs block and move to the next one</p>
+<p><code>\ss</code> Execute a block of <strong>selected code</strong>. This has to be done with visual mode</p>
+<p><code>\aa</code> Run entire script</p>
+<p><code>\ro</code> Open the “Global Environment”</p>
+<p><code>ctrl + w + l</code> Jump to left panel</p>
+<p><code>ctrl + w + h</code> Jump to right panel</p>
+<p>If I made a change on the <code>~/.vimrc</code> file, I can source it with <code>:source ~/.vimcr</code></p>
+<p>If I have installed the pluggin <code>NERDTree</code>, I need to remap some keys. At the moment I have in my <code>~/.vimrc</code> file the line: <code>nnoremap &lt;C-n&gt; :NERDTree&lt;CR&gt;</code>, so I don’t have to do <code>:NERDTree</code> to open the file browser. Now this can be done with:</p>
+<p><code>ctrl + n</code> Open file browser on left side by default.</p>
+<p>Inside the file tree browser, I can move with the arrows. To expand one folder and show contents, I can hit <code>ENTER</code>. Doing the same in an open folder, will close it.</p>
+<p>To move out from the NERDTree browser I can <code>ctrl + w + w</code> so I will be jumping panels from left to right.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</guid>
+  <pubDate>Tue, 13 Sep 2022 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
+</item>
+<item>
+  <title>Creating a website using mkdocs, Rmarkdown and GitHub pages</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># ---</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;"># title: "Creating a website using mkdocs, Rmarkdown and GitHub pages"</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;"># description: |</span></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;">#   A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.</span></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;"># author:</span></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;">#     url: http://ronnyhdez.rbind.io/ </span></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;"># date: 2022-01-13</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;"># preview: images/site_alive.png</span></span>
+<span id="cb1-11"><span class="co" style="color: #5E5E5E;"># twitter:</span></span>
+<span id="cb1-12"><span class="co" style="color: #5E5E5E;">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># output:</span></span>
+<span id="cb1-14"><span class="co" style="color: #5E5E5E;">#   distill::distill_article:</span></span>
+<span id="cb1-15"><span class="co" style="color: #5E5E5E;">#     self_contained: true</span></span>
+<span id="cb1-16"><span class="co" style="color: #5E5E5E;"># ---</span></span></code></pre></div>
+</div>
+<section id="what-are-we-going-to-create" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-we-going-to-create">What are we going to create?</h2>
+<p>A static web page like <a href="https://ronnyhdez.github.io/drawer/">this one</a> to manage your documentation created in <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a></p>
+</section>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The problem:</h2>
+<p>Pretty often I found myself in situation where I say: “I did this sometime ago and now I don’t remember quite well which were the steps to do it again”.</p>
+<p>From my job and also current projects I’m always taking raw notes in a text file file and despite the tons of apps out there, I like text files because they are pretty simple and this allows me to just focus in writing down the idea, concept or steps of what I’m doing and implement markdown.</p>
+<p>But, the problem with this approach is that at the end of the day, I have my desktop or other folders with a lot of individual <code>.md</code> or <code>txt</code> files laying around without any intuitive context. This got me in troubles and in loosing time when I wanted to get back to something that I did and that I had somewhere in my computer.</p>
+<p>If at this point your are asking yourself: why you didn’t use a wiki? or a vignette? or an Rmarkdwon file? or something more organized? The answer is simple: In the middle of a project execution, when I doubt about something, I would go to google or a reference book, grab what I needed and take a quick note about the steps that I followed to accomplish my task. If it didn’t work I would throw away the file, if it worked, I would keep the file.</p>
+<p>Then, I found out about <a href="https://www.mkdocs.org/">MkDocs</a> (actually <a href="https://twitter.com/fransvandunne">Frans</a> was who showed me this) and it was the perfect solution: a simple web page, an index and most important: a search toolbar that can search in all the web page content (I mean, all my notes in there)!</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/mkdocs_example.jpg" class="img-fluid"></p>
+<p>As they state in their site:</p>
+<blockquote class="blockquote">
+<p>MkDocs is a fast, simple and downright gorgeous static site generator that’s geared towards building project documentation. Documentation source files are written in Markdown, and configured with a single YAML configuration file.</p>
+</blockquote>
+<p>Now, they state that <strong>source files are written in Markdown</strong>, but if I’m an R user, probably I’m used to Rmarkdown files. Plus it’s nice to create documents in Rmarkdown where I can mix markdown and R code (R + markdown).</p>
+</section>
+<section id="so-how-can-i-set-up-everything" class="level2">
+<h2 class="anchored" data-anchor-id="so-how-can-i-set-up-everything">So, how can I set up everything?</h2>
+<p>For this recipe, you will need:</p>
+<ul>
+<li>R and RStudio</li>
+<li>Rmarkdown package</li>
+<li>MkDocs</li>
+<li>git</li>
+<li>GitHub account</li>
+</ul>
+<p>I’m not going to describe how to install R RStudio, Rmarkdown or git. There are plenty good tutorials and documentation on how to do it out there. I’m going to describe the process from the installation of MkDocs.</p>
+<section id="getting-mkdocs" class="level3">
+<h3 class="anchored" data-anchor-id="getting-mkdocs">Getting MkDocs</h3>
+<p>For this, I followed the instructions over <a href="https://www.mkdocs.org/user-guide/installation/">here</a>. I got already python on my machine and I’m a Linux user, so I’m using Ubuntu 20.04</p>
+<p>Given that I had already python I just installed MkDocs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;">pip</span> install mkdocs</span></code></pre></div>
+</div>
+<p>Then I validated that the installation was succesful:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;">$</span> mkdocs <span class="at" style="color: #657422;">--version</span></span>
+<span id="cb3-2"><span class="ex" style="color: null;">mkdocs,</span> version 1.2.2 from /home/your_username/.local/lib/python3.8/site-packages/mkdocs <span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">Python</span> 3.8<span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
+</div>
+<p>Done! I got MkDocs on my computer.</p>
+</section>
+<section id="getting-matherial-theme" class="level3">
+<h3 class="anchored" data-anchor-id="getting-matherial-theme">Getting Matherial theme</h3>
+<p>I don’t like the default theme that comes with MkDocs, so I changed to <a href="https://squidfunk.github.io/mkdocs-material/getting-started/">Matherial</a>.</p>
+<p>To install this theme, you will need to run in the terminal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;">$</span> pip3 install mkdocs-material</span></code></pre></div>
+</div>
+</section>
+<section id="configuring-your-github-repository" class="level3">
+<h3 class="anchored" data-anchor-id="configuring-your-github-repository">Configuring your GitHub repository</h3>
+<p>You will need to have an account already on GitHub. When you are done with this step, you can go and create a repository. Also you will need to go to settings, search for <strong>Pages</strong> on the left hand side menu and there select the <strong>main</strong> branch to enable GitHub Pages for your repository.</p>
+<p>The steps are the following:</p>
+<p><strong>Create a new repository</strong></p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01_new_repo.png" class="img-fluid"></p>
+<p><strong>Options for the new repo</strong></p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02_create_new_repo.png" class="img-fluid"></p>
+<p><strong>Settings to enable GitHub pages</strong></p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/setting_gh_pages.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="cloning-your-project" class="level2">
+<h2 class="anchored" data-anchor-id="cloning-your-project">Cloning your project</h2>
+<p>If you are already familiar with this step, skip this section and go ahead to the next session. If you are starting with git and GitHub here is the set of steps to clone your repo and start working.</p>
+<p>Up to this point we just have created the repository on GitHub and tweak some settings. It’s time to clone the repository created on GitHub to our computer. We will be working with the RStudio IDE.</p>
+<p><strong>Create new project</strong></p>
+<ul>
+<li><p>Select the <code>Version Control</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-clone.png" class="img-fluid"></p></li>
+<li><p>Then select the <code>Git</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02-clone.png" class="img-fluid"></p></li>
+<li><p>Now, go to your repository on GitHub and under the <code>Code</code> button copy the url. Make sure that the <code>HTTPS</code> option is highlighted. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-clone.png" class="img-fluid"></p></li>
+<li><p>Copy the URL in the <code>Repository URL</code> section. The <code>Project directory name</code> should auto-populate. Then select your path where you want to locate your repository folder. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-clone.png" class="img-fluid"></p></li>
+<li><p>Now, RStudio should open a new session for working on your repository!</p></li>
+</ul>
+</section>
+<section id="working-on-your-notes" class="level2">
+<h2 class="anchored" data-anchor-id="working-on-your-notes">Working on your notes</h2>
+<p>Now we are all set. We can start creating our Rmarkdown documents:</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-notes.png" class="img-fluid"></p>
+<p>Create as many <code>Rmd</code> documents as you need. Each document will be a “section” on your final website.</p>
+<p>Each of the titles and subtitles in your document will be sections inside the specific page.</p>
+<p>Also, use relative paths. This will make everything less error prone.</p>
+<p>Now, because we are going to use the package <a href="https://github.com/ronnyhdez/docmaker">docmaker</a> we need to follow a structure:</p>
+<ul>
+<li>All your <code>Rmd</code> files should be in the root of your project.</li>
+<li>Your data, images, pdfs files can be saved inside folders.</li>
+<li><strong>Don’t use <code>docs</code> folder</strong>. This is a special folder designated to save the files needed to build the web page. <code>docmaker</code> package will be in charge of the use of this folder, so you don’t have to worry about it.</li>
+</ul>
+<p>Your files in your repository should look something like this:</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-notes.png" class="img-fluid"></p>
+<section id="gitignore-advice" class="level3">
+<h3 class="anchored" data-anchor-id="gitignore-advice"><code>.gitignore</code> advice</h3>
+<p>In order to not make your control version slow or run out of space in your GitHub account, ignore some files writing them in your <code>.gitignore</code> file.</p>
+<p>Just open that file in RStudio and add the following lines to not include images, data, credentials or other files that are not necessary for control versioning:</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-notes.png" class="img-fluid"></p>
+<p>In there I added:</p>
+<pre><code># Personal files
+data/
+images/
+*.html
+.Renviron</code></pre>
+</section>
+<section id="sending-your-changes-to-your-github-repository." class="level3">
+<h3 class="anchored" data-anchor-id="sending-your-changes-to-your-github-repository.">Sending your changes to your github repository.</h3>
+<p>For this example I’m not using branches to avoid focusing on the git details, so we are just going to send everything to the main branch. This step is</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;">git</span> add .</span>
+<span id="cb6-2"><span class="fu" style="color: #4758AB;">git</span> commit <span class="at" style="color: #657422;">-m</span> <span class="st" style="color: #20794D;">"Add first notes"</span></span>
+<span id="cb6-3"><span class="fu" style="color: #4758AB;">git</span> push</span></code></pre></div>
+</div>
+<p>Be aware that this is probably going to ask you for who you are (user name on GitHub and email) and your credentials. One tip to save your credentials for the specific repository that you are working on is the following command after you enter your credentials:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="fu" style="color: #4758AB;">git</span> config credential.helper store</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="deploy-and-publish-your-notes-with-docmaker" class="level2">
+<h2 class="anchored" data-anchor-id="deploy-and-publish-your-notes-with-docmaker">Deploy and publish your notes with <code>docmaker</code></h2>
+<p>So far, we have our notes. But we are still lacking the part of publishing in our web page the notes. There are several steps to do this manually but after many times repeating everything I decided to create a small R package to automatize this steps. This package is called <a href="https://github.com/ronnyhdez/docmaker">dockmaer</a></p>
+<p>You can install the package with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">devtools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">install_github</span>(<span class="st" style="color: #20794D;">"ronnyhdez/docmaker"</span>)</span></code></pre></div>
+</div>
+<p>Now, on your console you can load the package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;">library</span>(docmaker)</span></code></pre></div>
+</div>
+<section id="configure-repo-with-docmaker" class="level3">
+<h3 class="anchored" data-anchor-id="configure-repo-with-docmaker">Configure repo with <code>docmaker</code></h3>
+<p>Before building and deploying our notes, we need to do some configuration steps in our repository. <code>docmaker</code> can take care of this with the function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;">build_repo</span>(<span class="at" style="color: #657422;">github_page_url =</span> <span class="st" style="color: #20794D;">"https://ronnyhdez.github.io/test_docmaker/"</span>,</span>
+<span id="cb10-2">           <span class="at" style="color: #657422;">site_author =</span> <span class="st" style="color: #20794D;">"Ronny A. Hernández Mora"</span>)</span></code></pre></div>
+</div>
+<p>We can get the URL of our repository in the settings &gt; page on GitHub. After we enabled this in a step before, there should appear the URL designated by GitHub for our web site.</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/page_url.png" class="img-fluid"></p>
+<p>The <code>site_author</code> should be our name.</p>
+<p>This function will do the following:</p>
+<ul>
+<li>Create a <code>yml</code> file</li>
+<li>Add to the <code>.gitignore</code> the <code>site</code> folder</li>
+<li>Create a <code>docs</code> folder</li>
+</ul>
+</section>
+<section id="build-and-deploy-notes" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-deploy-notes">Build and deploy notes</h3>
+<p>Because this is our first time, all of our notes (three in the example) are not existing as <code>md</code> documents nor even built or deploy with mkdocs.</p>
+<p><code>docmaker</code> have a function to take <strong>all the .Rmd files</strong> existing in our project root and do all the steps needed to deploy this ones:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;">make_all_docs</span>(<span class="at" style="color: #657422;">deploy =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span></code></pre></div>
+</div>
+<p>This function will do the following:</p>
+<ul>
+<li>Render all our <code>Rmd</code> files to <code>md</code></li>
+<li>Move the outputs (including images) to the <code>docs</code> folder</li>
+<li>If we are using a <code>README.Rmd</code> file <strong>this will be ignore</strong></li>
+<li>Build the mkdocs</li>
+<li>If <code>deploy</code> is set to <code>TRUE</code> it will deploy the notes.</li>
+<li>Create an specifi branch for the pages deployment: <code>gh-deploy</code></li>
+</ul>
+<p>Now, given that we are using a new branch to be deployed, we need to go back to GitHub pages and make a small change: change the branch selected to be build from:</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/gh_deploy.png" class="img-fluid"></p>
+<p>After some seconds (or a few minutes), we should be able to see our site alive!</p>
+<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="img-fluid"></p>
+<p>As we can see, our 3 files are sections in the left side menu. The titles and subtitles of each document will be shown in the <strong>Table of contents</strong> in the right side menu.</p>
+</section>
+</section>
+<section id="code-and-example-site" class="level2">
+<h2 class="anchored" data-anchor-id="code-and-example-site">Code and example site</h2>
+<p>All the code and configuration files of the example site are in this GitHub repository:</p>
+<ul>
+<li><a href="https://github.com/ronnyhdez/test_docmaker">Repository</a></li>
+<li><a href="https://ronnyhdez.github.io/test_docmaker/03-nicoya/">Site</a></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</guid>
+  <pubDate>Thu, 13 Jan 2022 07:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
+</item>
+<item>
+  <title>Usando tmux: apuntes breves de mi jornada</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="qué-es-tmux" class="level1">
+<h1>¿Qué es <a href="https://github.com/tmux/tmux/wiki">tmux</a>?</h1>
+<p>Es un sistema de multiplexación para sistemas Unix. Lo que nos permite es realizar múltiples tareas en una terminal a través del uso de paneles, sesiones o ventanas.</p>
+<p>En otras palabras, es abrir una terminal y poder abrir y usar otras terminales dentro de esta.</p>
+<section id="instalando-tmux" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-tmux">Instalando tmux</h2>
+<p>Para instalarlo en distribuciones basadas en debian, podemos hacerlo con el comando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;">sudo</span> apt install tmux</span></code></pre></div>
+</div>
+<p>Para validar que se instaló</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># Si nos da un número de version, estamos listos.</span></span>
+<span id="cb2-2"><span class="ex" style="color: null;">tmux</span> <span class="at" style="color: #657422;">-V</span></span></code></pre></div>
+</div>
+</section>
+<section id="primeros-pasos-con-tmux" class="level2">
+<h2 class="anchored" data-anchor-id="primeros-pasos-con-tmux">Primeros pasos con tmux</h2>
+<p>Para iniciar la sesión con tmux, corremos en la terminal el comando con el mismo nombre:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;">tmux</span></span></code></pre></div>
+</div>
+<p>Veremos en la parte inferior de la terminal que tenemos información como</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;">[0]</span> 0:bash<span class="pp" style="color: #AD0000;">*</span>    <span class="st" style="color: #20794D;">"ronny"</span> 22:35 03-ene-21</span></code></pre></div>
+</div>
+<p>Con esto podemos asegurar que estamos usando tmux sin problema.</p>
+<p>Para hacer uso de las funciones que trae tmux, necesitamos tener en cuenta que hay un <strong>prefijo</strong> configurado por defecto que hay que utilizar para la mayoría de las operaciones: <strong>ctrl + b</strong></p>
+<p>Esto se puede configurar para no dejarlo en una combinación de teclas tan incómoda, pero lo haremos luego.</p>
+</section>
+<section id="paneles-en-tmux" class="level2">
+<h2 class="anchored" data-anchor-id="paneles-en-tmux">Paneles en tmux</h2>
+<ul>
+<li>En la terminal podemos dividir la vista en varios paneles.</li>
+<li>Se pueden dividir paneles en otros más.</li>
+<li>Cada panel puede ejecutar distintas tareas.</li>
+</ul>
+<p><strong>Dividir paneles horizontal</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="ex" style="color: null;">ctrl</span> + b + <span class="st" style="color: #20794D;">"</span></span></code></pre></div>
+</div>
+<p><strong>Dividir paneles vertical</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;">ctrl</span> + b + %</span></code></pre></div>
+</div>
+<p><strong>Cerrar un panel</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># Primera opción</span></span>
+<span id="cb7-2"><span class="ex" style="color: null;">ctrl</span> + b + x</span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;"># Segunda opción:</span></span>
+<span id="cb7-5"><span class="bu" style="color: null;">exit</span></span></code></pre></div>
+</div>
+<p><strong>Moverse entre paneles</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;">ctrl</span> + b + ← ↑ → ↓ </span></code></pre></div>
+</div>
+<p><strong>Zoom en un panel</strong></p>
+<ul>
+<li>Sobre el panel que queremos enfocarnos usamos el comando.</li>
+<li>Los demás paneles no desaparecen, quedan ocultos por el panel en zoom.</li>
+<li>Con el mismo comando quitamos el enfoque en el panel</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="co" style="color: #5E5E5E;"># Para hacer el enfoque en un panel</span></span>
+<span id="cb9-2"><span class="ex" style="color: null;">ctrl</span> + b + z</span>
+<span id="cb9-3"></span>
+<span id="cb9-4"><span class="co" style="color: #5E5E5E;"># Para quitar el enfoque, en el panel escribimos el mismo comando</span></span>
+<span id="cb9-5"><span class="ex" style="color: null;">ctrl</span> + b + z</span></code></pre></div>
+</div>
+</section>
+<section id="ventanas-en-tmux" class="level2">
+<h2 class="anchored" data-anchor-id="ventanas-en-tmux">Ventanas en tmux</h2>
+<ul>
+<li>A diferencia de los paneles, las ventanas nos dan una pantalla completa.</li>
+<li>Podemos generar varias ventanas y en cada ventana crear paneles.</li>
+<li>En parte inferior de la terminal, tendremos info sobre la o las ventanas.</li>
+</ul>
+<p><strong>Crear ventana</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="co" style="color: #5E5E5E;"># c = create</span></span>
+<span id="cb10-2"><span class="ex" style="color: null;">ctrl</span> + b + c</span></code></pre></div>
+</div>
+<p><strong>Moverse a ventana anterior</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="co" style="color: #5E5E5E;"># p = previous</span></span>
+<span id="cb11-2"><span class="ex" style="color: null;">ctrl</span> + b + p</span></code></pre></div>
+</div>
+<p><strong>Moverse a ventana siguiente</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><span class="co" style="color: #5E5E5E;"># n = next </span></span>
+<span id="cb12-2"><span class="ex" style="color: null;">ctrl</span> + b + n</span></code></pre></div>
+</div>
+<p><strong>Moverse a ventana por id numérico</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><span class="ex" style="color: null;">ctrl</span> + b + numero_ventana</span></code></pre></div>
+</div>
+<p><strong>Cerrar una ventana</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><span class="ex" style="color: null;">ctrl</span> + b + <span class="kw" style="color: #003B4F;">&amp;</span></span></code></pre></div>
+</div>
+<p><strong>Renombrar ventana</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><span class="co" style="color: #5E5E5E;"># Para abrir opción de renombrar</span></span>
+<span id="cb15-2"><span class="ex" style="color: null;">ctrl</span> + b + ,</span></code></pre></div>
+</div>
+</section>
+<section id="sesiones-en-tmux" class="level2">
+<h2 class="anchored" data-anchor-id="sesiones-en-tmux">Sesiones en tmux</h2>
+<ul>
+<li>Cada vez que usamos el comando tmux abrimos una sesión.</li>
+<li>Si se cierra la terminal, podemos regresar a la sesión.</li>
+<li>Las sesiones pueden correr como proceso “oculto”</li>
+</ul>
+<p><strong>Desconectarse de una sesión</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><span class="ex" style="color: null;">ctrl</span> + b + d</span></code></pre></div>
+</div>
+<p><strong>Revisar sesiones de tmux abierta con bash</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><span class="fu" style="color: #4758AB;">ps</span> aux <span class="kw" style="color: #003B4F;">|</span> <span class="fu" style="color: #4758AB;">grep</span> tmux</span></code></pre></div>
+</div>
+<p><strong>Revisar sesiones tmux con funcionalidad propia</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><span class="co" style="color: #5E5E5E;"># Comando completo</span></span>
+<span id="cb18-2"><span class="ex" style="color: null;">tmux</span> list-sessions</span>
+<span id="cb18-3"></span>
+<span id="cb18-4"><span class="co" style="color: #5E5E5E;"># Comando corto</span></span>
+<span id="cb18-5"><span class="ex" style="color: null;">tmux</span> ls</span></code></pre></div>
+</div>
+<p><strong>Conectarnos a una sesión en específico</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><span class="co" style="color: #5E5E5E;"># Por ejemplo a sesión 1</span></span>
+<span id="cb19-2"><span class="ex" style="color: null;">tmux</span> attach <span class="at" style="color: #657422;">-t</span> 1</span></code></pre></div>
+</div>
+<p><strong>Cambiar nombres a sesiones</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><span class="co" style="color: #5E5E5E;"># Dentro de la sesión</span></span>
+<span id="cb20-2"><span class="ex" style="color: null;">ctrl</span> + b + $</span></code></pre></div>
+</div>
+<p><strong>Crear una nueva sesión con nombre</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><span class="ex" style="color: null;">tmux</span> new <span class="at" style="color: #657422;">-s</span> <span class="st" style="color: #20794D;">"mi_proyecto"</span></span></code></pre></div>
+</div>
+</section>
+<section id="hojas-de-referencia" class="level2">
+<h2 class="anchored" data-anchor-id="hojas-de-referencia">Hojas de referencia</h2>
+<p>Existen hojas de referencias para tmux. Una es <a href="https://tmuxcheatsheet.com/">esta</a></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</guid>
+  <pubDate>Sun, 03 Jan 2021 07:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+<item>
+  <title>Desplegando mi app de shiny con shiny-server</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># ---</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;"># title: "Desplegando mi app de shiny con shiny-server"</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;"># description: |</span></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;">#  Vamos a "llevar a internet" nuestra aplicación y hacerla accesible al mundo.</span></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;"># author:</span></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;">#     url: http://ronnyhdez.rbind.io/</span></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;"># date: 2020-12-28</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;"># preview: images/app.png</span></span>
+<span id="cb1-11"><span class="co" style="color: #5E5E5E;"># twitter:</span></span>
+<span id="cb1-12"><span class="co" style="color: #5E5E5E;">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># output:</span></span>
+<span id="cb1-14"><span class="co" style="color: #5E5E5E;">#   distill::distill_article:</span></span>
+<span id="cb1-15"><span class="co" style="color: #5E5E5E;">#     self_contained: true</span></span>
+<span id="cb1-16"><span class="co" style="color: #5E5E5E;"># ---</span></span></code></pre></div>
+</div>
+<section id="porqué-necesito-saber-esto" class="level1">
+<h1>¿Porqué necesito saber esto?</h1>
+<p>Si hemos creado una aplicación de shiny, es muy probable que hayamos disfrutado el verla corriendo en nuestro computador y de pronto nos preguntemos:</p>
+<p>¿Cómo puedo abrir mi aplicación al mundo? ¿Cómo otras personas pueden acceder y usar a mi aplicación? ¿Cómo compartir mi aplicación con usuarios sin que tengan que instalar R, RStudio y poner al correr mi código?</p>
+<p>Bueno, pues esto es lo que conocemos como desplegar una aplicación. <strong>Vamos a</strong> <strong>“llevar a internet” nuestra aplicación y hacerla accesible al mundo.</strong></p>
+<p>Cuando menciono “hacerla accesible al mundo”, hablo de que podamos compartir un enlace y cualquier persona que dé click en ese enlace llegará a ver la interfaz de nuestra aplicación.</p>
+</section>
+<section id="qué-esperar-de-esta-guía" class="level1">
+<h1>¿Qué esperar de esta guía?</h1>
+<p>Todos los pasos con instrucciones en <code>bash</code> para desplegar una aplicación de shiny con <a href="https://rstudio.com/products/shiny/download-server/">shiny server open source</a> en un <a href="https://ubuntu.com/download/server">servidor Linux con Ubuntu</a></p>
+<p>El <strong>objetivo</strong> es mostrar los pasos para instalar los elementos necesarios en un servidor y que se pueda desplegar el app.</p>
+<p><strong>No se muestran</strong> los pasos para levantar el servidor. Esto queda a preferencia de cada quién y con el proveedor de su elección.</p>
+<p>Tampoco se muestra en la guía los pasos para definir el dominio que potencialmente puede dirigir a la aplicación.</p>
+<section id="requisitos" class="level2">
+<h2 class="anchored" data-anchor-id="requisitos">Requisitos:</h2>
+<p>Para poder seguir la guía, es necesario que ya haya desarrollado una aplicación de shiny. Puede seguir los pasos acá indicados haciendo uso de la <a href="https://github.com/ronnyhdez/shiny_modular">aplicación modular</a> que presenté en los <a href="https://www.youtube.com/watch?v=Hq0bcy4DCDg">webinarios de DataLatam</a></p>
+<p>Así mismo es necesario contar con un servidor en el que pueda desplegar la aplicación.</p>
+<p>También necesitamos tener conocimiento de git. La guía muestra los pasos haciendo uso de esta herramienta.</p>
+</section>
+<section id="recomendaciones-del-servidor" class="level2">
+<h2 class="anchored" data-anchor-id="recomendaciones-del-servidor">Recomendaciones del servidor:</h2>
+<p>Si queremos probar, lo ideal es usar un servidor con el mínimo posible. Conforme nuestra aplicación crezca y querramos que sea usada por más usuarios podemos revisar:</p>
+<ul>
+<li>memoria</li>
+<li>CPU</li>
+<li>disco</li>
+</ul>
+<p>El sistema operativo puede ser cualquiera de su elección siempre y cuando sea Linux. Los pasos en esta guía están basados en la distribución Ubuntu mayor a 18.04.4. Validar que elegimos <strong>LTS</strong> (Long Term Support)</p>
+</section>
+</section>
+<section id="pasos" class="level1">
+<h1>Pasos</h1>
+<p>Si ya tenemos un servidor, vamos a proceder con los siguientes instrucciones:</p>
+<section id="instalando-r-en-el-servidor" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-r-en-el-servidor">1- Instalando R en el servidor:</h2>
+<p>Para evitar inconvenientes de versiones desactualizadas de R, podemos seguir las siguientes instrucciones:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="co" style="color: #5E5E5E;"># Agregamos llave</span></span>
+<span id="cb2-2"><span class="fu" style="color: #4758AB;">sudo</span> apt-key adv <span class="at" style="color: #657422;">--keyserver</span> keyserver.ubuntu.com <span class="at" style="color: #657422;">--recv-keys</span> E298A3A825C0D65DFD57CBB651716619E084DAB9 </span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;"># Agregamos repositorio</span></span>
+<span id="cb2-5"><span class="fu" style="color: #4758AB;">sudo</span> add-apt-repository <span class="st" style="color: #20794D;">'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'</span></span>
+<span id="cb2-6"> </span>
+<span id="cb2-7"><span class="co" style="color: #5E5E5E;"># Si estamos con ubuntu 20 el repositorio es:</span></span>
+<span id="cb2-8"><span class="fu" style="color: #4758AB;">sudo</span> add-apt-repository <span class="st" style="color: #20794D;">'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'</span></span>
+<span id="cb2-9"></span>
+<span id="cb2-10"><span class="co" style="color: #5E5E5E;"># Si queremos remover el repo no hacerlo a mano y usar el siguiente:</span></span>
+<span id="cb2-11"><span class="fu" style="color: #4758AB;">sudo</span> add-apt-repository <span class="at" style="color: #657422;">--remove</span> <span class="st" style="color: #20794D;">'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'</span></span>
+<span id="cb2-12"></span>
+<span id="cb2-13"><span class="co" style="color: #5E5E5E;"># Actualizamos paquetes Ubuntu</span></span>
+<span id="cb2-14"><span class="fu" style="color: #4758AB;">sudo</span> apt update</span>
+<span id="cb2-15"></span>
+<span id="cb2-16"><span class="co" style="color: #5E5E5E;"># Instalamos R</span></span>
+<span id="cb2-17"><span class="fu" style="color: #4758AB;">sudo</span> apt install r-base</span>
+<span id="cb2-18"></span>
+<span id="cb2-19"><span class="co" style="color: #5E5E5E;"># Verificamos que versión de R sea la 4.0.1 (o las más actualizado al momento</span></span>
+<span id="cb2-20"><span class="co" style="color: #5E5E5E;"># de la instalación) </span></span>
+<span id="cb2-21"><span class="ex" style="color: null;">R</span> <span class="at" style="color: #657422;">--version</span></span></code></pre></div>
+</div>
+</section>
+<section id="instalando-librerías-linux-comunes-para-r-en-el-servidor" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-librerías-linux-comunes-para-r-en-el-servidor">2- Instalando librerías linux comunes para R en el servidor</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;">sudo</span> apt install libxml2-dev</span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;">sudo</span> apt install libssl-dev </span>
+<span id="cb3-3"><span class="fu" style="color: #4758AB;">sudo</span> apt install libcurl4-gnutls-dev </span>
+<span id="cb3-4"><span class="fu" style="color: #4758AB;">sudo</span> apt-get install unixodbc unixodbc-dev</span></code></pre></div>
+</div>
+<p>Luego tomamos un paso para asegurarnos que todos los paquetes de Ubuntu se encuentren actualizados en el servidor</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="fu" style="color: #4758AB;">sudo</span> apt update</span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;">sudo</span> apt upgrade</span>
+<span id="cb4-3"><span class="fu" style="color: #4758AB;">sudo</span> apt autoremove</span></code></pre></div>
+</div>
+</section>
+<section id="instalando-shiny-server" class="level2">
+<h2 class="anchored" data-anchor-id="instalando-shiny-server">3- Instalando shiny server</h2>
+<p>Antes de iniciar con la instalación de shiny server, debemos de instalar el paquete de R shiny:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="fu" style="color: #4758AB;">sudo</span> su <span class="at" style="color: #657422;">-</span> <span class="dt" style="color: #AD0000;">\</span></span>
+<span id="cb5-2">-c <span class="st" style="color: #20794D;">"R -e </span><span class="dt" style="color: #AD0000;">\"</span><span class="st" style="color: #20794D;">install.packages('shiny', repos='https://cran.rstudio.com/')</span><span class="dt" style="color: #AD0000;">\"</span><span class="st" style="color: #20794D;">"</span></span></code></pre></div>
+</div>
+<p>Para seguir la instalación de shiny server primero hay que instalarle a la máquina <code>gdebi</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;">sudo</span> apt-get install gdebi-core</span></code></pre></div>
+</div>
+<p>Luego en la pagina de shiny server copiamos la <a href="https://rstudio.com/products/shiny/download-server/ubuntu/">direccion</a> de donde tienen la última version.</p>
+<p>Debemos de asegurarnos de obtener la versión más actualizada. La instrucción acá mostrada puede quedar desactualizada.</p>
+<p>La versión la validamos con el número que aparece luego de la palabra <code>shiny-server</code> En este caso, la usada para la guía es (<code>shiny-server-1.5.13.944</code>)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># Damos dirección de donde traemos la descarga</span></span>
+<span id="cb7-2"><span class="fu" style="color: #4758AB;">wget</span> https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb</span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;"># Procedemos con la instalación</span></span>
+<span id="cb7-5"><span class="fu" style="color: #4758AB;">sudo</span> gdebi shiny-server-1.5.13.944-amd64.deb</span></code></pre></div>
+</div>
+<p>Una vez instalado podemos revisar el estado de shiny-server:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="fu" style="color: #4758AB;">sudo</span> systemctl status shiny-server</span></code></pre></div>
+</div>
+<p>Pare reiniciar el servidor de shiny cuando tenemos problema:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="fu" style="color: #4758AB;">sudo</span> systemctl restart shiny-server </span></code></pre></div>
+</div>
+<p>Una vez que tenemos instalado shiny-server,vamos a revisar por la puerta que está sirviendo. Podemos tomar la dirección IP externa del servidor, copiarla en el navegador (yo tengo preferencia por <a href="https://www.mozilla.org/en-US/firefox/new/">firefox</a>) y de seguido escribimos <code>:</code> y la puerta <code>3838</code> (Por defecto, la que sirve shiny)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;">ip_externa_del_servidor:3838</span></span></code></pre></div>
+</div>
+<p>Si no tenemos un servicio disponible (no vemos una página funcionando) debemos de revisar las reglas firewall del servidor e indicarle la salida del app.</p>
+</section>
+<section id="llevando-la-aplicación-al-servidor" class="level2">
+<h2 class="anchored" data-anchor-id="llevando-la-aplicación-al-servidor">4- Llevando la aplicación al servidor</h2>
+<p>A este punto tenemos nuestro servidor con R instalado, con shiny-server funcionando y las principales librerías linux para usar con una aplicación de shiny. Ahora el paso que sigue es llevar nuestra aplicación de shiny al servidor.</p>
+<p>Es aquí donde usaremos git. Lo haremos con mi aplicación de ejemplo que se encuentra en <a href="https://github.com/ronnyhdez/shiny_modular">github</a></p>
+<p>Dentro del servidor, las aplicaciones deben de estar bajo el siguiente directorio:</p>
+<p><code>/srv/shiny-server</code></p>
+<p>Allí es donde debemos de llevar nuestra aplicación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="co" style="color: #5E5E5E;"># Nos cambiamos al directorio</span></span>
+<span id="cb11-2"><span class="bu" style="color: null;">cd</span> /srv/shiny-server</span>
+<span id="cb11-3"></span>
+<span id="cb11-4"><span class="co" style="color: #5E5E5E;"># Clonamos el repositorio que contiene la aplicación</span></span>
+<span id="cb11-5"><span class="fu" style="color: #4758AB;">git</span> clone https://github.com/ronnyhdez/shiny_modular.git</span></code></pre></div>
+</div>
+<p>Luego, necesitamos instalar en el servidor los paquetes que son necesarios para nuestra aplicación. Todos aquellos paquetes que hayamos usado necesitamos incluirlos. Si dejamos alguno por fuera es muy probable que nuestra aplicación no levante. (Es el error más común que cometo)</p>
+<p>Hay dos maneras de realizar este paso. Uno es dando el comando desde bash y el otro es abrir una sesión de R como usuario <code>root</code> e instalarlo tal cual lo haríamos en una sesión de R en nuestro computador:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><span class="co" style="color: #5E5E5E;"># Con comando de bash</span></span>
+<span id="cb12-2"><span class="fu" style="color: #4758AB;">sudo</span> su <span class="at" style="color: #657422;">-</span> <span class="dt" style="color: #AD0000;">\</span></span>
+<span id="cb12-3">-c <span class="st" style="color: #20794D;">"R -e </span><span class="dt" style="color: #AD0000;">\"</span><span class="st" style="color: #20794D;">install.packages(c('shiny', 'tm', 'SnowballC', 'wordcloud',</span></span>
+<span id="cb12-4"><span class="st" style="color: #20794D;">'shinydashboard', 'RColorBrewer', 'ggplot2', 'purrr', 'nycflights13', 'dplyr'), repos='https://cran.rstudio.com/')</span><span class="dt" style="color: #AD0000;">\"</span><span class="st" style="color: #20794D;">"</span></span></code></pre></div>
+</div>
+<p>Si hay algún paquete que no está en el CRAN porque es una versión en desarrollo, podemos echar mano del paquete <code>remotes</code> (el cual debimos de incluir en el paso anterior)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><span class="co" style="color: #5E5E5E;"># Ejemplo de instalación de paquete en desarrollo:</span></span>
+<span id="cb13-2"><span class="fu" style="color: #4758AB;">sudo</span> su <span class="at" style="color: #657422;">-</span> <span class="dt" style="color: #AD0000;">\</span></span>
+<span id="cb13-3">-c <span class="st" style="color: #20794D;">"R -e </span><span class="dt" style="color: #AD0000;">\"</span><span class="st" style="color: #20794D;">remotes::install_github("</span>datastorm-open/shinymanager<span class="st" style="color: #20794D;">", </span></span>
+<span id="cb13-4"><span class="st" style="color: #20794D;">force = TRUE)</span></span></code></pre></div>
+</div>
+</section>
+<section id="levantando-la-aplicación" class="level2">
+<h2 class="anchored" data-anchor-id="levantando-la-aplicación">5- Levantando la aplicación</h2>
+<p>Con todos los pasos anteriores listos, procedemos a detener y volver a iniciar el servicio de <code>shiny-server</code>, para luego probar si nos podemos conectar a ella:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><span class="co" style="color: #5E5E5E;"># Reiniciar el servicio de manera recomendada:</span></span>
+<span id="cb14-2"><span class="fu" style="color: #4758AB;">sudo</span> systemctl stop shiny-server</span>
+<span id="cb14-3"><span class="fu" style="color: #4758AB;">sudo</span> systemctl start shiny-server</span>
+<span id="cb14-4"></span>
+<span id="cb14-5"><span class="co" style="color: #5E5E5E;"># Revisar status del servicio</span></span>
+<span id="cb14-6"><span class="fu" style="color: #4758AB;">sudo</span> systemctl status shiny-server</span></code></pre></div>
+</div>
+<p>Si el servicio está activo, podemos probar con la IP externa, la puerta 3838 e indicamos el nombre de la aplicación. Debería de ser algo similar a: <code>ip:3838/shiny_modular/</code></p>
+<p>¡Y listo! Con esto tenemos los pasos básicos para desplegar nuestra aplicación de shiny en nuestro servidor y hacerla disponible al mundo.</p>
+<section id="referencias" class="level3">
+<h3 class="anchored" data-anchor-id="referencias">Referencias</h3>
+<p>El resumen de pasos mostrados en esta guía han sido tomados y adaptados de diversas fuentes como:</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-18-04">DigitalOcean</a> (Algún día lograré documentar como lo hacen ellos)</p>
+<p><a href="https://docs.rstudio.com/shiny-server/">Shiny Server Professional v1.5.15 Administrator’s Guide</a> El sitio a visitar cuando hay problemas con shiny-server. Es documentación técnica</p>
+
+
+</section>
+</section>
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</guid>
+  <pubDate>Mon, 28 Dec 2020 07:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
+</item>
+<item>
+  <title>Tiempo en R</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="tiempo" class="level1">
+<h1>Tiempo</h1>
+<p>La medición del tiempo es algo que puede ser particular, ya que hay meses con diferente número de días, en distintos países la manera de colocar el dato del día o del mes se cambia, en años bisiestos febrero tiene un día extra entre otros factores, hay diferentes</p>
+<p>Por ende, hacer cálculos con fechas puede resultar algo complicado, sin embargo R tiene un sistema robusto para poder lidiar con estas situaciones.</p>
+</section>
+<section id="fechas-y-horas-en-r" class="level1">
+<h1>Fechas y Horas en R:</h1>
+<p>R tiene diversas maneras de representar objetos en el sistema. Más allá de los dobles, enteros, carácteres, lógicos y complejos, R tiene una clase especial para representar las fechas y horas.</p>
+<p>Si queremos revisar cuál es la fecha y hora que tenemos en nuestro sistema podemos hacerlo con la función <code>Sys.time()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;">Sys.time</span>()</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2022-09-13 13:49:26 MDT"</code></pre>
+</div>
+</div>
+<p>Lo que nos muestra es una descripción de la fecha y hora de manera meramente jerárquica: la escala más grande (años) va primero, seguido por el mes y por último el día, separados entre sí por un guión; luego hay un espacio en blanco y bajo la misma lógica tenemos la hora, los minutos y los seugundos, separados cada uno por dos punto. Al final tenemos un dato que nos indica el sistema de tiempo utilizado, en este caso Central Standard Time.</p>
+<p>Esta convención es buena para poder leer de manera fácil, sin embargo, para la realización de cálculos esto es un poco difícil por lo que el manejo de estas a lo “interno” de R se hace basado en segundos.</p>
+<section id="tipo-y-clase-del-tiempo-en-r" class="level2">
+<h2 class="anchored" data-anchor-id="tipo-y-clase-del-tiempo-en-r">Tipo y Clase del tiempo en R:</h2>
+<p>Para revisar su <em>tipo de dato</em> y su <em>clase</em> vamos a guardar esta fecha y hora de nuestro ordenador en un objeto de la siguiente manera:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">fecha_hora <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">Sys.time</span>() <span class="co" style="color: #5E5E5E;"># Guardar en un objeto</span></span>
+<span id="cb3-2"></span>
+<span id="cb3-3"><span class="fu" style="color: #4758AB;">typeof</span>(fecha_hora) <span class="co" style="color: #5E5E5E;"># Tipo de dato</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;">class</span>(fecha_hora) <span class="co" style="color: #5E5E5E;"># Clase del objeto</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "POSIXct" "POSIXt" </code></pre>
+</div>
+</div>
+<p>Al momento de utilizar la función<code>Sys.time()</code>, nos devuelve una respuesta que a primera instancia nos parecería un objeto de tipo <em>character</em> por sus comillas alrededor de esto, sin embargo, al revisar podemos notar que es un objeto de tipo <em>double</em> y su clase es _ “POSIXct” “POSIXt” _ (tiene dos clases)</p>
+</section>
+<section id="qué-signifan-esas-dos-clases" class="level2">
+<h2 class="anchored" data-anchor-id="qué-signifan-esas-dos-clases">¿Qué signifan esas dos clases?</h2>
+<p>Como mencionamos anteriormente, por convención en R se utiliza una representación numérica, basada en segundos. Esto quiere decir que cada fecha se representa por el número de segundos que han transcurrido desde las <strong>12:00 A.M. del 1 Enero de 1970. </strong> (UTC: Coordinated Universal Time)</p>
+<p>Esto es bastante útil si queremos generar gráficos de series de tiempo, pero qué sucede si queremos representar las medias por mes, o por día. En este caso es necesario contar con dos maneras de representar las fechas:</p>
+<p><strong>POSIXct</strong> el sufijo <strong>ct</strong> se refiere a <em>continuos time</em> y este formato es representado de manera númerica por segundos. Este es un <strong>vector</strong> que se puede usar como una variable continua en modelos de regresión.</p>
+<p><strong>POSIXlt</strong> el sufijo <strong>lt</strong> corresponde a <em>list time</em> y lo que hace es una lista de todas las descripciones categóricas del tiempo. Es muy útil como variable explicativa categórica.</p>
+<section id="cómo-funcionan-el-sistema-posix" class="level3">
+<h3 class="anchored" data-anchor-id="cómo-funcionan-el-sistema-posix">¿Cómo funcionan el sistema POSIX?</h3>
+<p>Para revisar de qué manera R hace esto podemos hacer uso de la función <code>unclass()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;">unclass</span>(fecha_hora)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1663098567</code></pre>
+</div>
+</div>
+<p>El resultado que obtenemos es un elemento que R utiliza para construir un vector doble. Lo que tenemos allí es que desde las 12:00 A.M. del 1 de Enero de 1970 han transcurrido <em>1 514 244 708</em> hasta el día en que este tutorial se ha creado y este es el formato <strong>POSIXct</strong></p>
+<p>En el caso de caso de una lista como <strong>POSIXlt</strong> vamos a revisar los componentes del mismo objeto con el que hemos venido trabajando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">fecha_hora <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.POSIXlt</span>(fecha_hora) <span class="co" style="color: #5E5E5E;"># Definimos formato</span></span>
+<span id="cb9-2"><span class="fu" style="color: #4758AB;">unlist</span>(fecha_hora) <span class="co" style="color: #5E5E5E;"># Sacamos de la lista los objetos almacenados</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               sec                min               hour               mday 
+"26.8818531036377"               "49"               "13"               "13" 
+               mon               year               wday               yday 
+               "8"              "122"                "2"              "255" 
+             isdst               zone             gmtoff 
+               "1"              "MDT"           "-21600" </code></pre>
+</div>
+</div>
+<p>¿Qué es lo que tenemos? Se nos muestran los componentes de la lista, que está representada por el número de segundos, minutos, hora (en formato de 24 horas). Luego viene <strong>mday</strong> que es el día del mes (inicia en 1), <strong>mon</strong> es el mes del año (comienza en enero = 0), <strong>year</strong> que representa el año (inicia en 0 = 1900),<strong>wday</strong> el día de la semana (inicia domingo = 0), <strong>yday</strong> es el número de día del año (1 de enero = 0). Por último la variable <strong>isdst</strong> lo que hace es indicarnos si un horario de verano está siendo considerado (0 = FALSE, como en este caso)</p>
+</section>
+</section>
+</section>
+<section id="leer-fechas-desde-archivos" class="level1">
+<h1>Leer fechas desde archivos</h1>
+<p>Cuando traemos datos a R, en ocasiones hay que hacerle explícito a R el tipo de datos que tenemos. En el caso de las fechas es necesario, ya que de esta forma determinamos qué dato corresponde a cuál componente de lo que se considera una fecha u hora.</p>
+<p>Vamos a utilizar el set de datos <em>Flights that Depart NYC in 2013</em> que tiene como nombre <strong>nycflights13</strong>. Este se encuentra en el paquete con el mismo nombre. (Si no lo tienen, pueden instalarlo con la función <code>install.packages("nycflights13")</code>)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">data <span class="ot" style="color: #003B4F;">&lt;-</span> nycflights13<span class="sc" style="color: #5E5E5E;">::</span>flights <span class="co" style="color: #5E5E5E;"># Guardar en objeto datos seleccionados</span></span>
+<span id="cb11-2"><span class="fu" style="color: #4758AB;">head</span>(data)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+   year month   day dep_time sched_dep…¹ dep_d…² arr_t…³ sched…⁴ arr_d…⁵ carrier
+  &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1  2013     1     1      517         515       2     830     819      11 UA     
+2  2013     1     1      533         529       4     850     830      20 UA     
+3  2013     1     1      542         540       2     923     850      33 AA     
+4  2013     1     1      544         545      -1    1004    1022     -18 B6     
+5  2013     1     1      554         600      -6     812     837     -25 DL     
+6  2013     1     1      554         558      -4     740     728      12 UA     
+# … with 9 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;,
+#   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+#   time_hour &lt;dttm&gt;, and abbreviated variable names ¹​sched_dep_time,
+#   ²​dep_delay, ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay</code></pre>
+</div>
+</div>
+<p>El conjunto de datos trae 3 columnas con el año, el mes y el día, los cuales vamos a unir y darle format de fecha:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;">library</span>(tidyr) <span class="co" style="color: #5E5E5E;"># Paquete del cual vamos a utilizar función</span></span>
+<span id="cb13-2">data <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">unite</span>(data, Date, year, month,day, <span class="at" style="color: #657422;">sep =</span> <span class="st" style="color: #20794D;">"/"</span>)</span>
+<span id="cb13-3"><span class="fu" style="color: #4758AB;">head</span>(data)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 17
+  Date    dep_t…¹ sched…² dep_d…³ arr_t…⁴ sched…⁵ arr_d…⁶ carrier flight tailnum
+  &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;  
+1 2013/1…     517     515       2     830     819      11 UA        1545 N14228 
+2 2013/1…     533     529       4     850     830      20 UA        1714 N24211 
+3 2013/1…     542     540       2     923     850      33 AA        1141 N619AA 
+4 2013/1…     544     545      -1    1004    1022     -18 B6         725 N804JB 
+5 2013/1…     554     600      -6     812     837     -25 DL         461 N668DN 
+6 2013/1…     554     558      -4     740     728      12 UA        1696 N39463 
+# … with 7 more variables: origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
+#   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, and abbreviated
+#   variable names ¹​dep_time, ²​sched_dep_time, ³​dep_delay, ⁴​arr_time,
+#   ⁵​sched_arr_time, ⁶​arr_delay</code></pre>
+</div>
+</div>
+<section id="función-strptime" class="level3">
+<h3 class="anchored" data-anchor-id="función-strptime">Función strptime</h3>
+<p>Ya que tenemos dicha column creada, vamos a indicarle R qué de esos datos pertenece al año, al mes y al día:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">Rdate <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">strptime</span>(<span class="fu" style="color: #4758AB;">as.character</span>(data<span class="sc" style="color: #5E5E5E;">$</span>Date), <span class="st" style="color: #20794D;">"%Y/%m/%d"</span>)</span>
+<span id="cb15-2"><span class="fu" style="color: #4758AB;">class</span>(Rdate)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "POSIXlt" "POSIXt" </code></pre>
+</div>
+</div>
+<p>Ya tenemos el objeto creado con las fechas por lo que ahora podemos unirlo al set de datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1">data <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(Rdate,data)</span>
+<span id="cb17-2"><span class="fu" style="color: #4758AB;">head</span>(data)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Rdate     Date dep_time sched_dep_time dep_delay arr_time sched_arr_time
+1 2013-01-01 2013/1/1      517            515         2      830            819
+2 2013-01-01 2013/1/1      533            529         4      850            830
+3 2013-01-01 2013/1/1      542            540         2      923            850
+4 2013-01-01 2013/1/1      544            545        -1     1004           1022
+5 2013-01-01 2013/1/1      554            600        -6      812            837
+6 2013-01-01 2013/1/1      554            558        -4      740            728
+  arr_delay carrier flight tailnum origin dest air_time distance hour minute
+1        11      UA   1545  N14228    EWR  IAH      227     1400    5     15
+2        20      UA   1714  N24211    LGA  IAH      227     1416    5     29
+3        33      AA   1141  N619AA    JFK  MIA      160     1089    5     40
+4       -18      B6    725  N804JB    JFK  BQN      183     1576    5     45
+5       -25      DL    461  N668DN    LGA  ATL      116      762    6      0
+6        12      UA   1696  N39463    EWR  ORD      150      719    5     58
+            time_hour
+1 2013-01-01 05:00:00
+2 2013-01-01 05:00:00
+3 2013-01-01 05:00:00
+4 2013-01-01 05:00:00
+5 2013-01-01 06:00:00
+6 2013-01-01 05:00:00</code></pre>
+</div>
+</div>
+</section>
+<section id="qué-fué-lo-que-hicimos" class="level3">
+<h3 class="anchored" data-anchor-id="qué-fué-lo-que-hicimos">¿Qué fué lo que hicimos?</h3>
+<p>La columna date contenía datos separados por un guión, en donde el primer dato pertenecía al año, el segundo al mes y el tercero al día, por ende le dijimos a R que leyera esos datos como año, mes y día separados por un <strong>/</strong>: (<code>"%Y/%m/%d"</code>)</p>
+<p>Estas son abreviaciones que dan a entender diferentes formas de leer el dato en R. La siguiente es una lista de todas las abreviaciones:</p>
+<table class="table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>%a</td>
+<td>Nombre de la semana abreviado</td>
+</tr>
+<tr class="even">
+<td>%A</td>
+<td>Nombre de la semana completo</td>
+</tr>
+<tr class="odd">
+<td>%b</td>
+<td>Nombre del mes abreviado</td>
+</tr>
+<tr class="even">
+<td>%B</td>
+<td>Nombre del mes completo</td>
+</tr>
+<tr class="odd">
+<td>%c</td>
+<td>Hora y Fecha específica a la localidad</td>
+</tr>
+<tr class="even">
+<td>%d</td>
+<td>Día del mes como un número decimal (01-31)</td>
+</tr>
+<tr class="odd">
+<td>%H</td>
+<td>Horas como decimales en reloj de 24 horas</td>
+</tr>
+<tr class="even">
+<td>%I</td>
+<td>Horas como decimales en reloj de 12 horas</td>
+</tr>
+<tr class="odd">
+<td>%j</td>
+<td>Día del año como número decimal (0 - 366)</td>
+</tr>
+<tr class="even">
+<td>%m</td>
+<td>Mes como un número decimal (0-11)</td>
+</tr>
+<tr class="odd">
+<td>%M</td>
+<td>Minutos como un número decimal (00 - 59)</td>
+</tr>
+<tr class="even">
+<td>%p</td>
+<td>AM/PM indicador en la localidad</td>
+</tr>
+<tr class="odd">
+<td>%S</td>
+<td>Segundos como número decimal (00 - 61)</td>
+</tr>
+<tr class="even">
+<td>%U</td>
+<td>Semana del año (00 - 53) usando el primer domingo como el día 1 de la semana 1</td>
+</tr>
+<tr class="odd">
+<td>%w</td>
+<td>Día de la semana como un número decimal (0 - 6, Domingo es 0)</td>
+</tr>
+<tr class="even">
+<td>%W</td>
+<td>Semana del año (00 - 53) usando el primer lunes como día 1 de la semana 1</td>
+</tr>
+<tr class="odd">
+<td>%x</td>
+<td>Fecha, específica de la localidad</td>
+</tr>
+<tr class="even">
+<td>%X</td>
+<td>Hora, específica de la localidad</td>
+</tr>
+<tr class="odd">
+<td>%Y</td>
+<td>Año con centenario</td>
+</tr>
+<tr class="even">
+<td>%y</td>
+<td>Año sin centenario</td>
+</tr>
+<tr class="odd">
+<td>%Z</td>
+<td>Zona horaria como un vector de tipo caracter</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nombre-completo-del-día" class="level3">
+<h3 class="anchored" data-anchor-id="nombre-completo-del-día">Nombre completo del día:</h3>
+<p>Ahora bien, hay ocasiones en que por ejemplo, tenemos el día como un número, pero nos serviría más tener el nombre del día. Para esto existe la función <code>weekdays()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">ejemplo <span class="ot" style="color: #003B4F;">&lt;-</span> data[<span class="dv" style="color: #AD0000;">1</span>,<span class="dv" style="color: #AD0000;">1</span>]</span>
+<span id="cb19-2">ejemplo</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2013-01-01 MST"</code></pre>
+</div>
+</div>
+<p>Tenemos el 1ero de enero del 2013, ahora queremos ver qué día es este con su nombre:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="fu" style="color: #4758AB;">weekdays</span>(ejemplo)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "martes"</code></pre>
+</div>
+</div>
+</section>
+<section id="otros-formatos" class="level3">
+<h3 class="anchored" data-anchor-id="otros-formatos">Otros formatos</h3>
+<p>Fechas pueden venir en diversas formas, tenemos que aprender cómo lidiar con estas y cómo hacerle explícito a R qué es qué. Para esto tenemos como ayuda la tabla presentada anteriormente.</p>
+<p>Un ejemplo podría ser el siguiente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1">otras_fechas <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"2feb2016"</span>,<span class="st" style="color: #20794D;">"18jun1990"</span>,<span class="st" style="color: #20794D;">"7nov1995"</span>)</span>
+<span id="cb23-2"><span class="fu" style="color: #4758AB;">strptime</span>(otras_fechas,<span class="st" style="color: #20794D;">"%d%b%Y"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2016-02-02 MST" "1990-06-18 MDT" "1995-11-07 MST"</code></pre>
+</div>
+</div>
+<p><strong>¿Qué hicimos?</strong></p>
+<p>Leímos un conjunto de fechas que tenían un formato de día, seguido del nombre del mes y por último el año completo y se lo hicimos saber a R indicándole %día, luego %mes y por último %año.</p>
+<p>Ahora cada vez que tengamos fechas, sabremos que debemos indicarle a R qué contienen esos datos y qué es qué guiándonos con la tabla provista.</p>
+</section>
+</section>
+<section id="cálculos-con-el-tiempo" class="level1">
+<h1>Cálculos con el tiempo:</h1>
+<p>Para tener la diferencia entre dos fechas, podemos echar mano de la función <code>difftime()</code>. Hay que tomar en cuenta que esta función nos devuelve un objeto de clase <em>difftime</em></p>
+<section id="diferencias-entre-fechas-en-un-vector" class="level2">
+<h2 class="anchored" data-anchor-id="diferencias-entre-fechas-en-un-vector">Diferencias entre fechas en un vector</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="co" style="color: #5E5E5E;"># Primero hacemos un objeto a clase difftime:</span></span>
+<span id="cb25-2"><span class="fu" style="color: #4758AB;">as.difftime</span>(otras_fechas, <span class="st" style="color: #20794D;">"%d%b%Y"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time differences in days
+[1]  -2415 -11775  -9807</code></pre>
+</div>
+</div>
+</section>
+<section id="cálculos-con-dos-objetos" class="level2">
+<h2 class="anchored" data-anchor-id="cálculos-con-dos-objetos">Cálculos con dos objetos:</h2>
+<p>Hay cálculos que se pueden generar con fechas y horas, ya sea sumando a una fecha o a una hora un número (que representará segundos), también entre fechas/horas e inclusive la utilización de operadores lógicos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="co" style="color: #5E5E5E;"># vamos a generar dos fechas:</span></span>
+<span id="cb27-2"></span>
+<span id="cb27-3">fecha_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-01"</span>)</span>
+<span id="cb27-4">fecha_2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2017-01-02"</span>)</span></code></pre></div>
+</div>
+<ul>
+<li>Y podemos sumar una fecha con un número:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">fecha_1 <span class="sc" style="color: #5E5E5E;">+</span> <span class="dv" style="color: #AD0000;">100000</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2018-01-02 03:46:40 MST"</code></pre>
+</div>
+</div>
+<p>Esto nos suma cien mil segundos, lo cual agrega 3 horas, 46 minutos y 40 segundos a la fecha que habíamos creado.</p>
+<ul>
+<li>Podemos resta esa misma cantidad de segundos:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">fecha_1 <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">100000</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2017-12-30 20:13:20 MST"</code></pre>
+</div>
+</div>
+<p>Vemos que nos devuelve al 30 de diciembre del 2017 a las 20 con 13 minutos y 20 segundos.</p>
+<ul>
+<li>Restarle a la fecha 1 la fecha 2:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">fecha_1 <span class="sc" style="color: #5E5E5E;">-</span> fecha_2</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 364 days</code></pre>
+</div>
+</div>
+<p>Nos dice que entre las fechas hay 364 días.</p>
+<ul>
+<li>Hacer una operación lógica:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">fecha_1 <span class="sc" style="color: #5E5E5E;">&lt;=</span> fecha_2</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Si decimos que <code>fecha_1</code> es <em>menor o igual</em> <code>que fecha_2</code> R nos dice que eso es falso.</p>
+</section>
+<section id="diferencia-de-días" class="level2">
+<h2 class="anchored" data-anchor-id="diferencia-de-días">Diferencia de días:</h2>
+<p>Si tenemos una pregunta como: ¿Cuántos días han transcurrido desde el 1 de diciembre del 2017 al 2 de enero del 2018?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="fu" style="color: #4758AB;">difftime</span>(<span class="st" style="color: #20794D;">"2018-01-02"</span>,<span class="st" style="color: #20794D;">"2017-12-01"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 32 days</code></pre>
+</div>
+</div>
+<p>La respuesta es que han transcurrido 32 días.</p>
+</section>
+<section id="diferencia-de-horas" class="level2">
+<h2 class="anchored" data-anchor-id="diferencia-de-horas">Diferencia de horas:</h2>
+<p>En este caso, si tenemos horas en lugar de fechas, podemos hacer uso de la función <code>as.difftime()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1">tiempo_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.difftime</span>(<span class="st" style="color: #20794D;">"12:00:00"</span>)</span>
+<span id="cb38-2">tiempo_2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.difftime</span>(<span class="st" style="color: #20794D;">"17:20:00"</span>)</span>
+<span id="cb38-3">tiempo_2 <span class="sc" style="color: #5E5E5E;">-</span> tiempo_1</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 5.333333 hours</code></pre>
+</div>
+</div>
+<p>Nos dice cuál es la diferencia en horas. (Si te preguntas porqué 5.33 en lugar de 5 horas y 20 minutos, recuerde que la respuesta está dada en horas y 20 minutos corresponden a 0.333 horas)</p>
+</section>
+</section>
+<section id="generación-de-secuencias-con-tiempo" class="level1">
+<h1>Generación de secuencias con tiempo:</h1>
+<p>Si queremos generar secuencias de fechas, años, meses, semanas etc, en R lo podemos realizar sin mucho problema:</p>
+<section id="secuencia-en-aumento-por-día" class="level2">
+<h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-día">Secuencia en aumento por día:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="fu" style="color: #4758AB;">seq</span>(<span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-01"</span>), <span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-10"</span>), <span class="st" style="color: #20794D;">"1 day"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "2018-01-01 MST" "2018-01-02 MST" "2018-01-03 MST" "2018-01-04 MST"
+ [5] "2018-01-05 MST" "2018-01-06 MST" "2018-01-07 MST" "2018-01-08 MST"
+ [9] "2018-01-09 MST" "2018-01-10 MST"</code></pre>
+</div>
+</div>
+<p><strong>¿Qué hicimos?</strong> La función <code>seq()</code> nos genera un vector con una serie de valores de una secuencia, en este caso le indicamos dos elementos de tipo <code>POSIXlt</code> que corresponden a fechas y un último argumento que indica 1 día. Es decir, que del 1ero de enero del 2018 al 10 de enero del 2018 queremos una secuencia entre esas fechas que aumente de 1 día en 1 día.</p>
+</section>
+<section id="secuencia-en-aumento-por-semanas" class="level2">
+<h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-semanas">Secuencia en aumento por semanas:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="fu" style="color: #4758AB;">seq</span>(<span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-01"</span>), <span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-02-01"</span>), <span class="st" style="color: #20794D;">"1 weeks"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2018-01-01 MST" "2018-01-08 MST" "2018-01-15 MST" "2018-01-22 MST"
+[5] "2018-01-29 MST"</code></pre>
+</div>
+</div>
+<p><strong>¿Qué hicimos?</strong> Nuevamente indicamos un par de fechas que delimitan el inicio y el final de la secuencia y por último le decimos que la secuencia aumente de semana en semana.</p>
+<p>Esto lo podemos hacer de igual manera si queremos que la secuencia aumente por meses <code>months</code> o por años <code>year</code></p>
+</section>
+<section id="secuencia-en-aumento-por-tiempo-en-segundos" class="level2">
+<h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-tiempo-en-segundos">Secuencia en aumento por tiempo en segundos:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="fu" style="color: #4758AB;">seq</span>(<span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-01"</span>),<span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-02"</span>),<span class="dv" style="color: #AD0000;">8000</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "2018-01-01 00:00:00 MST" "2018-01-01 02:13:20 MST"
+ [3] "2018-01-01 04:26:40 MST" "2018-01-01 06:40:00 MST"
+ [5] "2018-01-01 08:53:20 MST" "2018-01-01 11:06:40 MST"
+ [7] "2018-01-01 13:20:00 MST" "2018-01-01 15:33:20 MST"
+ [9] "2018-01-01 17:46:40 MST" "2018-01-01 20:00:00 MST"
+[11] "2018-01-01 22:13:20 MST"</code></pre>
+</div>
+</div>
+<p>En este caso 8000 <strong>segundos</strong> nos genera un aumento de 2 horas, 13 minutos y 20 segundos en cada elemento de la secuencia.</p>
+</section>
+<section id="secuencia-sin-especificación-de-final" class="level2">
+<h2 class="anchored" data-anchor-id="secuencia-sin-especificación-de-final">Secuencia sin especificación de final:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="fu" style="color: #4758AB;">seq</span>(<span class="fu" style="color: #4758AB;">as.POSIXlt</span>(<span class="st" style="color: #20794D;">"2018-01-01"</span>), <span class="at" style="color: #657422;">by =</span> <span class="st" style="color: #20794D;">"weeks"</span>, <span class="at" style="color: #657422;">length =</span> <span class="dv" style="color: #AD0000;">7</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2018-01-01 MST" "2018-01-08 MST" "2018-01-15 MST" "2018-01-22 MST"
+[5] "2018-01-29 MST" "2018-02-05 MST" "2018-02-12 MST"</code></pre>
+</div>
+</div>
+<p><strong>¿Qué hicimos?</strong> Generamos nuevamente una secuencia en donde sólo le indicamos la fecha en la que debe de iniciar, seguido del argumento semanas y por último la cantidad de objetos que debería de crear. Es decir, el final está generado por la cantidad (<code>length</code>) de elementos que queremos en esa secuencia.</p>
+</section>
+</section>
+<section id="recuento." class="level1">
+<h1>Recuento.</h1>
+<p>¡Listo! Si has llegado hasta este punto, felicidades. Espero que haya comprendido mejor cómo trabajar y manejar este tipo de dato para sus propios análisis.</p>
+<p>Hasta acá hemos visto cuáles son los tipos y la clase de las fechas y horas en R, la diferencia entre las dos manera de <code>POSIX</code> de representar las fechas u horas. También revisamos la manera en que se pueden leer archivos o conjuntos de datos que contengan elementos que corresponden a fechas y cómo indicarle a R el formato de fecha y hora que se está trabajando. Así mismo vimos cómo hacer algunos cálculos con datos de tiempo y por último la generación de secuencias.</p>
+<p>Pero esto no es todo. Hay una segunda parte, en donde veremos cómo hacer un análisis de datos utilizando fechas y horas, tal como una regresión o un ANOVA.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</guid>
+  <pubDate>Wed, 14 Mar 2018 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
+<item>
+  <title>Intro a datos y estructuras en R</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># ---</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;"># title: "Intro a datos y estructuras en R"</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;"># description: |</span></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;">#   Una breve intro a estructuras en R.</span></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;"># author:</span></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;">#     url: http://ronnyhdez.rbind.io/</span></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;"># date: 2018-02-01</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;"># preview: images/structure.png</span></span>
+<span id="cb1-11"><span class="co" style="color: #5E5E5E;"># twitter:</span></span>
+<span id="cb1-12"><span class="co" style="color: #5E5E5E;">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># output:</span></span>
+<span id="cb1-14"><span class="co" style="color: #5E5E5E;">#   distill::distill_article:</span></span>
+<span id="cb1-15"><span class="co" style="color: #5E5E5E;">#     self_contained: true</span></span>
+<span id="cb1-16"><span class="co" style="color: #5E5E5E;"># ---</span></span></code></pre></div>
+</div>
+<section id="datos-y-estructuras" class="level1">
+<h1>Datos y Estructuras</h1>
+<p>Este pequeño e introductorio tutorial consiste en explicar cómo R en su entorno “entiende” los datos (objetos), es decir sus clases y además cómo los almacena en ese entorno. Entender este tipo de cosas básicas en R nos podrán ahorrar dolores de cabeza en futuros análisis de datos que hagamos.</p>
+<section id="primer-paso" class="level2">
+<h2 class="anchored" data-anchor-id="primer-paso">Primer paso:</h2>
+<p>Primero tenemos que entender que R lee los datos que le damos de distintas maneras para poder manejarlos y hacer tareas que le pidamos. Entre estos tenemos:</p>
+<ul>
+<li><em>character</em>: corresponden a texto</li>
+<li><em>numeric</em>: corresponden a números</li>
+<li><em>integer</em>: son números enteros (sin decimales)</li>
+<li><em>logical</em>: son condicionales y están en forma de verdadero o falso</li>
+<li><em>complex</em>: corresponden a números complejos</li>
+</ul>
+<p>Para crear vectores c( )</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">a <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"biologia"</span>, <span class="st" style="color: #20794D;">"A"</span>, <span class="st" style="color: #20794D;">"estadistica"</span>)</span>
+<span id="cb2-2"><span class="fu" style="color: #4758AB;">class</span>(a)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">b <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fl" style="color: #AD0000;">18.6</span>, <span class="dv" style="color: #AD0000;">90</span>)</span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;">class</span>(b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">c <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(18L, 26L)</span>
+<span id="cb6-2"><span class="fu" style="color: #4758AB;">class</span>(c)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">d <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">2</span> <span class="sc" style="color: #5E5E5E;">+</span> 4i</span>
+<span id="cb8-2"><span class="fu" style="color: #4758AB;">class</span>(d)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "complex"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">e <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">TRUE</span>, <span class="cn" style="color: #8f5902;">FALSE</span>)</span>
+<span id="cb10-2"><span class="fu" style="color: #4758AB;">class</span>(e)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="para-qué-sirven-los-tipos-de-datos" class="level1">
+<h1>¿Para qué sirven los tipos de datos?</h1>
+<p>Hay ciertas cosas que se deben de tomar en cuenta a la hora de trabajar con datos en R, y es que estos son guardados en estructuras. Es decir, R “acomoda” esos datos en formas que los puede manejar.</p>
+<p>Estos son algunos ejemplos rápidos:</p>
+<section id="vectores-elementos-son-del-mismo-tipo" class="level2">
+<h2 class="anchored" data-anchor-id="vectores-elementos-son-del-mismo-tipo">Vectores elementos son del mismo tipo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">v_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">10</span>,<span class="dv" style="color: #AD0000;">20</span>,<span class="dv" style="color: #AD0000;">30</span>)</span>
+<span id="cb12-2">v_2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"a"</span>,<span class="st" style="color: #20794D;">"b"</span>,<span class="st" style="color: #20794D;">"c"</span>)</span>
+<span id="cb12-3">v_3 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">TRUE</span>,<span class="cn" style="color: #8f5902;">FALSE</span>,<span class="cn" style="color: #8f5902;">TRUE</span>)</span></code></pre></div>
+</div>
+</section>
+<section id="listas-elementos-son-de-diferente-tipo" class="level2">
+<h2 class="anchored" data-anchor-id="listas-elementos-son-de-diferente-tipo">Listas elementos son de diferente tipo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">l_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">list</span>(v_1,v_2,v_3)</span>
+<span id="cb13-2"></span>
+<span id="cb13-3">l_1</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 10 20 30
+
+[[2]]
+[1] "a" "b" "c"
+
+[[3]]
+[1]  TRUE FALSE  TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo">matrix es de dos dimensiones con elementos del mismo tipo:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1">matrix_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">matrix</span>(<span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">9</span>,<span class="at" style="color: #657422;">nrow =</span> <span class="dv" style="color: #AD0000;">3</span>, <span class="at" style="color: #657422;">ncol =</span> <span class="dv" style="color: #AD0000;">3</span>)</span>
+<span id="cb15-2">matrix_1</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+</div>
+</section>
+<section id="data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo" class="level2">
+<h2 class="anchored" data-anchor-id="data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo">data frame es de dos dimensiones con elementos de diferente tipo:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="co" style="color: #5E5E5E;"># Primero creamos un par de vectores para unirlos en un dataframe</span></span>
+<span id="cb17-2">numero <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">5</span></span>
+<span id="cb17-3">nombre <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Mercurio"</span>,<span class="st" style="color: #20794D;">"Venus"</span>,<span class="st" style="color: #20794D;">"Tierra"</span>,<span class="st" style="color: #20794D;">"Marte"</span>,<span class="st" style="color: #20794D;">"Jupiter"</span>)</span>
+<span id="cb17-4">planeta <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(numero,nombre)</span>
+<span id="cb17-5">planeta</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  numero   nombre
+1      1 Mercurio
+2      2    Venus
+3      3   Tierra
+4      4    Marte
+5      5  Jupiter</code></pre>
+</div>
+</div>
+</section>
+<section id="array-es-una-estructura-de-tres-o-más-dimensiones" class="level2">
+<h2 class="anchored" data-anchor-id="array-es-una-estructura-de-tres-o-más-dimensiones">Array es una estructura de tres o más dimensiones:</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">D <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">12</span></span>
+<span id="cb19-2"><span class="fu" style="color: #4758AB;">dim</span>(D) <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">2</span>,<span class="dv" style="color: #AD0000;">3</span>,<span class="dv" style="color: #AD0000;">2</span>)        <span class="co" style="color: #5E5E5E;"># Dos filas, tres columnas y dos "caras"</span></span>
+<span id="cb19-3">D</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, , 1
+
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+
+, , 2
+
+     [,1] [,2] [,3]
+[1,]    7    9   11
+[2,]    8   10   12</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="maneras-de-coercionar-las-clases" class="level1">
+<h1>Maneras de coercionar las clases</h1>
+<p>Hay ocasiones en las cuales R podría confundir lo que nosotros consideramos un dato de cierto tipo, por ejemplo un número lo podría leer como un carácter. A la hora de hacer algunos cálculos habrán problemas.</p>
+<p>Pero existe una solución y esto es coercionar los tipos de los datos. Esto se puede hacer tal como se muestra en los siguientes ejemplos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">biolo_vector <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">20</span>, <span class="dv" style="color: #AD0000;">40</span>, <span class="st" style="color: #20794D;">"A"</span>, <span class="dv" style="color: #AD0000;">80</span>)</span>
+<span id="cb21-2"><span class="fu" style="color: #4758AB;">class</span>(biolo_vector)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1">z <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.numeric</span>(biolo_vector)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1">z</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20 40 NA 80</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1">biolo_vector <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">20</span>, <span class="dv" style="color: #AD0000;">40</span>, <span class="cn" style="color: #8f5902;">TRUE</span>, <span class="dv" style="color: #AD0000;">80</span>)</span>
+<span id="cb27-2"><span class="fu" style="color: #4758AB;">class</span>(biolo_vector)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1">biolo_vector</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20 40  1 80</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1">biolo_vector <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">20</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">60</span>)</span>
+<span id="cb31-2">bv_1 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.character</span>(biolo_vector)</span>
+<span id="cb31-3">bv_2 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.logical</span>(biolo_vector)</span>
+<span id="cb31-4">bv_3 <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.complex</span>(biolo_vector)</span>
+<span id="cb31-5"><span class="fu" style="color: #4758AB;">class</span>(bv_1)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="fu" style="color: #4758AB;">class</span>(bv_2)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="fu" style="color: #4758AB;">class</span>(bv_3)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "complex"</code></pre>
+</div>
+</div>
+</section>
+<section id="exploración-datos" class="level1">
+<h1>Exploración datos:</h1>
+<p>Cuando traemos datos a R hay una manera fácil de visualizar su estructura o forma sin tener que acudir al documento original. A continuación mostramos una serie de ejemplos en los cuales se m</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="fu" style="color: #4758AB;">dir</span>()                              <span class="co" style="color: #5E5E5E;"># ver que tengo en el wd</span></span>
+<span id="cb37-2"><span class="fu" style="color: #4758AB;">head</span>(data)                         <span class="co" style="color: #5E5E5E;"># Ver primeros 6 observaciones</span></span>
+<span id="cb37-3"><span class="fu" style="color: #4758AB;">tail</span>(data)                         <span class="co" style="color: #5E5E5E;"># últimas 6 observaciones</span></span>
+<span id="cb37-4"><span class="fu" style="color: #4758AB;">str</span>(data)                          <span class="co" style="color: #5E5E5E;"># estructura del data.frame</span></span>
+<span id="cb37-5"><span class="fu" style="color: #4758AB;">dim</span>(data)                          <span class="co" style="color: #5E5E5E;"># dimensiones (rows &amp; columns)</span></span>
+<span id="cb37-6"><span class="fu" style="color: #4758AB;">names</span>(data)                        <span class="co" style="color: #5E5E5E;"># nombres columnas</span></span>
+<span id="cb37-7"><span class="fu" style="color: #4758AB;">glimpse</span>(data)                      <span class="co" style="color: #5E5E5E;"># paquete diplyr</span></span>
+<span id="cb37-8"><span class="fu" style="color: #4758AB;">summary</span>(data)                      <span class="co" style="color: #5E5E5E;"># resumen de cada variable</span></span></code></pre></div>
+</div>
+<section id="qué-siginifica-dir-y-ls" class="level2">
+<h2 class="anchored" data-anchor-id="qué-siginifica-dir-y-ls">¿Qué siginifica dir() y ls()?</h2>
+<p>dir () me refiere a los archivos que se encuentran en el directorio de trabajo. ls () me refiere a los objetos que se encuentran en el espacio de trabajo</p>
+</section>
+</section>
+<section id="comprensión-de-un-data-frame-y-su-estructura" class="level1">
+<h1>Comprensión de un data frame y su estructura</h1>
+<p>Para comprender mejor vamos a construir un data.frame de manera rápida y simple:</p>
+</section>
+<section id="creamos-los-vectores-a-unir" class="level1">
+<h1>Creamos los vectores a unir:</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1">primer_nombre <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Isaac"</span>,<span class="st" style="color: #20794D;">"Charles"</span>,<span class="st" style="color: #20794D;">"Rosalind"</span>,<span class="st" style="color: #20794D;">"Marie"</span>) </span>
+<span id="cb38-2"></span>
+<span id="cb38-3">segundo_nombre <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Newton"</span>,<span class="st" style="color: #20794D;">"Darwin"</span>,<span class="st" style="color: #20794D;">"Franklin"</span>,<span class="st" style="color: #20794D;">"Curie"</span>)</span>
+<span id="cb38-4"></span>
+<span id="cb38-5">edad_muerte <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">84</span>, <span class="dv" style="color: #AD0000;">73</span>, <span class="dv" style="color: #AD0000;">37</span>, <span class="dv" style="color: #AD0000;">66</span>)</span>
+<span id="cb38-6"></span>
+<span id="cb38-7">campo <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"Física"</span>, <span class="st" style="color: #20794D;">"Biología"</span>, <span class="st" style="color: #20794D;">"Química"</span>, <span class="st" style="color: #20794D;">"Física"</span>)</span>
+<span id="cb38-8"></span>
+<span id="cb38-9">fecha_muerte <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">as.Date</span>(<span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"1643-1-4"</span>, <span class="st" style="color: #20794D;">"1882-4-19"</span>,</span>
+<span id="cb38-10">                        <span class="st" style="color: #20794D;">"1958-4-16"</span>, <span class="st" style="color: #20794D;">"1934-7-4"</span>))</span></code></pre></div>
+</div>
+</section>
+<section id="unimos-cada-uno-de-los-vectores-en-un-data.frame" class="level1">
+<h1>Unimos cada uno de los vectores en un data.frame</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1">cientificos <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">data.frame</span>(primer_nombre, segundo_nombre,</span>
+<span id="cb39-2">                          edad_muerte, campo, fecha_muerte)</span></code></pre></div>
+</div>
+</section>
+<section id="revisemos-estructura-igual-que-en-caso-anterior" class="level1">
+<h1>Revisemos estructura igual que en caso anterior</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="fu" style="color: #4758AB;">head</span>(cientificos)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  primer_nombre segundo_nombre edad_muerte    campo fecha_muerte
+1         Isaac         Newton          84   Física   1643-01-04
+2       Charles         Darwin          73 Biología   1882-04-19
+3      Rosalind       Franklin          37  Química   1958-04-16
+4         Marie          Curie          66   Física   1934-07-04</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="fu" style="color: #4758AB;">str</span>(cientificos)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   4 obs. of  5 variables:
+ $ primer_nombre : chr  "Isaac" "Charles" "Rosalind" "Marie"
+ $ segundo_nombre: chr  "Newton" "Darwin" "Franklin" "Curie"
+ $ edad_muerte   : num  84 73 37 66
+ $ campo         : chr  "Física" "Biología" "Química" "Física"
+ $ fecha_muerte  : Date, format: "1643-01-04" "1882-04-19" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;">#glimpse(cientificos) con librería dplyr</span></span></code></pre></div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</guid>
+  <pubDate>Thu, 01 Feb 2018 07:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
+<item>
+  <title>Datos abiertos municipalidad de San José, Costa Rica</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;"># ---</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;"># title: "Datos abiertos municipalidad de San José, Costa Rica"</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;"># description: |</span></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;">#   Una introducción al uso del API de datos abiertos de la muni de San José</span></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;"># author:</span></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;">#     url: http://ronnyhdez.rbind.io/</span></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;">#   - name: Erick Calderón Morales</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;">#     url: https://github.com/ecamo19</span></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;"># date: 2018-01-13 </span></span>
+<span id="cb1-11"><span class="co" style="color: #5E5E5E;"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-12"><span class="co" style="color: #5E5E5E;"># preview: images/city.png</span></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># twitter:</span></span>
+<span id="cb1-14"><span class="co" style="color: #5E5E5E;">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-15"><span class="co" style="color: #5E5E5E;"># output:</span></span>
+<span id="cb1-16"><span class="co" style="color: #5E5E5E;">#   distill::distill_article:</span></span>
+<span id="cb1-17"><span class="co" style="color: #5E5E5E;">#     self_contained: true</span></span>
+<span id="cb1-18"><span class="co" style="color: #5E5E5E;"># ---</span></span></code></pre></div>
+</div>
+<p>Gracias a la iniciativa de <a href="http://www.gobiernoabierto.go.cr/">Gobierno Abierto</a> de Costa Rica tenemos la posibilidad de obtener datos de diferentes entes a través de la conexión con API’s.</p>
+<p>Esto nos da la posibilidad de no pasar por engorrosos procesos de limpiar datos a partir de formatos casi imposibles como pdf’s, .csv extravagantes u otros formatos difíciles de trabajar.</p>
+<p>En este caso vamos a utilizar el lenguaje de programación R y el paquete <a href="https://cran.r-project.org/web/packages/junr/index.html">junr</a> de <a href="https://github.com/FvD">Frans van Dunné</a> para conectarnos al API de la municipalidad de San José y revisar qué datos se encuentran disponibles.</p>
+<section id="obtener-el-api-key-de-la-municipalidad-de-san-josé" class="level3">
+<h3 class="anchored" data-anchor-id="obtener-el-api-key-de-la-municipalidad-de-san-josé">Obtener el API key de la municipalidad de San José</h3>
+<p>En la siguiente <a href="http://datosabiertos.msj.go.cr/developers/">dirección</a> podrá encontrar el API key necesario para hacer el llamado.</p>
+<p>Vamos a crear como objetos nuestras credenciales para hacer la conexión al API de la municipalidad de San José. El url que aparece acá es el que se debe de usar para conectarnos al sistema de la muni de San José. Si están siguiendo ete ejemplo pueden escribir el mismo que aparece acá.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">url_base <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="st" style="color: #20794D;">"http://api.datosabiertos.msj.go.cr/api/v2/datastreams/"</span></span>
+<span id="cb2-2">api_key <span class="ot" style="color: #003B4F;">&lt;-</span> SU_API_KEY</span></code></pre></div>
+</div>
+</section>
+<section id="obtener-el-indice-de-las-tablas" class="level3">
+<h3 class="anchored" data-anchor-id="obtener-el-indice-de-las-tablas">Obtener el indice de las tablas</h3>
+<p>Ya que tenemos las credenciales listas (api key &amp; url), vamos a revisar el índice de las tablas de datos que la municipalidad ha liberado:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;"># Traemos el indice  de los datos que existen</span></span>
+<span id="cb3-2">indice <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">get_index</span>(url_base, <span class="at" style="color: #657422;">api_key =</span> api_key)</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;"># Revisamos estructura del objeto </span></span>
+<span id="cb3-5"><span class="fu" style="color: #4758AB;">glimpse</span>(indice)</span>
+<span id="cb3-6"></span>
+<span id="cb3-7"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Observations: 257</span></span>
+<span id="cb3-8"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Variables: 18</span></span>
+<span id="cb3-9"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ status          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-10"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ description     &lt;chr&gt; "Valor absoluto y Tasa por 100.000 2006 - 2014",…</span></span>
+<span id="cb3-11"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ parameters      &lt;list&gt; [[], [], [], [], [], [], [], [], [], [], [], []…</span></span>
+<span id="cb3-12"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ tags            &lt;list&gt; [&lt;"san jose", "municipalidad", "muertes violent…</span></span>
+<span id="cb3-13"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ timestamp       &lt;dbl&gt; 1.547586e+12, 1.539808e+12, 1.516222e+12, 1.5162…</span></span>
+<span id="cb3-14"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ created_at      &lt;int&gt; 1547586293, 1539744226, 1516221668, 1516220839, …</span></span>
+<span id="cb3-15"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ title           &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densida…</span></span>
+<span id="cb3-16"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ modified_at     &lt;int&gt; 1547586492, 1539808089, 1516221733, 1516221641, …</span></span>
+<span id="cb3-17"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ category_id     &lt;chr&gt; "83642", "83639", "83481", "83481", "83482", "83…</span></span>
+<span id="cb3-18"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ methods         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-19"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ sources         &lt;list&gt; [&lt;&gt;, &lt;"Municipalidad de San José", "Instituto N…</span></span>
+<span id="cb3-20"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ total_revisions &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-21"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ frequency       &lt;chr&gt; "", "ondemand", "", "", "", "ondemand", "ondeman…</span></span>
+<span id="cb3-22"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ link            &lt;chr&gt; "http://datosabiertos.msj.go.cr/dataviews/250481…</span></span>
+<span id="cb3-23"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ user            &lt;chr&gt; "sanjose", "sanjose", "sanjose", "sanjose", "Msj…</span></span>
+<span id="cb3-24"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ status_str      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-25"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ guid            &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DIS…</span></span>
+<span id="cb3-26"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ category_name   &lt;chr&gt; "Características Sociales", "Demografía", "Educa…</span></span></code></pre></div>
+</div>
+<p>Cada uno de los elementos que allí aparecen son distintas tablas que pueden tener diferentes dimensiones (filas y columnas). Es como una descripción de lo que trata cada tabla. Si queremos traer a nuestro entorno los datos de una tabla en específico tenemos que hacerlo con su <strong>GUID</strong>.</p>
+<p>De toda la tabla que llamamos en el paso anterior, vamos a hacer una selección de dos columnas: título y el GUID</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">guid <span class="ot" style="color: #003B4F;">&lt;-</span> indice <span class="sc" style="color: #5E5E5E;">%&gt;%</span> </span>
+<span id="cb4-2">  <span class="fu" style="color: #4758AB;">select</span>(title, guid)</span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="fu" style="color: #4758AB;">glimpse</span>(guid)</span>
+<span id="cb4-5"></span>
+<span id="cb4-6"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Observations: 257</span></span>
+<span id="cb4-7"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Variables: 2</span></span>
+<span id="cb4-8"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ title &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densidad de Pobla…</span></span>
+<span id="cb4-9"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ guid  &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DISTR", "DIST…</span></span></code></pre></div>
+</div>
+</section>
+<section id="obtener-las-dimensiones-de-las-tablas" class="level3">
+<h3 class="anchored" data-anchor-id="obtener-las-dimensiones-de-las-tablas">Obtener las dimensiones de las tablas</h3>
+<p>Ahora bien, ya sabemos el título y el identificador de la tabla, pero tenemos que tener cuidado. Son muchas tablas y algunas pueden estar vacías, ser datos resumidos o con muy pocos datos que no nos servirían de nada.</p>
+<p>Por suerte el paquete <strong>junr</strong> tiene una función que nos muestra la dimensión de las tablas, lo cual nos da mayor información sobre las características que tiene.</p>
+<p>Hay que aclarar que la municipalidad de San José tiene muchas tablas y si usamos la función para obtener las dimensiones se puede demorar sus minutos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;"># Por la cantidad de tablas que hay, esta funcion se demora mucho</span></span>
+<span id="cb5-2">dimensiones <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">get_dimensions</span>(<span class="at" style="color: #657422;">base_url =</span> url_base, <span class="at" style="color: #657422;">api_key =</span> api_key)</span>
+<span id="cb5-3"></span>
+<span id="cb5-4"><span class="co" style="color: #5E5E5E;"># Mostrar primeras seis observaciones</span></span>
+<span id="cb5-5"><span class="fu" style="color: #4758AB;">head</span>(dimensiones)</span>
+<span id="cb5-6"></span>
+<span id="cb5-7"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##                          GUID NROW NCOL DIM</span></span>
+<span id="cb5-8"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2       CANTI-Y-TASA-DE-92062    6   10  60</span></span>
+<span id="cb5-9"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 21   DENSI-DE-POBLA-POR-DISTR   15   12 180</span></span>
+<span id="cb5-10"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3  DISTR-RELAT-DE-ESTUD-MATRI   12   10 120</span></span>
+<span id="cb5-11"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4  DISTR-DE-ESTUD-MATRI-77173   12   10 120</span></span>
+<span id="cb5-12"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5        POA-PRESU-ORDIN-2018  119    3 357</span></span>
+<span id="cb5-13"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6     INVER-EN-COLON-EN-43060    7    6  42</span></span></code></pre></div>
+</div>
+<section id="cuadro-con-características-de-las-tablas-de-la-muni-de-sj" class="level4">
+<h4 class="anchored" data-anchor-id="cuadro-con-características-de-las-tablas-de-la-muni-de-sj">Cuadro con características de las tablas de la muni de SJ</h4>
+<p>Ya que tenemos las dimensiones de las tablas, podemos acomodar la información que hemos extraido hasta el momento de tal manera que tengamos un cuadro final con la información importante resumida: el título de la tabla, el GUID y las dimensiones.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># Unir el titulo a dimensiones</span></span>
+<span id="cb6-2">dimensiones <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">left_join</span>(dimensiones, guid, <span class="at" style="color: #657422;">by =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"GUID"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="st" style="color: #20794D;">"guid"</span>))</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;"># Ordenar tablas con mayores dimensiones</span></span>
+<span id="cb6-5">dim_ordenado <span class="ot" style="color: #003B4F;">&lt;-</span> dimensiones <span class="sc" style="color: #5E5E5E;">%&gt;%</span></span>
+<span id="cb6-6">  <span class="fu" style="color: #4758AB;">arrange</span>(<span class="fu" style="color: #4758AB;">desc</span>(DIM))</span>
+<span id="cb6-7"></span>
+<span id="cb6-8"><span class="co" style="color: #5E5E5E;"># Revisar primeras entradas</span></span>
+<span id="cb6-9"><span class="fu" style="color: #4758AB;">head</span>(dim_ordenado)</span>
+<span id="cb6-10"></span>
+<span id="cb6-11"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##                         GUID NROW NCOL DIM</span></span>
+<span id="cb6-12"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 1          ASIST-EDUCA-SUPER  108    9 972</span></span>
+<span id="cb6-13"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2                DEFUN-28990   64   13 832</span></span>
+<span id="cb6-14"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3                DEFUN-43464   64   13 832</span></span>
+<span id="cb6-15"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4                NACIM-43692   64   13 832</span></span>
+<span id="cb6-16"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5 DISTR-DE-POBLA-OCUPA-56023   52   11 572</span></span>
+<span id="cb6-17"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6 DISTR-DE-POBLA-OCUPA-36314   52   11 572</span></span>
+<span id="cb6-18"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##                                                                title</span></span>
+<span id="cb6-19"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 1                                      Asistencia Educación Superior</span></span>
+<span id="cb6-20"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2                                                        Defunciones</span></span>
+<span id="cb6-21"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3                                                        Defunciones</span></span>
+<span id="cb6-22"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4                                                        Nacimientos</span></span>
+<span id="cb6-23"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5 Distribución de población ocupada por Grupo Ocupacional (Relativo)</span></span>
+<span id="cb6-24"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6            Distribución de población ocupada por Grupo Ocupacional</span></span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="llamar-datos-de-una-tabla-específica" class="level3">
+<h3 class="anchored" data-anchor-id="llamar-datos-de-una-tabla-específica">Llamar datos de una tabla específica:</h3>
+<p>Ya con esto podemos hacer una mejor selección de las tablas que nos serían útiles. Cuando ya tengamos identificada una tabla tenemos que anotar su GUID que utilizaremos en la función:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># Anotar en un objeto el GUID de la tabla que nos interesa</span></span>
+<span id="cb7-2">guid_tabla <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="st" style="color: #20794D;">"ASIST-EDUCA-SUPER"</span></span>
+<span id="cb7-3"></span>
+<span id="cb7-4"><span class="co" style="color: #5E5E5E;"># Llamar la tabla. Usamos las mismas credenciales que habíamos usado</span></span>
+<span id="cb7-5">asist_educacion <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">get_data</span>(<span class="at" style="color: #657422;">base_url =</span> url_base, <span class="at" style="color: #657422;">api_key =</span> SU_API_KEY, </span>
+<span id="cb7-6">                            <span class="at" style="color: #657422;">guid =</span> guid_tabla)</span></code></pre></div>
+</div>
+<p>¡Listo! Ya tenemos nuestra tabla de interés con los datos. Vamos a revisarla</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;">head</span>(asist_educacion)</span>
+<span id="cb8-2"></span>
+<span id="cb8-3"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##   Distrito   Sexo Tenencia de título Parauniversitaria Universitaria Total</span></span>
+<span id="cb8-4"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2 San José Hombre                 Sí              1951         24058 26009</span></span>
+<span id="cb8-5"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3 San José Hombre                 No               653          3498  4151</span></span>
+<span id="cb8-6"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4 San José Hombre              Total              2604         27556 30160</span></span>
+<span id="cb8-7"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5 San José  Mujer                 Sí              2599         26085 28684</span></span>
+<span id="cb8-8"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6 San José  Mujer                 No               924          4092  5016</span></span>
+<span id="cb8-9"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 7 San José  Mujer              Total              3523         30177 33700</span></span>
+<span id="cb8-10"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##   Población de 17 años y más</span></span>
+<span id="cb8-11"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2                           </span></span>
+<span id="cb8-12"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3                           </span></span>
+<span id="cb8-13"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4                     100238</span></span>
+<span id="cb8-14"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5                           </span></span>
+<span id="cb8-15"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6                           </span></span>
+<span id="cb8-16"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 7                     116461</span></span>
+<span id="cb8-17"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##   Porcentaje de población con educación superior</span></span>
+<span id="cb8-18"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2                                               </span></span>
+<span id="cb8-19"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3                                               </span></span>
+<span id="cb8-20"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4                                           30.1</span></span>
+<span id="cb8-21"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5                                               </span></span>
+<span id="cb8-22"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6                                               </span></span>
+<span id="cb8-23"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 7                                           28.9</span></span>
+<span id="cb8-24"><span class="do" style="color: #5E5E5E;
+font-style: italic;">##   Porcentaje de población con educación superior y título</span></span>
+<span id="cb8-25"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 2                                                        </span></span>
+<span id="cb8-26"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 3                                                        </span></span>
+<span id="cb8-27"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 4                                                    86.2</span></span>
+<span id="cb8-28"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 5                                                        </span></span>
+<span id="cb8-29"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 6                                                        </span></span>
+<span id="cb8-30"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## 7                                                    85.1</span></span>
+<span id="cb8-31"></span>
+<span id="cb8-32"><span class="fu" style="color: #4758AB;">glimpse</span>(asist_educacion)</span>
+<span id="cb8-33"></span>
+<span id="cb8-34"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Observations: 108</span></span>
+<span id="cb8-35"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## Variables: 9</span></span>
+<span id="cb8-36"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ Distrito                                                  &lt;fct&gt; San Jo…</span></span>
+<span id="cb8-37"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ Sexo                                                      &lt;fct&gt; Hombre…</span></span>
+<span id="cb8-38"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ `Tenencia de título`                                      &lt;fct&gt; Sí, No…</span></span>
+<span id="cb8-39"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ Parauniversitaria                                         &lt;fct&gt; 1951, …</span></span>
+<span id="cb8-40"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ Universitaria                                             &lt;fct&gt; 24058,…</span></span>
+<span id="cb8-41"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ Total                                                     &lt;fct&gt; 26009,…</span></span>
+<span id="cb8-42"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ `Población de 17 años y más`                              &lt;fct&gt; , , 10…</span></span>
+<span id="cb8-43"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ `Porcentaje de población con educación superior`          &lt;fct&gt; , , 30…</span></span>
+<span id="cb8-44"><span class="do" style="color: #5E5E5E;
+font-style: italic;">## $ `Porcentaje de población con educación superior y título` &lt;fct&gt; , , 86…</span></span></code></pre></div>
+</div>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/junr/vignettes/acceder-junar-api.html">vignette del paquete junr</a></li>
+<li><a href="http://datosabiertos.msj.go.cr/developers/">Página desarrolladores Municipalidad de San José</a></li>
+<li><a href="http://www.gobiernoabierto.go.cr/">Gobierno abierto Costa Rica</a></li>
+</ul>
+</section>
+<section id="querés-revisar-más-información" class="level2">
+<h2 class="anchored" data-anchor-id="querés-revisar-más-información">¿Querés revisar más información?</h2>
+<p>Mi compañero <a href="https://github.com/ecamo19">Erick Calderón</a> y yo estamos trabajando en un proyecto donde pretendemos crear más tutoriales sobre uso de datos abiertos del gobierno de Costa Rica a través de API’s y el lenguaje de programación R. Si querés contribuir, tenés preguntas o una idea podés revisar <a href="https://github.com/datos-abiertos-cr">nuestro proyecto en Github</a></p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</guid>
+  <pubDate>Sat, 13 Jan 2018 07:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
+</item>
+<item>
+  <title>Otra introducción a git</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="qué-resuelve-git-porqué-usar-git" class="level2">
+<h2 class="anchored" data-anchor-id="qué-resuelve-git-porqué-usar-git">¿Qué resuelve git? ¿Porqué usar git?</h2>
+<p>Si les ha sucecido que luego de trabajar en un documento, tienen una carpeta llena con nombres como: “version_final”, “version_final_final”, “version_final_corregida”, “version_final_revisada” pues git les será útil para tener un control sobre los cambios que se introducen en el documento.</p>
+<p>En este tutorial haremos ejemplos con scripts de código en R y cómo los cambios que vayamos trabajando, los podemos registrar, usar, guardar y documentar con mayor eficiencia tanto para trabajar individualemente como grupalmente.</p>
+</section>
+<section id="esquema-de-git" class="level2">
+<h2 class="anchored" data-anchor-id="esquema-de-git">Esquema de git</h2>
+<p>Aqui pretendo aclarar rapidamente que vamos a hacer con git, tener el bosquejo antes de entrar en detalles. Vamos a tener un repositorio remoto o en inglés upstream que será nuestro repositorio en github/gitlab/bitbucket. De este repositorio tendremos uno local que crearemos al hacer el clon. Siempre vamos a trabajar en repositorio local (en nuestra computadora) y esos cambios los vamos a subir al remoto con un push. De igual manera cambios que existan en el repositorio remoto (porque alguien hizo una contribucion, trabajamos desde otra computadora ys ubimos los cambios) lo vamos a hacer con un pull.</p>
+<p>Vamos a tener una <strong>rama</strong> principal llamada <strong>master</strong>. El consejo aca es tener código limpio y funcional. Todo lo que sea trabajo en desarrollo, experimentos, pruebas o tareas específicas, vamos a hacerlo en ramas. Las ramas van a tener el nombre que nosotros decidamos. Los cambios que se encuentran en estas ramas, una vez que se encuentran finalizados, revisados y funcionales los podremos integrar a nuestra rama master en un proceso conocido como <strong>merge</strong></p>
+<p>Cada vez que hagamos cambios en el código, vamos a hacer un <strong>commit</strong>. Esto lo podemos interpretar como marcar un punto en la historia del proyecto. Git nos mostrará información sobre cada uno de nuestros commits tal como la fecha, hora, usuario, archivos cambiados y las líneas de los archivos que se cambiaron. La idea de los commits es que siempre podamos retornar a un punto específico en la historia del proyecto.</p>
+<p>En el caso de trabajar con el repositorio de alguien más, lo podemos realizar a través de un proceso que se conoce como <strong>fork</strong>, que no es más que una bifurcación del repositorio de esa persona. Al realizar un “fork” del repositorio de otra persona estamos creando una copia de dicho repositorio bajo nuestro usuario. Ahora bien, la manera de ofrecer los cambios que hemos trabajado a la persona dueña del repositorio tiene un proceso algo diferente que veremos en otro tutorial.</p>
+</section>
+<section id="iniciar-con-git" class="level2">
+<h2 class="anchored" data-anchor-id="iniciar-con-git">Iniciar con git</h2>
+<p>En este segmento vamos a seguir los pasos para tener un repositorio que tenga su cuenta remota con github/gitlab/bitbucket y local a través de nuestra terminal.</p>
+<section id="crear-repositorio-en-githubgitlabbitbucket" class="level4">
+<h4 class="anchored" data-anchor-id="crear-repositorio-en-githubgitlabbitbucket">1. Crear repositorio en github/gitlab/bitbucket</h4>
+<p>Si tenemos cuenta en github/gitlab/bitbucket podemos crear un repositorio. Le llamamos repositorio al sitio donde vamos a guardar nuestros archivos. Un repositorio lo podemos visualizar como una carpeta que contendrá nuestro trabajo.</p>
+<p>Cuando se crea un nuevo repositorio lo recomendable es iniciarlo con un arhivo que se llama <strong>.gitignore</strong> y con un <strong>readme</strong>. Para hacerlo en github (y algo similar en otras plataformas) es que seleccionemos las opciones de iniciar repositorio con un archivo .gitignore y un readme. El archivo gitignore debe de ser específico para la herramienta que vayamos a usar, en este caso sería <em>R</em></p>
+<p>La funcionalidad del .gitignore es que este archivo (es como un archvio de texto) contiene especificaciones sobre los formatos de los archivos que no queremos que se integren en nuestro sistema de control de versiones. Generalmente no deseamos que archivos como imagenes (.png .jpeg) o bien archivos de datos muy grandes (.txt .csv .feather) sean compartidos entre repositorios remotos, locales o personas con las que colaboremos. Un ejemplo de un archivo .gitignore es el siguiente:</p>
+<p>Si no identifican algunos de los elementos de ahí no hay de qué preocuparse, mejor nos enfocámos en los tipos de archivos que nosotros necesitamos que <strong>NO sean tomados en cuenta por git</strong>, es decir, que no queremos que se suban a nuestro repositorio de github por ejemplo ni en la gestión de versiones. Si es el caso que tenemos que hacer el knit de un Rmarkdown y necesitamos un archivo .csv para renderizarlo, pero solamente queremos el archivo Rmakrdown en el sistema de git, pues en nuestro archivo .gitignore escribimos .csv, guardamos el archivo y listo.</p>
+<p>En el caso del <strong>readme</strong> es un archivo que debe de dar una idea de qué tenemos en el repositorio. Es una guía para nosotros mismos u otros usuarios que vayan a hacer uso del repositorio y nuestro código. En github los readme se ven así:</p>
+<p>Una vez que el repositorio haya sido creado, vamos a encontrarnos con una opción que dirá <strong>“clone or download”</strong>. Vamos a hacer click en clone y la dirección que allí sale la tenemos que copiar (ctrl + c). La imagen muestra lo que sucede al hacer clone en el botón verde que ofrece github:</p>
+<p>Ya con la información de la dirección del repositorio copiada, vamos a llevarla a nuestra terminal:</p>
+</section>
+<section id="clonar-repositorio-en-nuestra-computadora" class="level4">
+<h4 class="anchored" data-anchor-id="clonar-repositorio-en-nuestra-computadora">2. Clonar repositorio en nuestra computadora</h4>
+<p>Una vez que tenemos creado el repositorio y la dirección copiada, vamos a abrir nuestra terminal. Si es usuario de windows puede usar el powershell. Lo primero que vamos a ver es una dirección y allí tendremos que <strong>dirigirnos a la carpeta donde deseamos colocar el repositorio</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="bu" style="color: null;">cd</span> ~ <span class="co" style="color: #5E5E5E;">#Esto me va a llevar al home</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="bu" style="color: null;">cd</span> Desktop/ <span class="co" style="color: #5E5E5E;">#Me lleva al escritorio</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;">ls</span> <span class="co" style="color: #5E5E5E;">#Me da lista de los elementos que existen en la dirección que estoy</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="bu" style="color: null;">cd</span> primeras_letras_nombre <span class="op" style="color: #5E5E5E;">&lt;</span>TAB<span class="op" style="color: #5E5E5E;">&gt;</span> #Con TAB autocompleta el nombre</span></code></pre></div>
+</div>
+<ul>
+<li>Este procedimiento lo vamos realizando hasta llegar a la carpeta en la cual queremos clonar el repositorio.</li>
+</ul>
+<p>El segundo paso es <strong>clonar el repositorio</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="fu" style="color: #4758AB;">git</span> clone <span class="op" style="color: #5E5E5E;">&lt;</span>dirección del repositorio que copiamos<span class="op" style="color: #5E5E5E;">&gt;</span></span></code></pre></div>
+</div>
+<p>Por último nos dirigimos a la carpeta del repositorio</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="bu" style="color: null;">cd</span> <span class="op" style="color: #5E5E5E;">&lt;</span>nombre_repositorio<span class="op" style="color: #5E5E5E;">&gt;</span></span></code></pre></div>
+</div>
+<p>¡Listo! Ya tenemos el repositorio remoto tal cual en nuestra computadora local. A partir de aquí podemos trabajar en nuestros archivos.</p>
+</section>
+<section id="crear-una-rama-en-el-repositorio" class="level4">
+<h4 class="anchored" data-anchor-id="crear-una-rama-en-el-repositorio">3. Crear una rama en el repositorio</h4>
+<p>¿Qué pasa si queremos hacer una variación en el código sin miedo a dañar lo que ya tenemos? Pues bien, git nos permite hacer ramas que son una bifurcación del trabajo que llevamos realizado hasta ese momento y que si luego queremos, podemos volver a integrar a la rama principal.</p>
+<p>Cuano tenemos un repositorio la rama principal está nombrada como <strong>master</strong>. A partir de esta rama master podemos hacer ramas con los nombres que nosotros queramos. La idea de las ramas es trabajar de manera ordenada, en donde en mi rama master siempre debemos de tener código limpio y funcional y lo que sean nuevas tareas, mejoras o experimentos lo hagamos en ramas que se bifurcan a partir de la rama master.</p>
+<p>Cuando el trabajo realizado en la rama sea funcional y limpio, lo podemos integrar a la rama master. Caso contrario podemos olvidarnos de la rama y volver a nuestra rama master.</p>
+<p><strong>Crear rama</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="fu" style="color: #4758AB;">git</span> checkout <span class="at" style="color: #657422;">-b</span> <span class="op" style="color: #5E5E5E;">&lt;</span>NOMBRE_RAMA<span class="op" style="color: #5E5E5E;">&gt;</span> #Nos crea y dirige a la nueva rama</span></code></pre></div>
+</div>
+<p><strong>Verificar rama en la que estamos</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="fu" style="color: #4758AB;">git</span> status</span></code></pre></div>
+</div>
+<p><strong>cambiar entre ramas</strong></p>
+<p>Para cambiar entre ramas que ya existen NO hay que usar “-b”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="fu" style="color: #4758AB;">git</span> checkout <span class="op" style="color: #5E5E5E;">&lt;</span>NOMBRE_RAMA<span class="op" style="color: #5E5E5E;">&gt;</span></span></code></pre></div>
+</div>
+</section>
+<section id="subirbajar-cambios" class="level4">
+<h4 class="anchored" data-anchor-id="subirbajar-cambios">4. Subir/bajar cambios</h4>
+<p>Como estamos trabajando con un repositorio remoto y uno local, vamos a querer sincronizar los cambios. Estos cambios pasarán a estar en la historia del proyecto como <strong>commits</strong>. Un commit es un punto en la historia del proyecto que muestra el trabajo realizado en ese momento. En el flujo del trabajo que uno tenga es recomendable hacer commits regularmente y hacer el push de manera regular para asegurarnos de no perder el trabajo.</p>
+<p><strong>4.1 Revisar estado de los cambios </strong> Cuando tengamos cambios en nuestros archivos, podemos revisar cuáles han cambiado y si los tenemos incluidos o no en nuestro registro de cambios</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="fu" style="color: #4758AB;">git</span> status</span></code></pre></div>
+</div>
+<p><strong>4.2 Agregar cambios</strong> Los archivos que queramos agregar a la historia del proyecto lo podemos hacer de dos maneras, una donde indicamos explícitamente el archivo específico:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="fu" style="color: #4758AB;">git</span> add <span class="op" style="color: #5E5E5E;">&lt;</span>NOMBRE_ARCHIVO<span class="op" style="color: #5E5E5E;">&gt;</span></span></code></pre></div>
+</div>
+<p>O de tal manera en que agreguemos todos los archivos con cambios de una vez</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><span class="fu" style="color: #4758AB;">git</span> add .</span></code></pre></div>
+</div>
+<p><strong>4.3 Someter cambios a la historia de git</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><span class="fu" style="color: #4758AB;">git</span> commit <span class="at" style="color: #657422;">-m</span> <span class="st" style="color: #20794D;">"MENSAJE_CORTO"</span></span></code></pre></div>
+</div>
+<p>El mensaje sirve para darnos a nosotros mismos o a colaboradores, una idea del cambio que se trabajó.</p>
+<p><strong>4.4 Subir cambios al repositorio remoto</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><span class="fu" style="color: #4758AB;">git</span> push</span></code></pre></div>
+</div>
+<p><strong>4.5 Bajar cambios del repositorio remoto</strong> Si estamos trabajando con colaboradores y han integrado cambios en el repositorio remoto que nosotros no tenemos en nuestro repositorio local, los podemos traer de la siguiente manera:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><span class="fu" style="color: #4758AB;">git</span> pull</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="qué-tenemos-hasta-acá" class="level2">
+<h2 class="anchored" data-anchor-id="qué-tenemos-hasta-acá">¿Qué tenemos hasta acá?</h2>
+<p>Una idea básica sobre git, de sus componentes, del flujo de trabajo y de los principales comandos que se usan. Un tutorial con un ejemplo básico vendrá despueś.</p>
+<section id="referencias" class="level3">
+<h3 class="anchored" data-anchor-id="referencias">Referencias</h3>
+<p>https://git-scm.com/book/en/v2 https://git-scm.com/book/es/v1/Ramificaciones-en-Git-Procedimientos-b%C3%A1sicos-para-ramificar-y-fusionar</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <guid>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</guid>
+  <pubDate>Wed, 20 Apr 2016 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>
+</item>
+</channel>
+</rss>

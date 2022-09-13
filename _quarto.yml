@@ -4,6 +4,9 @@ project:
 
 website:
   title: "Ronny A. Hernandez Mora"
+  site-url: https://ronnyale.com/
+  repo-url: https://github.com/ronnyhdez/blog/
+  open-graph: true
   navbar:
     right:
       - about.qmd
@@ -11,6 +14,8 @@ website:
         href: https://github.com/ronnyhdez/blog
       - icon: twitter
         href: https://twitter.com/ronny_hdezmora
+      - icon: person-circle
+        href: https://ronnyale.com/
 format:
   html:
     theme: yeti 

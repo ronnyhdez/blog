@@ -3,9 +3,11 @@ title: "R, Linux and other stuff"
 description: |
   Notes about my journey creating data science products
 listing:
+  feed: true
   contents: posts
   sort: "date desc"
-  type: default
+  type: grid
+  grid-columns: 3
   categories: true
   sort-ui: false
   filter-ui: false

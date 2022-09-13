@@ -10,7 +10,7 @@ author:
         url: "https://www.ixpantia.com"
 date: 2018-03-14
 licence: "CC BY-NC"
-image: images/structure.png
+image: images/time.png
 ---
 
 ```{r}
