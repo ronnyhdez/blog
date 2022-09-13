@@ -109,8 +109,17 @@ me to remember what I was trying to achieve when I made the change.
 ## Instaling Plug-ins
 
 In the `init.vim` file above, I included already some of the plugins that I
-want to use when working with nvim. They are there but still not installed. For
-this, the first step is to find out a plugin manager. 
+want to use when working with nvim. When using the plugins, these should be
+in the middle of this call:
+
+```{bash}
+call plug#begin('~/.vim/plugged')
+
+call plug#end()
+```
+
+Now, you can see that they are included in the `init.vim` file, but still
+are not installed. For this, the first step is to find out a plugin manager. 
 
 The one that I like is [vim-plug](https://github.com/junegunn/vim-plug). To 
 install it, you will need to:
@@ -133,9 +142,66 @@ When installing the rest of the plugins, you will see something similar to:
 knitr::include_graphics("images/plug_install.png")
 ```
 
+If I want to know which pluggins are installed, with the  following vim-plug
+command we can check them:
+
+```{bash}
+:PlugStatus
+```
+
+# nvim workflow for R projects
+
+At this point, we have a functional and adapted nvim for our daily work. Let's
+start on what would the workflow look like when dealing with R projects. At first
+if you already have an R project, you can move on your terminal to that path
+and open a file with:
+
+```{bash}
+nvim my_file.R
+```
+
+This can be done for any R file (Rmd, R, qmd). The configuration will detect 
+the file format and be aware of what it is. Once we have started our nvim 
+session, we need to know a couple of commands to run R from a nvim session:
+
+`\rf` Connect to R Console
+
+`\rq` Quit R Console
+
+`\d`  Run current line and move to the next line
+
+`\l` Run current line, but cursor will stay on the same line.
+
+`\pp` Run paragraph. But cursor will stay on the same block. 
+
+`\pd` Runs block and move to the next one
+
+`\ss` Execute a block of **selected code**. This has to be done with visual mode
+
+`\aa` Run entire script
+
+`\ro` Open the "Global Environment"
+
+`ctrl + w + l` Jump to left panel
+
+`ctrl + w + h` Jump to right panel
 
 
+If I made a change on the `~/.vimrc` file, I can source it with `:source ~/.vimcr`
 
+If I have installed the pluggin `NERDTree`, I need to remap some keys. At the 
+moment I have in my `~/.vimrc` file the line: `nnoremap <C-n> :NERDTree<CR>`,
+so I don't have to do `:NERDTree` to open the file browser. Now this can be done
+with:
+
+`ctrl + n` Open file browser on left side by default.
+
+Inside the file tree browser, I can move with the arrows. To expand one folder
+and show contents, I can hit `ENTER`. Doing the same in an open folder, will
+close it.
+
+To move out from the NERDTree browser I can `ctrl + w + w` so I will be 
+jumping panels from left to right.
 
 
 
