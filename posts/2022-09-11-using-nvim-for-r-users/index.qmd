@@ -2,13 +2,8 @@
 title: "Using Neovim for R Users"
 description: |
    Are you an R User who wants to try nvim? 
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
 date: 2022-09-13
+categories: [Neovim, Linux]
 licence: "CC BY-NC"
 image: images/nvim_r.png
 ---
@@ -16,7 +11,6 @@ image: images/nvim_r.png
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
-
 
 # How to install and config nvim in Ubuntu?
 

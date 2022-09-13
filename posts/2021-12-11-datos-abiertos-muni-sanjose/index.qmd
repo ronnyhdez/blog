@@ -3,11 +3,8 @@ title: "Datos abiertos municipalidad de San José, Costa Rica"
 description: |
    Una introducción al uso del API de datos abiertos de la muni de San José
 author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
+  - name: "Erick Calderon Morales"
+    url: "https://github.com/ecamo19"
 date: 2018-01-13 
 licence: "CC BY-NC"
 image: images/city.png

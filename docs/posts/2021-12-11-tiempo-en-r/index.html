@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:image:width" content="640">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Tiempo en R</h1>
@@ -178,7 +178,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <p>Trabajar con fechas y tiempo en R es un poco complicado. En este post trato de explicar cómo trabajar con este tipo de datos y base R</p>
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Base R</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -203,8 +206,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#tiempo" id="toc-tiempo" class="nav-link active" data-scroll-target="#tiempo">Tiempo</a></li>
+  <li><a href="#fechas-y-horas-en-r" id="toc-fechas-y-horas-en-r" class="nav-link" data-scroll-target="#fechas-y-horas-en-r">Fechas y Horas en R:</a>
+  <ul class="collapse">
+  <li><a href="#tipo-y-clase-del-tiempo-en-r" id="toc-tipo-y-clase-del-tiempo-en-r" class="nav-link" data-scroll-target="#tipo-y-clase-del-tiempo-en-r">Tipo y Clase del tiempo en R:</a></li>
+  <li><a href="#qué-signifan-esas-dos-clases" id="toc-qué-signifan-esas-dos-clases" class="nav-link" data-scroll-target="#qué-signifan-esas-dos-clases">¿Qué signifan esas dos clases?</a>
+  <ul class="collapse">
+  <li><a href="#cómo-funcionan-el-sistema-posix" id="toc-cómo-funcionan-el-sistema-posix" class="nav-link" data-scroll-target="#cómo-funcionan-el-sistema-posix">¿Cómo funcionan el sistema POSIX?</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#leer-fechas-desde-archivos" id="toc-leer-fechas-desde-archivos" class="nav-link" data-scroll-target="#leer-fechas-desde-archivos">Leer fechas desde archivos</a>
+  <ul class="collapse">
+  <li><a href="#función-strptime" id="toc-función-strptime" class="nav-link" data-scroll-target="#función-strptime">Función strptime</a></li>
+  <li><a href="#qué-fué-lo-que-hicimos" id="toc-qué-fué-lo-que-hicimos" class="nav-link" data-scroll-target="#qué-fué-lo-que-hicimos">¿Qué fué lo que hicimos?</a></li>
+  <li><a href="#nombre-completo-del-día" id="toc-nombre-completo-del-día" class="nav-link" data-scroll-target="#nombre-completo-del-día">Nombre completo del día:</a></li>
+  <li><a href="#otros-formatos" id="toc-otros-formatos" class="nav-link" data-scroll-target="#otros-formatos">Otros formatos</a></li>
+  </ul></li>
+  <li><a href="#cálculos-con-el-tiempo" id="toc-cálculos-con-el-tiempo" class="nav-link" data-scroll-target="#cálculos-con-el-tiempo">Cálculos con el tiempo:</a>
+  <ul class="collapse">
+  <li><a href="#diferencias-entre-fechas-en-un-vector" id="toc-diferencias-entre-fechas-en-un-vector" class="nav-link" data-scroll-target="#diferencias-entre-fechas-en-un-vector">Diferencias entre fechas en un vector</a></li>
+  <li><a href="#cálculos-con-dos-objetos" id="toc-cálculos-con-dos-objetos" class="nav-link" data-scroll-target="#cálculos-con-dos-objetos">Cálculos con dos objetos:</a></li>
+  <li><a href="#diferencia-de-días" id="toc-diferencia-de-días" class="nav-link" data-scroll-target="#diferencia-de-días">Diferencia de días:</a></li>
+  <li><a href="#diferencia-de-horas" id="toc-diferencia-de-horas" class="nav-link" data-scroll-target="#diferencia-de-horas">Diferencia de horas:</a></li>
+  </ul></li>
+  <li><a href="#generación-de-secuencias-con-tiempo" id="toc-generación-de-secuencias-con-tiempo" class="nav-link" data-scroll-target="#generación-de-secuencias-con-tiempo">Generación de secuencias con tiempo:</a>
+  <ul class="collapse">
+  <li><a href="#secuencia-en-aumento-por-día" id="toc-secuencia-en-aumento-por-día" class="nav-link" data-scroll-target="#secuencia-en-aumento-por-día">Secuencia en aumento por día:</a></li>
+  <li><a href="#secuencia-en-aumento-por-semanas" id="toc-secuencia-en-aumento-por-semanas" class="nav-link" data-scroll-target="#secuencia-en-aumento-por-semanas">Secuencia en aumento por semanas:</a></li>
+  <li><a href="#secuencia-en-aumento-por-tiempo-en-segundos" id="toc-secuencia-en-aumento-por-tiempo-en-segundos" class="nav-link" data-scroll-target="#secuencia-en-aumento-por-tiempo-en-segundos">Secuencia en aumento por tiempo en segundos:</a></li>
+  <li><a href="#secuencia-sin-especificación-de-final" id="toc-secuencia-sin-especificación-de-final" class="nav-link" data-scroll-target="#secuencia-sin-especificación-de-final">Secuencia sin especificación de final:</a></li>
+  </ul></li>
+  <li><a href="#recuento." id="toc-recuento." class="nav-link" data-scroll-target="#recuento.">Recuento.</a></li>
+  </ul>
+</nav>
+</nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -650,7 +693,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
+  author = {Ronny A. Hernandez Mora},
+  title = {Tiempo En {R}},
+  date = {2018-03-14},
+  url = {https://ronnyale.com//posts/2021-12-11-tiempo-en-r},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Ronny A. Hernandez Mora. 2018. <span>“Tiempo En R.”</span> March 14,
+2018. <a href="https://ronnyale.com//posts/2021-12-11-tiempo-en-r">https://ronnyale.com//posts/2021-12-11-tiempo-en-r</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

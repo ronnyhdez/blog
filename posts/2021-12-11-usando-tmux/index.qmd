@@ -2,35 +2,11 @@
 title: "Usando tmux: apuntes breves de mi jornada"
 description: |
    Breves notas sobre el uso de tmux. Adecuado para mirar de manera rápida alguna instrucción que necesitemos para continuar con nuestro flujo de trabajo.
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
+categories: [tmux, Linux]
 date: 2021-01-03
 licence: "CC BY-NC"
 image: images/tmux.png
 ---
-
-```{r}
-# ---
-# title: "Usando tmux: apuntes breves de mi jornada"
-# description: |
-#   Breves notas sobre el uso de tmux. Adecuado para mirar de manera rápida alguna instrucción que necesitemos para continuar con nuestro flujo de trabajo.
-# author:
-#   - name: Ronny A. Hernández Mora
-#     url: http://ronnyhdez.rbind.io/
-# date: 2021-01-03
-# creative_commons: CC BY-NC
-# preview: images/tmux.png
-# twitter:
-#   creator: "@RonnyHdezM"
-# output:
-#   distill::distill_article:
-#     self_contained: true
-# ---
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)

@@ -48,44 +48,46 @@
 <li><code>Plug</code> means that you want to use a Plugin. You will need a plugin to manage these. (More on this later)</li>
 </ul>
 <p>This is what a basic config file would look like:</p>
-<pre><code>" Cursor as a block
-set guicursor=
-
-" Use relative numbers in files
-set relativenumber
-
-" Line where I'm positioned is the real line number
-set nu
-
-" No saving or keeping buffer in the background
-set hidden
-
-" Indentetation configuration
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-
-" Start scrolling until 8 spaces away
-set scrolloff=8
-
-" Create extra column
-set signcolumn=yes
-
-" Mark 80 characters line
-set colorcolumn=80
-
-" Set encoding
-set encoding=utf-8
-
-" Plugins
-call plug#begin()
-Plug 'jalvesaq/Nvim-R'
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-fugitive'
-Plug 'ncm2/ncm2'
-Plug 'gaalcaras/ncm-R'
-call plug#end()</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="st" style="color: #20794D;">" Cursor as a block</span></span>
+<span id="cb4-2"><span class="st" style="color: #20794D;">set guicursor=</span></span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="st" style="color: #20794D;">"</span> Use relative numbers in files</span>
+<span id="cb4-5"><span class="bu" style="color: null;">set</span> relativenumber</span>
+<span id="cb4-6"></span>
+<span id="cb4-7"><span class="st" style="color: #20794D;">" Line where I'm positioned is the real line number</span></span>
+<span id="cb4-8"><span class="st" style="color: #20794D;">set nu</span></span>
+<span id="cb4-9"></span>
+<span id="cb4-10"><span class="st" style="color: #20794D;">"</span> No saving or keeping buffer in the background</span>
+<span id="cb4-11"><span class="bu" style="color: null;">set</span> hidden</span>
+<span id="cb4-12"></span>
+<span id="cb4-13"><span class="st" style="color: #20794D;">" Indentetation configuration</span></span>
+<span id="cb4-14"><span class="st" style="color: #20794D;">set tabstop=4 softtabstop=4</span></span>
+<span id="cb4-15"><span class="st" style="color: #20794D;">set shiftwidth=4</span></span>
+<span id="cb4-16"><span class="st" style="color: #20794D;">set expandtab</span></span>
+<span id="cb4-17"><span class="st" style="color: #20794D;">set smartindent</span></span>
+<span id="cb4-18"></span>
+<span id="cb4-19"><span class="st" style="color: #20794D;">"</span> Start scrolling until 8 spaces away</span>
+<span id="cb4-20"><span class="bu" style="color: null;">set</span> scrolloff=8</span>
+<span id="cb4-21"></span>
+<span id="cb4-22"><span class="st" style="color: #20794D;">" Create extra column</span></span>
+<span id="cb4-23"><span class="st" style="color: #20794D;">set signcolumn=yes</span></span>
+<span id="cb4-24"></span>
+<span id="cb4-25"><span class="st" style="color: #20794D;">"</span> Mark 80 characters line</span>
+<span id="cb4-26"><span class="bu" style="color: null;">set</span> colorcolumn=80</span>
+<span id="cb4-27"></span>
+<span id="cb4-28"><span class="st" style="color: #20794D;">" Set encoding</span></span>
+<span id="cb4-29"><span class="st" style="color: #20794D;">set encoding=utf-8</span></span>
+<span id="cb4-30"></span>
+<span id="cb4-31"><span class="st" style="color: #20794D;">"</span> Plugins</span>
+<span id="cb4-32"><span class="ex" style="color: null;">call</span> plug#begin<span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">)</span></span>
+<span id="cb4-33"><span class="ex" style="color: null;">Plug</span> <span class="st" style="color: #20794D;">'jalvesaq/Nvim-R'</span></span>
+<span id="cb4-34"><span class="ex" style="color: null;">Plug</span> <span class="st" style="color: #20794D;">'preservim/nerdtree'</span></span>
+<span id="cb4-35"><span class="ex" style="color: null;">Plug</span> <span class="st" style="color: #20794D;">'tpope/vim-fugitive'</span></span>
+<span id="cb4-36"><span class="ex" style="color: null;">Plug</span> <span class="st" style="color: #20794D;">'ncm2/ncm2'</span></span>
+<span id="cb4-37"><span class="ex" style="color: null;">Plug</span> <span class="st" style="color: #20794D;">'gaalcaras/ncm-R'</span></span>
+<span id="cb4-38"><span class="ex" style="color: null;">call</span> plug#end<span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
+</div>
 <p>A good idea for me is that, when I add a new line of configuration, I will add a comment stating what that command is mean for. That way, it will be easy for me to remember what I was trying to achieve when I made the change.</p>
 <section id="instaling-plug-ins" class="level2">
 <h2 class="anchored" data-anchor-id="instaling-plug-ins">Instaling Plug-ins</h2>
@@ -107,14 +109,13 @@ call plug#end()</code></pre>
 </div>
 <p>When installing the rest of the plugins, you will see something similar to:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">knitr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">include_graphics</span>(<span class="st" style="color: #20794D;">"images/plug_install.png"</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <p><img src="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid" width="370"></p>
 </div>
 </div>
 <p>If I want to know which pluggins are installed, with the following vim-plug command we can check them:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;">:PlugStatus</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;">:PlugStatus</span></span></code></pre></div>
 </div>
 </section>
 </section>
@@ -122,7 +123,7 @@ call plug#end()</code></pre>
 <h1>nvim workflow for R projects</h1>
 <p>At this point, we have a functional and adapted nvim for our daily work. Let’s start on what would the workflow look like when dealing with R projects. At first if you already have an R project, you can move on your terminal to that path and open a file with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><span class="ex" style="color: null;">nvim</span> my_file.R</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;">nvim</span> my_file.R</span></code></pre></div>
 </div>
 <p>This can be done for any R file (Rmd, R, qmd). The configuration will detect the file format and be aware of what it is. Once we have started our nvim session, we need to know a couple of commands to run R from a nvim session:</p>
 <p><code>\rf</code> Connect to R Console</p>
@@ -145,7 +146,19 @@ call plug#end()</code></pre>
 
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2022,
+  author = {Ronny A. Hernandez Mora},
+  title = {Using {Neovim} for {R} {Users}},
+  date = {2022-09-13},
+  url = {https://ronnyale.com//posts/2022-09-11-using-nvim-for-r-users},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2022" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2022. <span>“Using Neovim for R Users.”</span>
+September 13, 2022. <a href="https://ronnyale.com//posts/2022-09-11-using-nvim-for-r-users">https://ronnyale.com//posts/2022-09-11-using-nvim-for-r-users</a>.
+</div></div></section></div> ]]></description>
+  <category>Neovim</category>
+  <category>Linux</category>
   <guid>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</guid>
   <pubDate>Tue, 13 Sep 2022 06:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
@@ -356,7 +369,20 @@ images/
 
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2022,
+  author = {Ronny A. Hernandez Mora},
+  title = {Creating a Website Using Mkdocs, {Rmarkdown} and {GitHub}
+    Pages},
+  date = {2022-01-13},
+  url = {https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2022" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2022. <span>“Creating a Website Using Mkdocs,
+Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd">https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd</a>.
+</div></div></section></div> ]]></description>
+  <category>MkDocs</category>
+  <category>Linux</category>
   <guid>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</guid>
   <pubDate>Thu, 13 Jan 2022 07:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
@@ -523,7 +549,19 @@ images/
 </section>
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2021,
+  author = {Ronny A. Hernandez Mora},
+  title = {Usando Tmux: Apuntes Breves de Mi Jornada},
+  date = {2021-01-03},
+  url = {https://ronnyale.com//posts/2021-12-11-usando-tmux},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2021" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2021. <span>“Usando Tmux: Apuntes Breves de Mi
+Jornada.”</span> January 3, 2021. <a href="https://ronnyale.com//posts/2021-12-11-usando-tmux">https://ronnyale.com//posts/2021-12-11-usando-tmux</a>.
+</div></div></section></div> ]]></description>
+  <category>tmux</category>
+  <category>Linux</category>
   <guid>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</guid>
   <pubDate>Sun, 03 Jan 2021 07:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
@@ -719,7 +757,19 @@ images/
 </section>
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2020,
+  author = {Ronny A. Hernandez Mora},
+  title = {Desplegando Mi App de Shiny Con Shiny-Server},
+  date = {2020-12-28},
+  url = {https://ronnyale.com//posts/2021-12-11-desplegando-shiny},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2020" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2020. <span>“Desplegando Mi App de Shiny Con
+Shiny-Server.”</span> December 28, 2020. <a href="https://ronnyale.com//posts/2021-12-11-desplegando-shiny">https://ronnyale.com//posts/2021-12-11-desplegando-shiny</a>.
+</div></div></section></div> ]]></description>
+  <category>Shiny</category>
+  <category>Linux</category>
   <guid>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</guid>
   <pubDate>Mon, 28 Dec 2020 07:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
@@ -1172,7 +1222,18 @@ images/
 
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
+  author = {Ronny A. Hernandez Mora},
+  title = {Tiempo En {R}},
+  date = {2018-03-14},
+  url = {https://ronnyale.com//posts/2021-12-11-tiempo-en-r},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2018. <span>“Tiempo En R.”</span> March 14,
+2018. <a href="https://ronnyale.com//posts/2021-12-11-tiempo-en-r">https://ronnyale.com//posts/2021-12-11-tiempo-en-r</a>.
+</div></div></section></div> ]]></description>
+  <category>Base R</category>
   <guid>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</guid>
   <pubDate>Wed, 14 Mar 2018 06:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
@@ -1457,7 +1518,18 @@ images/
 
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
+  author = {Ronny A. Hernandez Mora},
+  title = {Intro a Datos y Estructuras En {R}},
+  date = {2018-02-01},
+  url = {https://ronnyale.com//posts/2021-12-11-estructuras-r},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2018. <span>“Intro a Datos y Estructuras En
+R.”</span> February 1, 2018. <a href="https://ronnyale.com//posts/2021-12-11-estructuras-r">https://ronnyale.com//posts/2021-12-11-estructuras-r</a>.
+</div></div></section></div> ]]></description>
+  <category>Base R</category>
   <guid>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</guid>
   <pubDate>Thu, 01 Feb 2018 07:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
@@ -1465,6 +1537,7 @@ images/
 <item>
   <title>Datos abiertos municipalidad de San José, Costa Rica</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <dc:creator>Erick Calderon Morales</dc:creator>
   <link>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</link>
   <description><![CDATA[ 
 
@@ -1757,7 +1830,18 @@ font-style: italic;">## $ `Porcentaje de población con educación superior y t�
 
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
+  author = {Ronny A. Hernandez Mora and Erick Calderon Morales},
+  title = {Datos Abiertos Municipalidad de {San} {José,} {Costa} {Rica}},
+  date = {2018-01-13},
+  url = {https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora, and Erick Calderon Morales. 2018. <span>“Datos
+Abiertos Municipalidad de San José, Costa Rica.”</span> January 13,
+2018. <a href="https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose">https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose</a>.
+</div></div></section></div> ]]></description>
   <guid>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</guid>
   <pubDate>Sat, 13 Jan 2018 07:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
@@ -1884,7 +1968,18 @@ font-style: italic;">## $ `Porcentaje de población con educación superior y t�
 </section>
 </section>
 
- ]]></description>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2016,
+  author = {Ronny A. Hernandez Mora},
+  title = {Otra Introducción a Git},
+  date = {2016-04-20},
+  url = {https://ronnyale.com//posts/2021-12-11-otra-intro-a-git},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2016" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2016. <span>“Otra Introducción a Git.”</span>
+April 20, 2016. <a href="https://ronnyale.com//posts/2021-12-11-otra-intro-a-git">https://ronnyale.com//posts/2021-12-11-otra-intro-a-git</a>.
+</div></div></section></div> ]]></description>
+  <category>git</category>
   <guid>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</guid>
   <pubDate>Wed, 20 Apr 2016 06:00:00 GMT</pubDate>
   <media:content url="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>

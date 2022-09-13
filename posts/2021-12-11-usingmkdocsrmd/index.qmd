@@ -2,36 +2,11 @@
 title: "Creating a website using mkdocs, Rmarkdown and GitHub pages"
 description: |
    A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
 date: 2022-01-13
+categories: [MkDocs, Linux]
 licence: "CC BY-NC"
 image: images/site_alive.png
 ---
-
-```{r}
-# ---
-# title: "Creating a website using mkdocs, Rmarkdown and GitHub pages"
-# description: |
-#   A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.
-# author:
-#   - name: Ronny A. Hernández Mora
-#     url: http://ronnyhdez.rbind.io/ 
-# date: 2022-01-13
-# creative_commons: CC BY-NC
-# preview: images/site_alive.png
-# twitter:
-#   creator: "@RonnyHdezM"
-# output:
-#   distill::distill_article:
-#     self_contained: true
-# ---
-```
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)

@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:image:width" content="640">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Intro a datos y estructuras en R</h1>
@@ -178,7 +178,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <p>Una breve intro a estructuras en R.</p>
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Base R</div>
+              </div>
+                  </div>
   </div>
     
   <div class="quarto-title-meta-author">
@@ -212,8 +215,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#datos-y-estructuras" id="toc-datos-y-estructuras" class="nav-link active" data-scroll-target="#datos-y-estructuras">Datos y Estructuras</a>
+  <ul class="collapse">
+  <li><a href="#primer-paso" id="toc-primer-paso" class="nav-link" data-scroll-target="#primer-paso">Primer paso:</a></li>
+  </ul></li>
+  <li><a href="#para-qué-sirven-los-tipos-de-datos" id="toc-para-qué-sirven-los-tipos-de-datos" class="nav-link" data-scroll-target="#para-qué-sirven-los-tipos-de-datos">¿Para qué sirven los tipos de datos?</a>
+  <ul class="collapse">
+  <li><a href="#vectores-elementos-son-del-mismo-tipo" id="toc-vectores-elementos-son-del-mismo-tipo" class="nav-link" data-scroll-target="#vectores-elementos-son-del-mismo-tipo">Vectores elementos son del mismo tipo</a></li>
+  <li><a href="#listas-elementos-son-de-diferente-tipo" id="toc-listas-elementos-son-de-diferente-tipo" class="nav-link" data-scroll-target="#listas-elementos-son-de-diferente-tipo">Listas elementos son de diferente tipo</a></li>
+  <li><a href="#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo" id="toc-matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo" class="nav-link" data-scroll-target="#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo">matrix es de dos dimensiones con elementos del mismo tipo:</a></li>
+  <li><a href="#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo" id="toc-data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo" class="nav-link" data-scroll-target="#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo">data frame es de dos dimensiones con elementos de diferente tipo:</a></li>
+  <li><a href="#array-es-una-estructura-de-tres-o-más-dimensiones" id="toc-array-es-una-estructura-de-tres-o-más-dimensiones" class="nav-link" data-scroll-target="#array-es-una-estructura-de-tres-o-más-dimensiones">Array es una estructura de tres o más dimensiones:</a></li>
+  </ul></li>
+  <li><a href="#maneras-de-coercionar-las-clases" id="toc-maneras-de-coercionar-las-clases" class="nav-link" data-scroll-target="#maneras-de-coercionar-las-clases">Maneras de coercionar las clases</a></li>
+  <li><a href="#exploración-datos" id="toc-exploración-datos" class="nav-link" data-scroll-target="#exploración-datos">Exploración datos:</a>
+  <ul class="collapse">
+  <li><a href="#qué-siginifica-dir-y-ls" id="toc-qué-siginifica-dir-y-ls" class="nav-link" data-scroll-target="#qué-siginifica-dir-y-ls">¿Qué siginifica dir() y ls()?</a></li>
+  </ul></li>
+  <li><a href="#comprensión-de-un-data-frame-y-su-estructura" id="toc-comprensión-de-un-data-frame-y-su-estructura" class="nav-link" data-scroll-target="#comprensión-de-un-data-frame-y-su-estructura">Comprensión de un data frame y su estructura</a></li>
+  <li><a href="#creamos-los-vectores-a-unir" id="toc-creamos-los-vectores-a-unir" class="nav-link" data-scroll-target="#creamos-los-vectores-a-unir">Creamos los vectores a unir:</a></li>
+  <li><a href="#unimos-cada-uno-de-los-vectores-en-un-data.frame" id="toc-unimos-cada-uno-de-los-vectores-en-un-data.frame" class="nav-link" data-scroll-target="#unimos-cada-uno-de-los-vectores-en-un-data.frame">Unimos cada uno de los vectores en un data.frame</a></li>
+  <li><a href="#revisemos-estructura-igual-que-en-caso-anterior" id="toc-revisemos-estructura-igual-que-en-caso-anterior" class="nav-link" data-scroll-target="#revisemos-estructura-igual-que-en-caso-anterior">Revisemos estructura igual que en caso anterior</a></li>
+  </ul>
+</nav>
+</nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -491,7 +524,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
+  author = {Ronny A. Hernandez Mora},
+  title = {Intro a Datos y Estructuras En {R}},
+  date = {2018-02-01},
+  url = {https://ronnyale.com//posts/2021-12-11-estructuras-r},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Ronny A. Hernandez Mora. 2018. <span>“Intro a Datos y Estructuras En
+R.”</span> February 1, 2018. <a href="https://ronnyale.com//posts/2021-12-11-estructuras-r">https://ronnyale.com//posts/2021-12-11-estructuras-r</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

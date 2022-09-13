@@ -2,13 +2,8 @@
 title: "Otra introducción a git"
 description: |
    Una introducción al control de versiones con git (otra más).
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
 date: 2016-04-20
+categories: [git]
 licence: "CC BY-NC"
 image: images/files.png
 ---

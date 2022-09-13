@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:image:width" content="1355">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Creating a website using mkdocs, Rmarkdown and GitHub pages</h1>
@@ -178,7 +178,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <p>A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.</p>
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">MkDocs</div>
+                <div class="quarto-category">Linux</div>
+              </div>
+                  </div>
   </div>
     
   <div class="quarto-title-meta-author">
@@ -212,8 +216,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-are-we-going-to-create" id="toc-what-are-we-going-to-create" class="nav-link active" data-scroll-target="#what-are-we-going-to-create">What are we going to create?</a></li>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link" data-scroll-target="#the-problem">The problem:</a></li>
+  <li><a href="#so-how-can-i-set-up-everything" id="toc-so-how-can-i-set-up-everything" class="nav-link" data-scroll-target="#so-how-can-i-set-up-everything">So, how can I set up everything?</a>
+  <ul class="collapse">
+  <li><a href="#getting-mkdocs" id="toc-getting-mkdocs" class="nav-link" data-scroll-target="#getting-mkdocs">Getting MkDocs</a></li>
+  <li><a href="#getting-matherial-theme" id="toc-getting-matherial-theme" class="nav-link" data-scroll-target="#getting-matherial-theme">Getting Matherial theme</a></li>
+  <li><a href="#configuring-your-github-repository" id="toc-configuring-your-github-repository" class="nav-link" data-scroll-target="#configuring-your-github-repository">Configuring your GitHub repository</a></li>
+  </ul></li>
+  <li><a href="#cloning-your-project" id="toc-cloning-your-project" class="nav-link" data-scroll-target="#cloning-your-project">Cloning your project</a></li>
+  <li><a href="#working-on-your-notes" id="toc-working-on-your-notes" class="nav-link" data-scroll-target="#working-on-your-notes">Working on your notes</a>
+  <ul class="collapse">
+  <li><a href="#gitignore-advice" id="toc-gitignore-advice" class="nav-link" data-scroll-target="#gitignore-advice"><code>.gitignore</code> advice</a></li>
+  <li><a href="#sending-your-changes-to-your-github-repository." id="toc-sending-your-changes-to-your-github-repository." class="nav-link" data-scroll-target="#sending-your-changes-to-your-github-repository.">Sending your changes to your github repository.</a></li>
+  </ul></li>
+  <li><a href="#deploy-and-publish-your-notes-with-docmaker" id="toc-deploy-and-publish-your-notes-with-docmaker" class="nav-link" data-scroll-target="#deploy-and-publish-your-notes-with-docmaker">Deploy and publish your notes with <code>docmaker</code></a>
+  <ul class="collapse">
+  <li><a href="#configure-repo-with-docmaker" id="toc-configure-repo-with-docmaker" class="nav-link" data-scroll-target="#configure-repo-with-docmaker">Configure repo with <code>docmaker</code></a></li>
+  <li><a href="#build-and-deploy-notes" id="toc-build-and-deploy-notes" class="nav-link" data-scroll-target="#build-and-deploy-notes">Build and deploy notes</a></li>
+  </ul></li>
+  <li><a href="#code-and-example-site" id="toc-code-and-example-site" class="nav-link" data-scroll-target="#code-and-example-site">Code and example site</a></li>
+  </ul>
+</nav>
+</nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -417,7 +450,18 @@ images/
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2022,
+  author = {Ronny A. Hernandez Mora},
+  title = {Creating a Website Using Mkdocs, {Rmarkdown} and {GitHub}
+    Pages},
+  date = {2022-01-13},
+  url = {https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Ronny A. Hernandez Mora. 2022. <span>“Creating a Website Using Mkdocs,
+Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd">https://ronnyale.com//posts/2021-12-11-usingmkdocsrmd</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

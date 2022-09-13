@@ -2,36 +2,11 @@
 title: "Intro a datos y estructuras en R"
 description: |
    Una breve intro a estructuras en R.
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
 date: 2018-02-01
+categories: [Base R]
 licence: "CC BY-NC"
 image: images/structure.png
 ---
-
-```{r}
-# ---
-# title: "Intro a datos y estructuras en R"
-# description: |
-#   Una breve intro a estructuras en R.
-# author:
-#   - name: Ronny A. Hernández Mora
-#     url: http://ronnyhdez.rbind.io/
-# date: 2018-02-01
-# creative_commons: CC BY-NC
-# preview: images/structure.png
-# twitter:
-#   creator: "@RonnyHdezM"
-# output:
-#   distill::distill_article:
-#     self_contained: true
-# ---
-```
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

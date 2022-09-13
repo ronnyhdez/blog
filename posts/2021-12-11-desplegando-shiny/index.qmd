@@ -2,36 +2,11 @@
 title: "Desplegando mi app de shiny con shiny-server"
 description: |
    Vamos a "llevar a internet" nuestra aplicación y hacerla accesible al mundo.
-author:
-  - name: "Ronny A. Hernandez Mora"
-    url: "https://ronnyale.com"
-    affiliations: 
-      - name: "ixpantia"
-        url: "https://www.ixpantia.com"
 date: 2020-12-28
+categories: [Shiny, Linux]
 licence: "CC BY-NC"
 image: images/app.png
 ---
-
-```{r}
-# ---
-# title: "Desplegando mi app de shiny con shiny-server"
-# description: |
-#  Vamos a "llevar a internet" nuestra aplicación y hacerla accesible al mundo.
-# author:
-#   - name: Ronny A. Hernández Mora
-#     url: http://ronnyhdez.rbind.io/
-# date: 2020-12-28
-# creative_commons: CC BY-NC
-# preview: images/app.png
-# twitter:
-#   creator: "@RonnyHdezM"
-# output:
-#   distill::distill_article:
-#     self_contained: true
-# ---
-```
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)

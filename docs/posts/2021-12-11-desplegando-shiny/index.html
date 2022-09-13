@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <meta property="og:image:width" content="1280">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Desplegando mi app de shiny con shiny-server</h1>
@@ -178,7 +178,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <p>Vamos a “llevar a internet” nuestra aplicación y hacerla accesible al mundo.</p>
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Shiny</div>
+                <div class="quarto-category">Linux</div>
+              </div>
+                  </div>
   </div>
     
   <div class="quarto-title-meta-author">
@@ -212,8 +216,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#porqué-necesito-saber-esto" id="toc-porqué-necesito-saber-esto" class="nav-link active" data-scroll-target="#porqué-necesito-saber-esto">¿Porqué necesito saber esto?</a></li>
+  <li><a href="#qué-esperar-de-esta-guía" id="toc-qué-esperar-de-esta-guía" class="nav-link" data-scroll-target="#qué-esperar-de-esta-guía">¿Qué esperar de esta guía?</a>
+  <ul class="collapse">
+  <li><a href="#requisitos" id="toc-requisitos" class="nav-link" data-scroll-target="#requisitos">Requisitos:</a></li>
+  <li><a href="#recomendaciones-del-servidor" id="toc-recomendaciones-del-servidor" class="nav-link" data-scroll-target="#recomendaciones-del-servidor">Recomendaciones del servidor:</a></li>
+  </ul></li>
+  <li><a href="#pasos" id="toc-pasos" class="nav-link" data-scroll-target="#pasos">Pasos</a>
+  <ul class="collapse">
+  <li><a href="#instalando-r-en-el-servidor" id="toc-instalando-r-en-el-servidor" class="nav-link" data-scroll-target="#instalando-r-en-el-servidor">1- Instalando R en el servidor:</a></li>
+  <li><a href="#instalando-librerías-linux-comunes-para-r-en-el-servidor" id="toc-instalando-librerías-linux-comunes-para-r-en-el-servidor" class="nav-link" data-scroll-target="#instalando-librerías-linux-comunes-para-r-en-el-servidor">2- Instalando librerías linux comunes para R en el servidor</a></li>
+  <li><a href="#instalando-shiny-server" id="toc-instalando-shiny-server" class="nav-link" data-scroll-target="#instalando-shiny-server">3- Instalando shiny server</a></li>
+  <li><a href="#llevando-la-aplicación-al-servidor" id="toc-llevando-la-aplicación-al-servidor" class="nav-link" data-scroll-target="#llevando-la-aplicación-al-servidor">4- Llevando la aplicación al servidor</a></li>
+  <li><a href="#levantando-la-aplicación" id="toc-levantando-la-aplicación" class="nav-link" data-scroll-target="#levantando-la-aplicación">5- Levantando la aplicación</a>
+  <ul class="collapse">
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -402,7 +432,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2020,
+  author = {Ronny A. Hernandez Mora},
+  title = {Desplegando Mi App de Shiny Con Shiny-Server},
+  date = {2020-12-28},
+  url = {https://ronnyale.com//posts/2021-12-11-desplegando-shiny},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2020" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Ronny A. Hernandez Mora. 2020. <span>“Desplegando Mi App de Shiny Con
+Shiny-Server.”</span> December 28, 2020. <a href="https://ronnyale.com//posts/2021-12-11-desplegando-shiny">https://ronnyale.com//posts/2021-12-11-desplegando-shiny</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
