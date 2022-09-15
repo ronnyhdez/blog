@@ -11,7 +11,110 @@
 <description>Notes about my journey creating data science products
 </description>
 <generator>quarto-1.0.36</generator>
-<lastBuildDate>Tue, 13 Sep 2022 06:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 14 Sep 2022 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>Packages citation and zotero</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <dc:creator>Erick Calderon Morales</dc:creator>
+  <link>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="why" class="level1">
+<h1>Why?</h1>
+<p>When working on your research project, probably you will need to cite the R packages used in your data analysis. Also, probably you use Zotero as your reference manager, so, how can you manage the R packages references in Zotero?</p>
+<p>Well, here I will show you one <strong>manual</strong> way to do it.</p>
+</section>
+<section id="obtain-the-package-citation" class="level1">
+<h1>Obtain the package citation</h1>
+<p>This one is easy. You just use the function `citation(“dplyr”) and in your console will appear all the bibliographic info from that package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;">citation</span>(<span class="st" style="color: #20794D;">"dplyr"</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+To cite package 'dplyr' in publications use:
+
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.9,
+  &lt;https://CRAN.R-project.org/package=dplyr&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {dplyr: A Grammar of Data Manipulation},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2022},
+    note = {R package version 1.0.9},
+    url = {https://CRAN.R-project.org/package=dplyr},
+  }</code></pre>
+</div>
+</div>
+<p>Now, you need to pay attention on the section that says: <code>A BibTeX entry for LaTeX users is</code></p>
+</section>
+<section id="creating-the-bibtex-file" class="level1">
+<h1>Creating the BibTex file</h1>
+<p>From where the <code>@</code> starts, that’s what you need. So, copy (be aware of selecting the last <code>}</code> line) and paste it in a text file. This can be your <code>Text Editor</code> in ubuntu, Notepad, notes or even a Text File in your RStudio.</p>
+<p>You can copy and paste as many references you need. It can look something like this:</p>
+<pre><code>@Article{,
+  title = {{weathercan}: {D}ownload and format weather data from Environment and Climate Change Canada},
+  author = {Stefanie E LaZerte and Sam Albers},
+  journal = {The Journal of Open Source Software},
+  volume = {3},
+  number = {22},
+  pages = {571},
+  year = {2018},
+  url = {https://joss.theoj.org/papers/10.21105/joss.00571},
+}
+
+@Manual{,
+ title = {R: A Language and Environment for Statistical Computing},
+ author = {{R Core Team}},
+ organization = {R Foundation for Statistical Computing},
+ address = {Vienna, Austria},
+ year = {2021},
+ url = {https://www.R-project.org/},
+}
+
+@Manual{,
+  title = {dplyr: A Grammar of Data Manipulation},
+  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+  year = {2022},
+  note = {R package version 1.0.9},
+  url = {https://CRAN.R-project.org/package=dplyr},
+}</code></pre>
+<p>Save it with the extention <code>.bib</code>:</p>
+<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/save_bib.png" class="img-fluid"></p>
+</section>
+<section id="importing-the-file-in-zotero" class="level1">
+<h1>Importing the file in Zotero</h1>
+<p>Open Zotero and look for the option <code>import</code>. It will open a window.</p>
+<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero.png" class="img-fluid"></p>
+<p>Select the option <code>(BibTex, RIS, Zotero RDF, etc.)</code> and from there, look the file in the path you saved. Open the file and a new window will pop up. The options to select there are up to you:</p>
+<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero_2.png" class="img-fluid"></p>
+<p>Finally, you will see that you have the references imported to Zotero!</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2022,
+  author = {Ronny A. Hernandez Mora and Erick Calderon Morales},
+  title = {Packages Citation and Zotero},
+  date = {2022-09-14},
+  url = {https://ronnyale.com//posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2022" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora, and Erick Calderon Morales. 2022.
+<span>“Packages Citation and Zotero.”</span> September 14, 2022. <a href="https://ronnyale.com//posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html">https://ronnyale.com//posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</a>.
+</div></div></section></div> ]]></description>
+  <category>R packages</category>
+  <category>Zotero</category>
+  <guid>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</guid>
+  <pubDate>Wed, 14 Sep 2022 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/study.png" medium="image" type="image/png" height="165" width="144"/>
+</item>
 <item>
   <title>Using Neovim for R Users</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
