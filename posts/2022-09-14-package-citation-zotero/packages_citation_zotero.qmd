@@ -1,0 +1,95 @@
+---
+title: "Packages citation and zotero"
+description: |
+   A manual way to create the BibTex citations and export it to Zotero 
+author:
+  - name: "Erick Calderon Morales"
+    url: "https://github.com/ecamo19"
+date: 2022-09-14
+categories: [R packages, Zotero]
+licence: "CC BY-NC"
+image: images/study.png
+---
+
+# Why?
+
+When working on your research project, probably you will need to cite the
+R packages used in your data analysis. Also, probably you use Zotero as your
+reference manager, so, how can you manage the R packages references in Zotero?
+
+Well, here I will show you one **manual** way to do it.
+
+
+# Obtain the package citation
+
+This one is easy. You just use the function `citation("dplyr") and in your
+console will appear all the bibliographic info from that package.
+
+```{r}
+citation("dplyr")
+```
+
+Now, you need to pay attention on the section that says: `A BibTeX entry for LaTeX users is`
+
+# Creating the BibTex file
+
+From where the `@` starts, that's what you need. So, copy  (be aware
+of selecting the last `}` line) and paste it in a text file. This can be your
+`Text Editor` in ubuntu, Notepad, notes or even a Text File in your RStudio.
+
+You can copy and paste as many references you need. It can look something like
+this:
+
+```
+@Article{,
+  title = {{weathercan}: {D}ownload and format weather data from Environment and Climate Change Canada},
+  author = {Stefanie E LaZerte and Sam Albers},
+  journal = {The Journal of Open Source Software},
+  volume = {3},
+  number = {22},
+  pages = {571},
+  year = {2018},
+  url = {https://joss.theoj.org/papers/10.21105/joss.00571},
+}
+
+@Manual{,
+ title = {R: A Language and Environment for Statistical Computing},
+ author = {{R Core Team}},
+ organization = {R Foundation for Statistical Computing},
+ address = {Vienna, Austria},
+ year = {2021},
+ url = {https://www.R-project.org/},
+}
+
+@Manual{,
+  title = {dplyr: A Grammar of Data Manipulation},
+  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+  year = {2022},
+  note = {R package version 1.0.9},
+  url = {https://CRAN.R-project.org/package=dplyr},
+}
+```
+
+Save it with the extention `.bib`:
+
+![](images/save_bib.png)
+
+# Importing the file in Zotero
+
+Open Zotero and look for the option `import`. It will open a window.
+
+![](images/import_zotero.png)
+
+
+Select the option `(BibTex, RIS, Zotero RDF, etc.)` and from there, look the
+file in the path you saved. Open the file and a new window will pop up. The
+options to select there are up to you:
+
+![](images/import_zotero_2.png)
+
+Finally, you will see that you have the references imported to Zotero!
+
+
+
+
+
