@@ -87,6 +87,10 @@ Use of packer:
 ## Edit files
 
 `:%s/word_in_file/word_to_insert` Substitute all matches
+ 
+`:set spell` will set the grammar check in the document
+
+`z=` will open the options to correct a word.
 
 
 
