@@ -11,7 +11,58 @@
 <description>Notes about my journey creating data science products
 </description>
 <generator>quarto-1.2.258</generator>
-<lastBuildDate>Mon, 27 Feb 2023 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 09 May 2023 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>A workflow for taking notes</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/2023-03-30-new-workflow-drawer/new_worflow_drawer.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="the-story-behind-my-note-taking-workflow" class="level1">
+<h1>The story behind my note taking workflow</h1>
+<p>One of the advices out there to learn anything is to take notes. When it comes to learning coding and dev tools, it can be a little bit complicated given that we may need to document code, run small examples and obtain the output to make sense of our notes and explanaitons on why something works or not. During my career as a data professional, I found myself taking notes on anything that I easily have access: a piece of paper on my desk, a <code>.txt</code> file that I just opened, a wiki in some repositories, documenting on issues, on my notebook etc. Suddenly, when a problem comes again during my journey, I got the feeling of “uhmm, I solved this some time ago and I think I took notes. Where are they?” And at that point, I was spending more time trying to find out where those specific notes were, instead of solving the problem (again, as if it were something new)</p>
+<p>Because of this, I tried to organized myself better, but it wasn’t after several iterations that I found a way that nowadays I feel comfortable with. I started with forcing myself to just take notes on <code>.txt</code> files and classifyng them in folders with specific titles according to the type of problem/issue/topic. It was fine: easy access, simple notes that I could take from the terminal or a text editor that wasn’t overcrowded with seven thousand bottoms with options and also with a black background.</p>
+<p>But at some point, I had many notes and it was kind of hard to keep track of topics, code, solutions etc. I was lost again on my own notes when I needed to retrieve information that my brain remembered vaguely. Some topics were too similar, sometimes I had notes where it didn’t correspond and I was loosing time trying to find something that I annotated in the past.</p>
+<p>I needed a new solution. But at this point I knew already a couple of things that I wanted:</p>
+<ul>
+<li>simple plain text.</li>
+<li>Easy to open</li>
+<li>With something to make a search easy and effective.</li>
+</ul>
+<p>You can be asking yourself why not to use just something like obsidian, goodnotes, evernote, etc. Well, my biggest fear with external applications is that I loose control over my own notes. I need to feel that the notes I take belog to me and also I can have my own git repository to keep track of changes and a backup of the history of those changes.</p>
+<p>Now, most of my notes contained code and sometimes I wanted to include screenshots. Well, I was already using Rmarkdown for other projects, and this could be one solution. Also, I already had this blog but the notes that I include here are more elaborated than my raw notes, those that I usually take on a piece of paper and put them on my desk drawer. On my search of something that could help me with this, a talk by Frans on DataLatam about MkDocs and Python gave me the idea to take this as a system to manage my notes. What called my attention was that the documents can be written in <code>markdown</code>, published as a web page and there you will have a search bar that can go through all the notes! With this in mind, I decided to create a couple of functions in R that allowed me to create <code>.Rmd</code> files with notes and transform them to <code>.md</code> files that were going to be published with GitHub pages. I put those functions inside an R package that I called <a href="https://github.com/ronnyhdez/docmaker">Dockmaker</a> Suddenly, more ideas came to my mind. Also, I started using other tools like nvim (and the plugin for R nvim-r), quarto and I needed to update my workflow. With some work on my tools settings I was able to create a set of few steps that allows me to quickly open a new file, write my notes and publish them to my webpage of raw notes called <a href="https://ronnyhdez.github.io/drawer/">drawer</a>. When I need to retrieve quickly some information from my notes, I have indices and a search bar.</p>
+</section>
+<section id="the-workflow" class="level1">
+<h1>The workflow</h1>
+<p>So, how do I take notes nowadays? Well, basically I have a repository where I keep all my notes, and some <code>bash aliases</code> as a shortcut to start a new document. This are the steps I follow: - I need to write something so in my terminal I write <code>dw</code>. Short for “document write”, that executes the following bash command: <code>cd Documents/repos/github/drawer; nvim new_file.md</code> - I have an nvim session open. I start writting my notes with markdown formatting. - I’m done, have had to learn R, GCP, Linux</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2023,
+  author = {Ronny A. Hernandez Mora},
+  title = {A Workflow for Taking Notes},
+  date = {2023-05-09},
+  url = {https://ronnyale.com//new_worflow_drawer.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2023" class="csl-entry quarto-appendix-citeas">
+Ronny A. Hernandez Mora. 2023. <span>“A Workflow for Taking
+Notes.”</span> May 9, 2023. <a href="https://ronnyale.com//new_worflow_drawer.html">https://ronnyale.com//new_worflow_drawer.html</a>.
+</div></div></section></div> ]]></description>
+  <category>Neovim</category>
+  <category>Linux</category>
+  <category>markdown</category>
+  <category>quarto</category>
+  <category>rmarkdown</category>
+  <category>docmaker</category>
+  <guid>https://ronnyale.com/posts/2023-03-30-new-workflow-drawer/new_worflow_drawer.html</guid>
+  <pubDate>Tue, 09 May 2023 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2023-03-30-new-workflow-drawer/images/notes.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>Using R with Neovim</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>

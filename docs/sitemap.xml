@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</loc>
-    <lastmod>2023-03-30T17:31:20.946Z</lastmod>
+    <lastmod>2023-03-30T17:46:17.287Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</loc>
-    <lastmod>2023-03-30T17:31:21.470Z</lastmod>
+    <lastmod>2023-03-30T17:46:17.779Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:22.122Z</lastmod>
+    <lastmod>2023-03-30T17:46:18.455Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</loc>
-    <lastmod>2023-03-30T17:31:22.750Z</lastmod>
+    <lastmod>2023-03-30T17:46:19.063Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:23.498Z</lastmod>
+    <lastmod>2023-03-30T17:46:19.835Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</loc>
-    <lastmod>2023-03-30T17:31:23.954Z</lastmod>
+    <lastmod>2023-03-30T17:46:20.271Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</loc>
-    <lastmod>2023-03-30T17:31:24.622Z</lastmod>
+    <lastmod>2023-03-30T17:46:20.931Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:25.002Z</lastmod>
+    <lastmod>2023-03-30T17:46:21.295Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</loc>
-    <lastmod>2023-03-30T17:31:25.662Z</lastmod>
+    <lastmod>2023-03-30T17:46:21.919Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</loc>
-    <lastmod>2023-03-30T17:31:26.214Z</lastmod>
+    <lastmod>2023-03-30T17:46:22.471Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2023-03-30-new-workflow-drawer/new_worflow_drawer.html</loc>
+    <lastmod>2023-03-30T17:46:22.871Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/index.html</loc>
-    <lastmod>2023-03-30T17:31:26.626Z</lastmod>
+    <lastmod>2023-03-30T17:46:23.291Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/about.html</loc>
-    <lastmod>2023-03-30T17:31:26.874Z</lastmod>
+    <lastmod>2023-03-30T17:46:23.559Z</lastmod>
   </url>
 </urlset>
