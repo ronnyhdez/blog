@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Ronny A. Hernandez Mora"
+  title: "Ronny A. Hernández Mora"
   site-url: https://ronnyale.com/
   repo-url: https://github.com/ronnyhdez/blog/
   open-graph: true
