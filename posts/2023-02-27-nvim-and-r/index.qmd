@@ -6,7 +6,7 @@ description: |
 date: 2023-02-27
 categories: [Neovim, Linux, R]
 licence: "CC BY-NC"
-image: images/nvim_r.png
+image: images/computer.jpg
 ---
 
 # Blogpost structure
