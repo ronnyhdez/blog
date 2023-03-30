@@ -1,5 +1,6 @@
 ---
 title: "About this blog"
+image: profile.jpg
 about:
   template: jolla
   links:
@@ -16,10 +17,10 @@ about:
 
 # A place to find notes about my journey creating data science products
 
-Hi! I'm Ronny A. Hernández Mora. I have been working in the data science industry
-for several years and I have learned from many people who create free resources
-over the internet and that also are my friends and co-workers. So I decided to
-be more serious about sharing tricks and tips about R, linux, git and other tools
-that I use to develop data products.
+Hi! I'm [Ronny A. Hernández Mora](https://ronnyale.com/). I have been working in
+the data science industry for several years and I have learned from many people
+who create free resources over the internet and that also are my friends and 
+co-workers. So I decided to be more serious about sharing tricks and tips about 
+R, linux, git and other tools that I use to create data products.
 
 Feel free to use and share whatever you find useful in the blog posts! 

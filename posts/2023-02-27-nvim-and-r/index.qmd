@@ -1,0 +1,100 @@
+---
+title: "Using R with Neovim"
+description: |
+   Notes on how to configure Neovim to use it as an IDE for R plus the most used
+   commands and functionalities
+date: 2023-02-27
+categories: [Neovim, Linux, R]
+licence: "CC BY-NC"
+image: images/nvim_r.png
+---
+
+# Blogpost structure
+        
+ - Why?
+ - Installation and configuration
+        - allacrity
+        - plugins
+ - Workflow
+        - most used commands (that I have so far)
+        - Integration with quarto
+ - User case: take fast notes and deploy fast
+        - This is with the packages that I have to use mkdocs
+        - Altough if it gets too long, it would be another blogpost
+        
+
+# Why
+
+If you like a plain terminal, with no buttons or options that can crowd your
+screen, plus you have an interest on being fast while typing, these tools can
+help you.
+
+# Installation and configuration
+
+Use of packer:
+
+(put diagram of files and notes about their functioning)
+
+# Workflow
+
+## Movements
+
+`ctrl + w + l` Jump to left panel
+
+`ctrl + w + h` Jump to right panel
+
+`gg` Move to of file
+
+`G` Move bottom of file
+
+`function + Shift + up or down` Take to the upper or lower page section
+
+## R specific commands
+
+`\rf` Connect to R Console
+
+`\rq` Quit R Console
+
+`\d`  Run current line and move to the next line
+
+`\l` Run current line, but cursor will stay on the same line.
+
+`\pp` Run paragraph. But cursor will stay on the same block.
+
+`\pd` Runs block and move to the next one
+
+`\ss` Execute a block of **selected code**. This has to be done with visual mode
+
+`\aa` Run entire script
+
+`\ro` Open the "Global Environment"
+
+`\r=` Expand all
+
+`\r-` Collapse all
+
+`\qp` Render preview .qmd (If I save the doc, it will re-render the site)
+
+`\gn` Next chunk
+
+`\gN` Previous chunk
+
+`\ch` Run all previous chunks to here
+
+`\cc` Run current chunk
+
+
+## Edit files
+
+`:%s/word_in_file/word_to_insert` Substitute all matches
+ 
+`:set spell` will set the grammar check in the document
+
+`z=` will open the options to correct a word.
+
+
+
+
+
+
+
