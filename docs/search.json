@@ -254,30 +254,86 @@
   {
     "objectID": "posts/2023-02-27-nvim-and-r/index.html",
     "href": "posts/2023-02-27-nvim-and-r/index.html",
-    "title": "Using R with Neovim",
+    "title": "Workflow to use R with Neovim",
     "section": "",
-    "text": "Why?\nInstallation and configuration - allacrity - plugins\nWorkflow - most used commands (that I have so far) - Integration with quarto\nUser case: take fast notes and deploy fast - This is with the packages that I have to use mkdocs - Altough if it gets too long, it would be another blogpost"
+    "text": "If you like a plain terminal, with no buttons or options that can crowd your screen, plus you have an interest on being fast while typing, these tools can help you."
   },
   {
     "objectID": "posts/2023-02-27-nvim-and-r/index.html#movements",
     "href": "posts/2023-02-27-nvim-and-r/index.html#movements",
-    "title": "Using R with Neovim",
+    "title": "Workflow to use R with Neovim",
     "section": "Movements",
-    "text": "Movements\nctrl + w + l Jump to left panel\nctrl + w + h Jump to right panel\ngg Move to of file\nG Move bottom of file\nfunction + Shift + up or down Take to the upper or lower page section"
+    "text": "Movements\nctrl + w + l Jump to left panel\nctrl + w + h Jump to right panel\ngg Move to of file\nG Move bottom of file\nfunction + Shift + up or down Take to the upper or lower page section\n{ Go one paragraph up\n} Go one paragraph down"
   },
   {
     "objectID": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
     "href": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
-    "title": "Using R with Neovim",
+    "title": "Workflow to use R with Neovim",
     "section": "R specific commands",
-    "text": "R specific commands\n\\rf Connect to R Console\n\\rq Quit R Console\n\\d Run current line and move to the next line\n\\l Run current line, but cursor will stay on the same line.\n\\pp Run paragraph. But cursor will stay on the same block.\n\\pd Runs block and move to the next one\n\\ss Execute a block of selected code. This has to be done with visual mode\n\\aa Run entire script\n\\ro Open the “Global Environment”\n\\r= Expand all\n\\r- Collapse all\n\\qp Render preview .qmd (If I save the doc, it will re-render the site)\n\\gn Next chunk\n\\gN Previous chunk\n\\ch Run all previous chunks to here\n\\cc Run current chunk"
+    "text": "R specific commands\n\\rf Connect to R Console\n\\rq Quit R Console\n\\d Run current line and move to the next line\n\\l Run current line, but cursor will stay on the same line.\n\\pp Run paragraph. But cursor will stay on the same block.\n\\pd Runs block and move to the next one\n\\ss Execute a block of selected code. This has to be done with visual mode\n\\aa Run entire script\n\\ro Open the “Global Environment”\n\\r= Expand all\n\\r- Collapse all\n\\qp Render preview .qmd (If I save the doc, it will re-render the site)\n\\gn Next chunk\n\\gN Previous chunk\n\\ch Run all previous chunks to here\n\\cc Run current chunk\nspace bar Run one line of code (You need to create this keybinding)"
   },
   {
     "objectID": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
     "href": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
-    "title": "Using R with Neovim",
+    "title": "Workflow to use R with Neovim",
     "section": "Edit files",
     "text": "Edit files\n:%s/word_in_file/word_to_insert Substitute all matches\n:set spell will set the grammar check in the document\nz= will open the options to correct a word."
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "",
+    "text": "In this blogpost, I will guide you through the process of installing Neovim on Ubuntu 22.04, configuring it with Lua, and using Packer as a plugin manager. Our goal is to create an optimized setup that allows for smooth R programming from the terminal.\nIf you have previously read my blogposts, you might be familiar with the configuration using vim-plug for managing plugins. However, in this blogpost, we will take a different approach by utilizing Lua for our Neovim configuration and Packer for plugin management. Lua provides a more organized and flexible way to configure Neovim, while Packer simplifies the installation and management of plugins.\nLet’s get started with the installation and configuration process. If you are familiar with some of the steps, feel free to jump ahead to the specific sections you need.\nBy the end of this tutorial, you will have a customized Neovim setup that enhances your R programming experience and boosts your productivity.\nOur results will be something similar to:\n\nOn next blogposts, I will describe how to take this further."
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#files-structure",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#files-structure",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Files structure",
+    "text": "Files structure\nWe aim to have the following configuration files structure:\nIn the directory ~/.config/nvim, we should have:\n | - init.lua (Entry point for nvim)\n |\n | - lua/\n    | - plugins.lua (For our packer plugins installations)\n    | - settings.lua (Our general nvim configuration)\n |\n | - plugin/\n    | - plugin_a.lua (Configurations for a determined plugin)\n    | - plugin_b.lua (Configurations for a determined plugin)\n    | - packer_compiled.lua (File generated automatically by Packer)\nThis is not mandatory, but is one of the configurations that I find really nice to organize everything being specific on the aim of the instructions."
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#installing-neovim",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#installing-neovim",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Installing Neovim",
+    "text": "Installing Neovim\n\nOpen your terminal\nRun the following command:\n\n\nsudo apt install neovim"
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#configuring-our-nvim-with-lua",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#configuring-our-nvim-with-lua",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Configuring our nvim with lua",
+    "text": "Configuring our nvim with lua\n\nCreate the config directory for nvim:\n\n\nmkdir /home/user_name/.config/nvim\n\nRemember to replace user_name with your actual workstation user name.\n\nCreate the init.lua file:\n\n\n# Create file\nnvim init.lua\n\n\nAdd the following requirements:\n\n\n# Requirements\nrequire('plugins')\nrequire('settings')\n\nThese requirements reference the files that we are about to create: plugins.lua and settings.lua. Both files should be placed in the lua/ directory.\nThe init.lua file acts as the entry point for loading the settings and plugins. If you make changes to the plugins, such as adding a new one, you can revisit the init.lua file and invoke :PackerSync to synchronize the plugins. However, for now, you don’t need to worry about this step."
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#configure-the-general-settings-for-lua",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#configure-the-general-settings-for-lua",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Configure the general settings for lua",
+    "text": "Configure the general settings for lua\nAfter creating our init.lua file, it’s time to establish configurations that align the nvim editor with our preferred style.\nTo organize these settings effectively, we will utilize the lua/settings.lua file. Here, we can include all of our general settings.\nConsider the following basic configuration options:\n\nvim.opt.number = true\nvim.opt.relativenumber = true\nvim.opt.ignorecase = true\nvim.opt.smartcase = true\nvim.opt.breakindent = true\nvim.opt.tabstop = 4\nvim.opt.shiftwidth = 4\nvim.opt.colorcolumn = \"80\""
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#installing-packer",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#installing-packer",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Installing packer",
+    "text": "Installing packer\nTo install Packer, a plugin manager for Neovim, follow these steps:\n\nOpen the lua/plugins.lua file.\nCopy and paste the following code into the file. This code checks if Packer is already installed and, if not, it installs it automatically when you start Neovim.\n\n\n local ensure_packer = function()\n  local fn = vim.fn\n  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'\n  if fn.empty(fn.glob(install_path)) > 0 then\n    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})\n    vim.cmd [[packadd packer.nvim]]\n    return true\n  end\n  return false\nend\n\nlocal packer_bootstrap = ensure_packer()\n\nWith these code snippets in place, whenever you start Neovim, it will automatically check if Packer is installed. If it’s not found, it will be cloned from the official repository and set up for use."
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#installing-plugins",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#installing-plugins",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Installing plugins",
+    "text": "Installing plugins\nNow you can proceed with adding the desired plugins to the lua/plugins.lua file. Here we are going to add a couple, with special attention to Nvim-R\n\n return require('packer').startup(function()\n        -- packer can manage itself\n        use 'wbthomason/packer.nvim'\n\n        -- colorscheme\n        use 'gruvbox-community/gruvbvox'\n        \n        -- nvim-r\n        use 'jalvesaq/Nvim-R'\n\nend)\n\nSo, after this step, we can go back to our init.lua file and check if everything is correct.\n\n:PackerSync\n\nIt should install and update all of our plugins"
+  },
+  {
+    "objectID": "posts/2023-06-17-nvim_lua_packer/index.html#configure-settings-for-nvim-r",
+    "href": "posts/2023-06-17-nvim_lua_packer/index.html#configure-settings-for-nvim-r",
+    "title": "Configuring nvim with Lua and packer for R",
+    "section": "Configure settings for Nvim-R",
+    "text": "Configure settings for Nvim-R\nFor this, we need to create a file with the name of the plugin. We are going to configure a couple of settings for our nvim-r plugin.\nIn the plugin/ folder, create a new file called nvimr.lua.\nInside this file, we are going to setup some options to facilitate the work with .rmd or .qmd files. Also, I like to run the lines of code pressing the space bar, so we are going to configure that too.\nIn the file you just created nvimr.lua, write the following:\n\n   vim.cmd([[                                                                      \n  1   let g:rmarkdown_fenced_languages = ['r', 'python']                            \n  2   let g:rmd_fenced_languages = ['r', 'python']                                  \n  3                                                                                 \n  4   if has(\"gui_running\")                                                         \n  5       inoremap <C-Space> <C-x><C-o>                                             \n  6   else                                                                          \n  7       inoremap <Nul> <C-x><C-o>                                                 \n  8   endif                                                                         \n  9   vmap <Space> <Plug>RDSendSelection                                            \n 10   nmap <Space> <Plug>RDSendLine                                                 \n 11 ]])                                                                             \n 12                                                                                 \n 13 --R filetypes                                                                   \n 14 vim.cmd([[                                                                      \n 15 autocmd BufNewFile,BufRead *.Rmd set ft=rmd                                     \n 16 autocmd BufNewFile,BufRead *.rmd set ft=rmd                                     \n 17 autocmd BufNewFile,BufRead *.qmd set ft=rmd                                     \n 18 ]])"
   },
   {
     "objectID": "posts/2021-12-11-desplegando-shiny/index.html",
@@ -347,7 +403,7 @@
     "href": "index.html",
     "title": "R, Linux and other stuff",
     "section": "",
-    "text": "Using R with Neovim\n\n\n\nNeovim\n\n\nLinux\n\n\nR\n\n\n\nNotes on how to configure Neovim to use it as an IDE for R plus the most used commands and functionalities\n\n\n\nRonny A. Hernandez Mora\n\n\nFeb 27, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPackages citation and zotero\n\n\n\nR packages\n\n\nZotero\n\n\n\nA manual way to create the BibTex citations and export it to Zotero\n\n\n\nRonny A. Hernandez Mora, Erick Calderon Morales\n\n\nSep 14, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsing Neovim for R Users\n\n\n\nNeovim\n\n\nLinux\n\n\n\nAre you an R User who wants to try nvim?\n\n\n\nRonny A. Hernandez Mora\n\n\nSep 13, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCreating a website using mkdocs, Rmarkdown and GitHub pages\n\n\n\nMkDocs\n\n\nLinux\n\n\n\nA posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.\n\n\n\nRonny A. Hernandez Mora\n\n\nJan 13, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsando tmux: apuntes breves de mi jornada\n\n\n\ntmux\n\n\nLinux\n\n\n\nBreves notas sobre el uso de tmux. Adecuado para mirar de manera rápida alguna instrucción que necesitemos para continuar con nuestro flujo de trabajo.\n\n\n\nRonny A. Hernandez Mora\n\n\nJan 3, 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesplegando mi app de shiny con shiny-server\n\n\n\nShiny\n\n\nLinux\n\n\n\nVamos a “llevar a internet” nuestra aplicación y hacerla accesible al mundo.\n\n\n\nRonny A. Hernandez Mora\n\n\nDec 28, 2020\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTiempo en R\n\n\n\nBase R\n\n\n\nTrabajar con fechas y tiempo en R es un poco complicado. En este post trato de explicar cómo trabajar con este tipo de datos y base R\n\n\n\nRonny A. Hernandez Mora\n\n\nMar 14, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntro a datos y estructuras en R\n\n\n\nBase R\n\n\n\nUna breve intro a estructuras en R.\n\n\n\nRonny A. Hernandez Mora\n\n\nFeb 1, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDatos abiertos municipalidad de San José, Costa Rica\n\n\nUna introducción al uso del API de datos abiertos de la muni de San José\n\n\n\nRonny A. Hernandez Mora, Erick Calderon Morales\n\n\nJan 13, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOtra introducción a git\n\n\n\ngit\n\n\n\nUna introducción al control de versiones con git (otra más).\n\n\n\nRonny A. Hernandez Mora\n\n\nApr 20, 2016\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Configuring nvim with Lua and packer for R\n\n\n\nNeovim\n\n\nLinux\n\n\nR\n\n\nLua\n\n\npacker\n\n\n\nA blogpost on how to configure nvim with Lua to work with R.\n\n\n\nRonny A. Hernandez Mora\n\n\nJun 18, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWorkflow to use R with Neovim\n\n\n\nNeovim\n\n\nLinux\n\n\nR\n\n\n\nNotes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.\n\n\n\nRonny A. Hernandez Mora\n\n\nFeb 27, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPackages citation and zotero\n\n\n\nR packages\n\n\nZotero\n\n\n\nA manual way to create the BibTex citations and export it to Zotero\n\n\n\nRonny A. Hernandez Mora, Erick Calderon Morales\n\n\nSep 14, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsing Neovim for R Users\n\n\n\nNeovim\n\n\nLinux\n\n\n\nAre you an R User who wants to try nvim?\n\n\n\nRonny A. Hernandez Mora\n\n\nSep 13, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCreating a website using mkdocs, Rmarkdown and GitHub pages\n\n\n\nMkDocs\n\n\nLinux\n\n\n\nA posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.\n\n\n\nRonny A. Hernandez Mora\n\n\nJan 13, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsando tmux: apuntes breves de mi jornada\n\n\n\ntmux\n\n\nLinux\n\n\n\nBreves notas sobre el uso de tmux. Adecuado para mirar de manera rápida alguna instrucción que necesitemos para continuar con nuestro flujo de trabajo.\n\n\n\nRonny A. Hernandez Mora\n\n\nJan 3, 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDesplegando mi app de shiny con shiny-server\n\n\n\nShiny\n\n\nLinux\n\n\n\nVamos a “llevar a internet” nuestra aplicación y hacerla accesible al mundo.\n\n\n\nRonny A. Hernandez Mora\n\n\nDec 28, 2020\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTiempo en R\n\n\n\nBase R\n\n\n\nTrabajar con fechas y tiempo en R es un poco complicado. En este post trato de explicar cómo trabajar con este tipo de datos y base R\n\n\n\nRonny A. Hernandez Mora\n\n\nMar 14, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIntro a datos y estructuras en R\n\n\n\nBase R\n\n\n\nUna breve intro a estructuras en R.\n\n\n\nRonny A. Hernandez Mora\n\n\nFeb 1, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDatos abiertos municipalidad de San José, Costa Rica\n\n\nUna introducción al uso del API de datos abiertos de la muni de San José\n\n\n\nRonny A. Hernandez Mora, Erick Calderon Morales\n\n\nJan 13, 2018\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOtra introducción a git\n\n\n\ngit\n\n\n\nUna introducción al control de versiones con git (otra más).\n\n\n\nRonny A. Hernandez Mora\n\n\nApr 20, 2016\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",

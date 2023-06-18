@@ -1,0 +1,226 @@
+---
+title: "Configuring nvim with Lua and packer for R"
+description: |
+   A blogpost on how to configure nvim with Lua to work with R.
+date: 2023-06-18
+categories: [Neovim, Linux, R, Lua, packer]
+licence: "CC BY-NC"
+image: images/keyboard.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+# What are we going to do?
+
+In this blogpost, I will guide you through the process of installing Neovim on 
+Ubuntu 22.04, configuring it with Lua, and using Packer as a plugin manager. Our
+goal is to create an optimized setup that allows for smooth R programming from 
+the terminal.
+
+If you have previously read my [blogposts](https://ronnyhdez.github.io/blog/posts/2022-09-11-using-nvim-for-r-users/), you might be familiar with the 
+configuration using [vim-plug](https://github.com/junegunn/vim-plug) for managing plugins.
+However, in this blogpost, we will take a different approach by utilizing Lua 
+for our Neovim configuration and Packer for plugin management. Lua provides a 
+more organized and flexible way to configure Neovim, while Packer simplifies the
+installation and management of plugins.
+
+Let's get started with the installation and configuration process. If you 
+are familiar with some of the steps, feel free to jump ahead to the specific 
+sections you need.
+
+By the end of this tutorial, you will have a customized Neovim setup that 
+enhances your R programming experience and boosts your productivity.
+
+Our results will be something similar to:
+
+![](images/final_result.png)
+
+On next blogposts, I will describe how to take this further.
+
+# Installation and configuration
+
+So, we need some software for this. Make sure that you have
+[git](https://git-scm.com/) installed on your workstation, and of course, R.
+
+## Files structure
+
+We aim to have the following configuration files structure:
+
+In the directory `~/.config/nvim`, we should have:
+
+```
+ | - init.lua (Entry point for nvim)
+ |
+ | - lua/
+ 	| - plugins.lua (For our packer plugins installations)
+ 	| - settings.lua (Our general nvim configuration)
+ |
+ | - plugin/
+ 	| - plugin_a.lua (Configurations for a determined plugin)
+ 	| - plugin_b.lua (Configurations for a determined plugin)
+ 	| - packer_compiled.lua (File generated automatically by Packer)
+```
+
+This is not mandatory, but is one of the configurations that I find really nice
+to organize everything being specific on the aim of the instructions.
+
+## Installing Neovim
+
+ 1. Open your terminal
+ 2. Run the following command:
+
+```{bash}
+sudo apt install neovim
+```
+
+## Configuring our nvim with lua
+
+ 1. Create the config directory for nvim:
+
+```{bash}
+mkdir /home/user_name/.config/nvim
+```
+
+Remember to replace `user_name` with your actual workstation user name.
+
+ 2. Create the `init.lua` file:
+
+```{bash}
+# Create file
+nvim init.lua
+```
+
+ 3. Add the following requirements:
+
+```{bash}
+# Requirements
+require('plugins')
+require('settings')
+```
+
+These requirements reference the files that we are about to create: `plugins.lua`
+and `settings.lua`. Both files should be placed in the `lua/` directory.
+
+The `init.lua` file acts as the entry point for loading the settings and plugins.
+If you make changes to the plugins, such as adding a new one, you can revisit 
+the `init.lua` file and invoke `:PackerSync` to synchronize the plugins. However,
+for now, you don't need to worry about this step.
+
+## Configure the general settings for lua
+ 
+After creating our `init.lua` file, it's time to establish configurations that 
+align the nvim editor with our preferred style.
+
+To organize these settings effectively, we will utilize the `lua/settings.lua`
+file. Here, we can include all of our general settings.
+
+Consider the following basic configuration options:
+
+```{bash}
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.breakindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.colorcolumn = "80"
+```
+
+## Installing packer
+
+To install Packer, a plugin manager for Neovim, follow these steps:
+
+ 1. Open the lua/plugins.lua file.
+ 2. Copy and paste the following code into the file. This code checks if Packer
+ is already installed and, if not, it installs it automatically when you start
+ Neovim.
+
+```{bash}
+ local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+```
+
+With these code snippets in place, whenever you start Neovim, it will 
+automatically check if Packer is installed. If it's not found, it will be cloned
+from the official repository and set up for use.
+
+## Installing plugins
+
+Now you can proceed with adding the desired plugins to the `lua/plugins.lua`
+file. Here we are going to add a couple, with special attention to `Nvim-R`
+
+```{bash}
+ return require('packer').startup(function()
+        -- packer can manage itself
+        use 'wbthomason/packer.nvim'
+
+        -- colorscheme
+        use 'gruvbox-community/gruvbvox'
+        
+        -- nvim-r
+        use 'jalvesaq/Nvim-R'
+
+end)
+```
+ 
+So, after this step, we can go back to our `init.lua` file and check if 
+everything is correct.
+ 
+```{bash}
+:PackerSync
+```
+ 
+It should install and update all of our plugins
+ 
+## Configure settings for Nvim-R
+
+For this, we need to create a file with the name of the plugin. We are going to configure
+a couple of settings for our nvim-r plugin.
+
+In the `plugin/` folder, create a new file called `nvimr.lua`.
+
+Inside this file, we are going to setup some options to facilitate the work with
+ `.rmd` or `.qmd` files. Also, I like to run the lines of code pressing the space
+ bar, so we are going to configure that too.
+ 
+ In the file you just created `nvimr.lua`, write the following:
+ 
+```{bash}
+   vim.cmd([[                                                                      
+  1   let g:rmarkdown_fenced_languages = ['r', 'python']                            
+  2   let g:rmd_fenced_languages = ['r', 'python']                                  
+  3                                                                                 
+  4   if has("gui_running")                                                         
+  5       inoremap <C-Space> <C-x><C-o>                                             
+  6   else                                                                          
+  7       inoremap <Nul> <C-x><C-o>                                                 
+  8   endif                                                                         
+  9   vmap <Space> <Plug>RDSendSelection                                            
+ 10   nmap <Space> <Plug>RDSendLine                                                 
+ 11 ]])                                                                             
+ 12                                                                                 
+ 13 --R filetypes                                                                   
+ 14 vim.cmd([[                                                                      
+ 15 autocmd BufNewFile,BufRead *.Rmd set ft=rmd                                     
+ 16 autocmd BufNewFile,BufRead *.rmd set ft=rmd                                     
+ 17 autocmd BufNewFile,BufRead *.qmd set ft=rmd                                     
+ 18 ]]) 
+``` 
+
+
+
+
+
