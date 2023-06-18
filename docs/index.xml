@@ -33,7 +33,7 @@
 </section>
 <section id="installation-and-configuration" class="level1">
 <h1>Installation and configuration</h1>
-<p>So, we need some software for this. Make sure that you have <a href="https://git-scm.com/">git</a> installed on your workstation, and of course, R.</p>
+<p>So, we need some software for this. Make sure that you have <a href="https://git-scm.com/">git</a> installed on your workstation and of course, <a href="https://docs.rstudio.com/resources/install-r/">R</a>.</p>
 <section id="files-structure" class="level2">
 <h2 class="anchored" data-anchor-id="files-structure">Files structure</h2>
 <p>We aim to have the following configuration files structure:</p>
@@ -69,6 +69,12 @@
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;">mkdir</span> /home/user_name/.config/nvim</span></code></pre></div>
 </div>
 <p>Remember to replace <code>user_name</code> with your actual workstation user name.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/mkdir_nvim.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Creating nvim directory in <code>.config</code></figcaption><p></p>
+</figure>
+</div>
 <ol start="2" type="1">
 <li>Create the <code>init.lua</code> file:</li>
 </ol>
@@ -84,100 +90,215 @@
 <span id="cb5-2"><span class="ex" style="color: null;">require</span><span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'plugins'</span><span class="kw" style="color: #003B4F;">)</span></span>
 <span id="cb5-3"><span class="ex" style="color: null;">require</span><span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'settings'</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
 </div>
-<p>These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
 <p>The <code>init.lua</code> file acts as the entry point for loading the settings and plugins. If you make changes to the plugins, such as adding a new one, you can revisit the <code>init.lua</code> file and invoke <code>:PackerSync</code> to synchronize the plugins. However, for now, you don’t need to worry about this step.</p>
 </section>
-<section id="configure-the-general-settings-for-lua" class="level2">
-<h2 class="anchored" data-anchor-id="configure-the-general-settings-for-lua">Configure the general settings for lua</h2>
-<p>After creating our <code>init.lua</code> file, it’s time to establish configurations that align the nvim editor with our preferred style.</p>
-<p>To organize these settings effectively, we will utilize the <code>lua/settings.lua</code> file. Here, we can include all of our general settings.</p>
-<p>Consider the following basic configuration options:</p>
+<section id="configuring-general-settings-for-lua" class="level2">
+<h2 class="anchored" data-anchor-id="configuring-general-settings-for-lua">Configuring General Settings for Lua</h2>
+<p>After creating our <code>init.lua</code> file, it’s time to configure the general settings to customize the behavior of the nvim editor according to our preferred style.</p>
+<p>To organize these settings effectively, we will utilize the <code>lua/settings.lua</code> file. This file will serve as a central location for all our general settings.</p>
+<p>To set up the <code>lua/settings.lua</code> file, follow these steps:</p>
+<ol type="1">
+<li>Create the <code>lua/</code> directory inside the <code>nvim/</code> directory if it doesn’t already exist:</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;">vim.opt.number</span> = true</span>
-<span id="cb6-2"><span class="ex" style="color: null;">vim.opt.relativenumber</span> = true</span>
-<span id="cb6-3"><span class="ex" style="color: null;">vim.opt.ignorecase</span> = true</span>
-<span id="cb6-4"><span class="ex" style="color: null;">vim.opt.smartcase</span> = true</span>
-<span id="cb6-5"><span class="ex" style="color: null;">vim.opt.breakindent</span> = true</span>
-<span id="cb6-6"><span class="ex" style="color: null;">vim.opt.tabstop</span> = 4</span>
-<span id="cb6-7"><span class="ex" style="color: null;">vim.opt.shiftwidth</span> = 4</span>
-<span id="cb6-8"><span class="ex" style="color: null;">vim.opt.colorcolumn</span> = <span class="st" style="color: #20794D;">"80"</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;">mkdir</span> lua</span></code></pre></div>
 </div>
+<ol start="2" type="1">
+<li>Create the settings.lua file within the lua/ directory.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;">nvim</span> lua/settings.lua</span></code></pre></div>
+</div>
+<p>Make sure that the file name matches the one specified in your init.lua file’s requirements.</p>
+<p>When doing the step above, probably you will find an error:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/error.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Error message when modifyng the <code>settings.lua</code> file</figcaption><p></p>
+</figure>
+</div>
+<p>Since we are currently in the process of creating the required files, it’s normal to encounter an error when Neovim tries to locate the non-existent files. However, this is not a cause for concern for now.</p>
+<p>Consider adding the following basic configuration options to the <code>settings.lua</code> file:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;">vim.opt.number</span> = true</span>
+<span id="cb8-2"><span class="ex" style="color: null;">vim.opt.relativenumber</span> = true</span>
+<span id="cb8-3"><span class="ex" style="color: null;">vim.opt.ignorecase</span> = true</span>
+<span id="cb8-4"><span class="ex" style="color: null;">vim.opt.smartcase</span> = true</span>
+<span id="cb8-5"><span class="ex" style="color: null;">vim.opt.breakindent</span> = true</span>
+<span id="cb8-6"><span class="ex" style="color: null;">vim.opt.tabstop</span> = 4</span>
+<span id="cb8-7"><span class="ex" style="color: null;">vim.opt.shiftwidth</span> = 4</span>
+<span id="cb8-8"><span class="ex" style="color: null;">vim.opt.colorcolumn</span> = <span class="st" style="color: #20794D;">"80"</span></span></code></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/nvim_settings.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Settings for nvim in the file <code>settings.lua</code></figcaption><p></p>
+</figure>
+</div>
+<p>These configurations will enable line numbers, relative line numbers, case-insensitive searching, smart case sensitivity, indentation on line breaks, set the tab width to 4 spaces, set the indent width to 4 spaces, and display a color column at column 80.</p>
+<p>Feel free to adjust these settings according to your preferences.</p>
 </section>
 <section id="installing-packer" class="level2">
 <h2 class="anchored" data-anchor-id="installing-packer">Installing packer</h2>
 <p>To install Packer, a plugin manager for Neovim, follow these steps:</p>
 <ol type="1">
-<li>Open the lua/plugins.lua file.</li>
+<li>Create the <code>plugins.lua</code> file inside the <code>lua</code> folder</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;">nvim</span> lua/plugins.lua</span></code></pre></div>
+</div>
+<p>Again, you will find the same warning as above, but just hit enter.</p>
+<ol start="2" type="1">
 <li>Copy and paste the following code into the file. This code checks if Packer is already installed and, if not, it installs it automatically when you start Neovim.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"> <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">ensure_packer</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">function()</span></span>
-<span id="cb7-2">  <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">fn</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">vim</span>.fn</span>
-<span id="cb7-3">  <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">install_path</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">fn</span>.stdpath<span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'data'</span><span class="kw" style="color: #003B4F;">)</span><span class="ex" style="color: null;">..</span><span class="st" style="color: #20794D;">'/site/pack/packer/start/packer.nvim'</span></span>
-<span id="cb7-4">  <span class="cf" style="color: #003B4F;">if</span> <span class="ex" style="color: null;">fn.empty</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">fn.glob</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">install_path</span><span class="kw" style="color: #003B4F;">))</span> <span class="op" style="color: #5E5E5E;">&gt;</span> 0 <span class="cf" style="color: #003B4F;">then</span></span>
-<span id="cb7-5">    <span class="ex" style="color: null;">fn.system</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">{</span><span class="st" style="color: #20794D;">'git'</span><span class="ex" style="color: null;">,</span> <span class="st" style="color: #20794D;">'clone'</span>, <span class="st" style="color: #20794D;">'--depth'</span>, <span class="st" style="color: #20794D;">'1'</span>, <span class="st" style="color: #20794D;">'https://github.com/wbthomason/packer.nvim'</span>, install_path}<span class="kw" style="color: #003B4F;">)</span></span>
-<span id="cb7-6">    <span class="ex" style="color: null;">vim.cmd</span> [[packadd packer.nvim]]</span>
-<span id="cb7-7">    <span class="cf" style="color: #003B4F;">return</span> <span class="fu" style="color: #4758AB;">true</span></span>
-<span id="cb7-8">  <span class="ex" style="color: null;">end</span></span>
-<span id="cb7-9">  <span class="cf" style="color: #003B4F;">return</span> <span class="fu" style="color: #4758AB;">false</span></span>
-<span id="cb7-10"><span class="ex" style="color: null;">end</span></span>
-<span id="cb7-11"></span>
-<span id="cb7-12"><span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">packer_bootstrap</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">ensure_packer()</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"> <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">ensure_packer</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">function()</span></span>
+<span id="cb10-2">  <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">fn</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">vim</span>.fn</span>
+<span id="cb10-3">  <span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">install_path</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">fn</span>.stdpath<span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'data'</span><span class="kw" style="color: #003B4F;">)</span><span class="ex" style="color: null;">..</span><span class="st" style="color: #20794D;">'/site/pack/packer/start/packer.nvim'</span></span>
+<span id="cb10-4">  <span class="cf" style="color: #003B4F;">if</span> <span class="ex" style="color: null;">fn.empty</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">fn.glob</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">install_path</span><span class="kw" style="color: #003B4F;">))</span> <span class="op" style="color: #5E5E5E;">&gt;</span> 0 <span class="cf" style="color: #003B4F;">then</span></span>
+<span id="cb10-5">    <span class="ex" style="color: null;">fn.system</span><span class="er" style="color: #AD0000;">(</span><span class="ex" style="color: null;">{</span><span class="st" style="color: #20794D;">'git'</span><span class="ex" style="color: null;">,</span> <span class="st" style="color: #20794D;">'clone'</span>, <span class="st" style="color: #20794D;">'--depth'</span>, <span class="st" style="color: #20794D;">'1'</span>, <span class="st" style="color: #20794D;">'https://github.com/wbthomason/packer.nvim'</span>, install_path}<span class="kw" style="color: #003B4F;">)</span></span>
+<span id="cb10-6">    <span class="ex" style="color: null;">vim.cmd</span> [[packadd packer.nvim]]</span>
+<span id="cb10-7">    <span class="cf" style="color: #003B4F;">return</span> <span class="fu" style="color: #4758AB;">true</span></span>
+<span id="cb10-8">  <span class="ex" style="color: null;">end</span></span>
+<span id="cb10-9">  <span class="cf" style="color: #003B4F;">return</span> <span class="fu" style="color: #4758AB;">false</span></span>
+<span id="cb10-10"><span class="ex" style="color: null;">end</span></span>
+<span id="cb10-11"></span>
+<span id="cb10-12"><span class="bu" style="color: null;">local</span> <span class="va" style="color: #111111;">packer_bootstrap</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">ensure_packer()</span></span></code></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/packer.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Packer code snippet for installation</figcaption><p></p>
+</figure>
 </div>
 <p>With these code snippets in place, whenever you start Neovim, it will automatically check if Packer is installed. If it’s not found, it will be cloned from the official repository and set up for use.</p>
+<p>Don’t close the file yet! We are going to add a couple of things more in the next section.</p>
 </section>
 <section id="installing-plugins" class="level2">
 <h2 class="anchored" data-anchor-id="installing-plugins">Installing plugins</h2>
-<p>Now you can proceed with adding the desired plugins to the <code>lua/plugins.lua</code> file. Here we are going to add a couple, with special attention to <code>Nvim-R</code></p>
+<p>Now you can proceed with adding the desired plugins to the <code>lua/plugins.lua</code> file. Here we are going to add a couple, with special attention to <code>Nvim-R</code>.</p>
+<ol type="1">
+<li><p>Open the lua/plugins.lua file in your preferred text editor.</p></li>
+<li><p>Inside the require(‘packer’).startup(function() block, you can add the plugins you want to install. For example, let’s add two plugins: gruvbox for a colorscheme and Nvim-R for R integration. Modify your lua/plugins.lua file as follows:</p></li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"> <span class="cf" style="color: #003B4F;">return</span> <span class="ex" style="color: null;">require</span><span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'packer'</span><span class="kw" style="color: #003B4F;">)</span><span class="ex" style="color: null;">.startup</span><span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">function()</span></span>
-<span id="cb8-2">        <span class="ex" style="color: null;">--</span> packer can manage itself</span>
-<span id="cb8-3">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'wbthomason/packer.nvim'</span></span>
-<span id="cb8-4"></span>
-<span id="cb8-5">        <span class="ex" style="color: null;">--</span> colorscheme</span>
-<span id="cb8-6">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'gruvbox-community/gruvbvox'</span></span>
-<span id="cb8-7">        </span>
-<span id="cb8-8">        <span class="ex" style="color: null;">--</span> nvim-r</span>
-<span id="cb8-9">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'jalvesaq/Nvim-R'</span></span>
-<span id="cb8-10"></span>
-<span id="cb8-11"><span class="ex" style="color: null;">end</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="cf" style="color: #003B4F;">return</span> <span class="ex" style="color: null;">require</span><span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">'packer'</span><span class="kw" style="color: #003B4F;">)</span><span class="ex" style="color: null;">.startup</span><span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">function()</span></span>
+<span id="cb11-2">        <span class="ex" style="color: null;">--</span> packer can manage itself</span>
+<span id="cb11-3">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'wbthomason/packer.nvim'</span></span>
+<span id="cb11-4"></span>
+<span id="cb11-5">        <span class="ex" style="color: null;">--</span> colorscheme</span>
+<span id="cb11-6">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'gruvbox-community/gruvbox'</span></span>
+<span id="cb11-7">        </span>
+<span id="cb11-8">        <span class="ex" style="color: null;">--</span> nvim-r</span>
+<span id="cb11-9">        <span class="ex" style="color: null;">use</span> <span class="st" style="color: #20794D;">'jalvesaq/Nvim-R'</span></span>
+<span id="cb11-10"></span>
+<span id="cb11-11"><span class="ex" style="color: null;">end</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
 </div>
-<p>So, after this step, we can go back to our <code>init.lua</code> file and check if everything is correct.</p>
+<ol start="3" type="1">
+<li>Save the changes to your lua/plugins.lua file.</li>
+</ol>
+<p>After adding the plugins, you can go back to your <code>init.lua</code> file and check if everything is correct. To install and update all the plugins, run the following command inside Neovim:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;">:PackerSync</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><span class="ex" style="color: null;">:PackerSync</span></span></code></pre></div>
 </div>
-<p>It should install and update all of our plugins</p>
+<p>This will trigger the installation and updating of your plugins.</p>
+<p>Once the process is complete, you can quit Neovim by running <code>:q</code> in the Packer window and <code>:q</code> in the <code>init.lua</code> file.</p>
+<p>Now, your plugins should be successfully installed and ready to use in Neovim.</p>
 </section>
 <section id="configure-settings-for-nvim-r" class="level2">
 <h2 class="anchored" data-anchor-id="configure-settings-for-nvim-r">Configure settings for Nvim-R</h2>
-<p>For this, we need to create a file with the name of the plugin. We are going to configure a couple of settings for our nvim-r plugin.</p>
-<p>In the <code>plugin/</code> folder, create a new file called <code>nvimr.lua</code>.</p>
-<p>Inside this file, we are going to setup some options to facilitate the work with <code>.rmd</code> or <code>.qmd</code> files. Also, I like to run the lines of code pressing the space bar, so we are going to configure that too.</p>
-<p>In the file you just created <code>nvimr.lua</code>, write the following:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1">   <span class="ex" style="color: null;">vim.cmd</span><span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">[[</span>                                                                      </span>
-<span id="cb10-2">  1   let g:rmarkdown_fenced_languages <span class="er" style="color: #AD0000;">=</span> <span class="ex" style="color: null;">[</span><span class="st" style="color: #20794D;">'r'</span><span class="ex" style="color: null;">,</span> <span class="st" style="color: #20794D;">'python'</span>]                            </span>
-<span id="cb10-3">  <span class="ex" style="color: null;">2</span>   let g:rmd_fenced_languages = [<span class="st" style="color: #20794D;">'r'</span>, <span class="st" style="color: #20794D;">'python'</span>]                                  </span>
-<span id="cb10-4">  <span class="ex" style="color: null;">3</span>                                                                                 </span>
-<span id="cb10-5">  <span class="ex" style="color: null;">4</span>   if has<span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">"gui_running"</span><span class="kw" style="color: #003B4F;">)</span>                                                         </span>
-<span id="cb10-6">  <span class="ex" style="color: null;">5</span>       inoremap <span class="op" style="color: #5E5E5E;">&lt;</span>C-Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>C-x<span class="op" style="color: #5E5E5E;">&gt;&lt;</span>C-o<span class="op" style="color: #5E5E5E;">&gt;</span>                                             </span>
-<span id="cb10-7">  <span class="ex" style="color: null;">6</span>   else                                                                          </span>
-<span id="cb10-8">  <span class="ex" style="color: null;">7</span>       inoremap <span class="op" style="color: #5E5E5E;">&lt;</span>Nul<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>C-x<span class="op" style="color: #5E5E5E;">&gt;&lt;</span>C-o<span class="op" style="color: #5E5E5E;">&gt;</span>                                                 </span>
-<span id="cb10-9">  <span class="ex" style="color: null;">8</span>   endif                                                                         </span>
-<span id="cb10-10">  <span class="ex" style="color: null;">9</span>   vmap <span class="op" style="color: #5E5E5E;">&lt;</span>Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Plug<span class="op" style="color: #5E5E5E;">&gt;</span>RDSendSelection                                            </span>
-<span id="cb10-11"> <span class="ex" style="color: null;">10</span>   nmap <span class="op" style="color: #5E5E5E;">&lt;</span>Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Plug<span class="op" style="color: #5E5E5E;">&gt;</span>RDSendLine                                                 </span>
-<span id="cb10-12"> <span class="ex" style="color: null;">11</span> ]]<span class="kw" style="color: #003B4F;">)</span>                                                                             </span>
-<span id="cb10-13"> <span class="ex" style="color: null;">12</span>                                                                                 </span>
-<span id="cb10-14"> <span class="ex" style="color: null;">13</span> <span class="at" style="color: #657422;">--R</span> filetypes                                                                   </span>
-<span id="cb10-15"> <span class="ex" style="color: null;">14</span> vim.cmd<span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">[[</span>                                                                      </span>
-<span id="cb10-16"> 15 autocmd BufNewFile,BufRead <span class="er" style="color: #AD0000;">*.Rmd</span> <span class="bu" style="color: null;">set</span> ft=rmd                                     </span>
-<span id="cb10-17"> <span class="ex" style="color: null;">16</span> autocmd BufNewFile,BufRead <span class="pp" style="color: #AD0000;">*</span>.rmd set ft=rmd                                     </span>
-<span id="cb10-18"> <span class="ex" style="color: null;">17</span> autocmd BufNewFile,BufRead <span class="pp" style="color: #AD0000;">*</span>.qmd set ft=rmd                                     </span>
-<span id="cb10-19"> <span class="ex" style="color: null;">18</span> ]]<span class="kw" style="color: #003B4F;">)</span> </span></code></pre></div>
+<p>At this point you should have the following structure:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/tree.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">File structure for our settings</figcaption><p></p>
+</figure>
 </div>
-
-
+<p>For this, we need to create a file with the name of the plugin. We are going to configure a couple of settings for our nvim-r plugin.</p>
+<ol type="1">
+<li>Navigate to the <code>plugin/</code> folder in your Neovim configuration directory.</li>
+<li>Create a new file called <code>nvimr.lua</code> inside the <code>plugin/</code> folder.</li>
+<li>Open the <code>nvimr.lua</code> file and add the following configurations:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><span class="ex" style="color: null;">--</span> To use spacebar for running code</span>
+<span id="cb13-2"><span class="ex" style="color: null;">vim.cmd</span><span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">[[</span></span>
+<span id="cb13-3">  let g:markdown_fenced_languages = <span class="er" style="color: #AD0000;">['r',</span> <span class="st" style="color: #20794D;">'python'</span><span class="ex" style="color: null;">]</span></span>
+<span id="cb13-4">  <span class="bu" style="color: null;">let</span> <span class="va" style="color: #111111;">g</span><span class="op" style="color: #5E5E5E;">:</span><span class="va" style="color: #111111;">rmd_fenced_languages</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="op" style="color: #5E5E5E;">[</span><span class="st" style="color: #20794D;">'r'</span>, <span class="st" style="color: #20794D;">'python'</span><span class="op" style="color: #5E5E5E;">]</span></span>
+<span id="cb13-5"></span>
+<span id="cb13-6">  <span class="cf" style="color: #003B4F;">if</span> <span class="ex" style="color: null;">has</span><span class="er" style="color: #AD0000;">(</span><span class="st" style="color: #20794D;">"gui_running"</span><span class="kw" style="color: #003B4F;">)</span></span>
+<span id="cb13-7">      <span class="ex" style="color: null;">inoremap</span> <span class="op" style="color: #5E5E5E;">&lt;</span>C-Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>C-x<span class="op" style="color: #5E5E5E;">&gt;&lt;</span>C-o<span class="op" style="color: #5E5E5E;">&gt;</span></span>
+<span id="cb13-8">  <span class="cf" style="color: #003B4F;">else</span></span>
+<span id="cb13-9">      <span class="ex" style="color: null;">inoremap</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Nul<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>C-x<span class="op" style="color: #5E5E5E;">&gt;&lt;</span>C-o<span class="op" style="color: #5E5E5E;">&gt;</span></span>
+<span id="cb13-10">  <span class="ex" style="color: null;">endif</span></span>
+<span id="cb13-11">  <span class="ex" style="color: null;">vmap</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Plug<span class="op" style="color: #5E5E5E;">&gt;</span>RDSendSelection</span>
+<span id="cb13-12">  <span class="fu" style="color: #4758AB;">nmap</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Space<span class="op" style="color: #5E5E5E;">&gt;</span> <span class="op" style="color: #5E5E5E;">&lt;</span>Plug<span class="op" style="color: #5E5E5E;">&gt;</span>RDSendLine</span>
+<span id="cb13-13"><span class="ex" style="color: null;">]]</span><span class="kw" style="color: #003B4F;">)</span></span>
+<span id="cb13-14"></span>
+<span id="cb13-15"></span>
+<span id="cb13-16"><span class="ex" style="color: null;">--</span> R filetypes</span>
+<span id="cb13-17"><span class="ex" style="color: null;">vim.cmd</span><span class="er" style="color: #AD0000;">(</span><span class="kw" style="color: #003B4F;">[[</span></span>
+<span id="cb13-18">autocmd BufNewFile,BufRead <span class="pp" style="color: #AD0000;">*</span>.Rmd <span class="er" style="color: #AD0000;">set</span> <span class="va" style="color: #111111;">ft</span><span class="op" style="color: #5E5E5E;">=</span>rmd</span>
+<span id="cb13-19"><span class="ex" style="color: null;">autocmd</span> BufNewFile,BufRead <span class="pp" style="color: #AD0000;">*</span>.rmd set ft=rmd</span>
+<span id="cb13-20"><span class="ex" style="color: null;">autocmd</span> BufNewFile,BufRead <span class="pp" style="color: #AD0000;">*</span>.qmd set ft=rmd</span>
+<span id="cb13-21"><span class="ex" style="color: null;">]]</span><span class="kw" style="color: #003B4F;">)</span></span></code></pre></div>
+</div>
+<p>The above configurations will:</p>
+<ul>
+<li>Set the fenced code block languages to ‘r’ and ‘python’ for R Markdown and quarto files.</li>
+<li>Enable the space bar as a shortcut for running lines of code.</li>
+<li>Set the key mapping <code>&lt;Space&gt;</code> for visual mode to send the selected lines to the R terminal.</li>
+<li>Set the key mapping <code>&lt;Space&gt;</code> for normal mode to send the current line to the R terminal.</li>
+<li>Set the filetypes to <code>rmd</code> for <code>.Rmd</code>, <code>.rmd</code>, and <code>.qmd</code> files.</li>
+</ul>
+<p>Save the changes to the <code>nvimr.lua</code> file.</p>
+<p>With these settings in place, Nvim-R will be configured to enhance your workflow with .rmd and .qmd files, providing a convenient way to run R code within Neovim.</p>
 </section>
+</section>
+<section id="testing" class="level1">
+<h1>Testing</h1>
+<p>Now that we have everything installed, let’s test if we can work with R from our terminal using Neovim.</p>
+<ol type="1">
+<li>Create a test .rmd file on your desktop. You can use the following command:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><span class="ex" style="color: null;">nvim</span> test.rmd</span></code></pre></div>
+</div>
+<ol start="2" type="1">
+<li>In the test.rmd file, let’s start with a simple function. Add a similar function:</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/create_test.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Creating a <code>test.rmd</code> file</figcaption><p></p>
+</figure>
+</div>
+<ol start="3" type="1">
+<li>To open the R console, press <code>\rf</code>:</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/r_console.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Opening R console with nvim-r</figcaption><p></p>
+</figure>
+</div>
+<ol start="4" type="1">
+<li>Place your cursor in any line inside the chunk of the code and press the <code>spacebar</code> to send the line to the R console:</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/run_code.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Running the R code!</figcaption><p></p>
+</figure>
+</div>
+<p>With all these steps, you just tested the integration of R with nvim. You can now continue to explore and utilize the features provided by Nvim-R to enhance your R coding experience within Neovim.</p>
+</section>
+<section id="workflow" class="level1">
+<h1>Workflow</h1>
+<p>Now that we hace everything setup, is time to work with R from nvim. Check this other <a href="https://ronnyhdez.github.io/blog/posts/2023-02-27-nvim-and-r/">tutorial</a> with some of the most common and useful key bindings.</p>
+
+
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2023,
@@ -211,10 +332,23 @@ Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com//posts/2023
 
 <section id="why" class="level1">
 <h1>Why?</h1>
-<p>If you like a plain terminal, with no buttons or options that can crowd your screen, plus you have an interest on being fast while typing, these tools can help you.</p>
+<p>There are several reasons why using Neovim with Lua and Packer for working with R can be beneficial:</p>
+<ol type="1">
+<li><p><em>Lightweight and Customizable</em>: Neovim is a lightweight text editor that runs in the terminal, providing a clean and minimalistic interface. By configuring it with Lua, you have the flexibility to customize and personalize your editor to match your preferences and workflow.</p></li>
+<li><p><em>Efficient R Coding</em>: Neovim offers powerful features and key bindings specifically tailored for working with R, such as sending code to the R console, code navigation, code completion, and documentation lookup. These features help streamline your R coding workflow and enhance your productivity.</p></li>
+<li><p><em>Package Management with Packer</em>: Packer is a plugin manager for Neovim that simplifies the installation and management of plugins. With Packer, you can easily add, update, and remove plugins, allowing you to extend the functionality of Neovim and enhance your R coding experience.</p></li>
+<li><p><em>Terminal-based Environment</em>: Working in a terminal-based environment can be advantageous for R development. It allows you to focus on your code without distractions and provides a consistent experience across different platforms and systems.</p></li>
+</ol>
+<p>By following the <a href="https://ronnyhdez.github.io/blog/posts/2023-06-17-nvim_lua_packer/">tutorial here</a>, you can learn how to install and configure Neovim with Lua and Packer to set up an efficient and streamlined environment for working with R.</p>
+<p>Give it a try and see how this setup can enhance your R coding experience!</p>
 </section>
 <section id="workflow" class="level1">
 <h1>Workflow</h1>
+<ol type="1">
+<li>Open any R file with nvim</li>
+<li>Use the <code>\rf</code> command to open the R console</li>
+<li>Start modifying and running code with the <code>spacebar</code></li>
+</ol>
 <section id="movements" class="level2">
 <h2 class="anchored" data-anchor-id="movements">Movements</h2>
 <p><code>ctrl + w + l</code> Jump to left panel</p>
@@ -243,7 +377,7 @@ Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com//posts/2023
 <p><code>\gN</code> Previous chunk</p>
 <p><code>\ch</code> Run all previous chunks to here</p>
 <p><code>\cc</code> Run current chunk</p>
-<p><code>space bar</code> Run one line of code (You need to create this keybinding)</p>
+<p><code>space bar</code> Run one line of code (You need to create this key binding)</p>
 </section>
 <section id="edit-files" class="level2">
 <h2 class="anchored" data-anchor-id="edit-files">Edit files</h2>
