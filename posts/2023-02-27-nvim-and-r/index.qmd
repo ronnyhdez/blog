@@ -11,11 +11,37 @@ image: images/computer.jpg
 
 # Why?
 
-If you like a plain terminal, with no buttons or options that can crowd your
-screen, plus you have an interest on being fast while typing, these tools can
-help you.
+There are several reasons why using Neovim with Lua and Packer for working with R can be beneficial:
+
+ 1. *Lightweight and Customizable*: Neovim is a lightweight text editor that 
+ runs in the terminal, providing a clean and minimalistic interface. By 
+ configuring it with Lua, you have the flexibility to customize and personalize
+ your editor to match your preferences and workflow.
+
+ 2. *Efficient R Coding*: Neovim offers powerful features and key bindings
+ specifically tailored for working with R, such as sending code to the R 
+ console, code navigation, code completion, and documentation lookup. These 
+ features help streamline your R coding workflow and enhance your productivity.
+
+ 3. *Package Management with Packer*: Packer is a plugin manager for Neovim 
+ that simplifies the installation and management of plugins. With Packer, you 
+ can easily add, update, and remove plugins, allowing you to extend the
+ functionality of Neovim and enhance your R coding experience.
+
+ 4. *Terminal-based Environment*: Working in a terminal-based environment can 
+ be advantageous for R development. It allows you to focus on your code without
+ distractions and provides a consistent experience across different platforms 
+ and systems.
+
+By following the [tutorial here](https://ronnyhdez.github.io/blog/posts/2023-06-17-nvim_lua_packer/), you can learn how to install and configure Neovim with Lua and Packer to set up an efficient and streamlined environment for working with R.
+
+Give it a try and see how this setup can enhance your R coding experience!
 
 # Workflow
+
+ 1. Open any R file with nvim
+ 2. Use the `\rf` command to open the R console
+ 3. Start modifying and running code with the `spacebar`
 
 ## Movements
 
@@ -67,8 +93,7 @@ help you.
 
 `\cc` Run current chunk
 
-`space bar` Run one line of code (You need to create this keybinding)
-
+`space bar` Run one line of code (You need to create this key binding)
 
 ## Edit files
 

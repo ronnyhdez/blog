@@ -42,7 +42,8 @@ On next blogposts, I will describe how to take this further.
 # Installation and configuration
 
 So, we need some software for this. Make sure that you have
-[git](https://git-scm.com/) installed on your workstation, and of course, R.
+[git](https://git-scm.com/) installed on your workstation and of course, [R](https://docs.rstudio.com/resources/install-r/).
+
 
 ## Files structure
 
@@ -85,6 +86,8 @@ mkdir /home/user_name/.config/nvim
 
 Remember to replace `user_name` with your actual workstation user name.
 
+![Creating nvim directory in `.config`](images/mkdir_nvim.png)
+
  2. Create the `init.lua` file:
 
 ```{bash}
@@ -100,6 +103,7 @@ require('plugins')
 require('settings')
 ```
 
+![Include the requirements in the `init.lua` file](images/requirements.png)
 These requirements reference the files that we are about to create: `plugins.lua`
 and `settings.lua`. Both files should be placed in the `lua/` directory.
 
@@ -108,15 +112,42 @@ If you make changes to the plugins, such as adding a new one, you can revisit
 the `init.lua` file and invoke `:PackerSync` to synchronize the plugins. However,
 for now, you don't need to worry about this step.
 
-## Configure the general settings for lua
- 
-After creating our `init.lua` file, it's time to establish configurations that 
-align the nvim editor with our preferred style.
+## Configuring General Settings for Lua
+
+After creating our `init.lua` file, it's time to configure the general settings
+to customize the behavior of the nvim editor according to our preferred style.
 
 To organize these settings effectively, we will utilize the `lua/settings.lua`
-file. Here, we can include all of our general settings.
+file. This file will serve as a central location for all our general settings.
 
-Consider the following basic configuration options:
+To set up the `lua/settings.lua` file, follow these steps:
+
+ 1. Create the `lua/` directory inside the `nvim/` directory if it doesn't 
+ already exist:
+
+```{bash}
+mkdir lua
+```
+
+ 2. Create the settings.lua file within the lua/ directory.
+
+```{bash}
+nvim lua/settings.lua
+```
+
+ Make sure that the file name matches the one specified in your init.lua 
+ file's requirements.
+
+When doing the step above, probably you will find an error:
+
+![Error message when modifyng the `settings.lua` file](images/error.png)
+
+Since we are currently in the process of creating the required files, it's 
+normal to encounter an error when Neovim tries to locate the non-existent files.
+However, this is not a cause for concern for now.
+
+Consider adding the following basic configuration options to the `settings.lua`
+file:
 
 ```{bash}
 vim.opt.number = true
@@ -129,11 +160,27 @@ vim.opt.shiftwidth = 4
 vim.opt.colorcolumn = "80"
 ```
 
+![Settings for nvim in the file `settings.lua`](images/nvim_settings.png)
+
+These configurations will enable line numbers, relative line numbers,
+case-insensitive searching, smart case sensitivity, indentation on line breaks,
+set the tab width to 4 spaces, set the indent width to 4 spaces, and display a
+color column at column 80.
+
+Feel free to adjust these settings according to your preferences.
+
 ## Installing packer
 
 To install Packer, a plugin manager for Neovim, follow these steps:
 
- 1. Open the lua/plugins.lua file.
+ 1. Create the `plugins.lua` file inside the `lua` folder
+ 
+```{bash}
+nvim lua/plugins.lua
+```
+
+Again, you will find the same warning as above, but just hit enter.
+
  2. Copy and paste the following code into the file. This code checks if Packer
  is already installed and, if not, it installs it automatically when you start
  Neovim.
@@ -153,22 +200,34 @@ end
 local packer_bootstrap = ensure_packer()
 ```
 
+![Packer code snippet for installation](images/packer.png)
+
 With these code snippets in place, whenever you start Neovim, it will 
 automatically check if Packer is installed. If it's not found, it will be cloned
 from the official repository and set up for use.
 
+Don't close the file yet! We are going to add a couple of things more in the
+next section.
+
 ## Installing plugins
 
 Now you can proceed with adding the desired plugins to the `lua/plugins.lua`
-file. Here we are going to add a couple, with special attention to `Nvim-R`
+file. Here we are going to add a couple, with special attention to `Nvim-R`.
+
+ 1. Open the lua/plugins.lua file in your preferred text editor.
+
+ 2. Inside the require('packer').startup(function() block, you can add the 
+ plugins you want to install. For example, let's add two plugins: gruvbox for a
+ colorscheme and Nvim-R for R integration. Modify your lua/plugins.lua file as
+ follows:
 
 ```{bash}
- return require('packer').startup(function()
+return require('packer').startup(function()
         -- packer can manage itself
         use 'wbthomason/packer.nvim'
 
         -- colorscheme
-        use 'gruvbox-community/gruvbvox'
+        use 'gruvbox-community/gruvbox'
         
         -- nvim-r
         use 'jalvesaq/Nvim-R'
@@ -176,51 +235,107 @@ file. Here we are going to add a couple, with special attention to `Nvim-R`
 end)
 ```
  
-So, after this step, we can go back to our `init.lua` file and check if 
-everything is correct.
+ 3. Save the changes to your lua/plugins.lua file.
+ 
+After adding the plugins, you can go back to your `init.lua` file and check if
+everything is correct. To install and update all the plugins, run the following
+command inside Neovim:
  
 ```{bash}
 :PackerSync
 ```
  
-It should install and update all of our plugins
- 
+This will trigger the installation and updating of your plugins.
+
+Once the process is complete, you can quit Neovim by running `:q` in the Packer
+window and `:q` in the `init.lua` file.
+
+Now, your plugins should be successfully installed and ready to use in Neovim.
+
 ## Configure settings for Nvim-R
 
-For this, we need to create a file with the name of the plugin. We are going to configure
-a couple of settings for our nvim-r plugin.
+At this point you should have the following structure:
 
-In the `plugin/` folder, create a new file called `nvimr.lua`.
+![File structure for our settings](images/tree.png)
 
-Inside this file, we are going to setup some options to facilitate the work with
- `.rmd` or `.qmd` files. Also, I like to run the lines of code pressing the space
- bar, so we are going to configure that too.
- 
- In the file you just created `nvimr.lua`, write the following:
- 
+For this, we need to create a file with the name of the plugin. We are going to 
+configure a couple of settings for our nvim-r plugin.
+
+ 1. Navigate to the `plugin/` folder in your Neovim configuration directory.
+ 2. Create a new file called `nvimr.lua` inside the `plugin/` folder.
+ 3. Open the `nvimr.lua` file and add the following configurations:
+
 ```{bash}
-   vim.cmd([[                                                                      
-  1   let g:rmarkdown_fenced_languages = ['r', 'python']                            
-  2   let g:rmd_fenced_languages = ['r', 'python']                                  
-  3                                                                                 
-  4   if has("gui_running")                                                         
-  5       inoremap <C-Space> <C-x><C-o>                                             
-  6   else                                                                          
-  7       inoremap <Nul> <C-x><C-o>                                                 
-  8   endif                                                                         
-  9   vmap <Space> <Plug>RDSendSelection                                            
- 10   nmap <Space> <Plug>RDSendLine                                                 
- 11 ]])                                                                             
- 12                                                                                 
- 13 --R filetypes                                                                   
- 14 vim.cmd([[                                                                      
- 15 autocmd BufNewFile,BufRead *.Rmd set ft=rmd                                     
- 16 autocmd BufNewFile,BufRead *.rmd set ft=rmd                                     
- 17 autocmd BufNewFile,BufRead *.qmd set ft=rmd                                     
- 18 ]]) 
+-- To use spacebar for running code
+vim.cmd([[
+  let g:markdown_fenced_languages = ['r', 'python']
+  let g:rmd_fenced_languages = ['r', 'python']
+
+  if has("gui_running")
+      inoremap <C-Space> <C-x><C-o>
+  else
+      inoremap <Nul> <C-x><C-o>
+  endif
+  vmap <Space> <Plug>RDSendSelection
+  nmap <Space> <Plug>RDSendLine
+]])
+
+
+-- R filetypes
+vim.cmd([[
+autocmd BufNewFile,BufRead *.Rmd set ft=rmd
+autocmd BufNewFile,BufRead *.rmd set ft=rmd
+autocmd BufNewFile,BufRead *.qmd set ft=rmd
+]])
 ``` 
 
+The above configurations will:
 
+ - Set the fenced code block languages to 'r' and 'python' for R Markdown and 
+ quarto files.
+ - Enable the space bar as a shortcut for running lines of code.
+ - Set the key mapping `<Space>` for visual mode to send the selected lines to the
+ R terminal.
+ - Set the key mapping `<Space>` for normal mode to send the current line to the 
+ R terminal.
+ - Set the filetypes to `rmd` for `.Rmd`, `.rmd`, and `.qmd` files.
 
+Save the changes to the `nvimr.lua` file.
 
+With these settings in place, Nvim-R will be configured to enhance your workflow
+with .rmd and .qmd files, providing a convenient way to run R code within Neovim.
+
+# Testing
+
+Now that we have everything installed, let's test if we can work with R from our
+terminal using Neovim.
+
+ 1. Create a test .rmd file on your desktop. You can use the following command:
+
+```{bash}
+nvim test.rmd
+```
+
+ 2. In the test.rmd file, let's start with a simple function. Add a similar 
+ function:
+
+![Creating a `test.rmd` file](images/create_test.png)
+
+ 3. To open the R console, press `\rf`: 
+
+![Opening R console with nvim-r](images/r_console.png)
+
+ 4. Place your cursor in any line inside the chunk of the code and press the 
+ `spacebar` to send the line to the R console:
+
+![Running the R code!](images/run_code.png)
+
+With all these steps, you just tested the integration of R with nvim. You can 
+now continue to explore and utilize the features provided by Nvim-R to enhance 
+your R coding experience within Neovim.
+
+# Workflow
+
+Now that we hace everything setup, is time to work with R from nvim. Check
+this other [tutorial](https://ronnyhdez.github.io/blog/posts/2023-02-27-nvim-and-r/) with some of the most common and useful key bindings.
 
