@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</loc>
-    <lastmod>2023-03-30T17:31:20.946Z</lastmod>
+    <lastmod>2023-06-18T03:31:41.436Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</loc>
-    <lastmod>2023-03-30T17:31:21.470Z</lastmod>
+    <lastmod>2023-06-18T03:31:41.956Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:22.122Z</lastmod>
+    <lastmod>2023-06-18T03:31:42.648Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</loc>
-    <lastmod>2023-03-30T17:31:22.750Z</lastmod>
+    <lastmod>2023-06-18T03:31:43.332Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:23.498Z</lastmod>
+    <lastmod>2023-06-18T03:31:44.176Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</loc>
-    <lastmod>2023-03-30T17:31:23.954Z</lastmod>
+    <lastmod>2023-06-18T03:31:44.620Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</loc>
-    <lastmod>2023-03-30T17:31:24.622Z</lastmod>
+    <lastmod>2023-06-18T03:31:45.348Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</loc>
-    <lastmod>2023-03-30T17:31:25.002Z</lastmod>
+    <lastmod>2023-06-18T03:31:45.732Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/index.html</loc>
+    <lastmod>2023-06-18T03:36:04.326Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</loc>
-    <lastmod>2023-03-30T17:31:25.662Z</lastmod>
+    <lastmod>2023-06-18T03:31:46.912Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</loc>
-    <lastmod>2023-03-30T17:31:26.214Z</lastmod>
+    <lastmod>2023-06-18T03:31:47.484Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/index.html</loc>
-    <lastmod>2023-03-30T17:31:26.626Z</lastmod>
+    <lastmod>2023-06-18T03:36:02.730Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/about.html</loc>
-    <lastmod>2023-03-30T17:31:26.874Z</lastmod>
+    <lastmod>2023-06-18T03:31:48.240Z</lastmod>
   </url>
 </urlset>

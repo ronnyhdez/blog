@@ -8,9 +8,9 @@
 
 <meta name="author" content="Ronny A. Hernandez Mora">
 <meta name="dcterms.date" content="2023-02-27">
-<meta name="description" content="Notes on how to configure Neovim to use it as an IDE for R plus the most used commands and functionalities">
+<meta name="description" content="Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.">
 
-<title>Ronny A. Hernández Mora - Using R with Neovim</title>
+<title>Ronny A. Hernández Mora - Workflow to use R with Neovim</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,9 +64,9 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Ronny A. Hernández Mora - Using R with Neovim">
-<meta property="og:description" content="Notes on how to configure Neovim to use it as an IDE for R plus the most used
-commands and functionalities">
+<meta property="og:title" content="Ronny A. Hernández Mora - Workflow to use R with Neovim">
+<meta property="og:description" content="Notes on how to work with Neovim to use it as an IDE for R with the most used
+commands and functionalities.">
 <meta property="og:image" content="https://ronnyale.com/posts/2023-02-27-nvim-and-r/images/computer.jpg">
 <meta property="og:site-name" content="Ronny A. Hernández Mora">
 </head>
@@ -116,10 +116,10 @@ commands and functionalities">
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Using R with Neovim</h1>
+      <h1 class="title">Workflow to use R with Neovim</h1>
                   <div>
         <div class="description">
-          <p>Notes on how to configure Neovim to use it as an IDE for R plus the most used commands and functionalities</p>
+          <p>Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.</p>
         </div>
       </div>
                           <div class="quarto-categories">
@@ -158,9 +158,7 @@ commands and functionalities">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#blogpost-structure" id="toc-blogpost-structure" class="nav-link active" data-scroll-target="#blogpost-structure">Blogpost structure</a></li>
-  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why">Why</a></li>
-  <li><a href="#installation-and-configuration" id="toc-installation-and-configuration" class="nav-link" data-scroll-target="#installation-and-configuration">Installation and configuration</a></li>
+  <li><a href="#why" id="toc-why" class="nav-link active" data-scroll-target="#why">Why?</a></li>
   <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a>
   <ul class="collapse">
   <li><a href="#movements" id="toc-movements" class="nav-link" data-scroll-target="#movements">Movements</a></li>
@@ -179,23 +177,9 @@ commands and functionalities">
 
 
 
-<section id="blogpost-structure" class="level1">
-<h1>Blogpost structure</h1>
-<ul>
-<li>Why?</li>
-<li>Installation and configuration - allacrity - plugins</li>
-<li>Workflow - most used commands (that I have so far) - Integration with quarto</li>
-<li>User case: take fast notes and deploy fast - This is with the packages that I have to use mkdocs - Altough if it gets too long, it would be another blogpost</li>
-</ul>
-</section>
 <section id="why" class="level1">
-<h1>Why</h1>
+<h1>Why?</h1>
 <p>If you like a plain terminal, with no buttons or options that can crowd your screen, plus you have an interest on being fast while typing, these tools can help you.</p>
-</section>
-<section id="installation-and-configuration" class="level1">
-<h1>Installation and configuration</h1>
-<p>Use of packer:</p>
-<p>(put diagram of files and notes about their functioning)</p>
 </section>
 <section id="workflow" class="level1">
 <h1>Workflow</h1>
@@ -206,6 +190,8 @@ commands and functionalities">
 <p><code>gg</code> Move to of file</p>
 <p><code>G</code> Move bottom of file</p>
 <p><code>function + Shift + up or down</code> Take to the upper or lower page section</p>
+<p><code>{</code> Go one paragraph up</p>
+<p><code>}</code> Go one paragraph down</p>
 </section>
 <section id="r-specific-commands" class="level2">
 <h2 class="anchored" data-anchor-id="r-specific-commands">R specific commands</h2>
@@ -225,6 +211,7 @@ commands and functionalities">
 <p><code>\gN</code> Previous chunk</p>
 <p><code>\ch</code> Run all previous chunks to here</p>
 <p><code>\cc</code> Run current chunk</p>
+<p><code>space bar</code> Run one line of code (You need to create this keybinding)</p>
 </section>
 <section id="edit-files" class="level2">
 <h2 class="anchored" data-anchor-id="edit-files">Edit files</h2>
@@ -238,14 +225,14 @@ commands and functionalities">
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2023,
   author = {Ronny A. Hernandez Mora},
-  title = {Using {R} with {Neovim}},
+  title = {Workflow to Use {R} with {Neovim}},
   date = {2023-02-27},
   url = {https://ronnyale.com//posts/2023-02-27-nvim-and-r},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2023" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Ronny A. Hernandez Mora. 2023. <span>“Using R with Neovim.”</span>
-February 27, 2023. <a href="https://ronnyale.com//posts/2023-02-27-nvim-and-r">https://ronnyale.com//posts/2023-02-27-nvim-and-r</a>.
+Ronny A. Hernandez Mora. 2023. <span>“Workflow to Use R with
+Neovim.”</span> February 27, 2023. <a href="https://ronnyale.com//posts/2023-02-27-nvim-and-r">https://ronnyale.com//posts/2023-02-27-nvim-and-r</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
