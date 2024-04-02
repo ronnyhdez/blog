@@ -8,6 +8,11 @@ website:
   repo-url: https://github.com/ronnyhdez/blog/
   open-graph: true
   navbar:
+    title: false
+    background: "#F5F1ED"
+    left:
+      - href: index.qmd
+        text: Home
     right:
       - about.qmd
       - icon: github
@@ -16,7 +21,15 @@ website:
         href: https://twitter.com/ronny_hdezmora
       - icon: person-circle
         href: https://ronnyale.com/
+  page-footer:
+    center:
+      - href: https://ronnyale.com
+        text: ronnyale.com
+
 format:
   html:
-    theme: yeti 
-    css: styles.css
+    theme:
+      - flatly
+    linkcolor: "#FF5500"
+    highlight-style: tango 
+    code-line-numbers: true
