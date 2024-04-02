@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Notes about my journey creating data science products">
+<meta name="description" content="By Ronny A. Hernández Mora">
 
-<title>Ronny A. Hernández Mora - R, Linux and other stuff</title>
+<title>Ronny A. Hernández Mora - Notes about creating and exploring data products</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,7 +18,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -58,7 +58,8 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -91,12 +92,15 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Ronny A. Hernández Mora" href="index.xml"><meta property="og:title" content="Ronny A. Hernández Mora - R, Linux and other stuff">
-<meta property="og:description" content="Notes about my journey creating data science products">
+<link rel="alternate" type="application/rss+xml" title="Ronny A. Hernández Mora" href="index.xml"><meta property="og:title" content="Ronny A. Hernández Mora - Notes about creating and exploring data products">
+<meta property="og:description" content="By Ronny A. Hernández Mora">
+<meta property="og:image" content="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png">
 <meta property="og:site-name" content="Ronny A. Hernández Mora">
+<meta property="og:image:height" content="320">
+<meta property="og:image:width" content="640">
 </head>
 
 <body class="nav-fixed">
@@ -105,37 +109,40 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Home</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
+    <a class="nav-link" href="./about.html" rel="" target="">
  <span class="menu-text">About this blog</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ronnyhdez/blog"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/ronny_hdezmora"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://ronnyale.com/"><i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -144,10 +151,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
-      <h1 class="title">R, Linux and other stuff</h1>
+      <h1 class="title">Notes about creating and exploring data products</h1>
                   <div>
         <div class="description">
-          <p>Notes about my journey creating data science products</p>
+          <p>By Ronny A. Hernández Mora</p>
         </div>
       </div>
                 </div>
@@ -180,11 +187,11 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Neovim,Linux,R,Lua,packer" data-listing-date-sort="1687068000000" data-listing-file-modified-sort="1687129463519" data-listing-reading-time-sort="7.19">
+<div class="g-col-1" data-index="0" data-categories="Neovim,Linux,R,Lua,packer" data-listing-date-sort="1687068000000" data-listing-file-modified-sort="1703540703462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2023-06-17-nvim_lua_packer/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2023-06-17-nvim_lua_packer/images/keyboard.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2023-06-17-nvim_lua_packer/images/keyboard.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -222,11 +229,11 @@ Jun 18, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="Neovim,Linux,R" data-listing-date-sort="1677481200000" data-listing-file-modified-sort="1687129713610" data-listing-reading-time-sort="2.22">
+<div class="g-col-1" data-index="1" data-categories="Neovim,Linux,R" data-listing-date-sort="1677481200000" data-listing-file-modified-sort="1703540703458" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
 <a href="./posts/2023-02-27-nvim-and-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2023-02-27-nvim-and-r/images/computer.jpg" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2023-02-27-nvim-and-r/images/computer.jpg" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -258,11 +265,11 @@ Feb 27, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="R packages,Zotero" data-listing-date-sort="1663135200000" data-listing-file-modified-sort="1680197817387" data-listing-reading-time-sort="1.71">
+<div class="g-col-1" data-index="2" data-categories="R packages,Zotero" data-listing-date-sort="1663135200000" data-listing-file-modified-sort="1680197817387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
 <a href="./posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2022-09-14-package-citation-zotero/images/study.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2022-09-14-package-citation-zotero/images/study.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -291,11 +298,11 @@ Sep 14, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="Neovim,Linux" data-listing-date-sort="1663048800000" data-listing-file-modified-sort="1680197817379" data-listing-reading-time-sort="3.665">
+<div class="g-col-1" data-index="3" data-categories="Neovim,Linux" data-listing-date-sort="1663048800000" data-listing-file-modified-sort="1680197817379" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2022-09-11-using-nvim-for-r-users/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -324,11 +331,11 @@ Sep 13, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="MkDocs,Linux" data-listing-date-sort="1642057200000" data-listing-file-modified-sort="1680197817355" data-listing-reading-time-sort="7.19">
+<div class="g-col-1" data-index="4" data-categories="MkDocs,Linux" data-listing-date-sort="1642057200000" data-listing-file-modified-sort="1680197817355" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-12-11-usingmkdocsrmd/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -357,11 +364,11 @@ Jan 13, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="tmux,Linux" data-listing-date-sort="1609657200000" data-listing-file-modified-sort="1680197817339" data-listing-reading-time-sort="2.53">
+<div class="g-col-1" data-index="5" data-categories="tmux,Linux" data-listing-date-sort="1609657200000" data-listing-file-modified-sort="1680197817339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
 <a href="./posts/2021-12-11-usando-tmux/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-usando-tmux/images/tmux.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-usando-tmux/images/tmux.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -390,11 +397,11 @@ Jan 3, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="Shiny,Linux" data-listing-date-sort="1609138800000" data-listing-file-modified-sort="1680197817319" data-listing-reading-time-sort="5.365">
+<div class="g-col-1" data-index="6" data-categories="Shiny,Linux" data-listing-date-sort="1609138800000" data-listing-file-modified-sort="1680197817319" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2021-12-11-desplegando-shiny/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-desplegando-shiny/images/app.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-desplegando-shiny/images/app.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -423,11 +430,11 @@ Dec 28, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="Base R" data-listing-date-sort="1521007200000" data-listing-file-modified-sort="1680197817331" data-listing-reading-time-sort="10.23">
+<div class="g-col-1" data-index="7" data-categories="Base R" data-listing-date-sort="1521007200000" data-listing-file-modified-sort="1680197817331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
 <a href="./posts/2021-12-11-tiempo-en-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-tiempo-en-r/images/time.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-tiempo-en-r/images/time.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -453,11 +460,11 @@ Mar 14, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="Base R" data-listing-date-sort="1517468400000" data-listing-file-modified-sort="1680197817327" data-listing-reading-time-sort="3.9">
+<div class="g-col-1" data-index="8" data-categories="Base R" data-listing-date-sort="1517468400000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2021-12-11-estructuras-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-estructuras-r/images/structure.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-estructuras-r/images/structure.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -483,11 +490,11 @@ Feb 1, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-listing-date-sort="1515826800000" data-listing-file-modified-sort="1680197817315" data-listing-reading-time-sort="15.38">
+<div class="g-col-1" data-index="9" data-listing-date-sort="1515826800000" data-listing-file-modified-sort="1680197817315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
 <a href="./posts/2021-12-11-datos-abiertos-muni-sanjose/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -508,11 +515,11 @@ Jan 13, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="git" data-listing-date-sort="1461132000000" data-listing-file-modified-sort="1680197817327" data-listing-reading-time-sort="7.345">
+<div class="g-col-1" data-index="10" data-categories="git" data-listing-date-sort="1461132000000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-12-11-otra-intro-a-git/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
-<img src="./posts/2021-12-11-otra-intro-a-git/images/files.png" class="thumbnail-image card-img" style="height: 250px;">
+<img src="./posts/2021-12-11-otra-intro-a-git/images/files.png" class="thumbnail-image card-img" style="height: 200px;">
 </p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
@@ -570,9 +577,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -637,6 +658,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -677,6 +784,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

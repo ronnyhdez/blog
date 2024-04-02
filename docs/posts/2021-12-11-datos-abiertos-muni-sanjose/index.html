@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,9 +21,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -50,43 +51,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -122,12 +93,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Datos abiertos municipalidad de San José, Costa Rica">
 <meta property="og:description" content="Una introducción al uso del API de datos abiertos de la muni de San José">
 <meta property="og:image" content="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png">
@@ -142,37 +113,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About this blog</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ronnyhdez/blog"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/ronny_hdezmora"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://ronnyale.com/"><i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -196,8 +170,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Authors</div>
       <div class="quarto-title-meta-contents">
-               <p>Ronny A. Hernandez Mora </p>
-               <p>Erick Calderón Morales </p>
+               <p><a href="https://ronnyale.com">Ronny A. Hernandez Mora</a> </p>
+               <p><a href="https://github.com/ecamo19">Erick Calderón Morales</a> </p>
             </div>
     </div>
       
@@ -214,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
@@ -228,6 +202,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </nav>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -238,24 +213,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># title: "Datos abiertos municipalidad de San José, Costa Rica"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># description: |</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   Una introducción al uso del API de datos abiertos de la muni de San José</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># author:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     url: http://ronnyhdez.rbind.io/</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   - name: Erick Calderón Morales</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     url: https://github.com/ecamo19</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># date: 2018-01-13 </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># creative_commons: CC BY-NC</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># preview: images/city.png</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># twitter:</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># output:</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   distill::distill_article:</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     self_contained: true</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># ---</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># title: "Datos abiertos municipalidad de San José, Costa Rica"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># description: |</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#   Una introducción al uso del API de datos abiertos de la muni de San José</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># author:</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#     url: http://ronnyhdez.rbind.io/</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#   - name: Erick Calderón Morales</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#     url: https://github.com/ecamo19</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># date: 2018-01-13 </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># preview: images/city.png</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># twitter:</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co"># output:</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#   distill::distill_article:</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#     self_contained: true</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Gracias a la iniciativa de <a href="http://www.gobiernoabierto.go.cr/">Gobierno Abierto</a> de Costa Rica tenemos la posibilidad de obtener datos de diferentes entes a través de la conexión con API’s.</p>
 <p>Esto nos da la posibilidad de no pasar por engorrosos procesos de limpiar datos a partir de formatos casi imposibles como pdf’s, .csv extravagantes u otros formatos difíciles de trabajar.</p>
@@ -265,53 +240,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>En la siguiente <a href="http://datosabiertos.msj.go.cr/developers/">dirección</a> podrá encontrar el API key necesario para hacer el llamado.</p>
 <p>Vamos a crear como objetos nuestras credenciales para hacer la conexión al API de la municipalidad de San José. El url que aparece acá es el que se debe de usar para conectarnos al sistema de la muni de San José. Si están siguiendo ete ejemplo pueden escribir el mismo que aparece acá.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url_base <span class="ot">&lt;-</span> <span class="st">"http://api.datosabiertos.msj.go.cr/api/v2/datastreams/"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>api_key <span class="ot">&lt;-</span> SU_API_KEY</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>url_base <span class="ot">&lt;-</span> <span class="st">"http://api.datosabiertos.msj.go.cr/api/v2/datastreams/"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>api_key <span class="ot">&lt;-</span> SU_API_KEY</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="obtener-el-indice-de-las-tablas" class="level3">
 <h3 class="anchored" data-anchor-id="obtener-el-indice-de-las-tablas">Obtener el indice de las tablas</h3>
 <p>Ya que tenemos las credenciales listas (api key &amp; url), vamos a revisar el índice de las tablas de datos que la municipalidad ha liberado:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Traemos el indice  de los datos que existen</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>indice <span class="ot">&lt;-</span> <span class="fu">get_index</span>(url_base, <span class="at">api_key =</span> api_key)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisamos estructura del objeto </span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(indice)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Observations: 257</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Variables: 18</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## $ status          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">## $ description     &lt;chr&gt; "Valor absoluto y Tasa por 100.000 2006 - 2014",…</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## $ parameters      &lt;list&gt; [[], [], [], [], [], [], [], [], [], [], [], []…</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="do">## $ tags            &lt;list&gt; [&lt;"san jose", "municipalidad", "muertes violent…</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="do">## $ timestamp       &lt;dbl&gt; 1.547586e+12, 1.539808e+12, 1.516222e+12, 1.5162…</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="do">## $ created_at      &lt;int&gt; 1547586293, 1539744226, 1516221668, 1516220839, …</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="do">## $ title           &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densida…</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="do">## $ modified_at     &lt;int&gt; 1547586492, 1539808089, 1516221733, 1516221641, …</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="do">## $ category_id     &lt;chr&gt; "83642", "83639", "83481", "83481", "83482", "83…</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="do">## $ methods         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="do">## $ sources         &lt;list&gt; [&lt;&gt;, &lt;"Municipalidad de San José", "Instituto N…</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="do">## $ total_revisions &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="do">## $ frequency       &lt;chr&gt; "", "ondemand", "", "", "", "ondemand", "ondeman…</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="do">## $ link            &lt;chr&gt; "http://datosabiertos.msj.go.cr/dataviews/250481…</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="do">## $ user            &lt;chr&gt; "sanjose", "sanjose", "sanjose", "sanjose", "Msj…</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="do">## $ status_str      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="do">## $ guid            &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DIS…</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="do">## $ category_name   &lt;chr&gt; "Características Sociales", "Demografía", "Educa…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Traemos el indice  de los datos que existen</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>indice <span class="ot">&lt;-</span> <span class="fu">get_index</span>(url_base, <span class="at">api_key =</span> api_key)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># Revisamos estructura del objeto </span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">glimpse</span>(indice)</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="do">## Observations: 257</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="do">## Variables: 18</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="do">## $ status          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="do">## $ description     &lt;chr&gt; "Valor absoluto y Tasa por 100.000 2006 - 2014",…</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="do">## $ parameters      &lt;list&gt; [[], [], [], [], [], [], [], [], [], [], [], []…</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="do">## $ tags            &lt;list&gt; [&lt;"san jose", "municipalidad", "muertes violent…</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="do">## $ timestamp       &lt;dbl&gt; 1.547586e+12, 1.539808e+12, 1.516222e+12, 1.5162…</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="do">## $ created_at      &lt;int&gt; 1547586293, 1539744226, 1516221668, 1516220839, …</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="do">## $ title           &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densida…</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="do">## $ modified_at     &lt;int&gt; 1547586492, 1539808089, 1516221733, 1516221641, …</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="do">## $ category_id     &lt;chr&gt; "83642", "83639", "83481", "83481", "83482", "83…</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="do">## $ methods         &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="do">## $ sources         &lt;list&gt; [&lt;&gt;, &lt;"Municipalidad de San José", "Instituto N…</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="do">## $ total_revisions &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="do">## $ frequency       &lt;chr&gt; "", "ondemand", "", "", "", "ondemand", "ondeman…</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="do">## $ link            &lt;chr&gt; "http://datosabiertos.msj.go.cr/dataviews/250481…</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="do">## $ user            &lt;chr&gt; "sanjose", "sanjose", "sanjose", "sanjose", "Msj…</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="do">## $ status_str      &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="do">## $ guid            &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DIS…</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="do">## $ category_name   &lt;chr&gt; "Características Sociales", "Demografía", "Educa…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Cada uno de los elementos que allí aparecen son distintas tablas que pueden tener diferentes dimensiones (filas y columnas). Es como una descripción de lo que trata cada tabla. Si queremos traer a nuestro entorno los datos de una tabla en específico tenemos que hacerlo con su <strong>GUID</strong>.</p>
 <p>De toda la tabla que llamamos en el paso anterior, vamos a hacer una selección de dos columnas: título y el GUID</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>guid <span class="ot">&lt;-</span> indice <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, guid)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(guid)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Observations: 257</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Variables: 2</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## $ title &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densidad de Pobla…</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## $ guid  &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DISTR", "DIST…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>guid <span class="ot">&lt;-</span> indice <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">select</span>(title, guid)</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">glimpse</span>(guid)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="do">## Observations: 257</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="do">## Variables: 2</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="do">## $ title &lt;chr&gt; "Cantidad y Tasa de muertes violentas", "Densidad de Pobla…</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="do">## $ guid  &lt;chr&gt; "CANTI-Y-TASA-DE-92062", "DENSI-DE-POBLA-POR-DISTR", "DIST…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="obtener-las-dimensiones-de-las-tablas" class="level3">
@@ -320,48 +295,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Por suerte el paquete <strong>junr</strong> tiene una función que nos muestra la dimensión de las tablas, lo cual nos da mayor información sobre las características que tiene.</p>
 <p>Hay que aclarar que la municipalidad de San José tiene muchas tablas y si usamos la función para obtener las dimensiones se puede demorar sus minutos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Por la cantidad de tablas que hay, esta funcion se demora mucho</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dimensiones <span class="ot">&lt;-</span> <span class="fu">get_dimensions</span>(<span class="at">base_url =</span> url_base, <span class="at">api_key =</span> api_key)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar primeras seis observaciones</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dimensiones)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">##                          GUID NROW NCOL DIM</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 2       CANTI-Y-TASA-DE-92062    6   10  60</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 21   DENSI-DE-POBLA-POR-DISTR   15   12 180</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 3  DISTR-RELAT-DE-ESTUD-MATRI   12   10 120</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 4  DISTR-DE-ESTUD-MATRI-77173   12   10 120</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 5        POA-PRESU-ORDIN-2018  119    3 357</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 6     INVER-EN-COLON-EN-43060    7    6  42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Por la cantidad de tablas que hay, esta funcion se demora mucho</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>dimensiones <span class="ot">&lt;-</span> <span class="fu">get_dimensions</span>(<span class="at">base_url =</span> url_base, <span class="at">api_key =</span> api_key)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># Mostrar primeras seis observaciones</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">head</span>(dimensiones)</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="do">##                          GUID NROW NCOL DIM</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="do">## 2       CANTI-Y-TASA-DE-92062    6   10  60</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="do">## 21   DENSI-DE-POBLA-POR-DISTR   15   12 180</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="do">## 3  DISTR-RELAT-DE-ESTUD-MATRI   12   10 120</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="do">## 4  DISTR-DE-ESTUD-MATRI-77173   12   10 120</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="do">## 5        POA-PRESU-ORDIN-2018  119    3 357</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="do">## 6     INVER-EN-COLON-EN-43060    7    6  42</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="cuadro-con-características-de-las-tablas-de-la-muni-de-sj" class="level4">
 <h4 class="anchored" data-anchor-id="cuadro-con-características-de-las-tablas-de-la-muni-de-sj">Cuadro con características de las tablas de la muni de SJ</h4>
 <p>Ya que tenemos las dimensiones de las tablas, podemos acomodar la información que hemos extraido hasta el momento de tal manera que tengamos un cuadro final con la información importante resumida: el título de la tabla, el GUID y las dimensiones.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unir el titulo a dimensiones</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dimensiones <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dimensiones, guid, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GUID"</span> <span class="ot">=</span> <span class="st">"guid"</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordenar tablas con mayores dimensiones</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dim_ordenado <span class="ot">&lt;-</span> dimensiones <span class="sc">%&gt;%</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(DIM))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Revisar primeras entradas</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dim_ordenado)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##                         GUID NROW NCOL DIM</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1          ASIST-EDUCA-SUPER  108    9 972</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 2                DEFUN-28990   64   13 832</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 3                DEFUN-43464   64   13 832</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 4                NACIM-43692   64   13 832</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 DISTR-DE-POBLA-OCUPA-56023   52   11 572</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 DISTR-DE-POBLA-OCUPA-36314   52   11 572</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                                title</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 1                                      Asistencia Educación Superior</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 2                                                        Defunciones</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 3                                                        Defunciones</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">## 4                                                        Nacimientos</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 Distribución de población ocupada por Grupo Ocupacional (Relativo)</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">## 6            Distribución de población ocupada por Grupo Ocupacional</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Unir el titulo a dimensiones</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>dimensiones <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dimensiones, guid, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GUID"</span> <span class="ot">=</span> <span class="st">"guid"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Ordenar tablas con mayores dimensiones</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>dim_ordenado <span class="ot">&lt;-</span> dimensiones <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(DIM))</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co"># Revisar primeras entradas</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="fu">head</span>(dim_ordenado)</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="do">##                         GUID NROW NCOL DIM</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="do">## 1          ASIST-EDUCA-SUPER  108    9 972</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="do">## 2                DEFUN-28990   64   13 832</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="do">## 3                DEFUN-43464   64   13 832</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="do">## 4                NACIM-43692   64   13 832</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="do">## 5 DISTR-DE-POBLA-OCUPA-56023   52   11 572</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="do">## 6 DISTR-DE-POBLA-OCUPA-36314   52   11 572</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="do">##                                                                title</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="do">## 1                                      Asistencia Educación Superior</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="do">## 2                                                        Defunciones</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="do">## 3                                                        Defunciones</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="do">## 4                                                        Nacimientos</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="do">## 5 Distribución de población ocupada por Grupo Ocupacional (Relativo)</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="do">## 6            Distribución de población ocupada por Grupo Ocupacional</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -369,59 +344,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="llamar-datos-de-una-tabla-específica">Llamar datos de una tabla específica:</h3>
 <p>Ya con esto podemos hacer una mejor selección de las tablas que nos serían útiles. Cuando ya tengamos identificada una tabla tenemos que anotar su GUID que utilizaremos en la función:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anotar en un objeto el GUID de la tabla que nos interesa</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>guid_tabla <span class="ot">&lt;-</span> <span class="st">"ASIST-EDUCA-SUPER"</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Llamar la tabla. Usamos las mismas credenciales que habíamos usado</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>asist_educacion <span class="ot">&lt;-</span> <span class="fu">get_data</span>(<span class="at">base_url =</span> url_base, <span class="at">api_key =</span> SU_API_KEY, </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">guid =</span> guid_tabla)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Anotar en un objeto el GUID de la tabla que nos interesa</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>guid_tabla <span class="ot">&lt;-</span> <span class="st">"ASIST-EDUCA-SUPER"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># Llamar la tabla. Usamos las mismas credenciales que habíamos usado</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>asist_educacion <span class="ot">&lt;-</span> <span class="fu">get_data</span>(<span class="at">base_url =</span> url_base, <span class="at">api_key =</span> SU_API_KEY, </span>
+<span id="cb7-6"><a href="#cb7-6"></a>                            <span class="at">guid =</span> guid_tabla)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>¡Listo! Ya tenemos nuestra tabla de interés con los datos. Vamos a revisarla</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(asist_educacion)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   Distrito   Sexo Tenencia de título Parauniversitaria Universitaria Total</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 San José Hombre                 Sí              1951         24058 26009</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 San José Hombre                 No               653          3498  4151</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 San José Hombre              Total              2604         27556 30160</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 San José  Mujer                 Sí              2599         26085 28684</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 San José  Mujer                 No               924          4092  5016</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 7 San José  Mujer              Total              3523         30177 33700</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   Población de 17 años y más</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2                           </span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3                           </span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4                     100238</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5                           </span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6                           </span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 7                     116461</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   Porcentaje de población con educación superior</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 2                                               </span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 3                                               </span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 4                                           30.1</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 5                                               </span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="do">## 6                                               </span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="do">## 7                                           28.9</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="do">##   Porcentaje de población con educación superior y título</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="do">## 2                                                        </span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="do">## 3                                                        </span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="do">## 4                                                    86.2</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="do">## 5                                                        </span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="do">## 6                                                        </span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="do">## 7                                                    85.1</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(asist_educacion)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Observations: 108</span></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="do">## Variables: 9</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="do">## $ Distrito                                                  &lt;fct&gt; San Jo…</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="do">## $ Sexo                                                      &lt;fct&gt; Hombre…</span></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="do">## $ `Tenencia de título`                                      &lt;fct&gt; Sí, No…</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="do">## $ Parauniversitaria                                         &lt;fct&gt; 1951, …</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="do">## $ Universitaria                                             &lt;fct&gt; 24058,…</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="do">## $ Total                                                     &lt;fct&gt; 26009,…</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="do">## $ `Población de 17 años y más`                              &lt;fct&gt; , , 10…</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="do">## $ `Porcentaje de población con educación superior`          &lt;fct&gt; , , 30…</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="do">## $ `Porcentaje de población con educación superior y título` &lt;fct&gt; , , 86…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">head</span>(asist_educacion)</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="do">##   Distrito   Sexo Tenencia de título Parauniversitaria Universitaria Total</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="do">## 2 San José Hombre                 Sí              1951         24058 26009</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="do">## 3 San José Hombre                 No               653          3498  4151</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="do">## 4 San José Hombre              Total              2604         27556 30160</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="do">## 5 San José  Mujer                 Sí              2599         26085 28684</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="do">## 6 San José  Mujer                 No               924          4092  5016</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="do">## 7 San José  Mujer              Total              3523         30177 33700</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="do">##   Población de 17 años y más</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="do">## 2                           </span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="do">## 3                           </span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="do">## 4                     100238</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="do">## 5                           </span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="do">## 6                           </span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="do">## 7                     116461</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="do">##   Porcentaje de población con educación superior</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="do">## 2                                               </span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="do">## 3                                               </span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="do">## 4                                           30.1</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="do">## 5                                               </span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="do">## 6                                               </span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="do">## 7                                           28.9</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="do">##   Porcentaje de población con educación superior y título</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="do">## 2                                                        </span></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="do">## 3                                                        </span></span>
+<span id="cb8-27"><a href="#cb8-27"></a><span class="do">## 4                                                    86.2</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="do">## 5                                                        </span></span>
+<span id="cb8-29"><a href="#cb8-29"></a><span class="do">## 6                                                        </span></span>
+<span id="cb8-30"><a href="#cb8-30"></a><span class="do">## 7                                                    85.1</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a></span>
+<span id="cb8-32"><a href="#cb8-32"></a><span class="fu">glimpse</span>(asist_educacion)</span>
+<span id="cb8-33"><a href="#cb8-33"></a></span>
+<span id="cb8-34"><a href="#cb8-34"></a><span class="do">## Observations: 108</span></span>
+<span id="cb8-35"><a href="#cb8-35"></a><span class="do">## Variables: 9</span></span>
+<span id="cb8-36"><a href="#cb8-36"></a><span class="do">## $ Distrito                                                  &lt;fct&gt; San Jo…</span></span>
+<span id="cb8-37"><a href="#cb8-37"></a><span class="do">## $ Sexo                                                      &lt;fct&gt; Hombre…</span></span>
+<span id="cb8-38"><a href="#cb8-38"></a><span class="do">## $ `Tenencia de título`                                      &lt;fct&gt; Sí, No…</span></span>
+<span id="cb8-39"><a href="#cb8-39"></a><span class="do">## $ Parauniversitaria                                         &lt;fct&gt; 1951, …</span></span>
+<span id="cb8-40"><a href="#cb8-40"></a><span class="do">## $ Universitaria                                             &lt;fct&gt; 24058,…</span></span>
+<span id="cb8-41"><a href="#cb8-41"></a><span class="do">## $ Total                                                     &lt;fct&gt; 26009,…</span></span>
+<span id="cb8-42"><a href="#cb8-42"></a><span class="do">## $ `Población de 17 años y más`                              &lt;fct&gt; , , 10…</span></span>
+<span id="cb8-43"><a href="#cb8-43"></a><span class="do">## $ `Porcentaje de población con educación superior`          &lt;fct&gt; , , 30…</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a><span class="do">## $ `Porcentaje de población con educación superior y título` &lt;fct&gt; , , 86…</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="referencias" class="level2">
@@ -439,15 +414,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2018,
-  author = {Ronny A. Hernandez Mora and Erick Calderon Morales},
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2018,
+  author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},
   title = {Datos Abiertos Municipalidad de {San} {José,} {Costa} {Rica}},
   date = {2018-01-13},
   url = {https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2018" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Ronny A. Hernandez Mora, and Erick Calderon Morales. 2018. <span>“Datos
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2018" class="csl-entry quarto-appendix-citeas" role="listitem">
+A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2018. <span>“Datos
 Abiertos Municipalidad de San José, Costa Rica.”</span> January 13,
 2018. <a href="https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose">https://ronnyale.com//posts/2021-12-11-datos-abiertos-muni-sanjose</a>.
 </div></div></section></div></main> <!-- /main -->
@@ -478,9 +453,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -545,6 +534,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -585,6 +660,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

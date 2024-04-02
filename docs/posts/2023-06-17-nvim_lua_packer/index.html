@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,9 +20,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -49,43 +50,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -121,12 +92,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Configuring nvim with Lua and packer for R">
 <meta property="og:description" content="A blogpost on how to configure nvim with Lua to work with R.">
 <meta property="og:image" content="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png">
@@ -141,37 +112,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About this blog</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/ronnyhdez/blog"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/ronny_hdezmora"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://ronnyale.com/"><i class="bi bi-person-circle" role="img">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -202,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Ronny A. Hernandez Mora <a href="https://orcid.org/0000-0001-6225-7096" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+               <p><a href="https://ronnyale.com/">Ronny A. Hernandez Mora</a> <a href="https://orcid.org/0000-0001-6225-7096" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
             </div>
     </div>
       
@@ -219,7 +193,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
@@ -240,6 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </nav>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -285,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Run the following command:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install neovim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">sudo</span> apt install neovim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="configuring-our-nvim-with-lua" class="level2">
@@ -294,29 +269,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create the config directory for nvim:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /home/user_name/.config/nvim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mkdir</span> /home/user_name/.config/nvim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember to replace <code>user_name</code> with your actual workstation user name.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/mkdir_nvim.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Creating nvim directory in <code>.config</code></figcaption><p></p>
+<figcaption class="figure-caption">Creating nvim directory in <code>.config</code></figcaption>
 </figure>
 </div>
 <ol start="2" type="1">
 <li>Create the <code>init.lua</code> file:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create file</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> init.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Create file</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="ex">nvim</span> init.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Add the following requirements:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Requirements</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">require</span><span class="er">(</span><span class="st">'plugins'</span><span class="kw">)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">require</span><span class="er">(</span><span class="st">'settings'</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Requirements</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">require</span><span class="er">(</span><span class="st">'plugins'</span><span class="kw">)</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="ex">require</span><span class="er">(</span><span class="st">'settings'</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
 <p>The <code>init.lua</code> file acts as the entry point for loading the settings and plugins. If you make changes to the plugins, such as adding a new one, you can revisit the <code>init.lua</code> file and invoke <code>:PackerSync</code> to synchronize the plugins. However, for now, you don’t need to worry about this step.</p>
@@ -330,38 +305,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create the <code>lua/</code> directory inside the <code>nvim/</code> directory if it doesn’t already exist:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">mkdir</span> lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Create the settings.lua file within the lua/ directory.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> lua/settings.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">nvim</span> lua/settings.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Make sure that the file name matches the one specified in your init.lua file’s requirements.</p>
 <p>When doing the step above, probably you will find an error:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/error.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Error message when modifyng the <code>settings.lua</code> file</figcaption><p></p>
+<figcaption class="figure-caption">Error message when modifyng the <code>settings.lua</code> file</figcaption>
 </figure>
 </div>
 <p>Since we are currently in the process of creating the required files, it’s normal to encounter an error when Neovim tries to locate the non-existent files. However, this is not a cause for concern for now.</p>
 <p>Consider adding the following basic configuration options to the <code>settings.lua</code> file:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.number</span> = true</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.relativenumber</span> = true</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.ignorecase</span> = true</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.smartcase</span> = true</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.breakindent</span> = true</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.tabstop</span> = 4</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.shiftwidth</span> = 4</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.opt.colorcolumn</span> = <span class="st">"80"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">vim.opt.number</span> = true</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="ex">vim.opt.relativenumber</span> = true</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="ex">vim.opt.ignorecase</span> = true</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="ex">vim.opt.smartcase</span> = true</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="ex">vim.opt.breakindent</span> = true</span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="ex">vim.opt.tabstop</span> = 4</span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="ex">vim.opt.shiftwidth</span> = 4</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="ex">vim.opt.colorcolumn</span> = <span class="st">"80"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/nvim_settings.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Settings for nvim in the file <code>settings.lua</code></figcaption><p></p>
+<figcaption class="figure-caption">Settings for nvim in the file <code>settings.lua</code></figcaption>
 </figure>
 </div>
 <p>These configurations will enable line numbers, relative line numbers, case-insensitive searching, smart case sensitivity, indentation on line breaks, set the tab width to 4 spaces, set the indent width to 4 spaces, and display a color column at column 80.</p>
@@ -374,30 +349,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create the <code>plugins.lua</code> file inside the <code>lua</code> folder</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> lua/plugins.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">nvim</span> lua/plugins.lua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Again, you will find the same warning as above, but just hit enter.</p>
 <ol start="2" type="1">
 <li>Copy and paste the following code into the file. This code checks if Packer is already installed and, if not, it installs it automatically when you start Neovim.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a> <span class="bu">local</span> <span class="va">ensure_packer</span> <span class="op">=</span> <span class="va">function()</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">local</span> <span class="va">fn</span> <span class="op">=</span> <span class="va">vim</span>.fn</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">local</span> <span class="va">install_path</span> <span class="op">=</span> <span class="va">fn</span>.stdpath<span class="er">(</span><span class="st">'data'</span><span class="kw">)</span><span class="ex">..</span><span class="st">'/site/pack/packer/start/packer.nvim'</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="ex">fn.empty</span><span class="er">(</span><span class="ex">fn.glob</span><span class="er">(</span><span class="ex">install_path</span><span class="kw">))</span> <span class="op">&gt;</span> 0 <span class="cf">then</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fn.system</span><span class="er">(</span><span class="ex">{</span><span class="st">'git'</span><span class="ex">,</span> <span class="st">'clone'</span>, <span class="st">'--depth'</span>, <span class="st">'1'</span>, <span class="st">'https://github.com/wbthomason/packer.nvim'</span>, install_path}<span class="kw">)</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">vim.cmd</span> [[packadd packer.nvim]]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">true</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">end</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">false</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="ex">end</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">local</span> <span class="va">packer_bootstrap</span> <span class="op">=</span> <span class="va">ensure_packer()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a> <span class="bu">local</span> <span class="va">ensure_packer</span> <span class="op">=</span> <span class="va">function()</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="bu">local</span> <span class="va">fn</span> <span class="op">=</span> <span class="va">vim</span>.fn</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="bu">local</span> <span class="va">install_path</span> <span class="op">=</span> <span class="va">fn</span>.stdpath<span class="er">(</span><span class="st">'data'</span><span class="kw">)</span><span class="ex">..</span><span class="st">'/site/pack/packer/start/packer.nvim'</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="cf">if</span> <span class="ex">fn.empty</span><span class="er">(</span><span class="ex">fn.glob</span><span class="er">(</span><span class="ex">install_path</span><span class="kw">))</span> <span class="op">&gt;</span> 0 <span class="cf">then</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="ex">fn.system</span><span class="er">(</span><span class="ex">{</span><span class="st">'git'</span><span class="ex">,</span> <span class="st">'clone'</span>, <span class="st">'--depth'</span>, <span class="st">'1'</span>, <span class="st">'https://github.com/wbthomason/packer.nvim'</span>, install_path}<span class="kw">)</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="ex">vim.cmd</span> [[packadd packer.nvim]]</span>
+<span id="cb10-7"><a href="#cb10-7"></a>    <span class="cf">return</span> <span class="fu">true</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="ex">end</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="cf">return</span> <span class="fu">false</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="ex">end</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="bu">local</span> <span class="va">packer_bootstrap</span> <span class="op">=</span> <span class="va">ensure_packer()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/packer.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Packer code snippet for installation</figcaption><p></p>
+<figcaption class="figure-caption">Packer code snippet for installation</figcaption>
 </figure>
 </div>
 <p>With these code snippets in place, whenever you start Neovim, it will automatically check if Packer is installed. If it’s not found, it will be cloned from the official repository and set up for use.</p>
@@ -411,24 +386,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Inside the require(‘packer’).startup(function() block, you can add the plugins you want to install. For example, let’s add two plugins: gruvbox for a colorscheme and Nvim-R for R integration. Modify your lua/plugins.lua file as follows:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="ex">require</span><span class="er">(</span><span class="st">'packer'</span><span class="kw">)</span><span class="ex">.startup</span><span class="er">(</span><span class="kw">function()</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="ex">--</span> packer can manage itself</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="ex">use</span> <span class="st">'wbthomason/packer.nvim'</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="ex">--</span> colorscheme</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="ex">use</span> <span class="st">'gruvbox-community/gruvbox'</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="ex">--</span> nvim-r</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="ex">use</span> <span class="st">'jalvesaq/Nvim-R'</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ex">end</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="cf">return</span> <span class="ex">require</span><span class="er">(</span><span class="st">'packer'</span><span class="kw">)</span><span class="ex">.startup</span><span class="er">(</span><span class="kw">function()</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>        <span class="ex">--</span> packer can manage itself</span>
+<span id="cb11-3"><a href="#cb11-3"></a>        <span class="ex">use</span> <span class="st">'wbthomason/packer.nvim'</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a>        <span class="ex">--</span> colorscheme</span>
+<span id="cb11-6"><a href="#cb11-6"></a>        <span class="ex">use</span> <span class="st">'gruvbox-community/gruvbox'</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>        </span>
+<span id="cb11-8"><a href="#cb11-8"></a>        <span class="ex">--</span> nvim-r</span>
+<span id="cb11-9"><a href="#cb11-9"></a>        <span class="ex">use</span> <span class="st">'jalvesaq/Nvim-R'</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="ex">end</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Save the changes to your lua/plugins.lua file.</li>
 </ol>
 <p>After adding the plugins, you can go back to your <code>init.lua</code> file and check if everything is correct. To install and update all the plugins, run the following command inside Neovim:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:PackerSync</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="ex">:PackerSync</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will trigger the installation and updating of your plugins.</p>
 <p>Once the process is complete, you can quit Neovim by running <code>:q</code> in the Packer window and <code>:q</code> in the <code>init.lua</code> file.</p>
@@ -440,7 +415,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/tree.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">File structure for our settings</figcaption><p></p>
+<figcaption class="figure-caption">File structure for our settings</figcaption>
 </figure>
 </div>
 <p>For this, we need to create a file with the name of the plugin. We are going to configure a couple of settings for our nvim-r plugin.</p>
@@ -450,27 +425,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Open the <code>nvimr.lua</code> file and add the following configurations:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--</span> To use spacebar for running code</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.cmd</span><span class="er">(</span><span class="kw">[[</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  let g:markdown_fenced_languages = <span class="er">['r',</span> <span class="st">'python'</span><span class="ex">]</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">let</span> <span class="va">g</span><span class="op">:</span><span class="va">rmd_fenced_languages</span> <span class="op">=</span> <span class="op">[</span><span class="st">'r'</span>, <span class="st">'python'</span><span class="op">]</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="ex">has</span><span class="er">(</span><span class="st">"gui_running"</span><span class="kw">)</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="ex">inoremap</span> <span class="op">&lt;</span>C-Space<span class="op">&gt;</span> <span class="op">&lt;</span>C-x<span class="op">&gt;&lt;</span>C-o<span class="op">&gt;</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="ex">inoremap</span> <span class="op">&lt;</span>Nul<span class="op">&gt;</span> <span class="op">&lt;</span>C-x<span class="op">&gt;&lt;</span>C-o<span class="op">&gt;</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">endif</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">vmap</span> <span class="op">&lt;</span>Space<span class="op">&gt;</span> <span class="op">&lt;</span>Plug<span class="op">&gt;</span>RDSendSelection</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nmap</span> <span class="op">&lt;</span>Space<span class="op">&gt;</span> <span class="op">&lt;</span>Plug<span class="op">&gt;</span>RDSendLine</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="ex">]]</span><span class="kw">)</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="ex">--</span> R filetypes</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="ex">vim.cmd</span><span class="er">(</span><span class="kw">[[</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>autocmd BufNewFile,BufRead <span class="pp">*</span>.Rmd <span class="er">set</span> <span class="va">ft</span><span class="op">=</span>rmd</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="ex">autocmd</span> BufNewFile,BufRead <span class="pp">*</span>.rmd set ft=rmd</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="ex">autocmd</span> BufNewFile,BufRead <span class="pp">*</span>.qmd set ft=rmd</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="ex">]]</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="ex">--</span> To use spacebar for running code</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="ex">vim.cmd</span><span class="er">(</span><span class="kw">[[</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  let g:markdown_fenced_languages = <span class="er">['r',</span> <span class="st">'python'</span><span class="ex">]</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="bu">let</span> <span class="va">g</span><span class="op">:</span><span class="va">rmd_fenced_languages</span> <span class="op">=</span> <span class="op">[</span><span class="st">'r'</span>, <span class="st">'python'</span><span class="op">]</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="cf">if</span> <span class="ex">has</span><span class="er">(</span><span class="st">"gui_running"</span><span class="kw">)</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>      <span class="ex">inoremap</span> <span class="op">&lt;</span>C-Space<span class="op">&gt;</span> <span class="op">&lt;</span>C-x<span class="op">&gt;&lt;</span>C-o<span class="op">&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="cf">else</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>      <span class="ex">inoremap</span> <span class="op">&lt;</span>Nul<span class="op">&gt;</span> <span class="op">&lt;</span>C-x<span class="op">&gt;&lt;</span>C-o<span class="op">&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="ex">endif</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="ex">vmap</span> <span class="op">&lt;</span>Space<span class="op">&gt;</span> <span class="op">&lt;</span>Plug<span class="op">&gt;</span>RDSendSelection</span>
+<span id="cb13-12"><a href="#cb13-12"></a>  <span class="fu">nmap</span> <span class="op">&lt;</span>Space<span class="op">&gt;</span> <span class="op">&lt;</span>Plug<span class="op">&gt;</span>RDSendLine</span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="ex">]]</span><span class="kw">)</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a></span>
+<span id="cb13-15"><a href="#cb13-15"></a></span>
+<span id="cb13-16"><a href="#cb13-16"></a><span class="ex">--</span> R filetypes</span>
+<span id="cb13-17"><a href="#cb13-17"></a><span class="ex">vim.cmd</span><span class="er">(</span><span class="kw">[[</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>autocmd BufNewFile,BufRead <span class="pp">*</span>.Rmd <span class="er">set</span> <span class="va">ft</span><span class="op">=</span>rmd</span>
+<span id="cb13-19"><a href="#cb13-19"></a><span class="ex">autocmd</span> BufNewFile,BufRead <span class="pp">*</span>.rmd set ft=rmd</span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="ex">autocmd</span> BufNewFile,BufRead <span class="pp">*</span>.qmd set ft=rmd</span>
+<span id="cb13-21"><a href="#cb13-21"></a><span class="ex">]]</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The above configurations will:</p>
 <ul>
@@ -491,7 +466,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Create a test .rmd file on your desktop. You can use the following command:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> test.rmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="ex">nvim</span> test.rmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>In the test.rmd file, let’s start with a simple function. Add a similar function:</li>
@@ -499,7 +474,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/create_test.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Creating a <code>test.rmd</code> file</figcaption><p></p>
+<figcaption class="figure-caption">Creating a <code>test.rmd</code> file</figcaption>
 </figure>
 </div>
 <ol start="3" type="1">
@@ -508,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/r_console.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Opening R console with nvim-r</figcaption><p></p>
+<figcaption class="figure-caption">Opening R console with nvim-r</figcaption>
 </figure>
 </div>
 <ol start="4" type="1">
@@ -517,7 +492,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/run_code.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Running the R code!</figcaption><p></p>
+<figcaption class="figure-caption">Running the R code!</figcaption>
 </figure>
 </div>
 <p>With all these steps, you just tested the integration of R with nvim. You can now continue to explore and utilize the features provided by Nvim-R to enhance your R coding experience within Neovim.</p>
@@ -529,15 +504,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a.hernandezmora2023,
-  author = {Ronny A. Hernandez Mora},
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2023,
+  author = {A. Hernandez Mora, Ronny},
   title = {Configuring Nvim with {Lua} and Packer for {R}},
   date = {2023-06-18},
   url = {https://ronnyale.com//posts/2023-06-17-nvim_lua_packer},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a.hernandezmora2023" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Ronny A. Hernandez Mora. 2023. <span>“Configuring Nvim with Lua and
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+A. Hernandez Mora, Ronny. 2023. <span>“Configuring Nvim with Lua and
 Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com//posts/2023-06-17-nvim_lua_packer">https://ronnyale.com//posts/2023-06-17-nvim_lua_packer</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -567,9 +542,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -634,6 +623,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -674,6 +749,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
