@@ -1,18 +1,6 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f05a545a-6504-4ab2-8d04-022ca82d602b/deploy-status)](https://app.netlify.com/sites/cozy-nougat-8c197b/deploys)
+
 # Personal blog
 
-# Blogging workflow:
+This is the source code for my blog site: https://blog.ronnyale.com/
 
- - Create an issue with the blog post idea
- - Create  branch
- - Use the `distill::create_post()` function
- - Include content
- - Save file
- - Use `build > Build Website` button
- - commit changes
- - push changes
- - create pull request
- - review pull request
- - accept pull request
- - check site
- 
- Original Rmd files are in the `_posts` folder.
