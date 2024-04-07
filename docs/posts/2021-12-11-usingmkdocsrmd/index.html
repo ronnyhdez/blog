@@ -98,7 +98,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Creating a website using mkdocs, Rmarkdown and GitHub pages">
 <meta property="og:description" content="A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.">
 <meta property="og:image" content="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png">
@@ -113,16 +112,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
@@ -238,22 +242,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># title: "Creating a website using mkdocs, Rmarkdown and GitHub pages"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># description: |</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># author:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     url: http://ronnyhdez.rbind.io/ </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># date: 2022-01-13</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># creative_commons: CC BY-NC</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># preview: images/site_alive.png</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># twitter:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># output:</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   distill::distill_article:</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     self_contained: true</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># ---</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># title: "Creating a website using mkdocs, Rmarkdown and GitHub pages"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># description: |</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#   A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># author:</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#     url: http://ronnyhdez.rbind.io/ </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># date: 2022-01-13</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># preview: images/site_alive.png</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># twitter:</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># output:</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#   distill::distill_article:</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#     self_contained: true</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="what-are-we-going-to-create" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-we-going-to-create">What are we going to create?</h2>
@@ -289,12 +293,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For this, I followed the instructions over <a href="https://www.mkdocs.org/user-guide/installation/">here</a>. I got already python on my machine and I’m a Linux user, so I’m using Ubuntu 20.04</p>
 <p>Given that I had already python I just installed MkDocs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install mkdocs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">pip</span> install mkdocs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then I validated that the installation was succesful:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdocs <span class="at">--version</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mkdocs,</span> version 1.2.2 from /home/your_username/.local/lib/python3.8/site-packages/mkdocs <span class="er">(</span><span class="ex">Python</span> 3.8<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">$</span> mkdocs <span class="at">--version</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="ex">mkdocs,</span> version 1.2.2 from /home/your_username/.local/lib/python3.8/site-packages/mkdocs <span class="er">(</span><span class="ex">Python</span> 3.8<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Done! I got MkDocs on my computer.</p>
 </section>
@@ -303,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I don’t like the default theme that comes with MkDocs, so I changed to <a href="https://squidfunk.github.io/mkdocs-material/getting-started/">Matherial</a>.</p>
 <p>To install this theme, you will need to run in the terminal:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pip3 install mkdocs-material</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">$</span> pip3 install mkdocs-material</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="configuring-your-github-repository" class="level3">
@@ -362,13 +366,13 @@ images/
 <h3 class="anchored" data-anchor-id="sending-your-changes-to-your-github-repository.">Sending your changes to your github repository.</h3>
 <p>For this example I’m not using branches to avoid focusing on the git details, so we are just going to send everything to the main branch. This step is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add first notes"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">git</span> add .</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add first notes"</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Be aware that this is probably going to ask you for who you are (user name on GitHub and email) and your credentials. One tip to save your credentials for the specific repository that you are working on is the following command after you enter your credentials:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config credential.helper store</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">git</span> config credential.helper store</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -377,18 +381,18 @@ images/
 <p>So far, we have our notes. But we are still lacking the part of publishing in our web page the notes. There are several steps to do this manually but after many times repeating everything I decided to create a small R package to automatize this steps. This package is called <a href="https://github.com/ronnyhdez/docmaker">dockmaer</a></p>
 <p>You can install the package with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ronnyhdez/docmaker"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ronnyhdez/docmaker"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, on your console you can load the package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(docmaker)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(docmaker)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="configure-repo-with-docmaker" class="level3">
 <h3 class="anchored" data-anchor-id="configure-repo-with-docmaker">Configure repo with <code>docmaker</code></h3>
 <p>Before building and deploying our notes, we need to do some configuration steps in our repository. <code>docmaker</code> can take care of this with the function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build_repo</span>(<span class="at">github_page_url =</span> <span class="st">"https://ronnyhdez.github.io/test_docmaker/"</span>,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">site_author =</span> <span class="st">"Ronny A. Hernández Mora"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">build_repo</span>(<span class="at">github_page_url =</span> <span class="st">"https://ronnyhdez.github.io/test_docmaker/"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2"></a>           <span class="at">site_author =</span> <span class="st">"Ronny A. Hernández Mora"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can get the URL of our repository in the settings &gt; page on GitHub. After we enabled this in a step before, there should appear the URL designated by GitHub for our web site.</p>
 <p><img src="images/page_url.png" class="img-fluid"></p>
@@ -405,7 +409,7 @@ images/
 <p>Because this is our first time, all of our notes (three in the example) are not existing as <code>md</code> documents nor even built or deploy with mkdocs.</p>
 <p><code>docmaker</code> have a function to take <strong>all the .Rmd files</strong> existing in our project root and do all the steps needed to deploy this ones:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_all_docs</span>(<span class="at">deploy =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">make_all_docs</span>(<span class="at">deploy =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This function will do the following:</p>
 <ul>
@@ -680,6 +684,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

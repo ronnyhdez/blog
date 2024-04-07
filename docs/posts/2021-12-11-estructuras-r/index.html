@@ -98,7 +98,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Intro a datos y estructuras en R">
 <meta property="og:description" content="Una breve intro a estructuras en R.">
 <meta property="og:image" content="https://ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png">
@@ -113,16 +112,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
@@ -238,22 +242,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># title: "Intro a datos y estructuras en R"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># description: |</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   Una breve intro a estructuras en R.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># author:</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     url: http://ronnyhdez.rbind.io/</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># date: 2018-02-01</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># creative_commons: CC BY-NC</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># preview: images/structure.png</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># twitter:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># output:</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   distill::distill_article:</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     self_contained: true</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># ---</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># title: "Intro a datos y estructuras en R"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># description: |</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#   Una breve intro a estructuras en R.</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># author:</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#   - name: Ronny A. Hernández Mora</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#     url: http://ronnyhdez.rbind.io/</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># date: 2018-02-01</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># creative_commons: CC BY-NC</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># preview: images/structure.png</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># twitter:</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#   creator: "@RonnyHdezM"</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># output:</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#   distill::distill_article:</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#     self_contained: true</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># ---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="datos-y-estructuras" class="level1">
 <h1>Datos y Estructuras</h1>
@@ -270,36 +274,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Para crear vectores c( )</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"biologia"</span>, <span class="st">"A"</span>, <span class="st">"estadistica"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"biologia"</span>, <span class="st">"A"</span>, <span class="st">"estadistica"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">class</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">18.6</span>, <span class="dv">90</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">18.6</span>, <span class="dv">90</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">class</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(18L, 26L)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>c <span class="ot">&lt;-</span> <span class="fu">c</span>(18L, 26L)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">class</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "integer"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> 4i</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>d <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> 4i</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">class</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "complex"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>e <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">class</span>(e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "logical"</code></pre>
 </div>
@@ -313,17 +317,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="vectores-elementos-son-del-mismo-tipo" class="level2">
 <h2 class="anchored" data-anchor-id="vectores-elementos-son-del-mismo-tipo">Vectores elementos son del mismo tipo</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>v_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>v_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>v_3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>v_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>v_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>v_3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="listas-elementos-son-de-diferente-tipo" class="level2">
 <h2 class="anchored" data-anchor-id="listas-elementos-son-de-diferente-tipo">Listas elementos son de diferente tipo</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>l_1 <span class="ot">&lt;-</span> <span class="fu">list</span>(v_1,v_2,v_3)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>l_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>l_1 <span class="ot">&lt;-</span> <span class="fu">list</span>(v_1,v_2,v_3)</span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a>l_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 [1] 10 20 30
@@ -339,8 +343,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo" class="level2">
 <h2 class="anchored" data-anchor-id="matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo">matrix es de dos dimensiones con elementos del mismo tipo:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>matrix_1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>matrix_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>matrix_1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,<span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>matrix_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    4    7
@@ -352,11 +356,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo" class="level2">
 <h2 class="anchored" data-anchor-id="data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo">data frame es de dos dimensiones con elementos de diferente tipo:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primero creamos un par de vectores para unirlos en un dataframe</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>numero <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Mercurio"</span>,<span class="st">"Venus"</span>,<span class="st">"Tierra"</span>,<span class="st">"Marte"</span>,<span class="st">"Jupiter"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>planeta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(numero,nombre)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>planeta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Primero creamos un par de vectores para unirlos en un dataframe</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>numero <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Mercurio"</span>,<span class="st">"Venus"</span>,<span class="st">"Tierra"</span>,<span class="st">"Marte"</span>,<span class="st">"Jupiter"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4"></a>planeta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(numero,nombre)</span>
+<span id="cb17-5"><a href="#cb17-5"></a>planeta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  numero   nombre
 1      1 Mercurio
@@ -370,9 +374,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="array-es-una-estructura-de-tres-o-más-dimensiones" class="level2">
 <h2 class="anchored" data-anchor-id="array-es-una-estructura-de-tres-o-más-dimensiones">Array es una estructura de tres o más dimensiones:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(D) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>)        <span class="co"># Dos filas, tres columnas y dos "caras"</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>D</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>D <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">dim</span>(D) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>)        <span class="co"># Dos filas, tres columnas y dos "caras"</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>D</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>, , 1
 
@@ -394,45 +398,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Hay ocasiones en las cuales R podría confundir lo que nosotros consideramos un dato de cierto tipo, por ejemplo un número lo podría leer como un carácter. A la hora de hacer algunos cálculos habrán problemas.</p>
 <p>Pero existe una solución y esto es coercionar los tipos de los datos. Esto se puede hacer tal como se muestra en los siguientes ejemplos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="st">"A"</span>, <span class="dv">80</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="st">"A"</span>, <span class="dv">80</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">class</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: NAs introduced by coercion</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 20 40 NA 80</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="cn">TRUE</span>, <span class="dv">80</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="cn">TRUE</span>, <span class="dv">80</span>)</span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="fu">class</span>(biolo_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>biolo_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>biolo_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 20 40  1 80</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">60</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>bv_1 <span class="ot">&lt;-</span> <span class="fu">as.character</span>(biolo_vector)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>bv_2 <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(biolo_vector)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>bv_3 <span class="ot">&lt;-</span> <span class="fu">as.complex</span>(biolo_vector)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bv_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>biolo_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span><span class="sc">:</span><span class="dv">60</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a>bv_1 <span class="ot">&lt;-</span> <span class="fu">as.character</span>(biolo_vector)</span>
+<span id="cb31-3"><a href="#cb31-3"></a>bv_2 <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(biolo_vector)</span>
+<span id="cb31-4"><a href="#cb31-4"></a>bv_3 <span class="ot">&lt;-</span> <span class="fu">as.complex</span>(biolo_vector)</span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="fu">class</span>(bv_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bv_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">class</span>(bv_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "logical"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(bv_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">class</span>(bv_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "complex"</code></pre>
 </div>
@@ -442,14 +446,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Exploración datos:</h1>
 <p>Cuando traemos datos a R hay una manera fácil de visualizar su estructura o forma sin tener que acudir al documento original. A continuación mostramos una serie de ejemplos en los cuales se m</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()                              <span class="co"># ver que tengo en el wd</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)                         <span class="co"># Ver primeros 6 observaciones</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data)                         <span class="co"># últimas 6 observaciones</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)                          <span class="co"># estructura del data.frame</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data)                          <span class="co"># dimensiones (rows &amp; columns)</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)                        <span class="co"># nombres columnas</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(data)                      <span class="co"># paquete diplyr</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data)                      <span class="co"># resumen de cada variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">dir</span>()                              <span class="co"># ver que tengo en el wd</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="fu">head</span>(data)                         <span class="co"># Ver primeros 6 observaciones</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="fu">tail</span>(data)                         <span class="co"># últimas 6 observaciones</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="fu">str</span>(data)                          <span class="co"># estructura del data.frame</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a><span class="fu">dim</span>(data)                          <span class="co"># dimensiones (rows &amp; columns)</span></span>
+<span id="cb37-6"><a href="#cb37-6"></a><span class="fu">names</span>(data)                        <span class="co"># nombres columnas</span></span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="fu">glimpse</span>(data)                      <span class="co"># paquete diplyr</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="fu">summary</span>(data)                      <span class="co"># resumen de cada variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="qué-siginifica-dir-y-ls" class="level2">
 <h2 class="anchored" data-anchor-id="qué-siginifica-dir-y-ls">¿Qué siginifica dir() y ls()?</h2>
@@ -463,29 +467,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creamos-los-vectores-a-unir" class="level1">
 <h1>Creamos los vectores a unir:</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>primer_nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Isaac"</span>,<span class="st">"Charles"</span>,<span class="st">"Rosalind"</span>,<span class="st">"Marie"</span>) </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>segundo_nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Newton"</span>,<span class="st">"Darwin"</span>,<span class="st">"Franklin"</span>,<span class="st">"Curie"</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>edad_muerte <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">84</span>, <span class="dv">73</span>, <span class="dv">37</span>, <span class="dv">66</span>)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>campo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Física"</span>, <span class="st">"Biología"</span>, <span class="st">"Química"</span>, <span class="st">"Física"</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>fecha_muerte <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"1643-1-4"</span>, <span class="st">"1882-4-19"</span>,</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"1958-4-16"</span>, <span class="st">"1934-7-4"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>primer_nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Isaac"</span>,<span class="st">"Charles"</span>,<span class="st">"Rosalind"</span>,<span class="st">"Marie"</span>) </span>
+<span id="cb38-2"><a href="#cb38-2"></a></span>
+<span id="cb38-3"><a href="#cb38-3"></a>segundo_nombre <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Newton"</span>,<span class="st">"Darwin"</span>,<span class="st">"Franklin"</span>,<span class="st">"Curie"</span>)</span>
+<span id="cb38-4"><a href="#cb38-4"></a></span>
+<span id="cb38-5"><a href="#cb38-5"></a>edad_muerte <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">84</span>, <span class="dv">73</span>, <span class="dv">37</span>, <span class="dv">66</span>)</span>
+<span id="cb38-6"><a href="#cb38-6"></a></span>
+<span id="cb38-7"><a href="#cb38-7"></a>campo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Física"</span>, <span class="st">"Biología"</span>, <span class="st">"Química"</span>, <span class="st">"Física"</span>)</span>
+<span id="cb38-8"><a href="#cb38-8"></a></span>
+<span id="cb38-9"><a href="#cb38-9"></a>fecha_muerte <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"1643-1-4"</span>, <span class="st">"1882-4-19"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10"></a>                        <span class="st">"1958-4-16"</span>, <span class="st">"1934-7-4"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="unimos-cada-uno-de-los-vectores-en-un-data.frame" class="level1">
 <h1>Unimos cada uno de los vectores en un data.frame</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>cientificos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(primer_nombre, segundo_nombre,</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                          edad_muerte, campo, fecha_muerte)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>cientificos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(primer_nombre, segundo_nombre,</span>
+<span id="cb39-2"><a href="#cb39-2"></a>                          edad_muerte, campo, fecha_muerte)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="revisemos-estructura-igual-que-en-caso-anterior" class="level1">
 <h1>Revisemos estructura igual que en caso anterior</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cientificos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="fu">head</span>(cientificos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  primer_nombre segundo_nombre edad_muerte    campo fecha_muerte
 1         Isaac         Newton          84   Física   1643-01-04
@@ -493,7 +497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3      Rosalind       Franklin          37  Química   1958-04-16
 4         Marie          Curie          66   Física   1934-07-04</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cientificos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">str</span>(cientificos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   4 obs. of  5 variables:
  $ primer_nombre : chr  "Isaac" "Charles" "Rosalind" "Marie"
@@ -502,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  $ campo         : chr  "Física" "Biología" "Química" "Física"
  $ fecha_muerte  : Date, format: "1643-01-04" "1882-04-19" ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#glimpse(cientificos) con librería dplyr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co">#glimpse(cientificos) con librería dplyr</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -753,6 +757,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

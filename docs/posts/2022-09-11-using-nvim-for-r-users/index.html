@@ -98,7 +98,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Using Neovim for R Users">
 <meta property="og:description" content="Are you an R User who wants to try nvim?">
 <meta property="og:image" content="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png">
@@ -113,16 +112,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
@@ -217,20 +221,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>How to install and config nvim in Ubuntu?</h1>
 <p>There is a ton of tutorials in the internet about this, but after trying several times, the steps that worked for me are the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install neovim <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">sudo</span> apt install neovim <span class="at">-y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then you can validate the version with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">nvim</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we have nvim installed in our computer, it’s time to configure it. First you need to create the config file that would be in the path <code>~/.config/nvim/</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create directory</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/.config/nvim/</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/.config/nvim/</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create nvim config file</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> init.vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create directory</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">mkdir</span> ~/.config/nvim/</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="bu">cd</span> ~/.config/nvim/</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Create nvim config file</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="ex">nvim</span> init.vim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>From there, you will see an empty file. We are going to add some configuration. There are many options to adapt nvim to your needs and lots of examples out there. Here I’m going to use a basic configuration so you can get an idea on what you can do.</p>
 <p>To understand the file, take notes on this:</p>
@@ -241,63 +245,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>This is what a basic config file would look like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="st">" Cursor as a block</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">set guicursor=</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span> Use relative numbers in files</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> relativenumber</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">" Line where I'm positioned is the real line number</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">set nu</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">"</span> No saving or keeping buffer in the background</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> hidden</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">" Indentetation configuration</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">set tabstop=4 softtabstop=4</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">set shiftwidth=4</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">set expandtab</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">set smartindent</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="st">"</span> Start scrolling until 8 spaces away</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> scrolloff=8</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="st">" Create extra column</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="st">set signcolumn=yes</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="st">"</span> Mark 80 characters line</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> colorcolumn=80</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="st">" Set encoding</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="st">set encoding=utf-8</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="st">"</span> Plugins</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="ex">call</span> plug#begin<span class="er">(</span><span class="kw">)</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="ex">Plug</span> <span class="st">'jalvesaq/Nvim-R'</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="ex">Plug</span> <span class="st">'preservim/nerdtree'</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="ex">Plug</span> <span class="st">'tpope/vim-fugitive'</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="ex">Plug</span> <span class="st">'ncm2/ncm2'</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ex">Plug</span> <span class="st">'gaalcaras/ncm-R'</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="ex">call</span> plug#end<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="st">" Cursor as a block</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">set guicursor=</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">"</span> Use relative numbers in files</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="bu">set</span> relativenumber</span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="st">" Line where I'm positioned is the real line number</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="st">set nu</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="st">"</span> No saving or keeping buffer in the background</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="bu">set</span> hidden</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="st">" Indentetation configuration</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="st">set tabstop=4 softtabstop=4</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="st">set shiftwidth=4</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="st">set expandtab</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="st">set smartindent</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="st">"</span> Start scrolling until 8 spaces away</span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="bu">set</span> scrolloff=8</span>
+<span id="cb4-21"><a href="#cb4-21"></a></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="st">" Create extra column</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="st">set signcolumn=yes</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="st">"</span> Mark 80 characters line</span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="bu">set</span> colorcolumn=80</span>
+<span id="cb4-27"><a href="#cb4-27"></a></span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="st">" Set encoding</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a><span class="st">set encoding=utf-8</span></span>
+<span id="cb4-30"><a href="#cb4-30"></a></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="st">"</span> Plugins</span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="ex">call</span> plug#begin<span class="er">(</span><span class="kw">)</span></span>
+<span id="cb4-33"><a href="#cb4-33"></a><span class="ex">Plug</span> <span class="st">'jalvesaq/Nvim-R'</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a><span class="ex">Plug</span> <span class="st">'preservim/nerdtree'</span></span>
+<span id="cb4-35"><a href="#cb4-35"></a><span class="ex">Plug</span> <span class="st">'tpope/vim-fugitive'</span></span>
+<span id="cb4-36"><a href="#cb4-36"></a><span class="ex">Plug</span> <span class="st">'ncm2/ncm2'</span></span>
+<span id="cb4-37"><a href="#cb4-37"></a><span class="ex">Plug</span> <span class="st">'gaalcaras/ncm-R'</span></span>
+<span id="cb4-38"><a href="#cb4-38"></a><span class="ex">call</span> plug#end<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A good idea for me is that, when I add a new line of configuration, I will add a comment stating what that command is mean for. That way, it will be easy for me to remember what I was trying to achieve when I made the change.</p>
 <section id="instaling-plug-ins" class="level2">
 <h2 class="anchored" data-anchor-id="instaling-plug-ins">Instaling Plug-ins</h2>
 <p>In the <code>init.vim</code> file above, I included already some of the plugins that I want to use when working with nvim. When using the plugins, these should be in the middle of this call:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">call</span> plug#begin<span class="er">(</span><span class="st">'~/.vim/plugged'</span><span class="kw">)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">call</span> plug#end<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">call</span> plug#begin<span class="er">(</span><span class="st">'~/.vim/plugged'</span><span class="kw">)</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="ex">call</span> plug#end<span class="er">(</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, you can see that they are included in the <code>init.vim</code> file, but still are not installed. For this, the first step is to find out a plugin manager.</p>
 <p>The one that I like is <a href="https://github.com/junegunn/vim-plug">vim-plug</a>. To install it, you will need to:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sh</span> <span class="at">-c</span> <span class="st">'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st">       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sh</span> <span class="at">-c</span> <span class="st">'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After the <code>vim-plug</code> is installed, you will need to go back to your <code>init.vim</code> document. Then install the rest of plugins with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:PlugInstall</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">:PlugInstall</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When installing the rest of the plugins, you will see something similar to:</p>
 <div class="cell">
@@ -307,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>If I want to know which pluggins are installed, with the following vim-plug command we can check them:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">:PlugStatus</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">:PlugStatus</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -315,7 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>nvim workflow for R projects</h1>
 <p>At this point, we have a functional and adapted nvim for our daily work. Let’s start on what would the workflow look like when dealing with R projects. At first if you already have an R project, you can move on your terminal to that path and open a file with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nvim</span> my_file.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">nvim</span> my_file.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This can be done for any R file (Rmd, R, qmd). The configuration will detect the file format and be aware of what it is. Once we have started our nvim session, we need to know a couple of commands to run R from a nvim session:</p>
 <p><code>\rf</code> Connect to R Console</p>
@@ -583,6 +587,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

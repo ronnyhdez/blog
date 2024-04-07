@@ -1,14 +1,14 @@
 ---
-title: "R, Linux and other stuff"
+title: "Notes about creating and exploring data products"
 description: |
-  Notes about my journey creating data science products
+  By Ronny A. Hernández Mora
 listing:
   feed: true
   contents: posts
   sort: "date desc"
   type: grid
   grid-columns: 3
-  image-height: 250px
+  image-height: 200px
   page-size: 100
   categories: true
   sort-ui: false

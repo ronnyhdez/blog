@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="By Ronny A. Hernández Mora">
+
+<title>Ronny A. Hernández Mora - Notes about creating and exploring data products</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="alternate" type="application/rss+xml" title="Ronny A. Hernández Mora" href="index.xml"><meta property="og:title" content="Ronny A. Hernández Mora - Notes about creating and exploring data products">
+<meta property="og:description" content="By Ronny A. Hernández Mora">
+<meta property="og:image" content="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/keyboard.png">
+<meta property="og:site-name" content="Ronny A. Hernández Mora">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About this blog</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">Notes about creating and exploring data products</h1>
+                  <div>
+        <div class="description">
+          <p>By Ronny A. Hernández Mora</p>
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="Base R">Base R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Linux">Linux <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Lua">Lua <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MODIS">MODIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MkDocs">MkDocs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Neovim">Neovim <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R packages">R packages <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Shiny">Shiny <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zotero">Zotero <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bits">bits <span class="quarto-category-count">(1)</span></div><div class="category" data-category="git">git <span class="quarto-category-count">(1)</span></div><div class="category" data-category="packer">packer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tmux">tmux <span class="quarto-category-count">(1)</span></div></div></div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
+
+
+
+
+
+
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="MODIS,R,bits" data-listing-date-sort="1703487600000" data-listing-file-modified-sort="1712452929032" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22">
+<a href="./posts/2023-12-25-modis-bitstring/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-12-25-modis-bitstring/images/keyboard.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+MODIS pixel bit strings conversion with R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('MODIS'); return false;">
+MODIS
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bits'); return false;">
+bits
+</div>
+</div>
+<div class="card-text listing-description">
+<p>MODIS satellite images comes with bit information about pixel’s quality. Here, I will show how to read those bits, and categorize them for quality filtering.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Dec 25, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Neovim,Linux,R,Lua,packer" data-listing-date-sort="1687068000000" data-listing-file-modified-sort="1703540703462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<a href="./posts/2023-06-17-nvim_lua_packer/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-06-17-nvim_lua_packer/images/keyboard.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Configuring nvim with Lua and packer for R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Neovim'); return false;">
+Neovim
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Lua'); return false;">
+Lua
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('packer'); return false;">
+packer
+</div>
+</div>
+<div class="card-text listing-description">
+<p>A blogpost on how to configure nvim with Lua to work with R.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Jun 18, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="Neovim,Linux,R" data-listing-date-sort="1677481200000" data-listing-file-modified-sort="1703540703458" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<a href="./posts/2023-02-27-nvim-and-r/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-02-27-nvim-and-r/images/computer.jpg" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Workflow to use R with Neovim
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Neovim'); return false;">
+Neovim
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Feb 27, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="R packages,Zotero" data-listing-date-sort="1663135200000" data-listing-file-modified-sort="1680197817387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<a href="./posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2022-09-14-package-citation-zotero/images/study.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Packages citation and zotero
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R packages'); return false;">
+R packages
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Zotero'); return false;">
+Zotero
+</div>
+</div>
+<div class="card-text listing-description">
+<p>A manual way to create the BibTex citations and export it to Zotero</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora, Erick Calderon Morales
+</div>
+<div class="listing-date">
+Sep 14, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="Neovim,Linux" data-listing-date-sort="1663048800000" data-listing-file-modified-sort="1680197817379" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<a href="./posts/2022-09-11-using-nvim-for-r-users/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Using Neovim for R Users
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Neovim'); return false;">
+Neovim
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Are you an R User who wants to try nvim?</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Sep 13, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="MkDocs,Linux" data-listing-date-sort="1642057200000" data-listing-file-modified-sort="1680197817355" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<a href="./posts/2021-12-11-usingmkdocsrmd/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Creating a website using mkdocs, Rmarkdown and GitHub pages
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('MkDocs'); return false;">
+MkDocs
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+</div>
+<div class="card-text listing-description">
+<p>A posible solution for note takers (and those who need to organize your documentation) with mkdocs and Rmarkdown.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Jan 13, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="tmux,Linux" data-listing-date-sort="1609657200000" data-listing-file-modified-sort="1680197817339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<a href="./posts/2021-12-11-usando-tmux/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-usando-tmux/images/tmux.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Usando tmux: apuntes breves de mi jornada
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('tmux'); return false;">
+tmux
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Breves notas sobre el uso de tmux. Adecuado para mirar de manera rápida alguna instrucción que necesitemos para continuar con nuestro flujo de trabajo.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Jan 3, 2021
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="7" data-categories="Shiny,Linux" data-listing-date-sort="1609138800000" data-listing-file-modified-sort="1680197817319" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<a href="./posts/2021-12-11-desplegando-shiny/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-desplegando-shiny/images/app.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Desplegando mi app de shiny con shiny-server
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
+Shiny
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
+Linux
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Vamos a “llevar a internet” nuestra aplicación y hacerla accesible al mundo.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Dec 28, 2020
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="8" data-categories="Base R" data-listing-date-sort="1521007200000" data-listing-file-modified-sort="1680197817331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<a href="./posts/2021-12-11-tiempo-en-r/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-tiempo-en-r/images/time.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Tiempo en R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Base R'); return false;">
+Base R
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Trabajar con fechas y tiempo en R es un poco complicado. En este post trato de explicar cómo trabajar con este tipo de datos y base R</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Mar 14, 2018
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="9" data-categories="Base R" data-listing-date-sort="1517468400000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<a href="./posts/2021-12-11-estructuras-r/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-estructuras-r/images/structure.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Intro a datos y estructuras en R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Base R'); return false;">
+Base R
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Una breve intro a estructuras en R.</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Feb 1, 2018
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="10" data-listing-date-sort="1515826800000" data-listing-file-modified-sort="1680197817315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
+<a href="./posts/2021-12-11-datos-abiertos-muni-sanjose/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Datos abiertos municipalidad de San José, Costa Rica
+</h5>
+<div class="card-text listing-description">
+<p>Una introducción al uso del API de datos abiertos de la muni de San José</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora, Erick Calderon Morales
+</div>
+<div class="listing-date">
+Jan 13, 2018
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="11" data-categories="git" data-listing-date-sort="1461132000000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<a href="./posts/2021-12-11-otra-intro-a-git/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2021-12-11-otra-intro-a-git/images/files.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Otra introducción a git
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('git'); return false;">
+git
+</div>
+</div>
+<div class="card-text listing-description">
+<p>Una introducción al control de versiones con git (otra más).</p>
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Apr 20, 2016
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

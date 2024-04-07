@@ -8,6 +8,8 @@ date: 2023-12-25
 categories: [MODIS, R, bits]
 licence: "CC BY-NC"
 image: images/keyboard.png
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +33,7 @@ library(stringr)
 
 # Data
 reflectance_500 <- 
-  readRDS("data_satellite_processed/borden_modis_reflectance_500_clean.rds")
+  readRDS("data/borden_modis_reflectance_500_clean.rds")
 ```
 
 # MODIS and the bit strings
@@ -61,11 +63,9 @@ There are 4 variables in the dataset with a bitmask that needs to be converted:
 #### How many unique values do I have per each of the quality variables?
 
 ```{r}
-reflectance_500 %>% 
-  select(state_1km, gflags, qc_500m, q_scan) %>%
-  purrr::map(., function(col) {
-    unique(col)
-  })
+reflectance_500 |>
+  select(state_1km, gflags, qc_500m, q_scan) |> 
+  purrr::map(~unique(.))
 ```
 
 #### What is the idea behind the bit mask conversion?
@@ -177,10 +177,10 @@ for (i in qc_data$qc_ints) {
 }
 
 ## Create test according to value in video
-process_test <- qc_data %>% 
-  filter(qc_ints == 1131675649) %>%
-  select(-qc_ints) %>%
-  unite(col = "new", bit_31:bit_0, sep = "") %>% 
+process_test <- qc_data |> 
+  filter(qc_ints == 1131675649) |>
+  select(-qc_ints) |>
+  unite(col = "new", bit_31:bit_0, sep = "") |> 
   pull() 
 
 stopifnot(process_test == "01000011011101000000000000000001")
@@ -197,14 +197,14 @@ This steps can be done in two different ways: using conditionals for each of the
 **One possible solution**
 
 ```{r}
-qc_data %>% 
+qc_data |> 
   mutate(modland_qa = case_when(
     bit_1 == 0 & bit_0 == 0 ~ "ideal quality - all bands",
     bit_1 == 0 & bit_0 == 1 ~ "less than ideal quality - some or all bands",
     bit_1 == 1 & bit_0 == 0 ~ "product not produced due to cloud effects",
     bit_1 == 1 & bit_0 == 1 ~ "product not produced for other reasons",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   paged_table()
 ```
 
@@ -212,15 +212,15 @@ qc_data %>%
 
 ```{r}
 # Second possible solution
-qc_data %>% 
-  unite(col = "modland", c("bit_1", "bit_0"), sep = "") %>% 
+qc_data |> 
+  unite(col = "modland", c("bit_1", "bit_0"), sep = "") |> 
   mutate(modland_qa = case_when(
     modland == "00" ~ "ideal quality - all bands",
     modland == "01" ~ "less than ideal quality - some or all bands",
     modland == "10" ~ "product not produced due to cloud effects",
     modland == "11" ~ "product not produced for other reasons",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   paged_table()
 ```
 
@@ -232,29 +232,29 @@ qc_data %>%
 The following chunk of code contains all the steps to include all the categories specified in the MODIS documentation. The result of this step will be a data frame with
 
 ```{r}
-qc_500_description <- qc_data %>% 
-  unite(col = "modland", c("bit_1", "bit_0"), sep = "") %>% 
+qc_500_description <- qc_data |> 
+  unite(col = "modland", c("bit_1", "bit_0"), sep = "") |> 
   unite(col = "band_1", 
-        c("bit_5", "bit_4", "bit_3", "bit_2"), sep = "") %>% 
+        c("bit_5", "bit_4", "bit_3", "bit_2"), sep = "") |> 
   unite(col = "band_2", 
-        c("bit_9", "bit_8", "bit_7", "bit_6"), sep = "") %>% 
+        c("bit_9", "bit_8", "bit_7", "bit_6"), sep = "") |> 
   unite(col = "band_3", 
-        c("bit_13", "bit_12", "bit_11", "bit_10"), sep = "") %>% 
+        c("bit_13", "bit_12", "bit_11", "bit_10"), sep = "") |> 
   unite(col = "band_4", 
-        c("bit_17", "bit_16", "bit_15", "bit_14"), sep = "") %>% 
+        c("bit_17", "bit_16", "bit_15", "bit_14"), sep = "") |> 
   unite(col = "band_5", 
-        c("bit_21", "bit_20", "bit_19", "bit_18"), sep = "") %>% 
+        c("bit_21", "bit_20", "bit_19", "bit_18"), sep = "") |> 
   unite(col = "band_6", 
-        c("bit_25", "bit_24", "bit_23", "bit_22"), sep = "") %>%
+        c("bit_25", "bit_24", "bit_23", "bit_22"), sep = "") |>
   unite(col = "band_7", 
-        c("bit_29", "bit_28", "bit_27", "bit_26"), sep = "") %>% 
+        c("bit_29", "bit_28", "bit_27", "bit_26"), sep = "") |> 
   mutate(modland_qa = case_when(
     modland == "00" ~ "ideal quality - all bands",
     modland == "01" ~ "less than ideal quality - some or all bands",
     modland == "10" ~ "product not produced due to cloud effects",
     modland == "11" ~ "product not produced for other reasons",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band1_qa = case_when(
     band_1 == "0000" ~ "highest_quality",
     band_1 == "0111" ~ "noisy detector",
@@ -267,7 +267,7 @@ qc_500_description <- qc_data %>%
     band_1 == "1110" ~ "L1B data faulty",
     band_1 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band2_qa = case_when(
     band_2 == "0000" ~ "highest_quality",
     band_2 == "0111" ~ "noisy detector",
@@ -280,7 +280,7 @@ qc_500_description <- qc_data %>%
     band_2 == "1110" ~ "L1B data faulty",
     band_2 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band3_qa = case_when(
     band_3 == "0000" ~ "highest_quality",
     band_3 == "0111" ~ "noisy detector",
@@ -293,7 +293,7 @@ qc_500_description <- qc_data %>%
     band_3 == "1110" ~ "L1B data faulty",
     band_3 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band4_qa = case_when(
     band_4 == "0000" ~ "highest_quality",
     band_4 == "0111" ~ "noisy detector",
@@ -306,7 +306,7 @@ qc_500_description <- qc_data %>%
     band_4 == "1110" ~ "L1B data faulty",
     band_4 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band5_qa = case_when(
     band_5 == "0000" ~ "highest_quality",
     band_5 == "0111" ~ "noisy detector",
@@ -319,7 +319,7 @@ qc_500_description <- qc_data %>%
     band_5 == "1110" ~ "L1B data faulty",
     band_5 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band6_qa = case_when(
     band_6 == "0000" ~ "highest_quality",
     band_6 == "0111" ~ "noisy detector",
@@ -332,7 +332,7 @@ qc_500_description <- qc_data %>%
     band_6 == "1110" ~ "L1B data faulty",
     band_6 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(band7_qa = case_when(
     band_7 == "0000" ~ "highest_quality",
     band_7 == "0111" ~ "noisy detector",
@@ -345,7 +345,7 @@ qc_500_description <- qc_data %>%
     band_7 == "1110" ~ "L1B data faulty",
     band_7 == "1111" ~ "not processed due to deep ocean or clouds",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(atmospheric_correction = ifelse(bit_30 == 0, "no", "yes"),
          adjacency_correction = ifelse(bit_31 == 0, "no", "yes"))
 ```
@@ -376,10 +376,10 @@ for (i in qc_data$qc_ints) {
 }
 
 ## Create test according to value in video
-process_test <- qc_data %>% 
-  filter(qc_ints == 1131675649) %>%
-  select(-qc_ints) %>%
-  unite(col = "new", bit_15:bit_0, sep = "") %>% 
+process_test <- qc_data |> 
+  filter(qc_ints == 1131675649) |>
+  select(-qc_ints) |>
+  unite(col = "new", bit_15:bit_0, sep = "") |> 
   pull() 
 
 stopifnot(process_test == "0000000000000001")
@@ -417,10 +417,10 @@ obtain_bit_qc_df <- function(variable, bits) {
   ## Create test according to value in video
   final_bit <- paste0("bit_", total_bits)
   
-  process_test <- qc_data %>% 
-    filter(qc_ints == 1131675649) %>%
-    select(-qc_ints) %>%
-    unite(col = "new", everything(), sep = "") %>% 
+  process_test <- qc_data |> 
+    filter(qc_ints == 1131675649) |>
+    select(-qc_ints) |>
+    unite(col = "new", everything(), sep = "") |> 
     pull() 
   
   test_object <- stringr::str_sub("01000011011101000000000000000001",
@@ -447,22 +447,22 @@ stopifnot(dim(qc_data) == dim(qc_data_function))
 
 ```{r}
 # Create the categories according to documentation
-state_1km__description <- qc_data_function %>% 
-  unite(col = "cloud_state", c("bit_1", "bit_0"), sep = "") %>% 
+state_1km__description <- qc_data_function |> 
+  unite(col = "cloud_state", c("bit_1", "bit_0"), sep = "") |> 
   unite(col = "land_water_flag",
-        c("bit_5", "bit_4", "bit_3"), sep = "") %>%
+        c("bit_5", "bit_4", "bit_3"), sep = "") |>
   unite(col = "aerosol_quantity",
-        c("bit_7", "bit_6"), sep = "") %>%
+        c("bit_7", "bit_6"), sep = "") |>
   unite(col = "cirrus_detected",
-        c("bit_9", "bit_8"), sep = "") %>%
+        c("bit_9", "bit_8"), sep = "") |>
   mutate(cloud_state_qa = case_when(
     cloud_state == "00" ~ "clear",
     cloud_state == "01" ~ "cloudy",
     cloud_state == "10" ~ "mixed",
     cloud_state == "11" ~ "not set, assumed clear",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
-  mutate(cloud_shadow_qa = ifelse(bit_2 == 1, "yes", "no")) %>% 
+  )) |> 
+  mutate(cloud_shadow_qa = ifelse(bit_2 == 1, "yes", "no")) |> 
     mutate(land_water_qa = case_when(
     land_water_flag == "000" ~ "shallow ocean",
     land_water_flag == "001" ~ "land",
@@ -473,21 +473,21 @@ state_1km__description <- qc_data_function %>%
     land_water_flag == "110" ~ "continental/moderate ocean",
     land_water_flag == "111" ~ "deep ocean",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
     mutate(aerosol_quantity_qa = case_when(
     aerosol_quantity == "00" ~ "climatology",
     aerosol_quantity == "01" ~ "low",
     aerosol_quantity == "10" ~ "average",
     aerosol_quantity == "11" ~ "high",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
     mutate(cirrus_detected_qa = case_when(
     cirrus_detected == "00" ~ "none",
     cirrus_detected == "01" ~ "small",
     cirrus_detected == "10" ~ "average",
     cirrus_detected == "11" ~ "high",
     TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
+  )) |> 
   mutate(cloud_flag_qa = ifelse(bit_10 == 1, "cloud", "no cloud"),
          fire_flag_qa = ifelse(bit_11 == 1, "fire", "no fire"),
          snow_ice_flag_qa = ifelse(bit_12 == 1, "yes", "no"),
@@ -513,7 +513,7 @@ Given that I don't have any values there other than 0, I'm not going to apply th
 qc_data <- obtain_bit_qc_df(variable = "q_scan", bits = 8)
 
 # Create the categories according to documentation
-q_scan_description <- qc_data %>% 
+q_scan_description <- qc_data |> 
   mutate(scan_quadrant_1 = ifelse(bit_0 == 1, "yes", "no"),
          scan_quadrant_2 = ifelse(bit_0 == 1, "yes", "no"),
          scan_quadrant_3 = ifelse(bit_0 == 1, "yes", "no"),
@@ -544,17 +544,17 @@ Now that I have validated the function and I have per each of the variables with
 ```{r}
 # quality values from state_1km
 # bit 6-7 and bit 13 can be anything as regarded by richard
-state_1km_highest_quality <- state_1km__description %>%
-  filter(cloud_state_qa == "clear") %>% 
-  filter(cloud_shadow_qa == "no") %>%
-  filter(land_water_qa == "land") %>% 
-  filter(cirrus_detected_qa == "none") %>% 
-  filter(bit_10 == "0") %>% 
-  filter(fire_flag_qa == "no fire") %>% 
-  filter(snow_ice_flag_qa == "no") %>% 
-  filter(bit_14 == "0") %>% 
-  filter(bit_15 == "0") %>% 
-  select(qc_ints) %>% 
+state_1km_highest_quality <- state_1km__description |>
+  filter(cloud_state_qa == "clear") |> 
+  filter(cloud_shadow_qa == "no") |>
+  filter(land_water_qa == "land") |> 
+  filter(cirrus_detected_qa == "none") |> 
+  filter(bit_10 == "0") |> 
+  filter(fire_flag_qa == "no fire") |> 
+  filter(snow_ice_flag_qa == "no") |> 
+  filter(bit_14 == "0") |> 
+  filter(bit_15 == "0") |> 
+  select(qc_ints) |> 
   pull()
 
 state_1km_highest_quality
@@ -565,18 +565,18 @@ state_1km_highest_quality
 ```{r}
 # quality values from qc_500
 # All should be 0 for all of the bits, except for 
-qc_500_highest_quality <- qc_500_description %>%
-  filter(modland_qa == "ideal quality - all bands") %>%
-  filter(band1_qa == "highest_quality") %>%
-  filter(band2_qa == "highest_quality") %>%
-  filter(band3_qa == "highest_quality") %>%
-  filter(band4_qa == "highest_quality") %>%
-  filter(band5_qa == "highest_quality") %>%
-  filter(band6_qa == "highest_quality") %>%
-  filter(band7_qa == "highest_quality") %>%
-  filter(atmospheric_correction == "yes") %>%
-  # filter(adjacency_correction == "yes") %>% 
-  select(qc_ints) %>% 
+qc_500_highest_quality <- qc_500_description |>
+  filter(modland_qa == "ideal quality - all bands") |>
+  filter(band1_qa == "highest_quality") |>
+  filter(band2_qa == "highest_quality") |>
+  filter(band3_qa == "highest_quality") |>
+  filter(band4_qa == "highest_quality") |>
+  filter(band5_qa == "highest_quality") |>
+  filter(band6_qa == "highest_quality") |>
+  filter(band7_qa == "highest_quality") |>
+  filter(atmospheric_correction == "yes") |>
+  # filter(adjacency_correction == "yes") |> 
+  select(qc_ints) |> 
   pull()
 
 qc_500_highest_quality
@@ -597,7 +597,7 @@ For the `reflectance_500` dataset, we have the same value in all the observation
 
 ```{r}
 # quality values for gflags
-# gflags_highest_quality <- reflectance_500 %>%
+# gflags_highest_quality <- reflectance_500 |>
 #   filter(gflags == 0)
 ```
 
@@ -606,8 +606,8 @@ For the `reflectance_500` dataset, we have the same value in all the observation
 So far, I have the bitmasks that indicates the highest quality, so I can filter out the rest from the `reflectance_500` dataset
 
 ```{r}
-state_1km_filter <- reflectance_500 %>% 
-  filter(state_1km %in% state_1km_highest_quality) %>% 
+state_1km_filter <- reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
   nrow()
 
 state_1km_filter
@@ -616,117 +616,22 @@ state_1km_filter
 Those number of observations represents just the filtering based on the `state_1km` variable. Now, I will continue with the `qc_500` variable:
 
 ```{r}
-state_1km_filter_qc_500 <-reflectance_500 %>% 
-  filter(state_1km %in% state_1km_highest_quality) %>% 
-  filter(qc_500m %in% qc_500_highest_quality) %>% 
+state_1km_filter_qc_500 <-reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
+  filter(qc_500m %in% qc_500_highest_quality) |> 
   nrow()
 
 state_1km_filter_qc_500
 ```
 
-### Filtering the reflectance_250 dataset
-
-In this case, I'm using the following table obtained from the MODIS
-[documentation](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf)
-
-![](img/modis_250_qa.png)
-
-```{r}
-# Import function
-source("R/create_bit_string.R")
-
-# Obtain the bit string
-qc_data_function <- obtain_bit_qc_df(data = reflectance_250, 
-                                     variable = "qc_250m", 
-                                     bits = 16)
-
-# Create the categories according to documentation
-qc_250_description <- qc_data_function %>% 
-  unite(col = "moodland", 
-        c("bit_1", "bit_0"), sep = "") %>% 
-  unite(col = "band_1",
-        c("bit_7", "bit_6", "bit_5", "bit_4"), sep = "") %>%
-  unite(col = "band_2",
-        c("bit_11", "bit_10", "bit_9", "bit_8"), sep = "") %>%
-  mutate(modland_qa = case_when(
-    moodland == "00" ~ "ideal_quality",
-    moodland == "01" ~ "less_than_ideal_quality",
-    moodland == "10" ~ "cloud_effects",
-    moodland == "11" ~ "fill_value",
-    TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
-  mutate(band1_qa = case_when(
-    band_1 == "0000" ~ "highest_quality",
-    band_1 == "0111" ~ "noisy detector",
-    band_1 == "1000" ~ "dead detector, data interpolated in L1B",
-    band_1 == "1001" ~ "solar zenith >= 86 degrees",
-    band_1 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
-    band_1 == "1011" ~ "missing input",
-    band_1 == "1100" ~ "internal constant used",
-    band_1 == "1101" ~ "correction out of bounds",
-    band_1 == "1110" ~ "L1B data faulty",
-    band_1 == "1111" ~ "not processed due to deep ocean or clouds",
-    TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
-  mutate(band2_qa = case_when(
-    band_2 == "0000" ~ "highest_quality",
-    band_2 == "0111" ~ "noisy detector",
-    band_2 == "1000" ~ "dead detector, data interpolated in L1B",
-    band_2 == "1001" ~ "solar zenith >= 86 degrees",
-    band_2 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
-    band_2 == "1011" ~ "missing input",
-    band_2 == "1100" ~ "internal constant used",
-    band_2 == "1101" ~ "correction out of bounds",
-    band_2 == "1110" ~ "L1B data faulty",
-    band_2 == "1111" ~ "not processed due to deep ocean or clouds",
-    TRUE ~ "No info, please validate bit conversion"
-  )) %>% 
-  mutate(atmospheric_correction = ifelse(bit_12 == 0, "no", "yes"),
-         adjacency_correction = ifelse(bit_13 == 0, "no", "yes"))
-```
-
-Now that I have the table with the quality categories created, we can filter
-the pixels from the `reflectance_250` dataset that do not comply with the
-highest quality standard.
-
-The `qc_500_description` table is the following:
-
-```{r}
-qc_250_description %>% 
-  paged_table()
-```
-
-Let's select the desired categories for the filtering
-
-```{r}
-# quality values from qc_250
-qc_250_highest_quality <- qc_250_description %>%
-  filter(modland_qa == "ideal_quality") %>% 
-  filter(band1_qa == "highest_quality") %>%
-  filter(band2_qa == "highest_quality") %>% 
-  filter(atmospheric_correction == "yes") %>% 
-  select(qc_ints) %>% 
-  pull()
-
-# Filter from the reflectance_250 dataset
-qc_250_filter <- reflectance_250 %>% 
-  filter(qc_250m %in% qc_250_highest_quality) %>% 
-  nrow()
-
-qc_250_filter
-```
-
- - After filtering the quality pixels from the `reflectance_250` dataset,
- I ended up with `r qc_250_filter`, which originally was `r nrow(reflectance_250)`
-
 ## Some plots with clean reflectance_500 data
 
 ```{r}
-reflectance_500 %>% 
-  filter(state_1km %in% state_1km_highest_quality) %>% 
-  select(date) %>% 
-  # pull() %>% 
-  mutate(year_month = zoo::as.yearmon(date)) %>% 
+reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
+  select(date) |> 
+  # pull() |> 
+  mutate(year_month = zoo::as.yearmon(date)) |> 
   ggplot(aes(x = date)) + 
   geom_histogram() +
   scale_x_date(date_labels = "%b%Y", breaks = "months") +

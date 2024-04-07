@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ronny A. Hernandez Mora">
+<meta name="dcterms.date" content="2023-12-25">
+<meta name="description" content="MODIS satellite images comes with bit information about pixel’s quality. Here, I will show how to read those bits, and categorize them for quality filtering.">
+
+<title>Ronny A. Hernández Mora - MODIS pixel bit strings conversion with R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<meta property="og:title" content="Ronny A. Hernández Mora - MODIS pixel bit strings conversion with R">
+<meta property="og:description" content="MODIS satellite images comes with bit information about pixel’s quality. Here, I will show how to read those bits, and categorize them for quality filtering.">
+<meta property="og:image" content="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/keyboard.png">
+<meta property="og:site-name" content="Ronny A. Hernández Mora">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About this blog</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">MODIS pixel bit strings conversion with R</h1>
+                  <div>
+        <div class="description">
+          <p>MODIS satellite images comes with bit information about pixel’s quality. Here, I will show how to read those bits, and categorize them for quality filtering.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">MODIS</div>
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">bits</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://ronnyale.com/">Ronny A. Hernandez Mora</a> <a href="https://orcid.org/0000-0001-6225-7096" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 25, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#modis-and-the-bit-strings" id="toc-modis-and-the-bit-strings" class="nav-link active" data-scroll-target="#modis-and-the-bit-strings">MODIS and the bit strings</a></li>
+  <li><a href="#bit-string-conversion" id="toc-bit-string-conversion" class="nav-link" data-scroll-target="#bit-string-conversion">Bit string conversion</a>
+  <ul class="collapse">
+  <li><a href="#variables-to-convert-to-bit-strings" id="toc-variables-to-convert-to-bit-strings" class="nav-link" data-scroll-target="#variables-to-convert-to-bit-strings">Variables to convert to bit strings</a></li>
+  <li><a href="#code-to-apply-the-bit-string-conversion-to-the-variables" id="toc-code-to-apply-the-bit-string-conversion-to-the-variables" class="nav-link" data-scroll-target="#code-to-apply-the-bit-string-conversion-to-the-variables">Code to apply the bit string conversion to the variables</a>
+  <ul class="collapse">
+  <li><a href="#categories-for-each-of-the-bit-strings" id="toc-categories-for-each-of-the-bit-strings" class="nav-link" data-scroll-target="#categories-for-each-of-the-bit-strings">Categories for each of the bit strings</a></li>
+  <li><a href="#state_1km-proof-of-concept-for" id="toc-state_1km-proof-of-concept-for" class="nav-link" data-scroll-target="#state_1km-proof-of-concept-for">state_1km proof of concept for</a></li>
+  </ul></li>
+  <li><a href="#create-function-for-bit-string-conversion" id="toc-create-function-for-bit-string-conversion" class="nav-link" data-scroll-target="#create-function-for-bit-string-conversion">Create function for bit string conversion</a>
+  <ul class="collapse">
+  <li><a href="#g_flags" id="toc-g_flags" class="nav-link" data-scroll-target="#g_flags">g_flags</a></li>
+  <li><a href="#q_scan" id="toc-q_scan" class="nav-link" data-scroll-target="#q_scan">q_scan</a></li>
+  </ul></li>
+  <li><a href="#conclusions-on-the-bit-mask-conversion" id="toc-conclusions-on-the-bit-mask-conversion" class="nav-link" data-scroll-target="#conclusions-on-the-bit-mask-conversion">Conclusions on the bit mask conversion</a></li>
+  <li><a href="#quality-filtering" id="toc-quality-filtering" class="nav-link" data-scroll-target="#quality-filtering">Quality filtering</a>
+  <ul class="collapse">
+  <li><a href="#select-bitmasks-categories-that-indicates-high-quality" id="toc-select-bitmasks-categories-that-indicates-high-quality" class="nav-link" data-scroll-target="#select-bitmasks-categories-that-indicates-high-quality">Select bitmasks categories that indicates high quality</a></li>
+  <li><a href="#filter-from-complete-data-the-selected-bitmasks" id="toc-filter-from-complete-data-the-selected-bitmasks" class="nav-link" data-scroll-target="#filter-from-complete-data-the-selected-bitmasks">Filter from complete data the selected bitmasks</a></li>
+  </ul></li>
+  <li><a href="#some-plots-with-clean-reflectance_500-data" id="toc-some-plots-with-clean-reflectance_500-data" class="nav-link" data-scroll-target="#some-plots-with-clean-reflectance_500-data">Some plots with clean reflectance_500 data</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="modis-and-the-bit-strings" class="level1">
+<h1>MODIS and the bit strings</h1>
+<p>Intro about what is MODIS, where to find the data, bands, metadata and the variables with the bits.</p>
+</section>
+<section id="bit-string-conversion" class="level1">
+<h1>Bit string conversion</h1>
+<p>This is a document that will stay in the project as a reference of the building of the process and products to do the bit string conversion per each of the MODIS pixels that I have in the research data.</p>
+<p>For testing, exploring and validating the process, the <code>reflectance_500</code> dataset was used. Nonetheless, final products written in separate documents will contain the necessary changes to be applied to the rest of datasets obtained from MODIS.</p>
+<section id="variables-to-convert-to-bit-strings" class="level2">
+<h2 class="anchored" data-anchor-id="variables-to-convert-to-bit-strings">Variables to convert to bit strings</h2>
+<p>There are 4 variables in the dataset with a bitmask that needs to be converted:</p>
+<ul>
+<li><code>state_1km</code></li>
+<li><code>gflags</code></li>
+<li><code>qc_500m</code></li>
+<li><code>q_scan</code></li>
+</ul>
+<section id="how-many-unique-values-do-i-have-per-each-of-the-quality-variables" class="level4">
+<h4 class="anchored" data-anchor-id="how-many-unique-values-do-i-have-per-each-of-the-quality-variables">How many unique values do I have per each of the quality variables?</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>reflectance_500 <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">select</span>(state_1km, gflags, qc_500m, q_scan) <span class="sc">|&gt;</span> </span>
+<span id="cb1-3"><a href="#cb1-3"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span><span class="fu">unique</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$state_1km
+ [1]  1033 40969  8392  1034 40970  5384  1289  1801 45068  1545  8397  8398
+[13]  1032  8396  8393  5128 40973 40974 45064  8394 32781   206 36872 32778
+[25] 32777  5640 36876 32776 45066  8334   200   138   136     8    72  8264
+[37]  1544  8332  1802  1288  8328  1546  8268  8330  8205    76   204   141
+[49]   140  8204 40972  8266   137  1290    74  1800 32780  5896 40968   205
+[61]   202   201  8329  8270  5385  5898  5642
+
+$gflags
+[1] 0
+
+$qc_500m
+ [1] 1073741824 1073968181 1073954817 1075838976 1073968129 1073755137
+ [7] 1073755189 1075852341 1076065281 1946383413 1073969013 1073954869
+[13] 1075852289 1076065333 1076051969 1075576832 1075590145 1075803189
+
+$q_scan
+ [1] 14  8  9  2  0  6 15  3 13 11 12  1  7 10  5  4</code></pre>
+</div>
+</div>
+</section>
+<section id="what-is-the-idea-behind-the-bit-mask-conversion" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-the-idea-behind-the-bit-mask-conversion">What is the idea behind the bit mask conversion?</h4>
+<p>On minute 2:34 of this <a href="https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3">USGS video</a> I can find an explanation of part of the process.</p>
+<p>It states that each pixel contains an integer value that must be converted to a bit binary value. This can be done with the base R function <code>intToBits()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Unique values in q_scan</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>ints <span class="ot">&lt;-</span> <span class="fu">unique</span>(reflectance_500<span class="sc">$</span>q_scan)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">intToBits</span>(<span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 00 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[26] 00 00 00 00 00 00 00</code></pre>
+</div>
+</div>
+</section>
+<section id="how-can-i-apply-the-idea-to-modis-data" class="level4">
+<h4 class="anchored" data-anchor-id="how-can-i-apply-the-idea-to-modis-data">How can I apply the idea to MODIS data?</h4>
+<p>I’m going to follow this <a href="https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/">guide</a> in order to clean the pixels with low quality.</p>
+<ul>
+<li>If I just run the <code>inToBits()</code> function, I will obtain a long bit string, with more information than what I need. That’s why I need to shorten this bit string and transform it to an integer.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">as.integer</span>(<span class="fu">intToBits</span>(<span class="dv">14</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 1 1 1 0 0 0 0</code></pre>
+</div>
+</div>
+<ul>
+<li>Remember that this has to be read from left to right. So the first bit is</li>
+</ul>
+<ol start="0" type="1">
+<li></li>
+</ol>
+<ul>
+<li>The 8 bits are numbered from 0 to 7 (as opposed to the R default).</li>
+<li>Each bit represents a power of 2.</li>
+<li>We need to reverse this bit string</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>bit_string <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(<span class="dv">14</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb7-2"><a href="#cb7-2"></a>bit_string[<span class="dv">8</span><span class="sc">:</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0 0 0 1 1 1 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>QC_Data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Integer_Value =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">255</span>,</span>
+<span id="cb9-2"><a href="#cb9-2"></a>                      <span class="at">Bit7 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-3"><a href="#cb9-3"></a>                      <span class="at">Bit6 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-4"><a href="#cb9-4"></a>                      <span class="at">Bit5 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>                      <span class="at">Bit4 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-6"><a href="#cb9-6"></a>                      <span class="at">Bit3 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-7"><a href="#cb9-7"></a>                      <span class="at">Bit2 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>                      <span class="at">Bit1 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-9"><a href="#cb9-9"></a>                      <span class="at">Bit0 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>                      <span class="at">QA_word1 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>                      <span class="at">QA_word2 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>                      <span class="at">QA_word3 =</span> <span class="cn">NA</span>,</span>
+<span id="cb9-13"><a href="#cb9-13"></a>                      <span class="at">QA_word4 =</span> <span class="cn">NA</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>)</span>
+<span id="cb9-15"><a href="#cb9-15"></a></span>
+<span id="cb9-16"><a href="#cb9-16"></a></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="cf">for</span> (i <span class="cf">in</span> QC_Data<span class="sc">$</span>Integer_Value) {</span>
+<span id="cb9-18"><a href="#cb9-18"></a>  <span class="co"># print(i)</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>  AsInt <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(i)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb9-20"><a href="#cb9-20"></a>  QC_Data[i <span class="sc">+</span> <span class="dv">1</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>] <span class="ot">&lt;-</span> AsInt[<span class="dv">8</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb9-21"><a href="#cb9-21"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="validation-of-the-process" class="level4">
+<h4 class="anchored" data-anchor-id="validation-of-the-process">Validation of the process</h4>
+<p>Given the steps provided in the tutorial, and the information obtained from the USGS video, I can follow the steps and test if I’m obtaining the correct bit string value based on this information:</p>
+<p><img src="img/usgs_bit_conversion_video.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Using one bitmask value from the dataset</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>a <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(<span class="dv">1075803189</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">32</span>])</span>
+<span id="cb10-3"><a href="#cb10-3"></a>b <span class="ot">&lt;-</span> a[<span class="dv">32</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#  Using the example value from video</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>a <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(<span class="dv">1131675649</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">32</span>])</span>
+<span id="cb10-7"><a href="#cb10-7"></a>b <span class="ot">&lt;-</span> a[<span class="dv">32</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb10-8"><a href="#cb10-8"></a></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="co"># This one is the result of the binary transformation from the video</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>validation <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="co"># Check if object is the same as the one written by hand</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="fu">stopifnot</span>(b <span class="sc">==</span> validation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The steps does match the final result. Next, I need to apply the same logical conditions to my data.</li>
+</ul>
+</section>
+</section>
+<section id="code-to-apply-the-bit-string-conversion-to-the-variables" class="level2">
+<h2 class="anchored" data-anchor-id="code-to-apply-the-bit-string-conversion-to-the-variables">Code to apply the bit string conversion to the variables</h2>
+<p>Now that I know which steps are needed to do the conversion, I need to develop the code further to apply it to each of the variables with a bit mask. On this first try, I will do it with the variable <code>qc_500m</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Test with qc_500</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="do">## Check unique values and add one validation (from the video)</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>qc_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">qc_ints =</span> <span class="fu">c</span>(<span class="fu">unique</span>(reflectance_500<span class="sc">$</span>qc_500m), <span class="dv">1131675649</span>))</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="do">## Create empty data frame. This case is 32 given that the variable</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="do">## `qc_500m` have 32 bits</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">31</span><span class="sc">:</span><span class="dv">0</span>)) {</span>
+<span id="cb11-8"><a href="#cb11-8"></a>  qc_data[, <span class="fu">paste0</span>(<span class="st">"bit_"</span>, i)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>}</span>
+<span id="cb11-10"><a href="#cb11-10"></a></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co"># Loop for obtaining bit string from unique values in the variable</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>z <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="cf">for</span> (i <span class="cf">in</span> qc_data<span class="sc">$</span>qc_ints) {</span>
+<span id="cb11-14"><a href="#cb11-14"></a>  <span class="co"># print(i)</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a>  transformed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(i)[<span class="dv">1</span><span class="sc">:</span><span class="dv">32</span>])</span>
+<span id="cb11-16"><a href="#cb11-16"></a>  qc_data[z, <span class="dv">2</span><span class="sc">:</span><span class="dv">33</span>] <span class="ot">&lt;-</span> transformed[<span class="dv">32</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb11-17"><a href="#cb11-17"></a>  z <span class="ot">&lt;-</span> z <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a>}</span>
+<span id="cb11-19"><a href="#cb11-19"></a></span>
+<span id="cb11-20"><a href="#cb11-20"></a><span class="do">## Create test according to value in video</span></span>
+<span id="cb11-21"><a href="#cb11-21"></a>process_test <span class="ot">&lt;-</span> qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb11-22"><a href="#cb11-22"></a>  <span class="fu">filter</span>(qc_ints <span class="sc">==</span> <span class="dv">1131675649</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-23"><a href="#cb11-23"></a>  <span class="fu">select</span>(<span class="sc">-</span>qc_ints) <span class="sc">|&gt;</span></span>
+<span id="cb11-24"><a href="#cb11-24"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"new"</span>, bit_31<span class="sc">:</span>bit_0, <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-25"><a href="#cb11-25"></a>  <span class="fu">pull</span>() </span>
+<span id="cb11-26"><a href="#cb11-26"></a></span>
+<span id="cb11-27"><a href="#cb11-27"></a><span class="fu">stopifnot</span>(process_test <span class="sc">==</span> <span class="st">"01000011011101000000000000000001"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Given that I have the bit wise conversion done, I can start with the categorization of the quality.</li>
+</ul>
+<section id="categories-for-each-of-the-bit-strings" class="level3">
+<h3 class="anchored" data-anchor-id="categories-for-each-of-the-bit-strings">Categories for each of the bit strings</h3>
+<p>Continuing with the variable <code>qc_500m</code> from which I have already the bit strings, I can follow the <a href="https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf">MODIS documentation</a> to add the categories for each combination of bits.</p>
+<p>This steps can be done in two different ways: using conditionals for each of the bits, or joining the variables with the specif bits:</p>
+<p><strong>One possible solution</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">mutate</span>(<span class="at">modland_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-3"><a href="#cb12-3"></a>    bit_1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> bit_0 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"ideal quality - all bands"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>    bit_1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> bit_0 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"less than ideal quality - some or all bands"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5"></a>    bit_1 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> bit_0 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"product not produced due to cloud effects"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6"></a>    bit_1 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> bit_0 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"product not produced for other reasons"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb12-9"><a href="#cb12-9"></a>  <span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["qc_ints"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["bit_31"],"name":[2],"type":["int"],"align":["right"]},{"label":["bit_30"],"name":[3],"type":["int"],"align":["right"]},{"label":["bit_29"],"name":[4],"type":["int"],"align":["right"]},{"label":["bit_28"],"name":[5],"type":["int"],"align":["right"]},{"label":["bit_27"],"name":[6],"type":["int"],"align":["right"]},{"label":["bit_26"],"name":[7],"type":["int"],"align":["right"]},{"label":["bit_25"],"name":[8],"type":["int"],"align":["right"]},{"label":["bit_24"],"name":[9],"type":["int"],"align":["right"]},{"label":["bit_23"],"name":[10],"type":["int"],"align":["right"]},{"label":["bit_22"],"name":[11],"type":["int"],"align":["right"]},{"label":["bit_21"],"name":[12],"type":["int"],"align":["right"]},{"label":["bit_20"],"name":[13],"type":["int"],"align":["right"]},{"label":["bit_19"],"name":[14],"type":["int"],"align":["right"]},{"label":["bit_18"],"name":[15],"type":["int"],"align":["right"]},{"label":["bit_17"],"name":[16],"type":["int"],"align":["right"]},{"label":["bit_16"],"name":[17],"type":["int"],"align":["right"]},{"label":["bit_15"],"name":[18],"type":["int"],"align":["right"]},{"label":["bit_14"],"name":[19],"type":["int"],"align":["right"]},{"label":["bit_13"],"name":[20],"type":["int"],"align":["right"]},{"label":["bit_12"],"name":[21],"type":["int"],"align":["right"]},{"label":["bit_11"],"name":[22],"type":["int"],"align":["right"]},{"label":["bit_10"],"name":[23],"type":["int"],"align":["right"]},{"label":["bit_9"],"name":[24],"type":["int"],"align":["right"]},{"label":["bit_8"],"name":[25],"type":["int"],"align":["right"]},{"label":["bit_7"],"name":[26],"type":["int"],"align":["right"]},{"label":["bit_6"],"name":[27],"type":["int"],"align":["right"]},{"label":["bit_5"],"name":[28],"type":["int"],"align":["right"]},{"label":["bit_4"],"name":[29],"type":["int"],"align":["right"]},{"label":["bit_3"],"name":[30],"type":["int"],"align":["right"]},{"label":["bit_2"],"name":[31],"type":["int"],"align":["right"]},{"label":["bit_1"],"name":[32],"type":["int"],"align":["right"]},{"label":["bit_0"],"name":[33],"type":["int"],"align":["right"]},{"label":["modland_qa"],"name":[34],"type":["chr"],"align":["left"]}],"data":[{"1":"1073741824","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"0","34":"ideal quality - all bands"},{"1":"1073968181","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1073954817","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1075838976","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"0","34":"ideal quality - all bands"},{"1":"1073968129","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1073755137","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1073755189","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1075852341","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1076065281","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1946383413","2":"0","3":"1","4":"1","5":"1","6":"0","7":"1","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1073969013","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"1","25":"1","26":"0","27":"1","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1073954869","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1075852289","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1076065333","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1076051969","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1075576832","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"0","34":"ideal quality - all bands"},{"1":"1075590145","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1075803189","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"0","33":"1","34":"less than ideal quality - some or all bands"},{"1":"1131675649","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"1","9":"1","10":"0","11":"1","12":"1","13":"1","14":"0","15":"1","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"0","33":"1","34":"less than ideal quality - some or all bands"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p><strong>Second possible solution</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Second possible solution</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"modland"</span>, <span class="fu">c</span>(<span class="st">"bit_1"</span>, <span class="st">"bit_0"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="fu">mutate</span>(<span class="at">modland_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-5"><a href="#cb13-5"></a>    modland <span class="sc">==</span> <span class="st">"00"</span> <span class="sc">~</span> <span class="st">"ideal quality - all bands"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6"></a>    modland <span class="sc">==</span> <span class="st">"01"</span> <span class="sc">~</span> <span class="st">"less than ideal quality - some or all bands"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    modland <span class="sc">==</span> <span class="st">"10"</span> <span class="sc">~</span> <span class="st">"product not produced due to cloud effects"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    modland <span class="sc">==</span> <span class="st">"11"</span> <span class="sc">~</span> <span class="st">"product not produced for other reasons"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">paged_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["qc_ints"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["bit_31"],"name":[2],"type":["int"],"align":["right"]},{"label":["bit_30"],"name":[3],"type":["int"],"align":["right"]},{"label":["bit_29"],"name":[4],"type":["int"],"align":["right"]},{"label":["bit_28"],"name":[5],"type":["int"],"align":["right"]},{"label":["bit_27"],"name":[6],"type":["int"],"align":["right"]},{"label":["bit_26"],"name":[7],"type":["int"],"align":["right"]},{"label":["bit_25"],"name":[8],"type":["int"],"align":["right"]},{"label":["bit_24"],"name":[9],"type":["int"],"align":["right"]},{"label":["bit_23"],"name":[10],"type":["int"],"align":["right"]},{"label":["bit_22"],"name":[11],"type":["int"],"align":["right"]},{"label":["bit_21"],"name":[12],"type":["int"],"align":["right"]},{"label":["bit_20"],"name":[13],"type":["int"],"align":["right"]},{"label":["bit_19"],"name":[14],"type":["int"],"align":["right"]},{"label":["bit_18"],"name":[15],"type":["int"],"align":["right"]},{"label":["bit_17"],"name":[16],"type":["int"],"align":["right"]},{"label":["bit_16"],"name":[17],"type":["int"],"align":["right"]},{"label":["bit_15"],"name":[18],"type":["int"],"align":["right"]},{"label":["bit_14"],"name":[19],"type":["int"],"align":["right"]},{"label":["bit_13"],"name":[20],"type":["int"],"align":["right"]},{"label":["bit_12"],"name":[21],"type":["int"],"align":["right"]},{"label":["bit_11"],"name":[22],"type":["int"],"align":["right"]},{"label":["bit_10"],"name":[23],"type":["int"],"align":["right"]},{"label":["bit_9"],"name":[24],"type":["int"],"align":["right"]},{"label":["bit_8"],"name":[25],"type":["int"],"align":["right"]},{"label":["bit_7"],"name":[26],"type":["int"],"align":["right"]},{"label":["bit_6"],"name":[27],"type":["int"],"align":["right"]},{"label":["bit_5"],"name":[28],"type":["int"],"align":["right"]},{"label":["bit_4"],"name":[29],"type":["int"],"align":["right"]},{"label":["bit_3"],"name":[30],"type":["int"],"align":["right"]},{"label":["bit_2"],"name":[31],"type":["int"],"align":["right"]},{"label":["modland"],"name":[32],"type":["chr"],"align":["left"]},{"label":["modland_qa"],"name":[33],"type":["chr"],"align":["left"]}],"data":[{"1":"1073741824","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"00","33":"ideal quality - all bands"},{"1":"1073968181","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1073954817","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1075838976","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"00","33":"ideal quality - all bands"},{"1":"1073968129","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1073755137","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1073755189","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1075852341","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1076065281","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1946383413","2":"0","3":"1","4":"1","5":"1","6":"0","7":"1","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1073969013","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"1","25":"1","26":"0","27":"1","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1073954869","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1075852289","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1076065333","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1076051969","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1075576832","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"00","33":"ideal quality - all bands"},{"1":"1075590145","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1075803189","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"1","15":"1","16":"1","17":"1","18":"0","19":"1","20":"1","21":"1","22":"0","23":"1","24":"0","25":"0","26":"0","27":"0","28":"1","29":"1","30":"0","31":"1","32":"01","33":"less than ideal quality - some or all bands"},{"1":"1131675649","2":"0","3":"1","4":"0","5":"0","6":"0","7":"0","8":"1","9":"1","10":"0","11":"1","12":"1","13":"1","14":"0","15":"1","16":"0","17":"0","18":"0","19":"0","20":"0","21":"0","22":"0","23":"0","24":"0","25":"0","26":"0","27":"0","28":"0","29":"0","30":"0","31":"0","32":"01","33":"less than ideal quality - some or all bands"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<ul>
+<li>I think that it would be easy to read the conditions with the second solution.</li>
+<li>For each of the series of bits, I’m going to paste them as just one column.</li>
+</ul>
+<section id="qc_500m-complete-bit-string-categories" class="level4">
+<h4 class="anchored" data-anchor-id="qc_500m-complete-bit-string-categories">qc_500m complete bit string categories</h4>
+<p>The following chunk of code contains all the steps to include all the categories specified in the MODIS documentation. The result of this step will be a data frame with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>qc_500_description <span class="ot">&lt;-</span> qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"modland"</span>, <span class="fu">c</span>(<span class="st">"bit_1"</span>, <span class="st">"bit_0"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_1"</span>, </span>
+<span id="cb14-4"><a href="#cb14-4"></a>        <span class="fu">c</span>(<span class="st">"bit_5"</span>, <span class="st">"bit_4"</span>, <span class="st">"bit_3"</span>, <span class="st">"bit_2"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_2"</span>, </span>
+<span id="cb14-6"><a href="#cb14-6"></a>        <span class="fu">c</span>(<span class="st">"bit_9"</span>, <span class="st">"bit_8"</span>, <span class="st">"bit_7"</span>, <span class="st">"bit_6"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-7"><a href="#cb14-7"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_3"</span>, </span>
+<span id="cb14-8"><a href="#cb14-8"></a>        <span class="fu">c</span>(<span class="st">"bit_13"</span>, <span class="st">"bit_12"</span>, <span class="st">"bit_11"</span>, <span class="st">"bit_10"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-9"><a href="#cb14-9"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_4"</span>, </span>
+<span id="cb14-10"><a href="#cb14-10"></a>        <span class="fu">c</span>(<span class="st">"bit_17"</span>, <span class="st">"bit_16"</span>, <span class="st">"bit_15"</span>, <span class="st">"bit_14"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-11"><a href="#cb14-11"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_5"</span>, </span>
+<span id="cb14-12"><a href="#cb14-12"></a>        <span class="fu">c</span>(<span class="st">"bit_21"</span>, <span class="st">"bit_20"</span>, <span class="st">"bit_19"</span>, <span class="st">"bit_18"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-13"><a href="#cb14-13"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_6"</span>, </span>
+<span id="cb14-14"><a href="#cb14-14"></a>        <span class="fu">c</span>(<span class="st">"bit_25"</span>, <span class="st">"bit_24"</span>, <span class="st">"bit_23"</span>, <span class="st">"bit_22"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"band_7"</span>, </span>
+<span id="cb14-16"><a href="#cb14-16"></a>        <span class="fu">c</span>(<span class="st">"bit_29"</span>, <span class="st">"bit_28"</span>, <span class="st">"bit_27"</span>, <span class="st">"bit_26"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-17"><a href="#cb14-17"></a>  <span class="fu">mutate</span>(<span class="at">modland_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-18"><a href="#cb14-18"></a>    modland <span class="sc">==</span> <span class="st">"00"</span> <span class="sc">~</span> <span class="st">"ideal quality - all bands"</span>,</span>
+<span id="cb14-19"><a href="#cb14-19"></a>    modland <span class="sc">==</span> <span class="st">"01"</span> <span class="sc">~</span> <span class="st">"less than ideal quality - some or all bands"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20"></a>    modland <span class="sc">==</span> <span class="st">"10"</span> <span class="sc">~</span> <span class="st">"product not produced due to cloud effects"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21"></a>    modland <span class="sc">==</span> <span class="st">"11"</span> <span class="sc">~</span> <span class="st">"product not produced for other reasons"</span>,</span>
+<span id="cb14-22"><a href="#cb14-22"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-23"><a href="#cb14-23"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-24"><a href="#cb14-24"></a>  <span class="fu">mutate</span>(<span class="at">band1_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-25"><a href="#cb14-25"></a>    band_1 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26"></a>    band_1 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-27"><a href="#cb14-27"></a>    band_1 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-28"><a href="#cb14-28"></a>    band_1 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-29"><a href="#cb14-29"></a>    band_1 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-30"><a href="#cb14-30"></a>    band_1 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-31"><a href="#cb14-31"></a>    band_1 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-32"><a href="#cb14-32"></a>    band_1 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-33"><a href="#cb14-33"></a>    band_1 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-34"><a href="#cb14-34"></a>    band_1 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-35"><a href="#cb14-35"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-36"><a href="#cb14-36"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-37"><a href="#cb14-37"></a>  <span class="fu">mutate</span>(<span class="at">band2_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-38"><a href="#cb14-38"></a>    band_2 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-39"><a href="#cb14-39"></a>    band_2 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-40"><a href="#cb14-40"></a>    band_2 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-41"><a href="#cb14-41"></a>    band_2 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-42"><a href="#cb14-42"></a>    band_2 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-43"><a href="#cb14-43"></a>    band_2 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-44"><a href="#cb14-44"></a>    band_2 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-45"><a href="#cb14-45"></a>    band_2 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-46"><a href="#cb14-46"></a>    band_2 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-47"><a href="#cb14-47"></a>    band_2 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-48"><a href="#cb14-48"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-49"><a href="#cb14-49"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-50"><a href="#cb14-50"></a>  <span class="fu">mutate</span>(<span class="at">band3_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-51"><a href="#cb14-51"></a>    band_3 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-52"><a href="#cb14-52"></a>    band_3 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-53"><a href="#cb14-53"></a>    band_3 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-54"><a href="#cb14-54"></a>    band_3 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-55"><a href="#cb14-55"></a>    band_3 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-56"><a href="#cb14-56"></a>    band_3 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-57"><a href="#cb14-57"></a>    band_3 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-58"><a href="#cb14-58"></a>    band_3 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-59"><a href="#cb14-59"></a>    band_3 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-60"><a href="#cb14-60"></a>    band_3 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-61"><a href="#cb14-61"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-62"><a href="#cb14-62"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-63"><a href="#cb14-63"></a>  <span class="fu">mutate</span>(<span class="at">band4_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-64"><a href="#cb14-64"></a>    band_4 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-65"><a href="#cb14-65"></a>    band_4 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-66"><a href="#cb14-66"></a>    band_4 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-67"><a href="#cb14-67"></a>    band_4 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-68"><a href="#cb14-68"></a>    band_4 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-69"><a href="#cb14-69"></a>    band_4 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-70"><a href="#cb14-70"></a>    band_4 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-71"><a href="#cb14-71"></a>    band_4 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-72"><a href="#cb14-72"></a>    band_4 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-73"><a href="#cb14-73"></a>    band_4 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-74"><a href="#cb14-74"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-75"><a href="#cb14-75"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-76"><a href="#cb14-76"></a>  <span class="fu">mutate</span>(<span class="at">band5_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-77"><a href="#cb14-77"></a>    band_5 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-78"><a href="#cb14-78"></a>    band_5 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-79"><a href="#cb14-79"></a>    band_5 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-80"><a href="#cb14-80"></a>    band_5 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-81"><a href="#cb14-81"></a>    band_5 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-82"><a href="#cb14-82"></a>    band_5 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-83"><a href="#cb14-83"></a>    band_5 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-84"><a href="#cb14-84"></a>    band_5 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-85"><a href="#cb14-85"></a>    band_5 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-86"><a href="#cb14-86"></a>    band_5 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-87"><a href="#cb14-87"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-88"><a href="#cb14-88"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-89"><a href="#cb14-89"></a>  <span class="fu">mutate</span>(<span class="at">band6_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-90"><a href="#cb14-90"></a>    band_6 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-91"><a href="#cb14-91"></a>    band_6 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-92"><a href="#cb14-92"></a>    band_6 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-93"><a href="#cb14-93"></a>    band_6 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-94"><a href="#cb14-94"></a>    band_6 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-95"><a href="#cb14-95"></a>    band_6 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-96"><a href="#cb14-96"></a>    band_6 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-97"><a href="#cb14-97"></a>    band_6 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-98"><a href="#cb14-98"></a>    band_6 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-99"><a href="#cb14-99"></a>    band_6 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-100"><a href="#cb14-100"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-101"><a href="#cb14-101"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-102"><a href="#cb14-102"></a>  <span class="fu">mutate</span>(<span class="at">band7_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-103"><a href="#cb14-103"></a>    band_7 <span class="sc">==</span> <span class="st">"0000"</span> <span class="sc">~</span> <span class="st">"highest_quality"</span>,</span>
+<span id="cb14-104"><a href="#cb14-104"></a>    band_7 <span class="sc">==</span> <span class="st">"0111"</span> <span class="sc">~</span> <span class="st">"noisy detector"</span>,</span>
+<span id="cb14-105"><a href="#cb14-105"></a>    band_7 <span class="sc">==</span> <span class="st">"1000"</span> <span class="sc">~</span> <span class="st">"dead detector, data interpolated in L1B"</span>,</span>
+<span id="cb14-106"><a href="#cb14-106"></a>    band_7 <span class="sc">==</span> <span class="st">"1001"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 86 degrees"</span>,</span>
+<span id="cb14-107"><a href="#cb14-107"></a>    band_7 <span class="sc">==</span> <span class="st">"1010"</span> <span class="sc">~</span> <span class="st">"solar zenith &gt;= 85 and &lt; 86 degrees"</span>,</span>
+<span id="cb14-108"><a href="#cb14-108"></a>    band_7 <span class="sc">==</span> <span class="st">"1011"</span> <span class="sc">~</span> <span class="st">"missing input"</span>,</span>
+<span id="cb14-109"><a href="#cb14-109"></a>    band_7 <span class="sc">==</span> <span class="st">"1100"</span> <span class="sc">~</span> <span class="st">"internal constant used"</span>,</span>
+<span id="cb14-110"><a href="#cb14-110"></a>    band_7 <span class="sc">==</span> <span class="st">"1101"</span> <span class="sc">~</span> <span class="st">"correction out of bounds"</span>,</span>
+<span id="cb14-111"><a href="#cb14-111"></a>    band_7 <span class="sc">==</span> <span class="st">"1110"</span> <span class="sc">~</span> <span class="st">"L1B data faulty"</span>,</span>
+<span id="cb14-112"><a href="#cb14-112"></a>    band_7 <span class="sc">==</span> <span class="st">"1111"</span> <span class="sc">~</span> <span class="st">"not processed due to deep ocean or clouds"</span>,</span>
+<span id="cb14-113"><a href="#cb14-113"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb14-114"><a href="#cb14-114"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb14-115"><a href="#cb14-115"></a>  <span class="fu">mutate</span>(<span class="at">atmospheric_correction =</span> <span class="fu">ifelse</span>(bit_30 <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>),</span>
+<span id="cb14-116"><a href="#cb14-116"></a>         <span class="at">adjacency_correction =</span> <span class="fu">ifelse</span>(bit_31 <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="state_1km-proof-of-concept-for" class="level3">
+<h3 class="anchored" data-anchor-id="state_1km-proof-of-concept-for">state_1km proof of concept for</h3>
+<p>Here, I’m going to apply the same process described above to the variable <code>state_1km</code>. This one needs just 16 bits, so there have to be some changes in the code indicating the quantity of bits to be used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Test with qc_500</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="do">## Check unique values and add one validation (from the video)</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>qc_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">qc_ints =</span> <span class="fu">c</span>(<span class="fu">unique</span>(reflectance_500<span class="sc">$</span>state_1km),</span>
+<span id="cb15-4"><a href="#cb15-4"></a>                                  <span class="dv">1131675649</span>))</span>
+<span id="cb15-5"><a href="#cb15-5"></a></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="do">## Create empty data frame. This case is 32 given that the variable</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="do">## `qc_500m` have 32 bits</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">0</span>)) {</span>
+<span id="cb15-9"><a href="#cb15-9"></a>  qc_data[, <span class="fu">paste0</span>(<span class="st">"bit_"</span>, i)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>}</span>
+<span id="cb15-11"><a href="#cb15-11"></a></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co"># Loop for obtaining bit string from unique values in the variable</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>z <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="cf">for</span> (i <span class="cf">in</span> qc_data<span class="sc">$</span>qc_ints) {</span>
+<span id="cb15-15"><a href="#cb15-15"></a>  <span class="co"># print(i)</span></span>
+<span id="cb15-16"><a href="#cb15-16"></a>  transformed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(i)[<span class="dv">1</span><span class="sc">:</span><span class="dv">16</span>])</span>
+<span id="cb15-17"><a href="#cb15-17"></a>  qc_data[z, <span class="dv">2</span><span class="sc">:</span><span class="dv">17</span>] <span class="ot">&lt;-</span> transformed[<span class="dv">16</span><span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb15-18"><a href="#cb15-18"></a>  z <span class="ot">&lt;-</span> z <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a>}</span>
+<span id="cb15-20"><a href="#cb15-20"></a></span>
+<span id="cb15-21"><a href="#cb15-21"></a><span class="do">## Create test according to value in video</span></span>
+<span id="cb15-22"><a href="#cb15-22"></a>process_test <span class="ot">&lt;-</span> qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb15-23"><a href="#cb15-23"></a>  <span class="fu">filter</span>(qc_ints <span class="sc">==</span> <span class="dv">1131675649</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-24"><a href="#cb15-24"></a>  <span class="fu">select</span>(<span class="sc">-</span>qc_ints) <span class="sc">|&gt;</span></span>
+<span id="cb15-25"><a href="#cb15-25"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"new"</span>, bit_15<span class="sc">:</span>bit_0, <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-26"><a href="#cb15-26"></a>  <span class="fu">pull</span>() </span>
+<span id="cb15-27"><a href="#cb15-27"></a></span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="fu">stopifnot</span>(process_test <span class="sc">==</span> <span class="st">"0000000000000001"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="create-function-for-bit-string-conversion" class="level2">
+<h2 class="anchored" data-anchor-id="create-function-for-bit-string-conversion">Create function for bit string conversion</h2>
+<p>At this point I have the skeleton of the code needed to create a function to be applied to the next variables. It has to take into account the variable and the number of bits to be used in the bit mask conversion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Transform this to a function</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>obtain_bit_qc_df <span class="ot">&lt;-</span> <span class="cf">function</span>(variable, bits) {</span>
+<span id="cb16-3"><a href="#cb16-3"></a>  </span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="do">## Check unique values and add one validation (from the video)</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a>  qc_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">qc_ints =</span> <span class="fu">c</span>(<span class="fu">unique</span>(reflectance_500[[variable]]),</span>
+<span id="cb16-6"><a href="#cb16-6"></a>                                    <span class="dv">1131675649</span>))</span>
+<span id="cb16-7"><a href="#cb16-7"></a>  </span>
+<span id="cb16-8"><a href="#cb16-8"></a>  <span class="do">## Create empty data frame. This case is 32 given that the variable</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>  <span class="do">## `qc_500m` have 32 bits</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  total_bits <span class="ot">=</span> bits <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(total_bits<span class="sc">:</span><span class="dv">0</span>)) {</span>
+<span id="cb16-12"><a href="#cb16-12"></a>    qc_data[, <span class="fu">paste0</span>(<span class="st">"bit_"</span>, i)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a>  }</span>
+<span id="cb16-14"><a href="#cb16-14"></a>  </span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="co"># Loop for obtaining bit string from unique values in the variable</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a>  bit_col <span class="ot">&lt;-</span> bits <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a>  z <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> qc_data<span class="sc">$</span>qc_ints) {</span>
+<span id="cb16-19"><a href="#cb16-19"></a>    <span class="co"># print(i)</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a>    transformed <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">intToBits</span>(i)[<span class="dv">1</span><span class="sc">:</span>bits])</span>
+<span id="cb16-21"><a href="#cb16-21"></a>    qc_data[z, <span class="dv">2</span><span class="sc">:</span>bit_col] <span class="ot">&lt;-</span> transformed[bits<span class="sc">:</span><span class="dv">1</span>]</span>
+<span id="cb16-22"><a href="#cb16-22"></a>    z <span class="ot">&lt;-</span> z <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb16-23"><a href="#cb16-23"></a>  }</span>
+<span id="cb16-24"><a href="#cb16-24"></a> </span>
+<span id="cb16-25"><a href="#cb16-25"></a>  <span class="do">## Create test according to value in video</span></span>
+<span id="cb16-26"><a href="#cb16-26"></a>  final_bit <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"bit_"</span>, total_bits)</span>
+<span id="cb16-27"><a href="#cb16-27"></a>  </span>
+<span id="cb16-28"><a href="#cb16-28"></a>  process_test <span class="ot">&lt;-</span> qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb16-29"><a href="#cb16-29"></a>    <span class="fu">filter</span>(qc_ints <span class="sc">==</span> <span class="dv">1131675649</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-30"><a href="#cb16-30"></a>    <span class="fu">select</span>(<span class="sc">-</span>qc_ints) <span class="sc">|&gt;</span></span>
+<span id="cb16-31"><a href="#cb16-31"></a>    <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"new"</span>, <span class="fu">everything</span>(), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-32"><a href="#cb16-32"></a>    <span class="fu">pull</span>() </span>
+<span id="cb16-33"><a href="#cb16-33"></a>  </span>
+<span id="cb16-34"><a href="#cb16-34"></a>  test_object <span class="ot">&lt;-</span> stringr<span class="sc">::</span><span class="fu">str_sub</span>(<span class="st">"01000011011101000000000000000001"</span>,</span>
+<span id="cb16-35"><a href="#cb16-35"></a>                                  <span class="at">start =</span> <span class="sc">-</span>bits, <span class="at">end =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb16-36"><a href="#cb16-36"></a></span>
+<span id="cb16-37"><a href="#cb16-37"></a>  <span class="fu">stopifnot</span>(process_test <span class="sc">==</span> test_object) </span>
+<span id="cb16-38"><a href="#cb16-38"></a>  </span>
+<span id="cb16-39"><a href="#cb16-39"></a>  <span class="fu">return</span>(qc_data)</span>
+<span id="cb16-40"><a href="#cb16-40"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Test the function as first step to obtain the quality categories</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Obtain the bit string</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>qc_data_function <span class="ot">&lt;-</span> <span class="fu">obtain_bit_qc_df</span>(<span class="at">variable =</span> <span class="st">"state_1km"</span>, <span class="at">bits =</span> <span class="dv">16</span>)</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># Compare last qc_data from state_1km and new qc_data created with function</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="fu">stopifnot</span>(qc_data<span class="sc">$</span>bit_14 <span class="sc">==</span> qc_data_function<span class="sc">$</span>bit_14)</span>
+<span id="cb17-6"><a href="#cb17-6"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="co"># Check dimensions</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="fu">stopifnot</span>(<span class="fu">dim</span>(qc_data) <span class="sc">==</span> <span class="fu">dim</span>(qc_data_function))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Create the categories according to documentation</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>state_1km__description <span class="ot">&lt;-</span> qc_data_function <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"cloud_state"</span>, <span class="fu">c</span>(<span class="st">"bit_1"</span>, <span class="st">"bit_0"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"land_water_flag"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5"></a>        <span class="fu">c</span>(<span class="st">"bit_5"</span>, <span class="st">"bit_4"</span>, <span class="st">"bit_3"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"aerosol_quantity"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7"></a>        <span class="fu">c</span>(<span class="st">"bit_7"</span>, <span class="st">"bit_6"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"cirrus_detected"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9"></a>        <span class="fu">c</span>(<span class="st">"bit_9"</span>, <span class="st">"bit_8"</span>), <span class="at">sep =</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a>  <span class="fu">mutate</span>(<span class="at">cloud_state_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-11"><a href="#cb18-11"></a>    cloud_state <span class="sc">==</span> <span class="st">"00"</span> <span class="sc">~</span> <span class="st">"clear"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12"></a>    cloud_state <span class="sc">==</span> <span class="st">"01"</span> <span class="sc">~</span> <span class="st">"cloudy"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13"></a>    cloud_state <span class="sc">==</span> <span class="st">"10"</span> <span class="sc">~</span> <span class="st">"mixed"</span>,</span>
+<span id="cb18-14"><a href="#cb18-14"></a>    cloud_state <span class="sc">==</span> <span class="st">"11"</span> <span class="sc">~</span> <span class="st">"not set, assumed clear"</span>,</span>
+<span id="cb18-15"><a href="#cb18-15"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb18-16"><a href="#cb18-16"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb18-17"><a href="#cb18-17"></a>  <span class="fu">mutate</span>(<span class="at">cloud_shadow_qa =</span> <span class="fu">ifelse</span>(bit_2 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-18"><a href="#cb18-18"></a>    <span class="fu">mutate</span>(<span class="at">land_water_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-19"><a href="#cb18-19"></a>    land_water_flag <span class="sc">==</span> <span class="st">"000"</span> <span class="sc">~</span> <span class="st">"shallow ocean"</span>,</span>
+<span id="cb18-20"><a href="#cb18-20"></a>    land_water_flag <span class="sc">==</span> <span class="st">"001"</span> <span class="sc">~</span> <span class="st">"land"</span>,</span>
+<span id="cb18-21"><a href="#cb18-21"></a>    land_water_flag <span class="sc">==</span> <span class="st">"010"</span> <span class="sc">~</span> <span class="st">"ocean coastlines and lake shorelines"</span>,</span>
+<span id="cb18-22"><a href="#cb18-22"></a>    land_water_flag <span class="sc">==</span> <span class="st">"011"</span> <span class="sc">~</span> <span class="st">"shallow inland water"</span>,</span>
+<span id="cb18-23"><a href="#cb18-23"></a>    land_water_flag <span class="sc">==</span> <span class="st">"100"</span> <span class="sc">~</span> <span class="st">"ephemeral water"</span>,</span>
+<span id="cb18-24"><a href="#cb18-24"></a>    land_water_flag <span class="sc">==</span> <span class="st">"101"</span> <span class="sc">~</span> <span class="st">"deep inland water"</span>,</span>
+<span id="cb18-25"><a href="#cb18-25"></a>    land_water_flag <span class="sc">==</span> <span class="st">"110"</span> <span class="sc">~</span> <span class="st">"continental/moderate ocean"</span>,</span>
+<span id="cb18-26"><a href="#cb18-26"></a>    land_water_flag <span class="sc">==</span> <span class="st">"111"</span> <span class="sc">~</span> <span class="st">"deep ocean"</span>,</span>
+<span id="cb18-27"><a href="#cb18-27"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb18-28"><a href="#cb18-28"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb18-29"><a href="#cb18-29"></a>    <span class="fu">mutate</span>(<span class="at">aerosol_quantity_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-30"><a href="#cb18-30"></a>    aerosol_quantity <span class="sc">==</span> <span class="st">"00"</span> <span class="sc">~</span> <span class="st">"climatology"</span>,</span>
+<span id="cb18-31"><a href="#cb18-31"></a>    aerosol_quantity <span class="sc">==</span> <span class="st">"01"</span> <span class="sc">~</span> <span class="st">"low"</span>,</span>
+<span id="cb18-32"><a href="#cb18-32"></a>    aerosol_quantity <span class="sc">==</span> <span class="st">"10"</span> <span class="sc">~</span> <span class="st">"average"</span>,</span>
+<span id="cb18-33"><a href="#cb18-33"></a>    aerosol_quantity <span class="sc">==</span> <span class="st">"11"</span> <span class="sc">~</span> <span class="st">"high"</span>,</span>
+<span id="cb18-34"><a href="#cb18-34"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb18-35"><a href="#cb18-35"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb18-36"><a href="#cb18-36"></a>    <span class="fu">mutate</span>(<span class="at">cirrus_detected_qa =</span> <span class="fu">case_when</span>(</span>
+<span id="cb18-37"><a href="#cb18-37"></a>    cirrus_detected <span class="sc">==</span> <span class="st">"00"</span> <span class="sc">~</span> <span class="st">"none"</span>,</span>
+<span id="cb18-38"><a href="#cb18-38"></a>    cirrus_detected <span class="sc">==</span> <span class="st">"01"</span> <span class="sc">~</span> <span class="st">"small"</span>,</span>
+<span id="cb18-39"><a href="#cb18-39"></a>    cirrus_detected <span class="sc">==</span> <span class="st">"10"</span> <span class="sc">~</span> <span class="st">"average"</span>,</span>
+<span id="cb18-40"><a href="#cb18-40"></a>    cirrus_detected <span class="sc">==</span> <span class="st">"11"</span> <span class="sc">~</span> <span class="st">"high"</span>,</span>
+<span id="cb18-41"><a href="#cb18-41"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"No info, please validate bit conversion"</span></span>
+<span id="cb18-42"><a href="#cb18-42"></a>  )) <span class="sc">|&gt;</span> </span>
+<span id="cb18-43"><a href="#cb18-43"></a>  <span class="fu">mutate</span>(<span class="at">cloud_flag_qa =</span> <span class="fu">ifelse</span>(bit_10 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"cloud"</span>, <span class="st">"no cloud"</span>),</span>
+<span id="cb18-44"><a href="#cb18-44"></a>         <span class="at">fire_flag_qa =</span> <span class="fu">ifelse</span>(bit_11 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"fire"</span>, <span class="st">"no fire"</span>),</span>
+<span id="cb18-45"><a href="#cb18-45"></a>         <span class="at">snow_ice_flag_qa =</span> <span class="fu">ifelse</span>(bit_12 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb18-46"><a href="#cb18-46"></a>         <span class="at">pixel_adjacent_cloud_qa =</span> <span class="fu">ifelse</span>(bit_13 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb18-47"><a href="#cb18-47"></a>         <span class="at">salt_pan_qa =</span> <span class="fu">ifelse</span>(bit_14 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb18-48"><a href="#cb18-48"></a>         <span class="at">snow_mask_qa =</span> <span class="fu">ifelse</span>(bit_15 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="g_flags" class="level3">
+<h3 class="anchored" data-anchor-id="g_flags">g_flags</h3>
+<p>It looks that this variable have just the same value for every observation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">unique</span>(reflectance_500<span class="sc">$</span>gflags)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Given that I don’t have any values there other than 0, I’m not going to apply the function to this variable.</p>
+</section>
+<section id="q_scan" class="level3">
+<h3 class="anchored" data-anchor-id="q_scan">q_scan</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Obtain the bit string</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>qc_data <span class="ot">&lt;-</span> <span class="fu">obtain_bit_qc_df</span>(<span class="at">variable =</span> <span class="st">"q_scan"</span>, <span class="at">bits =</span> <span class="dv">8</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="co"># Create the categories according to documentation</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>q_scan_description <span class="ot">&lt;-</span> qc_data <span class="sc">|&gt;</span> </span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="fu">mutate</span>(<span class="at">scan_quadrant_1 =</span> <span class="fu">ifelse</span>(bit_0 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb21-7"><a href="#cb21-7"></a>         <span class="at">scan_quadrant_2 =</span> <span class="fu">ifelse</span>(bit_0 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb21-8"><a href="#cb21-8"></a>         <span class="at">scan_quadrant_3 =</span> <span class="fu">ifelse</span>(bit_0 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9"></a>         <span class="at">scan_quadrant_4 =</span> <span class="fu">ifelse</span>(bit_0 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb21-10"><a href="#cb21-10"></a>         <span class="at">missing_obs_1 =</span> <span class="fu">ifelse</span>(bit_1 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"same"</span>, <span class="st">"different"</span>),</span>
+<span id="cb21-11"><a href="#cb21-11"></a>         <span class="at">missing_obs_2 =</span> <span class="fu">ifelse</span>(bit_1 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"same"</span>, <span class="st">"different"</span>),</span>
+<span id="cb21-12"><a href="#cb21-12"></a>         <span class="at">missing_obs_3 =</span> <span class="fu">ifelse</span>(bit_1 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"same"</span>, <span class="st">"different"</span>),</span>
+<span id="cb21-13"><a href="#cb21-13"></a>         <span class="at">missing_obs_4 =</span> <span class="fu">ifelse</span>(bit_1 <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"same"</span>, <span class="st">"different"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="conclusions-on-the-bit-mask-conversion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions-on-the-bit-mask-conversion">Conclusions on the bit mask conversion</h2>
+<ul>
+<li>All steps and references are documented.</li>
+<li>I created a function to do the bit mask conversion</li>
+<li>Function will be exported to a new file and documented as a formal function in R to be used in the next steps for the data analysis.</li>
+<li>After using the function, steps to include the correspondent categories according to the official MODIS documentation are needed.</li>
+<li>The new data frames with the bit strings and the categories per each unique value will be used to filter the all the original observations from the datasets.</li>
+<li>All these are cleaned and written as a runtime process in the file <code>scripts/create_bitstrings_tables.R</code>. The outcome of this script will be used formally in the next steps of the research data analysis.</li>
+</ul>
+</section>
+<section id="quality-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="quality-filtering">Quality filtering</h2>
+<p>Now that I have validated the function and I have per each of the variables with bit mask the categories obtained from the MODIS documentation, I can start with filtering out those pixels with low quality.</p>
+<section id="select-bitmasks-categories-that-indicates-high-quality" class="level3">
+<h3 class="anchored" data-anchor-id="select-bitmasks-categories-that-indicates-high-quality">Select bitmasks categories that indicates high quality</h3>
+<ul>
+<li>First I will start with <code>state_1km</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># quality values from state_1km</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="co"># bit 6-7 and bit 13 can be anything as regarded by richard</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>state_1km_highest_quality <span class="ot">&lt;-</span> state_1km__description <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a>  <span class="fu">filter</span>(cloud_state_qa <span class="sc">==</span> <span class="st">"clear"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-5"><a href="#cb22-5"></a>  <span class="fu">filter</span>(cloud_shadow_qa <span class="sc">==</span> <span class="st">"no"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="fu">filter</span>(land_water_qa <span class="sc">==</span> <span class="st">"land"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="fu">filter</span>(cirrus_detected_qa <span class="sc">==</span> <span class="st">"none"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="fu">filter</span>(bit_10 <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="fu">filter</span>(fire_flag_qa <span class="sc">==</span> <span class="st">"no fire"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="fu">filter</span>(snow_ice_flag_qa <span class="sc">==</span> <span class="st">"no"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="fu">filter</span>(bit_14 <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="fu">filter</span>(bit_15 <span class="sc">==</span> <span class="st">"0"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-13"><a href="#cb22-13"></a>  <span class="fu">select</span>(qc_ints) <span class="sc">|&gt;</span> </span>
+<span id="cb22-14"><a href="#cb22-14"></a>  <span class="fu">pull</span>()</span>
+<span id="cb22-15"><a href="#cb22-15"></a></span>
+<span id="cb22-16"><a href="#cb22-16"></a>state_1km_highest_quality</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8392  200  136    8   72 8264 8328</code></pre>
+</div>
+</div>
+<ul>
+<li>Filtering with <code>qc_500m</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># quality values from qc_500</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># All should be 0 for all of the bits, except for </span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>qc_500_highest_quality <span class="ot">&lt;-</span> qc_500_description <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="fu">filter</span>(modland_qa <span class="sc">==</span> <span class="st">"ideal quality - all bands"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="fu">filter</span>(band1_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">filter</span>(band2_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">filter</span>(band3_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>  <span class="fu">filter</span>(band4_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">filter</span>(band5_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a>  <span class="fu">filter</span>(band6_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>  <span class="fu">filter</span>(band7_qa <span class="sc">==</span> <span class="st">"highest_quality"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>  <span class="fu">filter</span>(atmospheric_correction <span class="sc">==</span> <span class="st">"yes"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>  <span class="co"># filter(adjacency_correction == "yes") |&gt; </span></span>
+<span id="cb24-14"><a href="#cb24-14"></a>  <span class="fu">select</span>(qc_ints) <span class="sc">|&gt;</span> </span>
+<span id="cb24-15"><a href="#cb24-15"></a>  <span class="fu">pull</span>()</span>
+<span id="cb24-16"><a href="#cb24-16"></a></span>
+<span id="cb24-17"><a href="#cb24-17"></a>qc_500_highest_quality</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1073741824</code></pre>
+</div>
+</div>
+<ul>
+<li>Filtering with q_scan</li>
+</ul>
+<p>From the meeting with Richard Fernandes, we agreed to leave this one out.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># quality values from q_scan</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co"># This one is fine if I don't use it and let it be.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Filtering with gflags</li>
+</ul>
+<p>For the <code>reflectance_500</code> dataset, we have the same value in all the observations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># quality values for gflags</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="co"># gflags_highest_quality &lt;- reflectance_500 |&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="co">#   filter(gflags == 0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="filter-from-complete-data-the-selected-bitmasks" class="level3">
+<h3 class="anchored" data-anchor-id="filter-from-complete-data-the-selected-bitmasks">Filter from complete data the selected bitmasks</h3>
+<p>So far, I have the bitmasks that indicates the highest quality, so I can filter out the rest from the <code>reflectance_500</code> dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>state_1km_filter <span class="ot">&lt;-</span> reflectance_500 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">filter</span>(state_1km <span class="sc">%in%</span> state_1km_highest_quality) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">nrow</span>()</span>
+<span id="cb28-4"><a href="#cb28-4"></a></span>
+<span id="cb28-5"><a href="#cb28-5"></a>state_1km_filter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4586</code></pre>
+</div>
+</div>
+<p>Those number of observations represents just the filtering based on the <code>state_1km</code> variable. Now, I will continue with the <code>qc_500</code> variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>state_1km_filter_qc_500 <span class="ot">&lt;-</span>reflectance_500 <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">filter</span>(state_1km <span class="sc">%in%</span> state_1km_highest_quality) <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">filter</span>(qc_500m <span class="sc">%in%</span> qc_500_highest_quality) <span class="sc">|&gt;</span> </span>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">nrow</span>()</span>
+<span id="cb30-5"><a href="#cb30-5"></a></span>
+<span id="cb30-6"><a href="#cb30-6"></a>state_1km_filter_qc_500</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4319</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="some-plots-with-clean-reflectance_500-data" class="level2">
+<h2 class="anchored" data-anchor-id="some-plots-with-clean-reflectance_500-data">Some plots with clean reflectance_500 data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>reflectance_500 <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">filter</span>(state_1km <span class="sc">%in%</span> state_1km_highest_quality) <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="#cb32-3"></a>  <span class="fu">select</span>(date) <span class="sc">|&gt;</span> </span>
+<span id="cb32-4"><a href="#cb32-4"></a>  <span class="co"># pull() |&gt; </span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>  <span class="fu">mutate</span>(<span class="at">year_month =</span> zoo<span class="sc">::</span><span class="fu">as.yearmon</span>(date)) <span class="sc">|&gt;</span> </span>
+<span id="cb32-6"><a href="#cb32-6"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span> </span>
+<span id="cb32-7"><a href="#cb32-7"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">"%b%Y"</span>, <span class="at">breaks =</span> <span class="st">"months"</span>) <span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">h =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11"></a>       <span class="at">y =</span> <span class="st">"Number of pixels"</span>,</span>
+<span id="cb32-12"><a href="#cb32-12"></a>       <span class="at">title =</span> <span class="st">"Borden  MODIS pixels per month after quality filtering"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<ul>
+<li>Function <code>obtain_bit_qc_df()</code> can be used to do the bit string conversion</li>
+<li>All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the <code>R/create_bit_string.R</code> file.</li>
+<li>The code to create the human readable categories from the bit strings so that bad/high quality filtering of the pixels can be done in the analysis is in the <code>scripts/create_bitstrings_tables.R</code>.</li>
+</ul>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2023,
+  author = {A. Hernandez Mora, Ronny},
+  title = {MODIS Pixel Bit Strings Conversion with {R}},
+  date = {2023-12-25},
+  url = {https://ronnyale.com//posts/2023-12-25-modis-bitstring},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+A. Hernandez Mora, Ronny. 2023. <span>“MODIS Pixel Bit Strings
+Conversion with R.”</span> December 25, 2023. <a href="https://ronnyale.com//posts/2023-12-25-modis-bitstring">https://ronnyale.com//posts/2023-12-25-modis-bitstring</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

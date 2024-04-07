@@ -98,7 +98,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Ronny A. Hernández Mora - Tiempo en R">
 <meta property="og:description" content="Trabajar con fechas y tiempo en R es un poco complicado. En este post trato de explicar cómo trabajar con este tipo de datos y base R">
 <meta property="og:image" content="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png">
@@ -113,16 +112,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Ronny A. Hernández Mora</span>
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
@@ -248,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>R tiene diversas maneras de representar objetos en el sistema. Más allá de los dobles, enteros, carácteres, lógicos y complejos, R tiene una clase especial para representar las fechas y horas.</p>
 <p>Si queremos revisar cuál es la fecha y hora que tenemos en nuestro sistema podemos hacerlo con la función <code>Sys.time()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2022-09-13 13:49:26 MDT"</code></pre>
 </div>
@@ -259,13 +263,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="tipo-y-clase-del-tiempo-en-r">Tipo y Clase del tiempo en R:</h2>
 <p>Para revisar su <em>tipo de dato</em> y su <em>clase</em> vamos a guardar esta fecha y hora de nuestro ordenador en un objeto de la siguiente manera:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fecha_hora <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Guardar en un objeto</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(fecha_hora) <span class="co"># Tipo de dato</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>fecha_hora <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>() <span class="co"># Guardar en un objeto</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">typeof</span>(fecha_hora) <span class="co"># Tipo de dato</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "double"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(fecha_hora) <span class="co"># Clase del objeto</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">class</span>(fecha_hora) <span class="co"># Clase del objeto</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "POSIXct" "POSIXt" </code></pre>
 </div>
@@ -282,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="cómo-funcionan-el-sistema-posix">¿Cómo funcionan el sistema POSIX?</h3>
 <p>Para revisar de qué manera R hace esto podemos hacer uso de la función <code>unclass()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(fecha_hora)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">unclass</span>(fecha_hora)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1663098567</code></pre>
 </div>
@@ -290,8 +294,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>El resultado que obtenemos es un elemento que R utiliza para construir un vector doble. Lo que tenemos allí es que desde las 12:00 A.M. del 1 de Enero de 1970 han transcurrido <em>1 514 244 708</em> hasta el día en que este tutorial se ha creado y este es el formato <strong>POSIXct</strong></p>
 <p>En el caso de caso de una lista como <strong>POSIXlt</strong> vamos a revisar los componentes del mismo objeto con el que hemos venido trabajando:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fecha_hora <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(fecha_hora) <span class="co"># Definimos formato</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(fecha_hora) <span class="co"># Sacamos de la lista los objetos almacenados</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>fecha_hora <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(fecha_hora) <span class="co"># Definimos formato</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">unlist</span>(fecha_hora) <span class="co"># Sacamos de la lista los objetos almacenados</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>               sec                min               hour               mday 
 "26.8818531036377"               "49"               "13"               "13" 
@@ -310,8 +314,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Cuando traemos datos a R, en ocasiones hay que hacerle explícito a R el tipo de datos que tenemos. En el caso de las fechas es necesario, ya que de esta forma determinamos qué dato corresponde a cuál componente de lo que se considera una fecha u hora.</p>
 <p>Vamos a utilizar el set de datos <em>Flights that Depart NYC in 2013</em> que tiene como nombre <strong>nycflights13</strong>. Este se encuentra en el paquete con el mismo nombre. (Si no lo tienen, pueden instalarlo con la función <code>install.packages("nycflights13")</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> nycflights13<span class="sc">::</span>flights <span class="co"># Guardar en objeto datos seleccionados</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>data <span class="ot">&lt;-</span> nycflights13<span class="sc">::</span>flights <span class="co"># Guardar en objeto datos seleccionados</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 19
    year month   day dep_time sched_dep…¹ dep_d…² arr_t…³ sched…⁴ arr_d…⁵ carrier
@@ -330,9 +334,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>El conjunto de datos trae 3 columnas con el año, el mes y el día, los cuales vamos a unir y darle format de fecha:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) <span class="co"># Paquete del cual vamos a utilizar función</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">unite</span>(data, Date, year, month,day, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">library</span>(tidyr) <span class="co"># Paquete del cual vamos a utilizar función</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>data <span class="ot">&lt;-</span> <span class="fu">unite</span>(data, Date, year, month,day, <span class="at">sep =</span> <span class="st">"/"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 17
   Date    dep_t…¹ sched…² dep_d…³ arr_t…⁴ sched…⁵ arr_d…⁶ carrier flight tailnum
@@ -353,16 +357,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="función-strptime">Función strptime</h3>
 <p>Ya que tenemos dicha column creada, vamos a indicarle R qué de esos datos pertenece al año, al mes y al día:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Rdate <span class="ot">&lt;-</span> <span class="fu">strptime</span>(<span class="fu">as.character</span>(data<span class="sc">$</span>Date), <span class="st">"%Y/%m/%d"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Rdate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>Rdate <span class="ot">&lt;-</span> <span class="fu">strptime</span>(<span class="fu">as.character</span>(data<span class="sc">$</span>Date), <span class="st">"%Y/%m/%d"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">class</span>(Rdate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "POSIXlt" "POSIXt" </code></pre>
 </div>
 </div>
 <p>Ya tenemos el objeto creado con las fechas por lo que ahora podemos unirlo al set de datos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Rdate,data)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Rdate,data)</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Rdate     Date dep_time sched_dep_time dep_delay arr_time sched_arr_time
 1 2013-01-01 2013/1/1      517            515         2      830            819
@@ -495,15 +499,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="nombre-completo-del-día">Nombre completo del día:</h3>
 <p>Ahora bien, hay ocasiones en que por ejemplo, tenemos el día como un número, pero nos serviría más tener el nombre del día. Para esto existe la función <code>weekdays()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ejemplo <span class="ot">&lt;-</span> data[<span class="dv">1</span>,<span class="dv">1</span>]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ejemplo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>ejemplo <span class="ot">&lt;-</span> data[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb19-2"><a href="#cb19-2"></a>ejemplo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2013-01-01 MST"</code></pre>
 </div>
 </div>
 <p>Tenemos el 1ero de enero del 2013, ahora queremos ver qué día es este con su nombre:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">weekdays</span>(ejemplo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">weekdays</span>(ejemplo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "martes"</code></pre>
 </div>
@@ -514,8 +518,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Fechas pueden venir en diversas formas, tenemos que aprender cómo lidiar con estas y cómo hacerle explícito a R qué es qué. Para esto tenemos como ayuda la tabla presentada anteriormente.</p>
 <p>Un ejemplo podría ser el siguiente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>otras_fechas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2feb2016"</span>,<span class="st">"18jun1990"</span>,<span class="st">"7nov1995"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">strptime</span>(otras_fechas,<span class="st">"%d%b%Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>otras_fechas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2feb2016"</span>,<span class="st">"18jun1990"</span>,<span class="st">"7nov1995"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">strptime</span>(otras_fechas,<span class="st">"%d%b%Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2016-02-02 MST" "1990-06-18 MDT" "1995-11-07 MST"</code></pre>
 </div>
@@ -531,8 +535,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="diferencias-entre-fechas-en-un-vector" class="level2">
 <h2 class="anchored" data-anchor-id="diferencias-entre-fechas-en-un-vector">Diferencias entre fechas en un vector</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primero hacemos un objeto a clase difftime:</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.difftime</span>(otras_fechas, <span class="st">"%d%b%Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Primero hacemos un objeto a clase difftime:</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">as.difftime</span>(otras_fechas, <span class="st">"%d%b%Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time differences in days
 [1]  -2415 -11775  -9807</code></pre>
@@ -543,16 +547,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="cálculos-con-dos-objetos">Cálculos con dos objetos:</h2>
 <p>Hay cálculos que se pueden generar con fechas y horas, ya sea sumando a una fecha o a una hora un número (que representará segundos), también entre fechas/horas e inclusive la utilización de operadores lógicos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vamos a generar dos fechas:</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>fecha_1 <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>fecha_2 <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">"2017-01-02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># vamos a generar dos fechas:</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a></span>
+<span id="cb27-3"><a href="#cb27-3"></a>fecha_1 <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4"></a>fecha_2 <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="st">"2017-01-02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Y podemos sumar una fecha con un número:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fecha_1 <span class="sc">+</span> <span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>fecha_1 <span class="sc">+</span> <span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2018-01-02 03:46:40 MST"</code></pre>
 </div>
@@ -562,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Podemos resta esa misma cantidad de segundos:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fecha_1 <span class="sc">-</span> <span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>fecha_1 <span class="sc">-</span> <span class="dv">100000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2017-12-30 20:13:20 MST"</code></pre>
 </div>
@@ -572,7 +576,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Restarle a la fecha 1 la fecha 2:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fecha_1 <span class="sc">-</span> fecha_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>fecha_1 <span class="sc">-</span> fecha_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time difference of 364 days</code></pre>
 </div>
@@ -582,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Hacer una operación lógica:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fecha_1 <span class="sc">&lt;=</span> fecha_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>fecha_1 <span class="sc">&lt;=</span> fecha_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
@@ -593,7 +597,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="diferencia-de-días">Diferencia de días:</h2>
 <p>Si tenemos una pregunta como: ¿Cuántos días han transcurrido desde el 1 de diciembre del 2017 al 2 de enero del 2018?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(<span class="st">"2018-01-02"</span>,<span class="st">"2017-12-01"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="fu">difftime</span>(<span class="st">"2018-01-02"</span>,<span class="st">"2017-12-01"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time difference of 32 days</code></pre>
 </div>
@@ -604,9 +608,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="diferencia-de-horas">Diferencia de horas:</h2>
 <p>En este caso, si tenemos horas en lugar de fechas, podemos hacer uso de la función <code>as.difftime()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tiempo_1 <span class="ot">&lt;-</span> <span class="fu">as.difftime</span>(<span class="st">"12:00:00"</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>tiempo_2 <span class="ot">&lt;-</span> <span class="fu">as.difftime</span>(<span class="st">"17:20:00"</span>)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>tiempo_2 <span class="sc">-</span> tiempo_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>tiempo_1 <span class="ot">&lt;-</span> <span class="fu">as.difftime</span>(<span class="st">"12:00:00"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2"></a>tiempo_2 <span class="ot">&lt;-</span> <span class="fu">as.difftime</span>(<span class="st">"17:20:00"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3"></a>tiempo_2 <span class="sc">-</span> tiempo_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time difference of 5.333333 hours</code></pre>
 </div>
@@ -620,7 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="secuencia-en-aumento-por-día" class="level2">
 <h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-día">Secuencia en aumento por día:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-10"</span>), <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-10"</span>), <span class="st">"1 day"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2018-01-01 MST" "2018-01-02 MST" "2018-01-03 MST" "2018-01-04 MST"
  [5] "2018-01-05 MST" "2018-01-06 MST" "2018-01-07 MST" "2018-01-08 MST"
@@ -632,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="secuencia-en-aumento-por-semanas" class="level2">
 <h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-semanas">Secuencia en aumento por semanas:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="fu">as.POSIXlt</span>(<span class="st">"2018-02-01"</span>), <span class="st">"1 weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="fu">as.POSIXlt</span>(<span class="st">"2018-02-01"</span>), <span class="st">"1 weeks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2018-01-01 MST" "2018-01-08 MST" "2018-01-15 MST" "2018-01-22 MST"
 [5] "2018-01-29 MST"</code></pre>
@@ -644,7 +648,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="secuencia-en-aumento-por-tiempo-en-segundos" class="level2">
 <h2 class="anchored" data-anchor-id="secuencia-en-aumento-por-tiempo-en-segundos">Secuencia en aumento por tiempo en segundos:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>),<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-02"</span>),<span class="dv">8000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>),<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-02"</span>),<span class="dv">8000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2018-01-01 00:00:00 MST" "2018-01-01 02:13:20 MST"
  [3] "2018-01-01 04:26:40 MST" "2018-01-01 06:40:00 MST"
@@ -659,7 +663,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="secuencia-sin-especificación-de-final" class="level2">
 <h2 class="anchored" data-anchor-id="secuencia-sin-especificación-de-final">Secuencia sin especificación de final:</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="at">by =</span> <span class="st">"weeks"</span>, <span class="at">length =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="fu">seq</span>(<span class="fu">as.POSIXlt</span>(<span class="st">"2018-01-01"</span>), <span class="at">by =</span> <span class="st">"weeks"</span>, <span class="at">length =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2018-01-01 MST" "2018-01-08 MST" "2018-01-15 MST" "2018-01-22 MST"
 [5] "2018-01-29 MST" "2018-02-05 MST" "2018-02-12 MST"</code></pre>
@@ -922,6 +926,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 

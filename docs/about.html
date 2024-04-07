@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ronny A. Hernandez Mora">
-<meta name="dcterms.date" content="2023-02-27">
-<meta name="description" content="Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.">
 
-<title>Ronny A. Hernández Mora - Workflow to use R with Neovim</title>
+<title>Ronny A. Hernández Mora - About this blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,22 +23,21 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -64,13 +60,13 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Ronny A. Hernández Mora - Workflow to use R with Neovim">
-<meta property="og:description" content="Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.">
-<meta property="og:image" content="https://ronnyale.com/posts/2023-02-27-nvim-and-r/images/computer.jpg">
+<meta property="og:title" content="Ronny A. Hernández Mora - About this blog">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://ronnyale.com/images/profile.jpg">
 <meta property="og:site-name" content="Ronny A. Hernández Mora">
 </head>
 
-<body class="floating nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -87,13 +83,13 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html" rel="" target="">
+    <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Posts</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
+    <a class="nav-link active" href="./about.html" rel="" target="" aria-current="page">
  <span class="menu-text">About this blog</span></a>
   </li>  
   <li class="nav-item compact">
@@ -119,141 +115,46 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Workflow to use R with Neovim</h1>
-                  <div>
-        <div class="description">
-          <p>Notes on how to work with Neovim to use it as an IDE for R with the most used commands and functionalities.</p>
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">Neovim</div>
-                <div class="quarto-category">Linux</div>
-                <div class="quarto-category">R</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p><a href="https://ronnyale.com/">Ronny A. Hernandez Mora</a> <a href="https://orcid.org/0000-0001-6225-7096" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">February 27, 2023</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#why" id="toc-why" class="nav-link active" data-scroll-target="#why">Why?</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a>
-  <ul class="collapse">
-  <li><a href="#movements" id="toc-movements" class="nav-link" data-scroll-target="#movements">Movements</a></li>
-  <li><a href="#r-specific-commands" id="toc-r-specific-commands" class="nav-link" data-scroll-target="#r-specific-commands">R specific commands</a></li>
-  <li><a href="#edit-files" id="toc-edit-files" class="nav-link" data-scroll-target="#edit-files">Edit files</a></li>
-  </ul></li>
-  </ul>
-</nav>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    </div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
-
-
-
-
-<section id="why" class="level1">
-<h1>Why?</h1>
-<p>There are several reasons why using Neovim with Lua and Packer for working with R can be beneficial:</p>
-<ol type="1">
-<li><p><em>Lightweight and Customizable</em>: Neovim is a lightweight text editor that runs in the terminal, providing a clean and minimalistic interface. By configuring it with Lua, you have the flexibility to customize and personalize your editor to match your preferences and workflow.</p></li>
-<li><p><em>Efficient R Coding</em>: Neovim offers powerful features and key bindings specifically tailored for working with R, such as sending code to the R console, code navigation, code completion, and documentation lookup. These features help streamline your R coding workflow and enhance your productivity.</p></li>
-<li><p><em>Package Management with Packer</em>: Packer is a plugin manager for Neovim that simplifies the installation and management of plugins. With Packer, you can easily add, update, and remove plugins, allowing you to extend the functionality of Neovim and enhance your R coding experience.</p></li>
-<li><p><em>Terminal-based Environment</em>: Working in a terminal-based environment can be advantageous for R development. It allows you to focus on your code without distractions and provides a consistent experience across different platforms and systems.</p></li>
-</ol>
-<p>By following the <a href="https://ronnyhdez.github.io/blog/posts/2023-06-17-nvim_lua_packer/">tutorial here</a>, you can learn how to install and configure Neovim with Lua and Packer to set up an efficient and streamlined environment for working with R.</p>
-<p>Give it a try and see how this setup can enhance your R coding experience!</p>
-</section>
-<section id="workflow" class="level1">
-<h1>Workflow</h1>
-<ol type="1">
-<li>Open any R file with nvim</li>
-<li>Use the <code>\rf</code> command to open the R console</li>
-<li>Start modifying and running code with the <code>spacebar</code></li>
-</ol>
-<section id="movements" class="level2">
-<h2 class="anchored" data-anchor-id="movements">Movements</h2>
-<p><code>ctrl + w + l</code> Jump to left panel</p>
-<p><code>ctrl + w + h</code> Jump to right panel</p>
-<p><code>gg</code> Move to of file</p>
-<p><code>G</code> Move bottom of file</p>
-<p><code>function + Shift + up or down</code> Take to the upper or lower page section</p>
-<p><code>{</code> Go one paragraph up</p>
-<p><code>}</code> Go one paragraph down</p>
-</section>
-<section id="r-specific-commands" class="level2">
-<h2 class="anchored" data-anchor-id="r-specific-commands">R specific commands</h2>
-<p><code>\rf</code> Connect to R Console</p>
-<p><code>\rq</code> Quit R Console</p>
-<p><code>\d</code> Run current line and move to the next line</p>
-<p><code>\l</code> Run current line, but cursor will stay on the same line.</p>
-<p><code>\pp</code> Run paragraph. But cursor will stay on the same block.</p>
-<p><code>\pd</code> Runs block and move to the next one</p>
-<p><code>\ss</code> Execute a block of <strong>selected code</strong>. This has to be done with visual mode</p>
-<p><code>\aa</code> Run entire script</p>
-<p><code>\ro</code> Open the “Global Environment”</p>
-<p><code>\r=</code> Expand all</p>
-<p><code>\r-</code> Collapse all</p>
-<p><code>\qp</code> Render preview .qmd (If I save the doc, it will re-render the site)</p>
-<p><code>\gn</code> Next chunk</p>
-<p><code>\gN</code> Previous chunk</p>
-<p><code>\ch</code> Run all previous chunks to here</p>
-<p><code>\cc</code> Run current chunk</p>
-<p><code>space bar</code> Run one line of code (You need to create this key binding)</p>
-</section>
-<section id="edit-files" class="level2">
-<h2 class="anchored" data-anchor-id="edit-files">Edit files</h2>
-<p><code>:%s/word_in_file/word_to_insert</code> Substitute all matches</p>
-<p><code>:set spell</code> will set the grammar check in the document</p>
-<p><code>z=</code> will open the options to correct a word.</p>
+<div class="quarto-about-jolla">
+  <img src="images/profile.jpg" class="about-image
+  round " style="height: 15em; width: 15em;">
+ <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">About this blog</h1>
+</div>
+<div class="quarto-title-meta">
+  </div>
+</header><main class="content" id="quarto-document-content">
+<section id="a-place-to-find-notes-about-my-journey-creating-data-science-products" class="level1">
+<h1>A place to find notes about my journey creating data science products</h1>
+<p>Hi! I’m <a href="https://ronnyale.com/">Ronny A. Hernández Mora</a>. I have been working in the data science industry for several years and I have learned from many people who create free resources over the internet and that also are my friends and co-workers. So I decided to be more serious about sharing tricks and tips about R, linux, git and other tools that I use to create data products.</p>
+<p>Feel free to use and share whatever you find useful in the blog posts!</p>
 
 
 </section>
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2023,
-  author = {A. Hernandez Mora, Ronny},
-  title = {Workflow to Use {R} with {Neovim}},
-  date = {2023-02-27},
-  url = {https://ronnyale.com//posts/2023-02-27-nvim-and-r},
-  langid = {en}
-}
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2023" class="csl-entry quarto-appendix-citeas" role="listitem">
-A. Hernandez Mora, Ronny. 2023. <span>“Workflow to Use R with
-Neovim.”</span> February 27, 2023. <a href="https://ronnyale.com//posts/2023-02-27-nvim-and-r">https://ronnyale.com//posts/2023-02-27-nvim-and-r</a>.
-</div></div></section></div></main> <!-- /main -->
+</main> 
+  <hr class="about-sep">
+   <div class="about-links">
+  <a href="https://twitter.com/ronny_hdezmora" class="about-link" rel="" target="">
+    <i class="bi bi-twitter"></i>
+     <span class="about-link-text">Twitter</span>
+  </a>
+  <a href="https://www.linkedin.com/in/ronny-hernandez-mora/" class="about-link" rel="" target="">
+    <i class="bi bi-linkedin"></i>
+     <span class="about-link-text">LinkedIn</span>
+  </a>
+  <a href="https://github.com/ronnyhdez/" class="about-link" rel="" target="">
+    <i class="bi bi-github"></i>
+     <span class="about-link-text">Github</span>
+  </a>
+</div>
+</div>
+ <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -274,13 +175,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
