@@ -3,11 +3,11 @@ title: "MODIS pixel bit strings conversion with R"
 description: |
    MODIS satellite images comes with bit information about pixel's quality. 
    Here, I will show how to read those bits, and categorize them for quality
-   filtering.
-date: 2023-12-25
+   filtering with R.
+date: 2024-05-01
 categories: [MODIS, R, bits]
 licence: "CC BY-NC"
-image: images/keyboard.png
+image: images/nicoya.png
 editor_options: 
   chunk_output_type: console
 ---
@@ -30,16 +30,27 @@ library(tidyquant)
 library(gt)
 library(rmarkdown)
 library(stringr)
+library(here)
 
 # Data
 reflectance_500 <- 
-  readRDS("data/borden_modis_reflectance_500_clean.rds")
+  readRDS(here("posts/2023-12-25-modis-bitstring/data/borden_modis_reflectance_500_clean.rds"))
 ```
 
 # MODIS and the bit strings
 
+The [MODIS Surfance Reflectance](https://lpdaac.usgs.gov/products/mod09gav061/)
+
+[reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf)
+
 Intro about what is MODIS, where to find the data, bands, metadata and the
 variables with the bits.
+
+
+
+
+
+
 
 # Bit string conversion
 
