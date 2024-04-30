@@ -2,7 +2,7 @@
 title: "MODIS pixel bit strings conversion with R"
 description: |
    MODIS satellite images comes with bit information about pixel's quality. 
-   Here, I will show how to read those bits, and categorize them for quality
+   Here, I explore how to read those bits, and categorize them for quality
    filtering with R.
 date: 2024-05-01
 categories: [MODIS, R, bits]
@@ -31,14 +31,29 @@ library(gt)
 library(rmarkdown)
 library(stringr)
 library(here)
-
-# Data
-reflectance_500 <- 
-  readRDS(here("posts/2023-12-25-modis-bitstring/data/borden_modis_reflectance_500_clean.rds"))
 ```
+
+# What are we going to do?
+
+So, I was working with some MODIS images from which I needed to calculate 4
+vegetation indices to estimate Gross Primary Production. Apart from being
+careful with selecting images without snow or clouds I knew that every pixel
+comes with QA information useful to decide if including or not some of the 
+pixels. Nonetheless, I was confused on how to perform such task on the many
+pixels that I had, and furthermore how to deal with the bits transformation
+into categories that I could filter in R. 
+
+Luckily there are sources of documentation that I could go through to understand
+and get to work in my project. There was one [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/)
+from where I understood better what needed to be done. So I wrote down 
+everything it worked for me and finally put it here. 
 
 # MODIS and the bit strings
 
+ - Explain that each pixel will come with data about quality
+ - Make reference to documentation
+ - Explain QA in images
+ 
 The [MODIS Surfance Reflectance](https://lpdaac.usgs.gov/products/mod09gav061/)
 
 [reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf)
@@ -47,22 +62,11 @@ Intro about what is MODIS, where to find the data, bands, metadata and the
 variables with the bits.
 
 
+## Variables with bit strings
 
-
-
-
-
-# Bit string conversion
-
-This is a document that will stay in the project as a reference of the building
-of the process and products to do the bit string conversion per each of the
-MODIS pixels that I have in the research data.
-
-For testing, exploring and validating the process, the `reflectance_500` dataset
-was used. Nonetheless, final products written in separate documents will contain
-the necessary changes to be applied to the rest of datasets obtained from MODIS.
-
-## Variables to convert to bit strings
+ - Mention variables with bitstrings
+ - Explain what is the meaning of each of the variables
+ - Explore (check unique values) the variables
 
 There are 4 variables in the dataset with a bitmask that needs to be converted:
 
@@ -70,6 +74,18 @@ There are 4 variables in the dataset with a bitmask that needs to be converted:
 -   `gflags`
 -   `qc_500m`
 -   `q_scan`
+
+According to the technical documentation, this variables contain information
+about ....
+
+
+Let's read the dataset to explore what do we have originally in here
+
+```{r}
+# Data
+reflectance_500 <- 
+  readRDS(here("posts/2023-12-25-modis-bitstring/data/borden_modis_reflectance_500_clean.rds"))
+```
 
 #### How many unique values do I have per each of the quality variables?
 
@@ -79,24 +95,53 @@ reflectance_500 |>
   purrr::map(~unique(.))
 ```
 
-#### What is the idea behind the bit mask conversion?
+So, in our dataset, `state_1km` has `r n_distinct(reflectance_500$state_1km)`
+distinct values, `gflags` variable has `r n_distinct(reflectance_500$gflags)` so
+we are not going to use this one, `qc_500m` has 
+`r n_distinct(reflectance_500$qc_500m)` distinct values, and `q_scan` variable
+has `r n_distinct(reflectance_500$q_scab)` unique values. We need to convert
+this integers into bits and then, make sense of those bits. This is going to
+be our first part of the exploration.
 
-On minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) 
-I can find an explanation of part of the process.
+# Using bits in R
 
-It states that each pixel contains an integer value that must be converted to a
-bit binary value. This can be done with the base R function `intToBits()`
+ - Explanation to understand how to perform the bit conversion in R
+
+So, how do we manage to do this in R? Well, actually we have in base R some
+functions to deal with this type of information, for our case, the function
+`intToBits()` will help us.
+
+For example, let's say that I have an integer of value `14`. I can transform
+this one to bits:
 
 ```{r}
-# Unique values in q_scan
-ints <- unique(reflectance_500$q_scan)
-
 intToBits(14)
 ```
 
-#### How can I apply the idea to MODIS data?
+# Binary conversion
 
-I'm going to follow this [guide](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/) in order to clean the pixels with low quality.
+Every pixel in the satellite images contains an integer value that must be 
+converted to a bit binary value for interpretation. At first, it seems 
+complicated but the documentation will help us here. For any sensor, we would
+need to check the documentation in order to perform any binary conversion and
+interpretation.
+
+There is also a good video from the United States Geological Survey (USGS) that
+explains the process for the interpretation of the binary conversion with
+the documentation. From minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) 
+
+
+## How can I apply the idea to MODIS data?
+
+So far we know what the bits are, the binary conversion and interpretation, but
+how are we going to apply all this to our dataset? Well, here is were it comes
+handy the [Steve Mosher blog post](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/). 
+
+In this section I will follow his steps and validate if the example from the
+USGS video works with our R code.
+
+
+
 
 -   If I just run the `inToBits()` function, I will obtain a long bit string, with more information than what I need. That's why I need to shorten this bit string and transform it to an integer.
 
@@ -143,7 +188,7 @@ for (i in QC_Data$Integer_Value) {
 
 Given the steps provided in the tutorial, and the information obtained from the USGS video, I can follow the steps and test if I'm obtaining the correct bit string value based on this information:
 
-![](img/usgs_bit_conversion_video.png)
+![](images/usgs_bit_conversion_video.png)
 
 ```{r}
 # Using one bitmask value from the dataset
@@ -396,7 +441,7 @@ process_test <- qc_data |>
 stopifnot(process_test == "0000000000000001")
 ```
 
-## Create function for bit string conversion
+# Create function for bit string conversion
 
 At this point I have the skeleton of the code needed to create a function to be applied to the next variables. It has to take into account the variable and the number of bits to be used in the bit mask conversion.
 
@@ -535,7 +580,7 @@ q_scan_description <- qc_data |>
          missing_obs_4 = ifelse(bit_1 == 1, "same", "different"))
 ```
 
-## Conclusions on the bit mask conversion
+# Conclusions on the bit mask conversion
 
 -   All steps and references are documented.
 -   I created a function to do the bit mask conversion
@@ -544,7 +589,7 @@ q_scan_description <- qc_data |>
 -   The new data frames with the bit strings and the categories per each unique value will be used to filter the all the original observations from the datasets.
 -   All these are cleaned and written as a runtime process in the file `scripts/create_bitstrings_tables.R`. The outcome of this script will be used formally in the next steps of the research data analysis.
 
-## Quality filtering
+# Quality filtering
 
 Now that I have validated the function and I have per each of the variables with bit mask the categories obtained from the MODIS documentation, I can start with filtering out those pixels with low quality.
 
@@ -652,7 +697,7 @@ reflectance_500 |>
        title = "Borden  MODIS pixels per month after quality filtering")
 ```
 
-## Conclusion
+# Conclusion
 
 -   Function `obtain_bit_qc_df()` can be used to do the bit string conversion
 -   All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the `R/create_bit_string.R` file.
