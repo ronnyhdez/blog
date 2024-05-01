@@ -140,7 +140,7 @@ interpretation.
 
 There is also a good video from the United States Geological Survey (USGS) that
 explains the process for the interpretation of the binary conversion with
-the documentation. From minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) 
+the documentation. From minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) it shows the process of the binary conversion.
 
 ## How can I apply the idea to our MODIS data?
 
@@ -325,10 +325,21 @@ as a single column and categorize them.
 
 ## `qc_500m` complete bit string categories
 
-The following chunk of code contains all the steps to include all the categories specified in the MODIS documentation. First, it has the steps to merge the 
-necessary bits in columns and from those columns generate the categorization
-described in the documetnation. The result of this step will be a data frame 
-with the categories for the original integer values contained in our variable
+The following code chunk encompasses all the necessary steps to incorporate all
+the categories specified in the MODIS documentation. Initially, it involves merging the required bits into columns and then generating the categorization as
+described in the documentation. The outcome of this process will be a data frame
+containing the categories for the original integer values within our variable
+
+From the documentation, we have which bit strings should be considered together
+to classify the values into categories. Based on those bit positions, we are
+going to unite the columns to obtain the bit combination. For example, for the
+`Parameter Name` MODLAND QA bits, we have to take the bit in position 0 and the
+bit position 1, which can have 4 different combinations: `00`, `01`,
+`10`, and `11`. Each of those 4 combinations will be categorized into their 
+respective categories.
+
+![Coarse Resolution Surface Reflectance Band Quality Description](images/qc_bit_order.png)
+
 
 ```{r}
 qc_500_description <- qc_data |> 
@@ -451,17 +462,35 @@ qc_500_description <- qc_data |>
 paged_table(qc_500_description)
 ```
 
+
+That's a big table, so to understand better, let's check just the MODLAND QA 
+bits categorization:
+
+```{r}
+qc_500_description |> 
+        select(modland, modland_qa, qc_ints) |> 
+        paged_table()
+```
+
+![](images/modland_qa.png)
+
+From our dataset, we obtained two of the categories from the 
+total 4. The `qc_ints` have 19 different observations in total, but those 
+integers will give us information for the rest of the parameters.
+
 <!-- Is there a way to establish the same code for the bands given that they have -->
 <!-- the same categories? -->
 
-## `state_1km` proof of concept for
+## Proof of concept for 16 bits
 
-Here, I'm going to apply the same process described above to the variable
-`state_1km`. This one needs just 16 bits, so there have to be some changes in 
-the code indicating the quantity of bits to be used.
+So far we have all the steps to perform the binary conversion for a variable
+that consist on 32 bits. Nonetheless, other variables could use less bits such
+as `state_1km` which uses **16 bits**. Here, I'm going to apply the same process
+described above to this variable but with some changes in the code indicating 
+the quantity of bits to be used.
+
 
 ```{r}
-# Test with qc_500
 ## Check unique values and add one validation (from the video)
 qc_data <- data.frame(qc_ints = c(unique(reflectance_500$state_1km),
                                   1131675649))
@@ -491,9 +520,18 @@ process_test <- qc_data |>
 stopifnot(process_test == "0000000000000001")
 ```
 
+Looks like we were able to succesfuly pass our test. Let's check how the
+dataset with the binary conversion looks like:
+
+```{r}
+paged_table(qc_data)
+```
+
 # Create function for bit string conversion
 
-At this point I have the skeleton of the code needed to create a function to be applied to the next variables. It has to take into account the variable and the number of bits to be used in the bit mask conversion.
+At this point I have the skeleton of the code needed to create a function to be
+applied to the next variables. It has to take into account the variable and the 
+number of bits to be used in the bit mask conversion.
 
 ```{r function}
 # Transform this to a function
@@ -538,10 +576,12 @@ obtain_bit_qc_df <- function(variable, bits) {
 }
 ```
 
--   Test the function as first step to obtain the quality categories
+Let's use the function on the `state_1km` variable to check if it works. Then, 
+let's compare the result with the dataset we create step by step to validate
+if we can obtain the same result.
 
 ```{r}
-# Obtain the bit string
+# Obtain the bit string using the function
 qc_data_function <- obtain_bit_qc_df(variable = "state_1km", bits = 16)
 
 # Compare last qc_data from state_1km and new qc_data created with function
@@ -550,6 +590,9 @@ stopifnot(qc_data$bit_14 == qc_data_function$bit_14)
 # Check dimensions
 stopifnot(dim(qc_data) == dim(qc_data_function))
 ```
+
+Seems that it works! With the function we obtained the same dimensions of the
+dataset than before. Let's now create the categories for each of the bit strings
 
 ```{r}
 # Create the categories according to documentation
@@ -602,15 +645,13 @@ state_1km__description <- qc_data_function |>
          snow_mask_qa = ifelse(bit_15 == 1, "yes", "no"))
 ```
 
-### g_flags
-
-It looks that this variable have just the same value for every observation:
+Now, let's check the resulting dataset:
 
 ```{r}
-unique(reflectance_500$gflags)
+state_1km__description |> 
+        select(-starts_with("bit")) |> 
+        paged_table()
 ```
-
-Given that I don't have any values there other than 0, I'm not going to apply the function to this variable.
 
 ### q_scan
 
@@ -629,6 +670,17 @@ q_scan_description <- qc_data |>
          missing_obs_3 = ifelse(bit_1 == 1, "same", "different"),
          missing_obs_4 = ifelse(bit_1 == 1, "same", "different"))
 ```
+
+### g_flags
+
+It looks that this variable have just the same value for every observation:
+
+```{r}
+unique(reflectance_500$gflags)
+```
+
+Given that I don't have any values there other than 0, I'm not going to apply 
+the function to this variable.
 
 # Conclusions on the bit mask conversion
 
