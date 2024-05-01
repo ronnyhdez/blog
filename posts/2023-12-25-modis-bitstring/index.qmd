@@ -655,6 +655,8 @@ state_1km__description |>
 
 ### q_scan
 
+
+
 ```{r}
 # Obtain the bit string
 qc_data <- obtain_bit_qc_df(variable = "q_scan", bits = 8)
@@ -669,6 +671,9 @@ q_scan_description <- qc_data |>
          missing_obs_2 = ifelse(bit_1 == 1, "same", "different"),
          missing_obs_3 = ifelse(bit_1 == 1, "same", "different"),
          missing_obs_4 = ifelse(bit_1 == 1, "same", "different"))
+
+q_scan_description |> 
+        paged_table()
 ```
 
 ### g_flags
@@ -682,14 +687,17 @@ unique(reflectance_500$gflags)
 Given that I don't have any values there other than 0, I'm not going to apply 
 the function to this variable.
 
-# Conclusions on the bit mask conversion
+# Conclusions on the bit conversion
 
--   All steps and references are documented.
--   I created a function to do the bit mask conversion
--   Function will be exported to a new file and documented as a formal function in R to be used in the next steps for the data analysis.
--   After using the function, steps to include the correspondent categories according to the official MODIS documentation are needed.
--   The new data frames with the bit strings and the categories per each unique value will be used to filter the all the original observations from the datasets.
--   All these are cleaned and written as a runtime process in the file `scripts/create_bitstrings_tables.R`. The outcome of this script will be used formally in the next steps of the research data analysis.
+ - All steps and references are documented.
+ - I created a function to do the bit mask conversion
+ - Function will be exported to a new file and documented as a formal function 
+   in R to be used in the next steps for the data analysis.
+ - After using the function, steps to include the correspondent categories 
+   according to the official MODIS documentation are needed.
+ - The new data frames with the bit strings and the categories per each unique 
+   value will be used to filter the all the original observations from the 
+   datasets.
 
 # Quality filtering
 

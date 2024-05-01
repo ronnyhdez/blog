@@ -41,3 +41,5 @@ README.html
 
 /.quarto/
 /_site/
+
+posts/2023-12-25-modis-bitstring/data/borden_modis_reflectance_500_clean.rds
