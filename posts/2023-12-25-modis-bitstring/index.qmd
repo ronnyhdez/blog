@@ -1,9 +1,9 @@
 ---
 title: "MODIS pixel bit strings conversion with R"
 description: |
-   MODIS satellite images comes with bit information about pixel's quality. 
-   Here, I explore how to read those bits, and categorize them for quality
-   filtering with R.
+   MODIS satellite images come with bit information regarding the quality of
+   pixels. In this post, I'll explore how to interpret these bits and categorize
+   them for quality filtering using R.
 date: 2024-05-01
 categories: [MODIS, R, bits]
 licence: "CC BY-NC"
@@ -35,13 +35,14 @@ library(here)
 
 # What are we going to do?
 
-So, I was working with some MODIS images from which I needed to calculate 4
-vegetation indices to estimate Gross Primary Production. Apart from being
-careful with selecting images without snow or clouds I knew that every pixel
-comes with QA information useful to decide if including or not some of the 
-pixels. Nonetheless, I was confused on how to perform such task on the many
-pixels that I had, and furthermore how to deal with the bits transformation
-into categories that I could filter in R. 
+So, I was working with some [MODIS Surfance Reflectance product images](https://lpdaac.usgs.gov/products/mod09gav061/) 
+from which I needed to calculate 4 vegetation indices to estimate Gross Primary
+Production. Apart from being careful with selecting images without snow or 
+clouds I knew that every pixel comes with QA information useful to decide if
+including or not some of the pixels. Nonetheless, I was confused on how to 
+perform such task on the many pixels that I had, and furthermore how to deal 
+with the bits transformation into categories that I could understand and then
+filter in R according to their quality. 
 
 Luckily there are sources of documentation that I could go through to understand
 and get to work in my project. There was one [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/)
@@ -50,23 +51,19 @@ everything it worked for me and finally put it here.
 
 # MODIS and the bit strings
 
- - Explain that each pixel will come with data about quality
- - Make reference to documentation
- - Explain QA in images
+ <!-- - Explain that each pixel will come with data about quality -->
+ <!-- - Make reference to documentation -->
+ <!-- - Explain QA in images -->
+<!--  Intro about what is MODIS, where to find the data, bands, metadata and the -->
+<!-- variables with the bits. -->
  
-The [MODIS Surfance Reflectance](https://lpdaac.usgs.gov/products/mod09gav061/)
-
-[reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf)
-
-Intro about what is MODIS, where to find the data, bands, metadata and the
-variables with the bits.
-
+The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) ...
 
 ## Variables with bit strings
 
- - Mention variables with bitstrings
- - Explain what is the meaning of each of the variables
- - Explore (check unique values) the variables
+ <!-- - Mention variables with bitstrings -->
+ <!-- - Explain what is the meaning of each of the variables -->
+ <!-- - Explore (check unique values) the variables -->
 
 There are 4 variables in the dataset with a bitmask that needs to be converted:
 
@@ -99,23 +96,38 @@ So, in our dataset, `state_1km` has `r n_distinct(reflectance_500$state_1km)`
 distinct values, `gflags` variable has `r n_distinct(reflectance_500$gflags)` so
 we are not going to use this one, `qc_500m` has 
 `r n_distinct(reflectance_500$qc_500m)` distinct values, and `q_scan` variable
-has `r n_distinct(reflectance_500$q_scab)` unique values. We need to convert
+has `r n_distinct(reflectance_500$q_scan)` unique values. We need to convert
 this integers into bits and then, make sense of those bits. This is going to
 be our first part of the exploration.
 
 # Using bits in R
 
- - Explanation to understand how to perform the bit conversion in R
+ <!-- - Explanation to understand how to perform the bit conversion in R -->
 
 So, how do we manage to do this in R? Well, actually we have in base R some
 functions to deal with this type of information, for our case, the function
-`intToBits()` will help us.
-
-For example, let's say that I have an integer of value `14`. I can transform
-this one to bits:
+`intToBits()` will help us. For example, let's take one of the values from the
+`q_scan` variable: the `14` integer:
 
 ```{r}
 intToBits(14)
+```
+
+That's a long bit string! It contains more information than what we need. That's
+why we need to shorten this bit string and transform it to an integer. 
+
+```{r}
+as.integer(intToBits(14)[1:8])
+```
+
+ - Remember that this has to be read from left to right. So the first bit is 0.
+ - The 8 bits are numbered from 0 to 7 (as opposed to the R default).
+ - Each bit represents a power of 2.
+ - We need to reverse this bit string
+
+```{r}
+bit_string <- as.integer(intToBits(14)[1:8])
+bit_string[8:1]
 ```
 
 # Binary conversion
@@ -130,71 +142,39 @@ There is also a good video from the United States Geological Survey (USGS) that
 explains the process for the interpretation of the binary conversion with
 the documentation. From minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) 
 
+## How can I apply the idea to our MODIS data?
 
-## How can I apply the idea to MODIS data?
+We've covered the basics of understanding bits, binary conversion, and
+interpretation. But how do we put this knowledge to use with our dataset? This 
+is where [Steve Mosher's blog post](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/)
+comes in handy.
 
-So far we know what the bits are, the binary conversion and interpretation, but
-how are we going to apply all this to our dataset? Well, here is were it comes
-handy the [Steve Mosher blog post](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/). 
+Let's start by taking a single value from the `qc_500m` variable in our 
+dataset: `1075803189`. Here are the steps we'll follow:
 
-In this section I will follow his steps and validate if the example from the
-USGS video works with our R code.
-
-
-
-
--   If I just run the `inToBits()` function, I will obtain a long bit string, with more information than what I need. That's why I need to shorten this bit string and transform it to an integer.
-
-```{r}
-as.integer(intToBits(14)[1:8])
-```
-
--   Remember that this has to be read from left to right. So the first bit is
-
-0.  
-
--   The 8 bits are numbered from 0 to 7 (as opposed to the R default).
--   Each bit represents a power of 2.
--   We need to reverse this bit string
+ - Utilize the `intToBits()` function to obtain the binary representation.
+ - Shorten the lengthy bit string to only include the necessary bits.
+ - Reverse the order of the bits.
 
 ```{r}
-bit_string <- as.integer(intToBits(14)[1:8])
-bit_string[8:1]
+# Using one bitmask value from the dataset
+bits <- as.integer(intToBits(1075803189)[1:32])
+bits
 
-QC_Data <- data.frame(Integer_Value = 0:255,
-                      Bit7 = NA,
-                      Bit6 = NA,
-                      Bit5 = NA,
-                      Bit4 = NA,
-                      Bit3 = NA,
-                      Bit2 = NA,
-                      Bit1 = NA,
-                      Bit0 = NA,
-                      QA_word1 = NA,
-                      QA_word2 = NA,
-                      QA_word3 = NA,
-                      QA_word4 = NA
-)
-
-
-for (i in QC_Data$Integer_Value) {
-  # print(i)
-  AsInt <- as.integer(intToBits(i)[1:8])
-  QC_Data[i + 1, 2:9] <- AsInt[8:1]
-}
+# Reverse
+bits[32:1]
 ```
 
-#### Validation of the process
+Ok! It looks like it works. But I'm not sure, so let's do the same process but
+using the example from the USGS video.
+
+## Process validation 
 
 Given the steps provided in the tutorial, and the information obtained from the USGS video, I can follow the steps and test if I'm obtaining the correct bit string value based on this information:
 
 ![](images/usgs_bit_conversion_video.png)
 
 ```{r}
-# Using one bitmask value from the dataset
-a <- as.integer(intToBits(1075803189)[1:32])
-b <- a[32:1]
-
 #  Using the example value from video
 a <- as.integer(intToBits(1131675649)[1:32])
 b <- a[32:1]
@@ -206,11 +186,13 @@ validation <- c(0,1,0,0,0,0,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
 stopifnot(b == validation)
 ```
 
--   The steps does match the final result. Next, I need to apply the same logical conditions to my data.
+The steps does match the final result. Next, I need to apply the same logical conditions to my data.
 
 ## Code to apply the bit string conversion to the variables
 
-Now that I know which steps are needed to do the conversion, I need to develop the code further to apply it to each of the variables with a bit mask. On this first try, I will do it with the variable `qc_500m`
+Now that I know which steps are needed to do the conversion, I need to develop 
+the code further to apply it to each of the variables with a bit mask. On this
+first try, I will do it with the variable `qc_500m`
 
 ```{r}
 # Test with qc_500
@@ -242,15 +224,23 @@ process_test <- qc_data |>
 stopifnot(process_test == "01000011011101000000000000000001")
 ```
 
--   Given that I have the bit wise conversion done, I can start with the categorization of the quality.
+Given that I have the bit wise conversion done, I can start with the
+categorization of the quality according to the documentation.
 
-### Categories for each of the bit strings
+## Categories for each of the bit strings
 
-Continuing with the variable `qc_500m` from which I have already the bit strings, I can follow the [MODIS documentation](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) to add the categories for each combination of bits.
+Continuing with the variable `qc_500m` from which I have already the bit 
+strings, I can follow the [MODIS documentation](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
+to add the categories for each combination of bits.
 
-This steps can be done in two different ways: using conditionals for each of the bits, or joining the variables with the specif bits:
+This steps can be done in **two** different (but similar) ways: using
+conditionals for each of the bits, or joining the variables with the specif 
+bits:
 
-**One possible solution**
+**First possible solution**
+
+This one will take the bits separately and use the boolean `&` to categorize
+the information contained in the bit string:
 
 ```{r}
 qc_data |> 
@@ -266,6 +256,8 @@ qc_data |>
 
 **Second possible solution**
 
+For this one, I will join the bits and then categorize each one accordingly:
+
 ```{r}
 # Second possible solution
 qc_data |> 
@@ -280,8 +272,10 @@ qc_data |>
   paged_table()
 ```
 
--   I think that it would be easy to read the conditions with the second solution.
--   For each of the series of bits, I'm going to paste them as just one column.
+Given that I will have to write each of the conditions to categorize them
+according to the documentation, I think it would be easier to write and also
+read each of the conditions following the second solution. For each of the
+series of bits, I'm going to paste them as just one column.
 
 #### qc_500m complete bit string categories
 
@@ -406,9 +400,15 @@ qc_500_description <- qc_data |>
          adjacency_correction = ifelse(bit_31 == 0, "no", "yes"))
 ```
 
+
+<!-- Is there a way to establish the same code for the bands given that they have -->
+<!-- the same categories? -->
+
 ### state_1km proof of concept for
 
-Here, I'm going to apply the same process described above to the variable `state_1km`. This one needs just 16 bits, so there have to be some changes in the code indicating the quantity of bits to be used.
+Here, I'm going to apply the same process described above to the variable
+`state_1km`. This one needs just 16 bits, so there have to be some changes in 
+the code indicating the quantity of bits to be used.
 
 ```{r}
 # Test with qc_500
@@ -672,7 +672,7 @@ state_1km_filter
 Those number of observations represents just the filtering based on the `state_1km` variable. Now, I will continue with the `qc_500` variable:
 
 ```{r}
-state_1km_filter_qc_500 <-reflectance_500 |> 
+state_1km_filter_qc_500 <- reflectance_500 |> 
   filter(state_1km %in% state_1km_highest_quality) |> 
   filter(qc_500m %in% qc_500_highest_quality) |> 
   nrow()
