@@ -104,17 +104,17 @@ be our first part of the exploration.
 
  <!-- - Explanation to understand how to perform the bit conversion in R -->
 
-So, how do we manage to do this in R? Well, actually we have in base R some
-functions to deal with this type of information, for our case, the function
-`intToBits()` will help us. For example, let's take one of the values from the
-`q_scan` variable: the `14` integer:
+So, how do we accomplish this in R? Fortunately, we have some functions in base
+R specifically designed to handle this type of information. In our case, the
+function `intToBits()` will be particularly helpful. For instance, let's 
+consider one of the values from the `q_scan` variable: the integer `14`.
 
 ```{r}
 intToBits(14)
 ```
 
-That's a long bit string! It contains more information than what we need. That's
-why we need to shorten this bit string and transform it to an integer. 
+That's quite a lengthy bit string! It contains more information than necessary.
+Therefore, we need to shorten this bit string and convert it into an integer. 
 
 ```{r}
 as.integer(intToBits(14)[1:8])
@@ -170,33 +170,50 @@ using the example from the USGS video.
 
 ## Process validation 
 
-Given the steps provided in the tutorial, and the information obtained from the USGS video, I can follow the steps and test if I'm obtaining the correct bit string value based on this information:
+In the USGS video explanation, they show the binary conversion process with
+an example. I'm going to use the same integer value `1131675649` to validate
+if our code steps work as expected.
 
-![](images/usgs_bit_conversion_video.png)
+![USGS video integer example](images/usgs_example_int.png)
+
+The bit string obtained from the binary conversion should be:
+
+![USGS bit string example](images/usgs_example_binary.png)
+
+That bit string should be matched with the categories assigned and described in
+the documentation:
+
+![USGS bit string quality categories](images/usgs_bit_conversion_video.png)
 
 ```{r}
 #  Using the example value from video
-a <- as.integer(intToBits(1131675649)[1:32])
-b <- a[32:1]
+binary_conversion <- as.integer(intToBits(1131675649)[1:32])
+bit_string <- binary_conversion[32:1]
 
 # This one is the result of the binary transformation from the video
 validation <- c(0,1,0,0,0,0,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
 
 # Check if object is the same as the one written by hand
-stopifnot(b == validation)
+stopifnot(bit_string == validation)
 ```
 
-The steps does match the final result. Next, I need to apply the same logical conditions to my data.
+The steps does match the final result. Next, I need to apply the same logical
+conditions to my data.
 
 ## Code to apply the bit string conversion to the variables
 
 Now that I know which steps are needed to do the conversion, I need to develop 
 the code further to apply it to each of the variables with a bit mask. On this
-first try, I will do it with the variable `qc_500m`
+first try, I will do it with the variable `qc_500m`.
+
+For this variable, I'm going to create a dataset with the variable
+`qc_ints` that contains the 18 unique integer values from the `qc_500m`
+variable plus one more observation from USGS video example to use it as a test
+validation. Then I'm going to add 32 more variables for each of the bits that
+we will obtain from the binary conversion process.
 
 ```{r}
-# Test with qc_500
-## Check unique values and add one validation (from the video)
+## Create column with unique values and add one validation (from the video)
 qc_data <- data.frame(qc_ints = c(unique(reflectance_500$qc_500m), 1131675649))
 
 ## Create empty data frame. This case is 32 given that the variable
@@ -204,7 +221,20 @@ qc_data <- data.frame(qc_ints = c(unique(reflectance_500$qc_500m), 1131675649))
 for (i in c(31:0)) {
   qc_data[, paste0("bit_", i)] <- NA
 }
+```
 
+Here is how the data frame looks like:
+
+```{r}
+paged_table(qc_data)
+```
+
+So far, we have a dataframe with 33 variables (one with the original integers
+values and 32 more to fill with the bit strings) and 19 observations. Now I can
+loop through each of the bits variables filling them with the values from the
+binary conversion result from the original integers
+
+```{r}
 # Loop for obtaining bit string from unique values in the variable
 z <- 1
 for (i in qc_data$qc_ints) {
@@ -214,6 +244,15 @@ for (i in qc_data$qc_ints) {
   z <- z + 1
 }
 
+# Check the data frame
+paged_table(qc_data)
+```
+
+Every bit variable is filled with `0's` or `1's`. Looks good, but I want to 
+validate with the USGS example observation we added at the beginning if I'm
+obtaining the correct bit strings:
+
+```{r}
 ## Create test according to value in video
 process_test <- qc_data |> 
   filter(qc_ints == 1131675649) |>
@@ -224,18 +263,23 @@ process_test <- qc_data |>
 stopifnot(process_test == "01000011011101000000000000000001")
 ```
 
-Given that I have the bit wise conversion done, I can start with the
-categorization of the quality according to the documentation.
+Now we know that the code is working and we can perform the binary conversion
+successfully, we can continue with the matching of categorization of the quality
+according to the documentation.
 
-## Categories for each of the bit strings
+# Categories for each of the bit strings
 
 Continuing with the variable `qc_500m` from which I have already the bit 
 strings, I can follow the [MODIS documentation](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
 to add the categories for each combination of bits.
 
 This steps can be done in **two** different (but similar) ways: using
-conditionals for each of the bits, or joining the variables with the specif 
-bits:
+conditionals for each of the bits, or joining the variables with the specific 
+bits. 
+
+```{r}
+paged_table(qc_data)
+```
 
 **First possible solution**
 
@@ -251,6 +295,7 @@ qc_data |>
     bit_1 == 1 & bit_0 == 1 ~ "product not produced for other reasons",
     TRUE ~ "No info, please validate bit conversion"
   )) |> 
+  select(qc_ints, bit_1, bit_0, modland_qa) |> 
   paged_table()
 ```
 
@@ -269,17 +314,21 @@ qc_data |>
     modland == "11" ~ "product not produced for other reasons",
     TRUE ~ "No info, please validate bit conversion"
   )) |> 
+  select(qc_ints, modland, modland_qa) |> 
   paged_table()
 ```
 
-Given that I will have to write each of the conditions to categorize them
-according to the documentation, I think it would be easier to write and also
-read each of the conditions following the second solution. For each of the
-series of bits, I'm going to paste them as just one column.
+Considering that I'll need to write out each condition to categorize them
+according to the documentation, I believe it would be more manageable and 
+readable to follow the second solution. For each series of bits, I'll merge them
+as a single column and categorize them.
 
-#### qc_500m complete bit string categories
+## `qc_500m` complete bit string categories
 
-The following chunk of code contains all the steps to include all the categories specified in the MODIS documentation. The result of this step will be a data frame with
+The following chunk of code contains all the steps to include all the categories specified in the MODIS documentation. First, it has the steps to merge the 
+necessary bits in columns and from those columns generate the categorization
+described in the documetnation. The result of this step will be a data frame 
+with the categories for the original integer values contained in our variable
 
 ```{r}
 qc_500_description <- qc_data |> 
@@ -398,13 +447,14 @@ qc_500_description <- qc_data |>
   )) |> 
   mutate(atmospheric_correction = ifelse(bit_30 == 0, "no", "yes"),
          adjacency_correction = ifelse(bit_31 == 0, "no", "yes"))
-```
 
+paged_table(qc_500_description)
+```
 
 <!-- Is there a way to establish the same code for the bands given that they have -->
 <!-- the same categories? -->
 
-### state_1km proof of concept for
+## `state_1km` proof of concept for
 
 Here, I'm going to apply the same process described above to the variable
 `state_1km`. This one needs just 16 bits, so there have to be some changes in 
