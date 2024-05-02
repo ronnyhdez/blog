@@ -35,19 +35,22 @@ library(here)
 
 # What are we going to do?
 
-So, I was working with some [MODIS Surfance Reflectance product images](https://lpdaac.usgs.gov/products/mod09gav061/) 
-from which I needed to calculate 4 vegetation indices to estimate Gross Primary
-Production. Apart from being careful with selecting images without snow or 
-clouds I knew that every pixel comes with QA information useful to decide if
-including or not some of the pixels. Nonetheless, I was confused on how to 
-perform such task on the many pixels that I had, and furthermore how to deal 
-with the bits transformation into categories that I could understand and then
-filter in R according to their quality. 
+While working with some [MODIS Surfance Reflectance product images](https://lpdaac.usgs.gov/products/mod09gav061/), my goal was to  
+calculate 4 vegetation indices to estimate Gross Primary Production. Alongside 
+the standard considerations of selecting images free from snow or clouds, I 
+knew that every pixel comes with QA information. This QA data is important to
+decide wheter to include or exclude certain pixels from the analysis.
 
-Luckily there are sources of documentation that I could go through to understand
-and get to work in my project. There was one [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/)
-from where I understood better what needed to be done. So I wrote down 
-everything it worked for me and finally put it here. 
+Nonetheless, I found myself confused about how to perform this task on the many 
+pixels I had, and furthermore, how to deal with the transformation of bits into 
+categories that I could understand and then filter in R according to their 
+quality.
+
+Luckily there were documentation sources available that I could go through to
+understand and make progress on my project. One particularly helpful resource 
+was a [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/), 
+where I got a better understanding of what needed to be done. So I wrote down 
+everything it worked for me and finally put it here, step by step.
 
 # MODIS and the bit strings
 
@@ -576,6 +579,8 @@ obtain_bit_qc_df <- function(variable, bits) {
 }
 ```
 
+## Test function with `state_1km`
+
 Let's use the function on the `state_1km` variable to check if it works. Then, 
 let's compare the result with the dataset we create step by step to validate
 if we can obtain the same result.
@@ -653,9 +658,9 @@ state_1km__description |>
         paged_table()
 ```
 
-### q_scan
+## Test function with `q_scan` 
 
-
+The variable q_scan
 
 ```{r}
 # Obtain the bit string
@@ -676,36 +681,27 @@ q_scan_description |>
         paged_table()
 ```
 
-### g_flags
-
-It looks that this variable have just the same value for every observation:
-
-```{r}
-unique(reflectance_500$gflags)
-```
-
-Given that I don't have any values there other than 0, I'm not going to apply 
-the function to this variable.
-
 # Conclusions on the bit conversion
 
  - All steps and references are documented.
- - I created a function to do the bit mask conversion
- - Function will be exported to a new file and documented as a formal function 
-   in R to be used in the next steps for the data analysis.
+ - The function I created can be use to perform the bit mask conversion.
+ - This function can be exported to a new file and documented formally 
+   to be used in the next steps for the data analysis.
  - After using the function, steps to include the correspondent categories 
    according to the official MODIS documentation are needed.
  - The new data frames with the bit strings and the categories per each unique 
    value will be used to filter the all the original observations from the 
-   datasets.
+   datasets according to their quality.
 
 # Quality filtering
 
 Now that I have validated the function and I have per each of the variables with bit mask the categories obtained from the MODIS documentation, I can start with filtering out those pixels with low quality.
 
-### Select bitmasks categories that indicates high quality
+## Filter by `state_1km`
 
--   First I will start with `state_1km`
+Let's start with `state_1km`. Here we will get the categories we want that
+indicate the best possible observations in the dataset. One we have those
+observations, we will obtain the `qc_ints` values.
 
 ```{r}
 # quality values from state_1km
@@ -720,13 +716,14 @@ state_1km_highest_quality <- state_1km__description |>
   filter(snow_ice_flag_qa == "no") |> 
   filter(bit_14 == "0") |> 
   filter(bit_15 == "0") |> 
+  # Select the qc_ints values as a vector
   select(qc_ints) |> 
   pull()
 
 state_1km_highest_quality
 ```
 
--   Filtering with `qc_500m`
+## Filter by `qc_500m`
 
 ```{r}
 # quality values from qc_500
@@ -748,26 +745,13 @@ qc_500_highest_quality <- qc_500_description |>
 qc_500_highest_quality
 ```
 
--   Filtering with q_scan
+## Filter by `q_scan` and `gflags`
 
-From the meeting with Richard Fernandes, we agreed to leave this one out.
+For our original dataset, the variable `gflags` have only 1 unique value, so
+it doesn't provide too much information. In the case of `q_scan`, we will leave
+this one out of the analysis.
 
-```{r}
-# quality values from q_scan
-# This one is fine if I don't use it and let it be.
-```
-
--   Filtering with gflags
-
-For the `reflectance_500` dataset, we have the same value in all the observations
-
-```{r}
-# quality values for gflags
-# gflags_highest_quality <- reflectance_500 |>
-#   filter(gflags == 0)
-```
-
-### Filter from complete data the selected bitmasks
+## Filter from complete data the selected bitmasks
 
 So far, I have the bitmasks that indicates the highest quality, so I can filter out the rest from the `reflectance_500` dataset
 
@@ -807,7 +791,12 @@ reflectance_500 |>
        title = "Borden  MODIS pixels per month after quality filtering")
 ```
 
-# Conclusion
+# Steps summary
+
+<!-- Use here the clean steps to show what would be needed to perform the quality -->
+<!-- filtering -->
+
+
 
 -   Function `obtain_bit_qc_df()` can be used to do the bit string conversion
 -   All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the `R/create_bit_string.R` file.
