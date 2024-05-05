@@ -10,6 +10,7 @@ licence: "CC BY-NC"
 image: images/nicoya.png
 editor_options: 
   chunk_output_type: console
+bibliography: ref.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -38,8 +39,9 @@ library(here)
 While working with some [MODIS Surfance Reflectance product images](https://lpdaac.usgs.gov/products/mod09gav061/), my goal was to  
 calculate 4 vegetation indices to estimate Gross Primary Production. Alongside 
 the standard considerations of selecting images free from snow or clouds, I 
-knew that every pixel comes with QA information. This QA data is important to
-decide wheter to include or exclude certain pixels from the analysis.
+knew that every pixel comes with Quality Assurance (QA) information. This QA
+data is important to decide wheter to include or exclude certain pixels from the 
+analysis.
 
 Nonetheless, I found myself confused about how to perform this task on the many 
 pixels I had, and furthermore, how to deal with the transformation of bits into 
@@ -52,6 +54,11 @@ was a [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/m
 where I got a better understanding of what needed to be done. So I wrote down 
 everything it worked for me and finally put it here, step by step.
 
+::: {.callout-note}
+This is an exercise to understand how the binary conversion works. There are
+easier ways to work with satellite images and their quality assurance data.
+:::
+
 # MODIS and the bit strings
 
  <!-- - Explain that each pixel will come with data about quality -->
@@ -60,7 +67,17 @@ everything it worked for me and finally put it here, step by step.
 <!--  Intro about what is MODIS, where to find the data, bands, metadata and the -->
 <!-- variables with the bits. -->
  
-The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) ...
+The MODIS contains the surface spectral reflectance from bands 1 through 7
+with a spatial resolution of 500m, with corrections for atmospheric conditions
+such as aerosols, gasses, and Rayleigh scattering [@vermote2021modis]. It also
+contains QA data that can help us to remove pixels with low quality that can 
+affect our analysis. The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
+contains the technical documentation on how the variables are encoded and how 
+those values can be interpreted.
+
+::: {.column-margin}
+The reason for this is that satellite images tend to be large, so encoding variables helps to compress the data. 
+:::
 
 ## Variables with bit strings
 
@@ -532,9 +549,14 @@ paged_table(qc_data)
 
 # Create function for bit string conversion
 
-At this point I have the skeleton of the code needed to create a function to be
-applied to the next variables. It has to take into account the variable and the 
-number of bits to be used in the bit mask conversion.
+At this point I have the code that have the same steps for every variable. 
+Instead of copying and pasting all the code over and over again to just
+change the number of bits, we can turn it into a function.
+
+The function will need to take as arguments the variable name and the number
+of bits needed to perform the binary conversion for that variable. We have
+validated the steps above with the inclusion of a know integer, so this test
+can be included in the function. The function will return a dataframe.
 
 ```{r function}
 # Transform this to a function
@@ -544,8 +566,8 @@ obtain_bit_qc_df <- function(variable, bits) {
   qc_data <- data.frame(qc_ints = c(unique(reflectance_500[[variable]]),
                                     1131675649))
   
-  ## Create empty data frame. This case is 32 given that the variable
-  ## `qc_500m` have 32 bits
+  ## Create empty data frame. 
+  ## Take into account the number of bits needed.
   total_bits = bits - 1
   for (i in c(total_bits:0)) {
     qc_data[, paste0("bit_", i)] <- NA
@@ -791,7 +813,7 @@ reflectance_500 |>
        title = "Borden  MODIS pixels per month after quality filtering")
 ```
 
-# Steps summary
+# Recap/Steps summary
 
 <!-- Use here the clean steps to show what would be needed to perform the quality -->
 <!-- filtering -->
@@ -802,3 +824,7 @@ reflectance_500 |>
 -   All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the `R/create_bit_string.R` file.
 -   The code to create the human readable categories from the bit strings so that bad/high quality filtering of the pixels can be done in the analysis is in the `scripts/create_bitstrings_tables.R`.
 
+# References
+
+::: {#refs}
+:::
