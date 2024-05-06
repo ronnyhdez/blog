@@ -61,19 +61,13 @@ easier ways to work with satellite images and their quality assurance data.
 
 # MODIS and the bit strings
 
- <!-- - Explain that each pixel will come with data about quality -->
- <!-- - Make reference to documentation -->
- <!-- - Explain QA in images -->
-<!--  Intro about what is MODIS, where to find the data, bands, metadata and the -->
-<!-- variables with the bits. -->
- 
-The MODIS contains the surface spectral reflectance from bands 1 through 7
-with a spatial resolution of 500m, with corrections for atmospheric conditions
-such as aerosols, gasses, and Rayleigh scattering [@vermote2021modis]. It also
-contains QA data that can help us to remove pixels with low quality that can 
-affect our analysis. The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
-contains the technical documentation on how the variables are encoded and how 
-those values can be interpreted.
+The MODIS dataset includes surface spectral reflectance from bands 1 through 7,
+with a spatial resolution of 500m, and incorporates corrections for atmospheric 
+conditions such as aerosols, gases, and Rayleigh scattering [@vermote2021modis]. 
+Additionally, it provides QA data that enables the removal of pixels with low 
+quality, which could otherwise affect our analysis. The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
+offers detailed technical documentation on how the variables are encoded and how 
+these values can be interpreted.
 
 ::: {.column-margin}
 The reason for this is that satellite images tend to be large, so encoding variables helps to compress the data. 
