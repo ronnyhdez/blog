@@ -40,7 +40,7 @@ While working with some [MODIS Surfance Reflectance product images](https://lpda
 calculate 4 vegetation indices to estimate Gross Primary Production. Alongside 
 the standard considerations of selecting images free from snow or clouds, I 
 knew that every pixel comes with Quality Assurance (QA) information. This QA
-data is important to decide wheter to include or exclude certain pixels from the 
+data is important to decide whether to include or exclude certain pixels from the 
 analysis.
 
 Nonetheless, I found myself confused about how to perform this task on the many 
@@ -179,8 +179,8 @@ bits
 bits[32:1]
 ```
 
-Ok! It looks like it works. But I'm not sure, so let's do the same process but
-using the example from the USGS video.
+Ok! It looks like it works. But I'm not sure, so let's perform the same process
+but using the example from the USGS video.
 
 ## Process validation 
 
@@ -211,20 +211,20 @@ validation <- c(0,1,0,0,0,0,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
 stopifnot(bit_string == validation)
 ```
 
-The steps does match the final result. Next, I need to apply the same logical
-conditions to my data.
+Success! Our results does match the final output. Now that I know for sure our
+code works, I'm going to apply the same logical conditions to the complete 
+dataset.
 
 ## Code to apply the bit string conversion to the variables
 
-Now that I know which steps are needed to do the conversion, I need to develop 
-the code further to apply it to each of the variables with a bit mask. On this
-first try, I will do it with the variable `qc_500m`.
+Now that I understand the steps required for the conversion, I need to further
+develop the code to apply it to each variable with a bit mask. On this first 
+try, I will do it with the variable `qc_500m`.
 
-For this variable, I'm going to create a dataset with the variable
-`qc_ints` that contains the 18 unique integer values from the `qc_500m`
-variable plus one more observation from USGS video example to use it as a test
-validation. Then I'm going to add 32 more variables for each of the bits that
-we will obtain from the binary conversion process.
+For this variable, I'll create a dataset containing the `qc_ints` variable, 
+which includes the 18 unique integer values from `qc_500m` and an additional 
+observation from the USGS video example for test validation. Next, I'll add 32 
+more variables, each representing a bit from the binary conversion process.
 
 ```{r}
 ## Create column with unique values and add one validation (from the video)
@@ -277,9 +277,8 @@ process_test <- qc_data |>
 stopifnot(process_test == "01000011011101000000000000000001")
 ```
 
-Now we know that the code is working and we can perform the binary conversion
-successfully, we can continue with the matching of categorization of the quality
-according to the documentation.
+With the code now successfully converting binary values, we can proceed to 
+categorize the quality of each pixel based on the documentation guidelines.
 
 # Categories for each of the bit strings
 
