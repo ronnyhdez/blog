@@ -700,11 +700,13 @@ q_scan_description |>
 
 # Quality filtering
 
-Now that I have validated the function and I have per each of the variables with bit mask the categories obtained from the MODIS documentation, I can start with filtering out those pixels with low quality.
+With the function validated and the categories for each bit-masked variable 
+obtained from the MODIS documentation, I can now proceed to filter out pixels 
+with low quality.
 
 ## Filter by `state_1km`
 
-Let's start with `state_1km`. Here we will get the categories we want that
+Let's start with `state_1km`. Here I will get the categories we want that
 indicate the best possible observations in the dataset. One we have those
 observations, we will obtain the `qc_ints` values.
 
@@ -752,13 +754,14 @@ qc_500_highest_quality
 
 ## Filter by `q_scan` and `gflags`
 
-For our original dataset, the variable `gflags` have only 1 unique value, so
-it doesn't provide too much information. In the case of `q_scan`, we will leave
-this one out of the analysis.
+For our original dataset, the variable gflags has only one unique value, so it 
+doesn't provide much information. In the case of q_scan, we will exclude this 
+variable from the analysis.
 
-## Filter from complete data the selected bitmasks
+## Filtering the Complete Data with Selected Bitmasks
 
-So far, I have the bitmasks that indicates the highest quality, so I can filter out the rest from the `reflectance_500` dataset
+So far, I have identified the bitmasks that indicate the highest quality, 
+allowing me to filter out the remaining data from the reflectance_500 dataset.
 
 ```{r}
 state_1km_filter <- reflectance_500 |> 
@@ -768,7 +771,8 @@ state_1km_filter <- reflectance_500 |>
 state_1km_filter
 ```
 
-Those number of observations represents just the filtering based on the `state_1km` variable. Now, I will continue with the `qc_500` variable:
+These numbers of observations represent the filtering based solely on the 
+`state_1km` variable. Now, I will continue with the `qc_500` variable:
 
 ```{r}
 state_1km_filter_qc_500 <- reflectance_500 |> 
