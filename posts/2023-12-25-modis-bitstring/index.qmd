@@ -75,10 +75,6 @@ The reason for this is that satellite images tend to be large, so encoding varia
 
 ## Variables with bit strings
 
- <!-- - Mention variables with bitstrings -->
- <!-- - Explain what is the meaning of each of the variables -->
- <!-- - Explore (check unique values) the variables -->
-
 There are 4 variables in the dataset with a bitmask that needs to be converted:
 
 -   `state_1km`
@@ -87,8 +83,9 @@ There are 4 variables in the dataset with a bitmask that needs to be converted:
 -   `q_scan`
 
 According to the technical documentation, this variables contain information
-about ....
-
+about the state of the atmosphere and surface at a 1 km resolution (`state_1km`),
+geolocation of the pixel (`gflags`), quality of the surface reflectance data for
+bands 1-7 (`qc_500m`), and info about the scan level quality of the data (`q_scan`)
 
 Let's read the dataset to explore what do we have originally in here
 
@@ -338,10 +335,11 @@ as a single column and categorize them.
 
 ## `qc_500m` complete bit string categories
 
-The following code chunk encompasses all the necessary steps to incorporate all
-the categories specified in the MODIS documentation. Initially, it involves merging the required bits into columns and then generating the categorization as
-described in the documentation. The outcome of this process will be a data frame
-containing the categories for the original integer values within our variable
+The following code chunk includes all the steps needed to incorporate the all
+the categories specified in the MODIS documentation. First, it merges the 
+required bits into columns, then it generates the categorizations based on the
+documentation guidelines. The result is a data frame that contains the 
+categorized values corresponding to the original integers in our variable.
 
 From the documentation, we have which bit strings should be considered together
 to classify the values into categories. Based on those bit positions, we are
@@ -475,7 +473,6 @@ qc_500_description <- qc_data |>
 paged_table(qc_500_description)
 ```
 
-
 That's a big table, so to understand better, let's check just the MODLAND QA 
 bits categorization:
 
@@ -487,21 +484,17 @@ qc_500_description |>
 
 ![](images/modland_qa.png)
 
-From our dataset, we obtained two of the categories from the 
+From our dataset, I obtained two of the categories from the 
 total 4. The `qc_ints` have 19 different observations in total, but those 
 integers will give us information for the rest of the parameters.
 
-<!-- Is there a way to establish the same code for the bands given that they have -->
-<!-- the same categories? -->
-
 ## Proof of concept for 16 bits
 
-So far we have all the steps to perform the binary conversion for a variable
-that consist on 32 bits. Nonetheless, other variables could use less bits such
+So far I have all the steps to perform the binary conversion for a variable
+that consist of 32 bits. However, other variables may use fewer bits, such
 as `state_1km` which uses **16 bits**. Here, I'm going to apply the same process
-described above to this variable but with some changes in the code indicating 
+described above to this variable, with some changes in the code indicating 
 the quantity of bits to be used.
-
 
 ```{r}
 ## Check unique values and add one validation (from the video)
@@ -533,23 +526,23 @@ process_test <- qc_data |>
 stopifnot(process_test == "0000000000000001")
 ```
 
-Looks like we were able to succesfuly pass our test. Let's check how the
+Looks like we were able to successfully pass our test. Let's check how the
 dataset with the binary conversion looks like:
 
 ```{r}
 paged_table(qc_data)
 ```
 
-# Create function for bit string conversion
+# Creating a Function for the Bit String Conversion
 
-At this point I have the code that have the same steps for every variable. 
-Instead of copying and pasting all the code over and over again to just
-change the number of bits, we can turn it into a function.
+At this point I have code that repeats the same steps for each variable. 
+Instead of copying and pasting all the code repeatedly just to change the number
+of bits, we can refactor it into a function.
 
-The function will need to take as arguments the variable name and the number
-of bits needed to perform the binary conversion for that variable. We have
-validated the steps above with the inclusion of a know integer, so this test
-can be included in the function. The function will return a dataframe.
+The function will take the variable name and the number of bits required for 
+the binary conversion as arguments. Since we've already validated the steps 
+using a known integer, we can incorporate this test within the function. The 
+function will return a data frame.
 
 ```{r function}
 # Transform this to a function
@@ -594,10 +587,10 @@ obtain_bit_qc_df <- function(variable, bits) {
 }
 ```
 
-## Test function with `state_1km`
+## Testing the function with state_1km
 
 Let's use the function on the `state_1km` variable to check if it works. Then, 
-let's compare the result with the dataset we create step by step to validate
+let's compare the result with the dataset we created step by step to validate
 if we can obtain the same result.
 
 ```{r}
@@ -673,9 +666,7 @@ state_1km__description |>
         paged_table()
 ```
 
-## Test function with `q_scan` 
-
-The variable q_scan
+## Testing the function with `q_scan` 
 
 ```{r}
 # Obtain the bit string
@@ -698,14 +689,13 @@ q_scan_description |>
 
 # Conclusions on the bit conversion
 
- - All steps and references are documented.
- - The function I created can be use to perform the bit mask conversion.
+ - The function I developed successfully performs the bit mask conversion.
  - This function can be exported to a new file and documented formally 
-   to be used in the next steps for the data analysis.
- - After using the function, steps to include the correspondent categories 
-   according to the official MODIS documentation are needed.
- - The new data frames with the bit strings and the categories per each unique 
-   value will be used to filter the all the original observations from the 
+   for use in the next steps of the data analysis.
+ - After applying the function, it is necessary to incorporate the corresponding
+   categories based on the official MODIS documentation.
+ - The new data frames, containing the bit strings and categories for each 
+   unique value, will be used to filter the original observations from the 
    datasets according to their quality.
 
 # Quality filtering
