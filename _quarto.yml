@@ -6,8 +6,8 @@ project:
 
 website:
   title: "Ronny A. Hernández Mora"
-  site-url: https://ronnyale.com/
-  repo-url: https://github.com/ronnyhdez/blog/
+  site-url: https://ronnyale.com
+  repo-url: https://github.com/ronnyhdez/blog
   open-graph: true
   navbar:
     title: false
