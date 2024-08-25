@@ -11,7 +11,7 @@
 <description>By Ronny A. Hernández Mora
 </description>
 <generator>quarto-1.3.450</generator>
-<lastBuildDate>Wed, 01 May 2024 06:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 24 Aug 2024 06:00:00 GMT</lastBuildDate>
 <item>
   <title>MODIS pixel bit strings conversion with R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
@@ -23,16 +23,32 @@
 
 <section id="what-are-we-going-to-do" class="level1">
 <h1>What are we going to do?</h1>
-<p>So, I was working with some <a href="https://lpdaac.usgs.gov/products/mod09gav061/">MODIS Surfance Reflectance product images</a> from which I needed to calculate 4 vegetation indices to estimate Gross Primary Production. Apart from being careful with selecting images without snow or clouds I knew that every pixel comes with QA information useful to decide if including or not some of the pixels. Nonetheless, I was confused on how to perform such task on the many pixels that I had, and furthermore how to deal with the bits transformation into categories that I could understand and then filter in R according to their quality.</p>
-<p>Luckily there are sources of documentation that I could go through to understand and get to work in my project. There was one <a href="https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/">blog post by Steve Mosher</a> from where I understood better what needed to be done. So I wrote down everything it worked for me and finally put it here.</p>
+<p>While working with some <a href="https://lpdaac.usgs.gov/products/mod09gav061/">MODIS Surfance Reflectance product images</a>, my goal was to<br>
+calculate 4 vegetation indices to estimate Gross Primary Production. Alongside the standard considerations of selecting images free from snow or clouds, I knew that every pixel comes with Quality Assurance (QA) information. This QA data is important to decide whether to include or exclude certain pixels from the analysis.</p>
+<p>Nonetheless, I found myself confused about how to perform this task on the many pixels I had, and furthermore, how to deal with the transformation of bits into categories that I could understand and then filter in R according to their quality.</p>
+<p>Luckily there were documentation sources available that I could go through to understand and make progress on my project. One particularly helpful resource was a <a href="https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/">blog post by Steve Mosher</a>, where I got a better understanding of what needed to be done. So I wrote down everything it worked for me and finally put it here, step by step.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is an exercise to understand how the binary conversion works. There are easier ways to work with satellite images and their quality assurance data.</p>
+</div>
+</div>
 </section>
-<section id="modis-and-the-bit-strings" class="level1">
+<section id="modis-and-the-bit-strings" class="level1 page-columns page-full">
 <h1>MODIS and the bit strings</h1>
-<p><!-- - Explain that each pixel will come with data about quality --> <!-- - Make reference to documentation --> <!-- - Explain QA in images --> <!--  Intro about what is MODIS, where to find the data, bands, metadata and the --> <!-- variables with the bits. --></p>
-<p>The <a href="https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf">MODIS reference manual</a> …</p>
-<section id="variables-with-bit-strings" class="level2">
+<p>The MODIS dataset includes surface spectral reflectance from bands 1 through 7, with a spatial resolution of 500m, and incorporates corrections for atmospheric conditions such as aerosols, gases, and Rayleigh scattering <span class="citation" data-cites="vermote2021modis">(Vermote 2021)</span>. Additionally, it provides QA data that enables the removal of pixels with low quality, which could otherwise affect our analysis. The <a href="https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf">MODIS reference manual</a> offers detailed technical documentation on how the variables are encoded and how these values can be interpreted.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The reason for this is that satellite images tend to be large, so encoding variables helps to compress the data.</p>
+</div></div><section id="variables-with-bit-strings" class="level2">
 <h2 class="anchored" data-anchor-id="variables-with-bit-strings">Variables with bit strings</h2>
-<p><!-- - Mention variables with bitstrings --> <!-- - Explain what is the meaning of each of the variables --> <!-- - Explore (check unique values) the variables --></p>
 <p>There are 4 variables in the dataset with a bitmask that needs to be converted:</p>
 <ul>
 <li><code>state_1km</code></li>
@@ -40,7 +56,7 @@
 <li><code>qc_500m</code></li>
 <li><code>q_scan</code></li>
 </ul>
-<p>According to the technical documentation, this variables contain information about ….</p>
+<p>According to the technical documentation, this variables contain information about the state of the atmosphere and surface at a 1 km resolution (<code>state_1km</code>), geolocation of the pixel (<code>gflags</code>), quality of the surface reflectance data for bands 1-7 (<code>qc_500m</code>), and info about the scan level quality of the data (<code>q_scan</code>)</p>
 <p>Let’s read the dataset to explore what do we have originally in here</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
@@ -220,7 +236,7 @@ font-style: inherit;">1</span>]</span></code></pre></div>
 <pre><code> [1] 0 1 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 1 1 1 0 1 0 0 0 0 1 1 0 1 0 1</code></pre>
 </div>
 </div>
-<p>Ok! It looks like it works. But I’m not sure, so let’s do the same process but using the example from the USGS video.</p>
+<p>Ok! It looks like it works. But I’m not sure, so let’s perform the same process but using the example from the USGS video.</p>
 </section>
 <section id="process-validation" class="level2">
 <h2 class="anchored" data-anchor-id="process-validation">Process validation</h2>
@@ -356,12 +372,12 @@ font-style: inherit;">stopifnot</span>(bit_string <span class="sc" style="color:
 background-color: null;
 font-style: inherit;">==</span> validation)</span></code></pre></div>
 </div>
-<p>The steps does match the final result. Next, I need to apply the same logical conditions to my data.</p>
+<p>Success! Our results does match the final output. Now that I know for sure our code works, I’m going to apply the same logical conditions to the complete dataset.</p>
 </section>
 <section id="code-to-apply-the-bit-string-conversion-to-the-variables" class="level2">
 <h2 class="anchored" data-anchor-id="code-to-apply-the-bit-string-conversion-to-the-variables">Code to apply the bit string conversion to the variables</h2>
-<p>Now that I know which steps are needed to do the conversion, I need to develop the code further to apply it to each of the variables with a bit mask. On this first try, I will do it with the variable <code>qc_500m</code>.</p>
-<p>For this variable, I’m going to create a dataset with the variable <code>qc_ints</code> that contains the 18 unique integer values from the <code>qc_500m</code> variable plus one more observation from USGS video example to use it as a test validation. Then I’m going to add 32 more variables for each of the bits that we will obtain from the binary conversion process.</p>
+<p>Now that I understand the steps required for the conversion, I need to further develop the code to apply it to each variable with a bit mask. On this first try, I will do it with the variable <code>qc_500m</code>.</p>
+<p>For this variable, I’ll create a dataset containing the <code>qc_ints</code> variable, which includes the 18 unique integer values from <code>qc_500m</code> and an additional observation from the USGS video example for test validation. Next, I’ll add 32 more variables, each representing a bit from the binary conversion process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
@@ -551,7 +567,7 @@ font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"01000011011101000000000000000001"</span>)</span></code></pre></div>
 </div>
-<p>Now we know that the code is working and we can perform the binary conversion successfully, we can continue with the matching of categorization of the quality according to the documentation.</p>
+<p>With the code now successfully converting binary values, we can proceed to categorize the quality of each pixel based on the documentation guidelines.</p>
 </section>
 </section>
 <section id="categories-for-each-of-the-bit-strings" class="level1">
@@ -772,7 +788,7 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 <p>Considering that I’ll need to write out each condition to categorize them according to the documentation, I believe it would be more manageable and readable to follow the second solution. For each series of bits, I’ll merge them as a single column and categorize them.</p>
 <section id="qc_500m-complete-bit-string-categories" class="level2">
 <h2 class="anchored" data-anchor-id="qc_500m-complete-bit-string-categories"><code>qc_500m</code> complete bit string categories</h2>
-<p>The following code chunk encompasses all the necessary steps to incorporate all the categories specified in the MODIS documentation. Initially, it involves merging the required bits into columns and then generating the categorization as described in the documentation. The outcome of this process will be a data frame containing the categories for the original integer values within our variable</p>
+<p>The following code chunk includes all the steps needed to incorporate the all the categories specified in the MODIS documentation. First, it merges the required bits into columns, then it generates the categorizations based on the documentation guidelines. The result is a data frame that contains the categorized values corresponding to the original integers in our variable.</p>
 <p>From the documentation, we have which bit strings should be considered together to classify the values into categories. Based on those bit positions, we are going to unite the columns to obtain the bit combination. For example, for the <code>Parameter Name</code> MODLAND QA bits, we have to take the bit in position 0 and the bit position 1, which can have 4 different combinations: <code>00</code>, <code>01</code>, <code>10</code>, and <code>11</code>. Each of those 4 combinations will be categorized into their respective categories.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1839,13 +1855,11 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 </div>
 </div>
 <p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/modland_qa.png" class="img-fluid"></p>
-<p>From our dataset, we obtained two of the categories from the total 4. The <code>qc_ints</code> have 19 different observations in total, but those integers will give us information for the rest of the parameters.</p>
-<!-- Is there a way to establish the same code for the bands given that they have -->
-<!-- the same categories? -->
+<p>From our dataset, I obtained two of the categories from the total 4. The <code>qc_ints</code> have 19 different observations in total, but those integers will give us information for the rest of the parameters.</p>
 </section>
 <section id="proof-of-concept-for-16-bits" class="level2">
 <h2 class="anchored" data-anchor-id="proof-of-concept-for-16-bits">Proof of concept for 16 bits</h2>
-<p>So far we have all the steps to perform the binary conversion for a variable that consist on 32 bits. Nonetheless, other variables could use less bits such as <code>state_1km</code> which uses <strong>16 bits</strong>. Here, I’m going to apply the same process described above to this variable but with some changes in the code indicating the quantity of bits to be used.</p>
+<p>So far I have all the steps to perform the binary conversion for a variable that consist of 32 bits. However, other variables may use fewer bits, such as <code>state_1km</code> which uses <strong>16 bits</strong>. Here, I’m going to apply the same process described above to this variable, with some changes in the code indicating the quantity of bits to be used.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
@@ -2003,7 +2017,7 @@ font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"0000000000000001"</span>)</span></code></pre></div>
 </div>
-<p>Looks like we were able to succesfuly pass our test. Let’s check how the dataset with the binary conversion looks like:</p>
+<p>Looks like we were able to successfully pass our test. Let’s check how the dataset with the binary conversion looks like:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2019,9 +2033,10 @@ font-style: inherit;">paged_table</span>(qc_data)</span></code></pre></div>
 </div>
 </section>
 </section>
-<section id="create-function-for-bit-string-conversion" class="level1">
-<h1>Create function for bit string conversion</h1>
-<p>At this point I have the skeleton of the code needed to create a function to be applied to the next variables. It has to take into account the variable and the number of bits to be used in the bit mask conversion.</p>
+<section id="creating-a-function-for-the-bit-string-conversion" class="level1">
+<h1>Creating a Function for the Bit String Conversion</h1>
+<p>At this point I have code that repeats the same steps for each variable. Instead of copying and pasting all the code repeatedly just to change the number of bits, we can refactor it into a function.</p>
+<p>The function will take the variable name and the number of bits required for the binary conversion as arguments. Since we’ve already validated the steps using a known integer, we can incorporate this test within the function. The function will return a data frame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2052,10 +2067,10 @@ font-style: inherit;">1131675649</span>))</span>
 <span id="cb26-7">  </span>
 <span id="cb26-8">  <span class="do" style="color: #5E5E5E;
 background-color: null;
-font-style: italic;">## Create empty data frame. This case is 32 given that the variable</span></span>
+font-style: italic;">## Create empty data frame. </span></span>
 <span id="cb26-9">  <span class="do" style="color: #5E5E5E;
 background-color: null;
-font-style: italic;">## `qc_500m` have 32 bits</span></span>
+font-style: italic;">## Take into account the number of bits needed.</span></span>
 <span id="cb26-10">  total_bits <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> bits <span class="sc" style="color: #5E5E5E;
@@ -2224,7 +2239,9 @@ background-color: null;
 font-style: inherit;">return</span>(qc_data)</span>
 <span id="cb26-40">}</span></code></pre></div>
 </div>
-<p>Let’s use the function on the <code>state_1km</code> variable to check if it works. Then, let’s compare the result with the dataset we create step by step to validate if we can obtain the same result.</p>
+<section id="testing-the-function-with-state_1km" class="level2">
+<h2 class="anchored" data-anchor-id="testing-the-function-with-state_1km">Testing the function with state_1km</h2>
+<p>Let’s use the function on the <code>state_1km</code> variable to check if it works. Then, let’s compare the result with the dataset we created step by step to validate if we can obtain the same result.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2734,8 +2751,9 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 </div>
 </div>
 </div>
-<section id="q_scan" class="level3">
-<h3 class="anchored" data-anchor-id="q_scan">q_scan</h3>
+</section>
+<section id="testing-the-function-with-q_scan" class="level2">
+<h2 class="anchored" data-anchor-id="testing-the-function-with-q_scan">Testing the function with <code>q_scan</code></h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2885,53 +2903,38 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 </div>
 </div>
 </section>
-<section id="g_flags" class="level3">
-<h3 class="anchored" data-anchor-id="g_flags">g_flags</h3>
-<p>It looks that this variable have just the same value for every observation:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">unique</span>(reflectance_500<span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">$</span>gflags)</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
-</div>
-</div>
-<p>Given that I don’t have any values there other than 0, I’m not going to apply the function to this variable.</p>
 </section>
-</section>
-<section id="conclusions-on-the-bit-conversion" class="level1">
+<section id="conclusions-on-the-bit-conversion" class="level1 page-columns page-full">
 <h1>Conclusions on the bit conversion</h1>
 <ul>
-<li>All steps and references are documented.</li>
-<li>I created a function to do the bit mask conversion</li>
-<li>Function will be exported to a new file and documented as a formal function in R to be used in the next steps for the data analysis.</li>
-<li>After using the function, steps to include the correspondent categories according to the official MODIS documentation are needed.</li>
-<li>The new data frames with the bit strings and the categories per each unique value will be used to filter the all the original observations from the datasets.</li>
+<li>The function I developed successfully performs the bit mask conversion.</li>
+<li>This function can be exported to a new file and documented formally for use in the next steps of the data analysis*.</li>
+<li>After applying the function, it is necessary to incorporate the corresponding categories based on the official MODIS documentation.</li>
+<li>The new data frames, containing the bit strings and categories for each unique value, will be used to filter the original observations from the datasets according to their quality.</li>
 </ul>
-</section>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>*The documented function is available in one of the <a href="https://github.com/ronnyhdez/thesis_msc/blob/main/R/create_bit_string.R">GitHub repository thesis files</a> where it was used to perform the analysis for my <a href="https://doi.org/10.7939/r3-f8dw-0t12">thesis</a>.</p>
+</div></div></section>
 <section id="quality-filtering" class="level1">
 <h1>Quality filtering</h1>
-<p>Now that I have validated the function and I have per each of the variables with bit mask the categories obtained from the MODIS documentation, I can start with filtering out those pixels with low quality.</p>
-<section id="select-bitmasks-categories-that-indicates-high-quality" class="level3">
-<h3 class="anchored" data-anchor-id="select-bitmasks-categories-that-indicates-high-quality">Select bitmasks categories that indicates high quality</h3>
-<ul>
-<li>First I will start with <code>state_1km</code></li>
-</ul>
+<p>With the function validated and the categories for each bit-masked variable obtained from the MODIS documentation, I can now proceed to filter out pixels with low quality.</p>
+<section id="filter-by-state_1km" class="level2">
+<h2 class="anchored" data-anchor-id="filter-by-state_1km">Filter by <code>state_1km</code></h2>
+<p>Let’s start with <code>state_1km</code>. Here I will get the categories we want that indicate the best possible observations in the dataset. One we have those observations, we will obtain the <code>qc_ints</code> values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># quality values from state_1km</span></span>
-<span id="cb33-2"><span class="co" style="color: #5E5E5E;
+<span id="cb31-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># bit 6-7 and bit 13 can be anything as regarded by richard</span></span>
-<span id="cb33-3">state_1km_highest_quality <span class="ot" style="color: #003B4F;
+<span id="cb31-3">state_1km_highest_quality <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> state_1km__description <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb33-4">  <span class="fu" style="color: #4758AB;
+<span id="cb31-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(cloud_state_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2940,7 +2943,7 @@ background-color: null;
 font-style: inherit;">"clear"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-5">  <span class="fu" style="color: #4758AB;
+<span id="cb31-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(cloud_shadow_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2949,7 +2952,7 @@ background-color: null;
 font-style: inherit;">"no"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb33-6">  <span class="fu" style="color: #4758AB;
+<span id="cb31-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(land_water_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2958,7 +2961,7 @@ background-color: null;
 font-style: inherit;">"land"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-7">  <span class="fu" style="color: #4758AB;
+<span id="cb31-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(cirrus_detected_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2967,7 +2970,7 @@ background-color: null;
 font-style: inherit;">"none"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-8">  <span class="fu" style="color: #4758AB;
+<span id="cb31-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(bit_10 <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2976,7 +2979,7 @@ background-color: null;
 font-style: inherit;">"0"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-9">  <span class="fu" style="color: #4758AB;
+<span id="cb31-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(fire_flag_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2985,7 +2988,7 @@ background-color: null;
 font-style: inherit;">"no fire"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-10">  <span class="fu" style="color: #4758AB;
+<span id="cb31-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(snow_ice_flag_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2994,7 +2997,7 @@ background-color: null;
 font-style: inherit;">"no"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-11">  <span class="fu" style="color: #4758AB;
+<span id="cb31-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(bit_14 <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3003,7 +3006,7 @@ background-color: null;
 font-style: inherit;">"0"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-12">  <span class="fu" style="color: #4758AB;
+<span id="cb31-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(bit_15 <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3012,36 +3015,39 @@ background-color: null;
 font-style: inherit;">"0"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-13">  <span class="fu" style="color: #4758AB;
+<span id="cb31-13">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Select the qc_ints values as a vector</span></span>
+<span id="cb31-14">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(qc_ints) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb33-14">  <span class="fu" style="color: #4758AB;
+<span id="cb31-15">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">pull</span>()</span>
-<span id="cb33-15"></span>
-<span id="cb33-16">state_1km_highest_quality</span></code></pre></div>
+<span id="cb31-16"></span>
+<span id="cb31-17">state_1km_highest_quality</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8392  200  136    8   72 8264 8328</code></pre>
 </div>
 </div>
-<ul>
-<li>Filtering with <code>qc_500m</code></li>
-</ul>
+</section>
+<section id="filter-by-qc_500m" class="level2">
+<h2 class="anchored" data-anchor-id="filter-by-qc_500m">Filter by <code>qc_500m</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># quality values from qc_500</span></span>
-<span id="cb35-2"><span class="co" style="color: #5E5E5E;
+<span id="cb33-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># All should be 0 for all of the bits, except for </span></span>
-<span id="cb35-3">qc_500_highest_quality <span class="ot" style="color: #003B4F;
+<span id="cb33-3">qc_500_highest_quality <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> qc_500_description <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-4">  <span class="fu" style="color: #4758AB;
+<span id="cb33-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(modland_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3050,7 +3056,7 @@ background-color: null;
 font-style: inherit;">"ideal quality - all bands"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-5">  <span class="fu" style="color: #4758AB;
+<span id="cb33-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band1_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3059,7 +3065,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-6">  <span class="fu" style="color: #4758AB;
+<span id="cb33-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band2_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3068,7 +3074,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-7">  <span class="fu" style="color: #4758AB;
+<span id="cb33-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band3_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3077,7 +3083,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-8">  <span class="fu" style="color: #4758AB;
+<span id="cb33-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band4_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3086,7 +3092,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-9">  <span class="fu" style="color: #4758AB;
+<span id="cb33-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band5_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3095,7 +3101,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-10">  <span class="fu" style="color: #4758AB;
+<span id="cb33-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band6_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3104,7 +3110,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-11">  <span class="fu" style="color: #4758AB;
+<span id="cb33-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(band7_qa <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3113,7 +3119,7 @@ background-color: null;
 font-style: inherit;">"highest_quality"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-12">  <span class="fu" style="color: #4758AB;
+<span id="cb33-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">filter</span>(atmospheric_correction <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3122,58 +3128,88 @@ background-color: null;
 font-style: inherit;">"yes"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
-<span id="cb35-13">  <span class="co" style="color: #5E5E5E;
+<span id="cb33-13">  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># filter(adjacency_correction == "yes") |&gt; </span></span>
-<span id="cb35-14">  <span class="fu" style="color: #4758AB;
+<span id="cb33-14">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(qc_ints) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb35-15">  <span class="fu" style="color: #4758AB;
+<span id="cb33-15">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">pull</span>()</span>
-<span id="cb35-16"></span>
-<span id="cb35-17">qc_500_highest_quality</span></code></pre></div>
+<span id="cb33-16"></span>
+<span id="cb33-17">qc_500_highest_quality</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1073741824</code></pre>
 </div>
 </div>
-<ul>
-<li>Filtering with q_scan</li>
-</ul>
-<p>From the meeting with Richard Fernandes, we agreed to leave this one out.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># quality values from q_scan</span></span>
-<span id="cb37-2"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># This one is fine if I don't use it and let it be.</span></span></code></pre></div>
-</div>
-<ul>
-<li>Filtering with gflags</li>
-</ul>
-<p>For the <code>reflectance_500</code> dataset, we have the same value in all the observations</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># quality values for gflags</span></span>
-<span id="cb38-2"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># gflags_highest_quality &lt;- reflectance_500 |&gt;</span></span>
-<span id="cb38-3"><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">#   filter(gflags == 0)</span></span></code></pre></div>
-</div>
 </section>
-<section id="filter-from-complete-data-the-selected-bitmasks" class="level3">
-<h3 class="anchored" data-anchor-id="filter-from-complete-data-the-selected-bitmasks">Filter from complete data the selected bitmasks</h3>
-<p>So far, I have the bitmasks that indicates the highest quality, so I can filter out the rest from the <code>reflectance_500</code> dataset</p>
+<section id="filter-by-q_scan-and-gflags" class="level2">
+<h2 class="anchored" data-anchor-id="filter-by-q_scan-and-gflags">Filter by <code>q_scan</code> and <code>gflags</code></h2>
+<p>For our original dataset, the variable gflags has only one unique value, so it doesn’t provide much information. In the case of q_scan, we will exclude this variable from the analysis.</p>
+</section>
+<section id="filtering-the-complete-data-with-selected-bitmasks" class="level2">
+<h2 class="anchored" data-anchor-id="filtering-the-complete-data-with-selected-bitmasks">Filtering the Complete Data with Selected Bitmasks</h2>
+<p>So far, I have identified the bitmasks that indicate the highest quality, allowing me to filter out the remaining data from the reflectance_500 dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1">state_1km_filter <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1">state_1km_filter <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> reflectance_500 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb35-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(state_1km <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> state_1km_highest_quality) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb35-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>()</span>
+<span id="cb35-4"></span>
+<span id="cb35-5">state_1km_filter</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4586</code></pre>
+</div>
+</div>
+<p>These numbers of observations represent the filtering based solely on the <code>state_1km</code> variable. Now, I will continue with the <code>qc_500</code> variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1">state_1km_filter_qc_500 <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> reflectance_500 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb37-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(state_1km <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> state_1km_highest_quality) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb37-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(qc_500m <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> qc_500_highest_quality) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb37-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>()</span>
+<span id="cb37-5"></span>
+<span id="cb37-6">state_1km_filter_qc_500</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4319</code></pre>
+</div>
+</div>
+</section>
+<section id="some-plots-with-clean-reflectance_500-data" class="level2">
+<h2 class="anchored" data-anchor-id="some-plots-with-clean-reflectance_500-data">Some plots with clean reflectance_500 data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1">reflectance_500 <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span id="cb39-2">  <span class="fu" style="color: #4758AB;
@@ -3185,66 +3221,13 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span id="cb39-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>()</span>
-<span id="cb39-4"></span>
-<span id="cb39-5">state_1km_filter</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4586</code></pre>
-</div>
-</div>
-<p>Those number of observations represents just the filtering based on the <code>state_1km</code> variable. Now, I will continue with the <code>qc_500</code> variable:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1">state_1km_filter_qc_500 <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">&lt;-</span> reflectance_500 <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> </span>
-<span id="cb41-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">filter</span>(state_1km <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%in%</span> state_1km_highest_quality) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> </span>
-<span id="cb41-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">filter</span>(qc_500m <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%in%</span> qc_500_highest_quality) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> </span>
-<span id="cb41-4">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">nrow</span>()</span>
-<span id="cb41-5"></span>
-<span id="cb41-6">state_1km_filter_qc_500</span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4319</code></pre>
-</div>
-</div>
-</section>
-<section id="some-plots-with-clean-reflectance_500-data" class="level2">
-<h2 class="anchored" data-anchor-id="some-plots-with-clean-reflectance_500-data">Some plots with clean reflectance_500 data</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1">reflectance_500 <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> </span>
-<span id="cb43-2">  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">filter</span>(state_1km <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">%in%</span> state_1km_highest_quality) <span class="sc" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> </span>
-<span id="cb43-3">  <span class="fu" style="color: #4758AB;
-background-color: null;
 font-style: inherit;">select</span>(date) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb43-4">  <span class="co" style="color: #5E5E5E;
+<span id="cb39-4">  <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># pull() |&gt; </span></span>
-<span id="cb43-5">  <span class="fu" style="color: #4758AB;
+<span id="cb39-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -3255,7 +3238,7 @@ background-color: null;
 font-style: inherit;">as.yearmon</span>(date)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> </span>
-<span id="cb43-6">  <span class="fu" style="color: #4758AB;
+<span id="cb39-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3264,12 +3247,16 @@ background-color: null;
 font-style: inherit;">x =</span> date)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> </span>
-<span id="cb43-7">  <span class="fu" style="color: #4758AB;
+<span id="cb39-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+font-style: inherit;">geom_histogram</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bins =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-8">  <span class="fu" style="color: #4758AB;
+<span id="cb39-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scale_x_date</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -3282,7 +3269,16 @@ background-color: null;
 font-style: inherit;">"months"</span>) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-9">  <span class="fu" style="color: #4758AB;
+<span id="cb39-9">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_light</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">base_size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb39-10">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -3299,39 +3295,59 @@ background-color: null;
 font-style: inherit;">1</span>)) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb43-10">  <span class="fu" style="color: #4758AB;
+<span id="cb39-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Date"</span>,</span>
-<span id="cb43-11">       <span class="at" style="color: #657422;
+<span id="cb39-12">       <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Number of pixels"</span>,</span>
-<span id="cb43-12">       <span class="at" style="color: #657422;
+<span id="cb39-13">       <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Borden  MODIS pixels per month after quality filtering"</span>)</span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
 <div class="cell-output-display">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="1056"></p>
 </div>
 </div>
 </section>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
+<section id="final-notes" class="level1">
+<h1>Final notes</h1>
 <ul>
-<li>Function <code>obtain_bit_qc_df()</code> can be used to do the bit string conversion</li>
-<li>All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the <code>R/create_bit_string.R</code> file.</li>
-<li>The code to create the human readable categories from the bit strings so that bad/high quality filtering of the pixels can be done in the analysis is in the <code>scripts/create_bitstrings_tables.R</code>.</li>
+<li>A function such as <code>obtain_bit_qc_df()</code> can be used to do the bit string conversion repeatedly in the dataset.</li>
+<li>A second function that contains all the data quality categories can be useful to perform the operation on the objects resulting of applying the <code>obtain_bit_qc_df()</code>. On this blog post we didn’t create that function but you can check an example of it <a href="https://github.com/ronnyhdez/thesis_msc/blob/211f46784871c670ebc488b79549d03ec1a63b84/R/create_bit_string.R#L212">here</a></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This blog post is derived from my early development notes on my thesis work <span class="citation" data-cites="hernandez_mora_2024_10882134">(Hernández Mora 2024)</span>. If you’d like to explore the code further, you can visit my <a href="https://github.com/ronnyhdez/thesis_msc">thesis repository</a>, where I have documented everything and made it publicly accessible in an effort of open science.</p>
+</div>
+</div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hernandez_mora_2024_10882134" class="csl-entry">
+Hernández Mora, Ronny A. 2024. <span>“<span class="nocase">Assessing uncertainties related to the use of satellite remote sensing indices to estimate Gross Primary Production: Code and source files.</span>”</span> Zenodo. <a href="https://doi.org/10.5281/zenodo.10882134">https://doi.org/10.5281/zenodo.10882134</a>.
+</div>
+<div id="ref-vermote2021modis" class="csl-entry">
+Vermote, Wolfe, E. 2021. <span>“MODIS/Terra Surface Reflectance Daily L2G Global 1km and 500m SIN Grid V061.”</span> <em>NASA EOSDIS Land Processes Distributed Active Archive Center</em>. <a href="https://doi.org/10.5067/MODIS/MOD09GA.061">https://doi.org/10.5067/MODIS/MOD09GA.061</a>.
+</div>
+</div>
 
 
 </section>
@@ -3339,20 +3355,20 @@ font-style: inherit;">"Borden  MODIS pixels per month after quality filtering"</
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2024,
   author = {A. Hernandez Mora, Ronny},
   title = {MODIS Pixel Bit Strings Conversion with {R}},
-  date = {2024-05-01},
+  date = {2024-08-24},
   url = {https://ronnyale.com//posts/2023-12-25-modis-bitstring},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2024" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2024. <span>“MODIS Pixel Bit Strings
-Conversion with R.”</span> May 1, 2024. <a href="https://ronnyale.com//posts/2023-12-25-modis-bitstring">https://ronnyale.com//posts/2023-12-25-modis-bitstring</a>.
+Conversion with R.”</span> August 24, 2024. <a href="https://ronnyale.com//posts/2023-12-25-modis-bitstring">https://ronnyale.com//posts/2023-12-25-modis-bitstring</a>.
 </div></div></section></div> ]]></description>
   <category>MODIS</category>
   <category>R</category>
   <category>bits</category>
   <guid>https://ronnyale.com/posts/2023-12-25-modis-bitstring/index.html</guid>
-  <pubDate>Wed, 01 May 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/nicoya.png" medium="image" type="image/png" height="85" width="144"/>
+  <pubDate>Sat, 24 Aug 2024 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/lakes.png" medium="image" type="image/png" height="67" width="144"/>
 </item>
 <item>
   <title>Configuring nvim with Lua and packer for R</title>

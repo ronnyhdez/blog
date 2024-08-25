@@ -4,10 +4,10 @@ description: |
    MODIS satellite images come with bit information regarding the quality of
    pixels. In this post, I'll explore how to interpret these bits and categorize
    them for quality filtering using R.
-date: 2024-05-01
+date: 2024-08-24
 categories: [MODIS, R, bits]
 licence: "CC BY-NC"
-image: images/nicoya.png
+image: images/lakes.png
 editor_options: 
   chunk_output_type: console
 bibliography: ref.bib
@@ -691,12 +691,17 @@ q_scan_description |>
 
  - The function I developed successfully performs the bit mask conversion.
  - This function can be exported to a new file and documented formally 
-   for use in the next steps of the data analysis.
+   for use in the next steps of the data analysis*.
  - After applying the function, it is necessary to incorporate the corresponding
    categories based on the official MODIS documentation.
  - The new data frames, containing the bit strings and categories for each 
    unique value, will be used to filter the original observations from the 
    datasets according to their quality.
+
+::: {.column-margin}
+*The documented function is available in one of the [GitHub repository thesis files](https://github.com/ronnyhdez/thesis_msc/blob/main/R/create_bit_string.R)
+where it was used to perform the analysis for my [thesis](https://doi.org/10.7939/r3-f8dw-0t12).
+:::
 
 # Quality filtering
 
@@ -786,30 +791,37 @@ state_1km_filter_qc_500
 ## Some plots with clean reflectance_500 data
 
 ```{r}
+#| fig-width: 11
 reflectance_500 |> 
   filter(state_1km %in% state_1km_highest_quality) |> 
   select(date) |> 
   # pull() |> 
   mutate(year_month = zoo::as.yearmon(date)) |> 
   ggplot(aes(x = date)) + 
-  geom_histogram() +
+  geom_histogram(bins = 30) +
   scale_x_date(date_labels = "%b%Y", breaks = "months") +
+        theme_light(base_size = 12) +
   theme(axis.text.x = element_text(angle = 90, h = 1)) +
   labs(x = "Date",
        y = "Number of pixels",
        title = "Borden  MODIS pixels per month after quality filtering")
 ```
 
-# Recap/Steps summary
+# Final notes
 
-<!-- Use here the clean steps to show what would be needed to perform the quality -->
-<!-- filtering -->
+ - A function such as `obtain_bit_qc_df()` can be used to do the bit string
+   conversion repeatedly in the dataset.
+ - A second function that contains all the data quality categories can be useful
+   to perform the operation on the objects resulting of applying the 
+   `obtain_bit_qc_df()`. On this blog post we didn't create that function but
+   you can check an example of it [here](https://github.com/ronnyhdez/thesis_msc/blob/211f46784871c670ebc488b79549d03ec1a63b84/R/create_bit_string.R#L212)
 
-
-
--   Function `obtain_bit_qc_df()` can be used to do the bit string conversion
--   All steps are summarized in the function. Code here is just the historical reference. Functional and documented code for the function is in the `R/create_bit_string.R` file.
--   The code to create the human readable categories from the bit strings so that bad/high quality filtering of the pixels can be done in the analysis is in the `scripts/create_bitstrings_tables.R`.
+::: {.callout-note}
+This blog post is derived from my early development notes on my thesis work [@hernandez_mora_2024_10882134]. If
+you’d like to explore the code further, you can visit my [thesis repository](https://github.com/ronnyhdez/thesis_msc),
+where I have documented everything and made it publicly accessible in an effort
+of open science.
+:::
 
 # References
 
