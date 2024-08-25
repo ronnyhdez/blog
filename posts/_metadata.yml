@@ -22,3 +22,6 @@ author:
 
 # Default fields for citation
 citation: true
+
+# Open links externally
+link-external-newwindow: true

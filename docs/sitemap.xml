@@ -2,54 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ronnyale.com/about.html</loc>
-    <lastmod>2024-04-03T03:08:19.806Z</lastmod>
+    <lastmod>2024-08-25T00:38:04.472Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</loc>
-    <lastmod>2024-04-03T03:08:18.158Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/index.html</loc>
-    <lastmod>2024-04-03T03:08:16.790Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</loc>
-    <lastmod>2024-04-03T03:08:15.610Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</loc>
-    <lastmod>2024-04-03T03:08:14.178Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</loc>
-    <lastmod>2024-04-03T03:08:12.334Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</loc>
-    <lastmod>2024-04-03T03:08:10.866Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</loc>
-    <lastmod>2024-04-03T03:08:11.550Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</loc>
-    <lastmod>2024-04-03T03:08:13.062Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</loc>
-    <lastmod>2024-04-03T03:08:14.726Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</loc>
-    <lastmod>2024-04-03T03:08:16.078Z</lastmod>
+    <lastmod>2024-08-25T00:38:02.557Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</loc>
-    <lastmod>2024-04-03T03:08:17.566Z</lastmod>
+    <lastmod>2024-08-25T00:38:00.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</loc>
+    <lastmod>2024-08-25T00:37:58.792Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</loc>
+    <lastmod>2024-08-25T00:37:57.290Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</loc>
+    <lastmod>2024-08-25T00:37:55.533Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</loc>
+    <lastmod>2024-08-25T00:37:53.941Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</loc>
+    <lastmod>2024-08-25T00:37:53.201Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</loc>
+    <lastmod>2024-08-25T00:37:54.747Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</loc>
+    <lastmod>2024-08-25T00:37:56.655Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</loc>
+    <lastmod>2024-08-25T00:37:58.261Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/index.html</loc>
+    <lastmod>2024-08-25T00:37:59.564Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ronnyale.com/posts/2023-12-25-modis-bitstring/index.html</loc>
+    <lastmod>2024-08-25T00:38:01.902Z</lastmod>
   </url>
   <url>
     <loc>https://ronnyale.com/index.html</loc>
-    <lastmod>2024-04-03T03:08:19.526Z</lastmod>
+    <lastmod>2024-08-25T00:38:04.176Z</lastmod>
   </url>
 </urlset>

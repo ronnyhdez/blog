@@ -97,10 +97,10 @@ ul.task-list li input[type="checkbox"] {
 
 <link rel="alternate" type="application/rss+xml" title="Ronny A. Hernández Mora" href="index.xml"><meta property="og:title" content="Ronny A. Hernández Mora - Notes about creating and exploring data products">
 <meta property="og:description" content="By Ronny A. Hernández Mora">
-<meta property="og:image" content="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png">
+<meta property="og:image" content="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/lakes.png">
 <meta property="og:site-name" content="Ronny A. Hernández Mora">
-<meta property="og:image:height" content="320">
-<meta property="og:image:width" content="640">
+<meta property="og:image:height" content="732">
+<meta property="og:image:width" content="1579">
 </head>
 
 <body class="nav-fixed">
@@ -178,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="Base R">Base R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Linux">Linux <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Lua">Lua <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MkDocs">MkDocs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Neovim">Neovim <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R packages">R packages <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Shiny">Shiny <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zotero">Zotero <span class="quarto-category-count">(1)</span></div><div class="category" data-category="git">git <span class="quarto-category-count">(1)</span></div><div class="category" data-category="packer">packer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tmux">tmux <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="Base R">Base R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Linux">Linux <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Lua">Lua <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MODIS">MODIS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="MkDocs">MkDocs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Neovim">Neovim <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R packages">R packages <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Shiny">Shiny <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zotero">Zotero <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bits">bits <span class="quarto-category-count">(1)</span></div><div class="category" data-category="git">git <span class="quarto-category-count">(1)</span></div><div class="category" data-category="packer">packer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tmux">tmux <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -191,7 +191,43 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Neovim,Linux,R,Lua,packer" data-listing-date-sort="1687068000000" data-listing-file-modified-sort="1703540703462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="g-col-1" data-index="0" data-categories="MODIS,R,bits" data-listing-date-sort="1724479200000" data-listing-file-modified-sort="1724546237076" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25">
+<a href="./posts/2023-12-25-modis-bitstring/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/2023-12-25-modis-bitstring/images/lakes.png" class="thumbnail-image card-img" style="height: 200px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+MODIS pixel bit strings conversion with R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('MODIS'); return false;">
+MODIS
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bits'); return false;">
+bits
+</div>
+</div>
+<div class="card-text listing-description">
+MODIS satellite images come with bit information regarding the quality of pixels. In this post, I’ll explore how to interpret these bits and categorize them for quality…
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Ronny A. Hernandez Mora
+</div>
+<div class="listing-date">
+Aug 24, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Neovim,Linux,R,Lua,packer" data-listing-date-sort="1687068000000" data-listing-file-modified-sort="1703540703462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2023-06-17-nvim_lua_packer/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -233,7 +269,7 @@ Jun 18, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="Neovim,Linux,R" data-listing-date-sort="1677481200000" data-listing-file-modified-sort="1703540703458" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<div class="g-col-1" data-index="2" data-categories="Neovim,Linux,R" data-listing-date-sort="1677481200000" data-listing-file-modified-sort="1703540703458" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
 <a href="./posts/2023-02-27-nvim-and-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -269,7 +305,7 @@ Feb 27, 2023
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="R packages,Zotero" data-listing-date-sort="1663135200000" data-listing-file-modified-sort="1680197817387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<div class="g-col-1" data-index="3" data-categories="R packages,Zotero" data-listing-date-sort="1663135200000" data-listing-file-modified-sort="1680197817387" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
 <a href="./posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -302,7 +338,7 @@ Sep 14, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="Neovim,Linux" data-listing-date-sort="1663048800000" data-listing-file-modified-sort="1680197817379" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="g-col-1" data-index="4" data-categories="Neovim,Linux" data-listing-date-sort="1663048800000" data-listing-file-modified-sort="1680197817379" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2022-09-11-using-nvim-for-r-users/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -335,7 +371,7 @@ Sep 13, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="MkDocs,Linux" data-listing-date-sort="1642057200000" data-listing-file-modified-sort="1680197817355" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="g-col-1" data-index="5" data-categories="MkDocs,Linux" data-listing-date-sort="1642057200000" data-listing-file-modified-sort="1680197817355" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-12-11-usingmkdocsrmd/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -368,7 +404,7 @@ Jan 13, 2022
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="tmux,Linux" data-listing-date-sort="1609657200000" data-listing-file-modified-sort="1680197817339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<div class="g-col-1" data-index="6" data-categories="tmux,Linux" data-listing-date-sort="1609657200000" data-listing-file-modified-sort="1680197817339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
 <a href="./posts/2021-12-11-usando-tmux/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -401,7 +437,7 @@ Jan 3, 2021
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="Shiny,Linux" data-listing-date-sort="1609138800000" data-listing-file-modified-sort="1680197817319" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="g-col-1" data-index="7" data-categories="Shiny,Linux" data-listing-date-sort="1609138800000" data-listing-file-modified-sort="1680197817319" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
 <a href="./posts/2021-12-11-desplegando-shiny/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -434,7 +470,7 @@ Dec 28, 2020
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="Base R" data-listing-date-sort="1521007200000" data-listing-file-modified-sort="1680197817331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<div class="g-col-1" data-index="8" data-categories="Base R" data-listing-date-sort="1521007200000" data-listing-file-modified-sort="1680197817331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
 <a href="./posts/2021-12-11-tiempo-en-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -464,7 +500,7 @@ Mar 14, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="Base R" data-listing-date-sort="1517468400000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="g-col-1" data-index="9" data-categories="Base R" data-listing-date-sort="1517468400000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
 <a href="./posts/2021-12-11-estructuras-r/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -494,7 +530,7 @@ Feb 1, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-listing-date-sort="1515826800000" data-listing-file-modified-sort="1680197817315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
+<div class="g-col-1" data-index="10" data-listing-date-sort="1515826800000" data-listing-file-modified-sort="1680197817315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16">
 <a href="./posts/2021-12-11-datos-abiertos-muni-sanjose/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -519,7 +555,7 @@ Jan 13, 2018
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="git" data-listing-date-sort="1461132000000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="g-col-1" data-index="11" data-categories="git" data-listing-date-sort="1461132000000" data-listing-file-modified-sort="1680197817327" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
 <a href="./posts/2021-12-11-otra-intro-a-git/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">

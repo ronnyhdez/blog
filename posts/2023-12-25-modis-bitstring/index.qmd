@@ -1,0 +1,829 @@
+---
+title: "MODIS pixel bit strings conversion with R"
+description: |
+   MODIS satellite images come with bit information regarding the quality of
+   pixels. In this post, I'll explore how to interpret these bits and categorize
+   them for quality filtering using R.
+date: 2024-08-24
+categories: [MODIS, R, bits]
+licence: "CC BY-NC"
+image: images/lakes.png
+editor_options: 
+  chunk_output_type: console
+bibliography: ref.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Libraries
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(janitor)
+library(tidyr)
+library(stringr)
+library(fs)
+library(purrr)
+library(lubridate)
+library(feather)
+library(tidyquant)
+library(gt)
+library(rmarkdown)
+library(stringr)
+library(here)
+```
+
+# What are we going to do?
+
+While working with some [MODIS Surfance Reflectance product images](https://lpdaac.usgs.gov/products/mod09gav061/), my goal was to  
+calculate 4 vegetation indices to estimate Gross Primary Production. Alongside 
+the standard considerations of selecting images free from snow or clouds, I 
+knew that every pixel comes with Quality Assurance (QA) information. This QA
+data is important to decide whether to include or exclude certain pixels from the 
+analysis.
+
+Nonetheless, I found myself confused about how to perform this task on the many 
+pixels I had, and furthermore, how to deal with the transformation of bits into 
+categories that I could understand and then filter in R according to their 
+quality.
+
+Luckily there were documentation sources available that I could go through to
+understand and make progress on my project. One particularly helpful resource 
+was a [blog post by Steve Mosher](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/), 
+where I got a better understanding of what needed to be done. So I wrote down 
+everything it worked for me and finally put it here, step by step.
+
+::: {.callout-note}
+This is an exercise to understand how the binary conversion works. There are
+easier ways to work with satellite images and their quality assurance data.
+:::
+
+# MODIS and the bit strings
+
+The MODIS dataset includes surface spectral reflectance from bands 1 through 7,
+with a spatial resolution of 500m, and incorporates corrections for atmospheric 
+conditions such as aerosols, gases, and Rayleigh scattering [@vermote2021modis]. 
+Additionally, it provides QA data that enables the removal of pixels with low 
+quality, which could otherwise affect our analysis. The [MODIS reference manual](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
+offers detailed technical documentation on how the variables are encoded and how 
+these values can be interpreted.
+
+::: {.column-margin}
+The reason for this is that satellite images tend to be large, so encoding variables helps to compress the data. 
+:::
+
+## Variables with bit strings
+
+There are 4 variables in the dataset with a bitmask that needs to be converted:
+
+-   `state_1km`
+-   `gflags`
+-   `qc_500m`
+-   `q_scan`
+
+According to the technical documentation, this variables contain information
+about the state of the atmosphere and surface at a 1 km resolution (`state_1km`),
+geolocation of the pixel (`gflags`), quality of the surface reflectance data for
+bands 1-7 (`qc_500m`), and info about the scan level quality of the data (`q_scan`)
+
+Let's read the dataset to explore what do we have originally in here
+
+```{r}
+# Data
+reflectance_500 <- 
+  readRDS(here("posts/2023-12-25-modis-bitstring/data/borden_modis_reflectance_500_clean.rds"))
+```
+
+#### How many unique values do I have per each of the quality variables?
+
+```{r}
+reflectance_500 |>
+  select(state_1km, gflags, qc_500m, q_scan) |> 
+  purrr::map(~unique(.))
+```
+
+So, in our dataset, `state_1km` has `r n_distinct(reflectance_500$state_1km)`
+distinct values, `gflags` variable has `r n_distinct(reflectance_500$gflags)` so
+we are not going to use this one, `qc_500m` has 
+`r n_distinct(reflectance_500$qc_500m)` distinct values, and `q_scan` variable
+has `r n_distinct(reflectance_500$q_scan)` unique values. We need to convert
+this integers into bits and then, make sense of those bits. This is going to
+be our first part of the exploration.
+
+# Using bits in R
+
+ <!-- - Explanation to understand how to perform the bit conversion in R -->
+
+So, how do we accomplish this in R? Fortunately, we have some functions in base
+R specifically designed to handle this type of information. In our case, the
+function `intToBits()` will be particularly helpful. For instance, let's 
+consider one of the values from the `q_scan` variable: the integer `14`.
+
+```{r}
+intToBits(14)
+```
+
+That's quite a lengthy bit string! It contains more information than necessary.
+Therefore, we need to shorten this bit string and convert it into an integer. 
+
+```{r}
+as.integer(intToBits(14)[1:8])
+```
+
+ - Remember that this has to be read from left to right. So the first bit is 0.
+ - The 8 bits are numbered from 0 to 7 (as opposed to the R default).
+ - Each bit represents a power of 2.
+ - We need to reverse this bit string
+
+```{r}
+bit_string <- as.integer(intToBits(14)[1:8])
+bit_string[8:1]
+```
+
+# Binary conversion
+
+Every pixel in the satellite images contains an integer value that must be 
+converted to a bit binary value for interpretation. At first, it seems 
+complicated but the documentation will help us here. For any sensor, we would
+need to check the documentation in order to perform any binary conversion and
+interpretation.
+
+There is also a good video from the United States Geological Survey (USGS) that
+explains the process for the interpretation of the binary conversion with
+the documentation. From minute 2:34 of this [USGS video](https://www.usgs.gov/media/videos/getting-started-modis-v6-surface-reflectance-data-part-3) it shows the process of the binary conversion.
+
+## How can I apply the idea to our MODIS data?
+
+We've covered the basics of understanding bits, binary conversion, and
+interpretation. But how do we put this knowledge to use with our dataset? This 
+is where [Steve Mosher's blog post](https://stevemosher.wordpress.com/2012/12/05/modis-qc-bits/)
+comes in handy.
+
+Let's start by taking a single value from the `qc_500m` variable in our 
+dataset: `1075803189`. Here are the steps we'll follow:
+
+ - Utilize the `intToBits()` function to obtain the binary representation.
+ - Shorten the lengthy bit string to only include the necessary bits.
+ - Reverse the order of the bits.
+
+```{r}
+# Using one bitmask value from the dataset
+bits <- as.integer(intToBits(1075803189)[1:32])
+bits
+
+# Reverse
+bits[32:1]
+```
+
+Ok! It looks like it works. But I'm not sure, so let's perform the same process
+but using the example from the USGS video.
+
+## Process validation 
+
+In the USGS video explanation, they show the binary conversion process with
+an example. I'm going to use the same integer value `1131675649` to validate
+if our code steps work as expected.
+
+![USGS video integer example](images/usgs_example_int.png)
+
+The bit string obtained from the binary conversion should be:
+
+![USGS bit string example](images/usgs_example_binary.png)
+
+That bit string should be matched with the categories assigned and described in
+the documentation:
+
+![USGS bit string quality categories](images/usgs_bit_conversion_video.png)
+
+```{r}
+#  Using the example value from video
+binary_conversion <- as.integer(intToBits(1131675649)[1:32])
+bit_string <- binary_conversion[32:1]
+
+# This one is the result of the binary transformation from the video
+validation <- c(0,1,0,0,0,0,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
+
+# Check if object is the same as the one written by hand
+stopifnot(bit_string == validation)
+```
+
+Success! Our results does match the final output. Now that I know for sure our
+code works, I'm going to apply the same logical conditions to the complete 
+dataset.
+
+## Code to apply the bit string conversion to the variables
+
+Now that I understand the steps required for the conversion, I need to further
+develop the code to apply it to each variable with a bit mask. On this first 
+try, I will do it with the variable `qc_500m`.
+
+For this variable, I'll create a dataset containing the `qc_ints` variable, 
+which includes the 18 unique integer values from `qc_500m` and an additional 
+observation from the USGS video example for test validation. Next, I'll add 32 
+more variables, each representing a bit from the binary conversion process.
+
+```{r}
+## Create column with unique values and add one validation (from the video)
+qc_data <- data.frame(qc_ints = c(unique(reflectance_500$qc_500m), 1131675649))
+
+## Create empty data frame. This case is 32 given that the variable
+## `qc_500m` have 32 bits
+for (i in c(31:0)) {
+  qc_data[, paste0("bit_", i)] <- NA
+}
+```
+
+Here is how the data frame looks like:
+
+```{r}
+paged_table(qc_data)
+```
+
+So far, we have a dataframe with 33 variables (one with the original integers
+values and 32 more to fill with the bit strings) and 19 observations. Now I can
+loop through each of the bits variables filling them with the values from the
+binary conversion result from the original integers
+
+```{r}
+# Loop for obtaining bit string from unique values in the variable
+z <- 1
+for (i in qc_data$qc_ints) {
+  # print(i)
+  transformed <- as.integer(intToBits(i)[1:32])
+  qc_data[z, 2:33] <- transformed[32:1]
+  z <- z + 1
+}
+
+# Check the data frame
+paged_table(qc_data)
+```
+
+Every bit variable is filled with `0's` or `1's`. Looks good, but I want to 
+validate with the USGS example observation we added at the beginning if I'm
+obtaining the correct bit strings:
+
+```{r}
+## Create test according to value in video
+process_test <- qc_data |> 
+  filter(qc_ints == 1131675649) |>
+  select(-qc_ints) |>
+  unite(col = "new", bit_31:bit_0, sep = "") |> 
+  pull() 
+
+stopifnot(process_test == "01000011011101000000000000000001")
+```
+
+With the code now successfully converting binary values, we can proceed to 
+categorize the quality of each pixel based on the documentation guidelines.
+
+# Categories for each of the bit strings
+
+Continuing with the variable `qc_500m` from which I have already the bit 
+strings, I can follow the [MODIS documentation](https://lpdaac.usgs.gov/documents/306/MOD09_User_Guide_V6.pdf) 
+to add the categories for each combination of bits.
+
+This steps can be done in **two** different (but similar) ways: using
+conditionals for each of the bits, or joining the variables with the specific 
+bits. 
+
+```{r}
+paged_table(qc_data)
+```
+
+**First possible solution**
+
+This one will take the bits separately and use the boolean `&` to categorize
+the information contained in the bit string:
+
+```{r}
+qc_data |> 
+  mutate(modland_qa = case_when(
+    bit_1 == 0 & bit_0 == 0 ~ "ideal quality - all bands",
+    bit_1 == 0 & bit_0 == 1 ~ "less than ideal quality - some or all bands",
+    bit_1 == 1 & bit_0 == 0 ~ "product not produced due to cloud effects",
+    bit_1 == 1 & bit_0 == 1 ~ "product not produced for other reasons",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  select(qc_ints, bit_1, bit_0, modland_qa) |> 
+  paged_table()
+```
+
+**Second possible solution**
+
+For this one, I will join the bits and then categorize each one accordingly:
+
+```{r}
+# Second possible solution
+qc_data |> 
+  unite(col = "modland", c("bit_1", "bit_0"), sep = "") |> 
+  mutate(modland_qa = case_when(
+    modland == "00" ~ "ideal quality - all bands",
+    modland == "01" ~ "less than ideal quality - some or all bands",
+    modland == "10" ~ "product not produced due to cloud effects",
+    modland == "11" ~ "product not produced for other reasons",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  select(qc_ints, modland, modland_qa) |> 
+  paged_table()
+```
+
+Considering that I'll need to write out each condition to categorize them
+according to the documentation, I believe it would be more manageable and 
+readable to follow the second solution. For each series of bits, I'll merge them
+as a single column and categorize them.
+
+## `qc_500m` complete bit string categories
+
+The following code chunk includes all the steps needed to incorporate the all
+the categories specified in the MODIS documentation. First, it merges the 
+required bits into columns, then it generates the categorizations based on the
+documentation guidelines. The result is a data frame that contains the 
+categorized values corresponding to the original integers in our variable.
+
+From the documentation, we have which bit strings should be considered together
+to classify the values into categories. Based on those bit positions, we are
+going to unite the columns to obtain the bit combination. For example, for the
+`Parameter Name` MODLAND QA bits, we have to take the bit in position 0 and the
+bit position 1, which can have 4 different combinations: `00`, `01`,
+`10`, and `11`. Each of those 4 combinations will be categorized into their 
+respective categories.
+
+![Coarse Resolution Surface Reflectance Band Quality Description](images/qc_bit_order.png)
+
+
+```{r}
+qc_500_description <- qc_data |> 
+  unite(col = "modland", c("bit_1", "bit_0"), sep = "") |> 
+  unite(col = "band_1", 
+        c("bit_5", "bit_4", "bit_3", "bit_2"), sep = "") |> 
+  unite(col = "band_2", 
+        c("bit_9", "bit_8", "bit_7", "bit_6"), sep = "") |> 
+  unite(col = "band_3", 
+        c("bit_13", "bit_12", "bit_11", "bit_10"), sep = "") |> 
+  unite(col = "band_4", 
+        c("bit_17", "bit_16", "bit_15", "bit_14"), sep = "") |> 
+  unite(col = "band_5", 
+        c("bit_21", "bit_20", "bit_19", "bit_18"), sep = "") |> 
+  unite(col = "band_6", 
+        c("bit_25", "bit_24", "bit_23", "bit_22"), sep = "") |>
+  unite(col = "band_7", 
+        c("bit_29", "bit_28", "bit_27", "bit_26"), sep = "") |> 
+  mutate(modland_qa = case_when(
+    modland == "00" ~ "ideal quality - all bands",
+    modland == "01" ~ "less than ideal quality - some or all bands",
+    modland == "10" ~ "product not produced due to cloud effects",
+    modland == "11" ~ "product not produced for other reasons",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band1_qa = case_when(
+    band_1 == "0000" ~ "highest_quality",
+    band_1 == "0111" ~ "noisy detector",
+    band_1 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_1 == "1001" ~ "solar zenith >= 86 degrees",
+    band_1 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_1 == "1011" ~ "missing input",
+    band_1 == "1100" ~ "internal constant used",
+    band_1 == "1101" ~ "correction out of bounds",
+    band_1 == "1110" ~ "L1B data faulty",
+    band_1 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band2_qa = case_when(
+    band_2 == "0000" ~ "highest_quality",
+    band_2 == "0111" ~ "noisy detector",
+    band_2 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_2 == "1001" ~ "solar zenith >= 86 degrees",
+    band_2 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_2 == "1011" ~ "missing input",
+    band_2 == "1100" ~ "internal constant used",
+    band_2 == "1101" ~ "correction out of bounds",
+    band_2 == "1110" ~ "L1B data faulty",
+    band_2 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band3_qa = case_when(
+    band_3 == "0000" ~ "highest_quality",
+    band_3 == "0111" ~ "noisy detector",
+    band_3 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_3 == "1001" ~ "solar zenith >= 86 degrees",
+    band_3 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_3 == "1011" ~ "missing input",
+    band_3 == "1100" ~ "internal constant used",
+    band_3 == "1101" ~ "correction out of bounds",
+    band_3 == "1110" ~ "L1B data faulty",
+    band_3 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band4_qa = case_when(
+    band_4 == "0000" ~ "highest_quality",
+    band_4 == "0111" ~ "noisy detector",
+    band_4 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_4 == "1001" ~ "solar zenith >= 86 degrees",
+    band_4 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_4 == "1011" ~ "missing input",
+    band_4 == "1100" ~ "internal constant used",
+    band_4 == "1101" ~ "correction out of bounds",
+    band_4 == "1110" ~ "L1B data faulty",
+    band_4 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band5_qa = case_when(
+    band_5 == "0000" ~ "highest_quality",
+    band_5 == "0111" ~ "noisy detector",
+    band_5 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_5 == "1001" ~ "solar zenith >= 86 degrees",
+    band_5 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_5 == "1011" ~ "missing input",
+    band_5 == "1100" ~ "internal constant used",
+    band_5 == "1101" ~ "correction out of bounds",
+    band_5 == "1110" ~ "L1B data faulty",
+    band_5 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band6_qa = case_when(
+    band_6 == "0000" ~ "highest_quality",
+    band_6 == "0111" ~ "noisy detector",
+    band_6 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_6 == "1001" ~ "solar zenith >= 86 degrees",
+    band_6 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_6 == "1011" ~ "missing input",
+    band_6 == "1100" ~ "internal constant used",
+    band_6 == "1101" ~ "correction out of bounds",
+    band_6 == "1110" ~ "L1B data faulty",
+    band_6 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(band7_qa = case_when(
+    band_7 == "0000" ~ "highest_quality",
+    band_7 == "0111" ~ "noisy detector",
+    band_7 == "1000" ~ "dead detector, data interpolated in L1B",
+    band_7 == "1001" ~ "solar zenith >= 86 degrees",
+    band_7 == "1010" ~ "solar zenith >= 85 and < 86 degrees",
+    band_7 == "1011" ~ "missing input",
+    band_7 == "1100" ~ "internal constant used",
+    band_7 == "1101" ~ "correction out of bounds",
+    band_7 == "1110" ~ "L1B data faulty",
+    band_7 == "1111" ~ "not processed due to deep ocean or clouds",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(atmospheric_correction = ifelse(bit_30 == 0, "no", "yes"),
+         adjacency_correction = ifelse(bit_31 == 0, "no", "yes"))
+
+paged_table(qc_500_description)
+```
+
+That's a big table, so to understand better, let's check just the MODLAND QA 
+bits categorization:
+
+```{r}
+qc_500_description |> 
+        select(modland, modland_qa, qc_ints) |> 
+        paged_table()
+```
+
+![](images/modland_qa.png)
+
+From our dataset, I obtained two of the categories from the 
+total 4. The `qc_ints` have 19 different observations in total, but those 
+integers will give us information for the rest of the parameters.
+
+## Proof of concept for 16 bits
+
+So far I have all the steps to perform the binary conversion for a variable
+that consist of 32 bits. However, other variables may use fewer bits, such
+as `state_1km` which uses **16 bits**. Here, I'm going to apply the same process
+described above to this variable, with some changes in the code indicating 
+the quantity of bits to be used.
+
+```{r}
+## Check unique values and add one validation (from the video)
+qc_data <- data.frame(qc_ints = c(unique(reflectance_500$state_1km),
+                                  1131675649))
+
+## Create empty data frame. This case is 32 given that the variable
+## `qc_500m` have 32 bits
+for (i in c(15:0)) {
+  qc_data[, paste0("bit_", i)] <- NA
+}
+
+# Loop for obtaining bit string from unique values in the variable
+z <- 1
+for (i in qc_data$qc_ints) {
+  # print(i)
+  transformed <- as.integer(intToBits(i)[1:16])
+  qc_data[z, 2:17] <- transformed[16:1]
+  z <- z + 1
+}
+
+## Create test according to value in video
+process_test <- qc_data |> 
+  filter(qc_ints == 1131675649) |>
+  select(-qc_ints) |>
+  unite(col = "new", bit_15:bit_0, sep = "") |> 
+  pull() 
+
+stopifnot(process_test == "0000000000000001")
+```
+
+Looks like we were able to successfully pass our test. Let's check how the
+dataset with the binary conversion looks like:
+
+```{r}
+paged_table(qc_data)
+```
+
+# Creating a Function for the Bit String Conversion
+
+At this point I have code that repeats the same steps for each variable. 
+Instead of copying and pasting all the code repeatedly just to change the number
+of bits, we can refactor it into a function.
+
+The function will take the variable name and the number of bits required for 
+the binary conversion as arguments. Since we've already validated the steps 
+using a known integer, we can incorporate this test within the function. The 
+function will return a data frame.
+
+```{r function}
+# Transform this to a function
+obtain_bit_qc_df <- function(variable, bits) {
+  
+  ## Check unique values and add one validation (from the video)
+  qc_data <- data.frame(qc_ints = c(unique(reflectance_500[[variable]]),
+                                    1131675649))
+  
+  ## Create empty data frame. 
+  ## Take into account the number of bits needed.
+  total_bits = bits - 1
+  for (i in c(total_bits:0)) {
+    qc_data[, paste0("bit_", i)] <- NA
+  }
+  
+  # Loop for obtaining bit string from unique values in the variable
+  bit_col <- bits + 1
+  z <- 1
+  for (i in qc_data$qc_ints) {
+    # print(i)
+    transformed <- as.integer(intToBits(i)[1:bits])
+    qc_data[z, 2:bit_col] <- transformed[bits:1]
+    z <- z + 1
+  }
+ 
+  ## Create test according to value in video
+  final_bit <- paste0("bit_", total_bits)
+  
+  process_test <- qc_data |> 
+    filter(qc_ints == 1131675649) |>
+    select(-qc_ints) |>
+    unite(col = "new", everything(), sep = "") |> 
+    pull() 
+  
+  test_object <- stringr::str_sub("01000011011101000000000000000001",
+                                  start = -bits, end = -1)
+
+  stopifnot(process_test == test_object) 
+  
+  return(qc_data)
+}
+```
+
+## Testing the function with state_1km
+
+Let's use the function on the `state_1km` variable to check if it works. Then, 
+let's compare the result with the dataset we created step by step to validate
+if we can obtain the same result.
+
+```{r}
+# Obtain the bit string using the function
+qc_data_function <- obtain_bit_qc_df(variable = "state_1km", bits = 16)
+
+# Compare last qc_data from state_1km and new qc_data created with function
+stopifnot(qc_data$bit_14 == qc_data_function$bit_14)
+
+# Check dimensions
+stopifnot(dim(qc_data) == dim(qc_data_function))
+```
+
+Seems that it works! With the function we obtained the same dimensions of the
+dataset than before. Let's now create the categories for each of the bit strings
+
+```{r}
+# Create the categories according to documentation
+state_1km__description <- qc_data_function |> 
+  unite(col = "cloud_state", c("bit_1", "bit_0"), sep = "") |> 
+  unite(col = "land_water_flag",
+        c("bit_5", "bit_4", "bit_3"), sep = "") |>
+  unite(col = "aerosol_quantity",
+        c("bit_7", "bit_6"), sep = "") |>
+  unite(col = "cirrus_detected",
+        c("bit_9", "bit_8"), sep = "") |>
+  mutate(cloud_state_qa = case_when(
+    cloud_state == "00" ~ "clear",
+    cloud_state == "01" ~ "cloudy",
+    cloud_state == "10" ~ "mixed",
+    cloud_state == "11" ~ "not set, assumed clear",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(cloud_shadow_qa = ifelse(bit_2 == 1, "yes", "no")) |> 
+    mutate(land_water_qa = case_when(
+    land_water_flag == "000" ~ "shallow ocean",
+    land_water_flag == "001" ~ "land",
+    land_water_flag == "010" ~ "ocean coastlines and lake shorelines",
+    land_water_flag == "011" ~ "shallow inland water",
+    land_water_flag == "100" ~ "ephemeral water",
+    land_water_flag == "101" ~ "deep inland water",
+    land_water_flag == "110" ~ "continental/moderate ocean",
+    land_water_flag == "111" ~ "deep ocean",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+    mutate(aerosol_quantity_qa = case_when(
+    aerosol_quantity == "00" ~ "climatology",
+    aerosol_quantity == "01" ~ "low",
+    aerosol_quantity == "10" ~ "average",
+    aerosol_quantity == "11" ~ "high",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+    mutate(cirrus_detected_qa = case_when(
+    cirrus_detected == "00" ~ "none",
+    cirrus_detected == "01" ~ "small",
+    cirrus_detected == "10" ~ "average",
+    cirrus_detected == "11" ~ "high",
+    TRUE ~ "No info, please validate bit conversion"
+  )) |> 
+  mutate(cloud_flag_qa = ifelse(bit_10 == 1, "cloud", "no cloud"),
+         fire_flag_qa = ifelse(bit_11 == 1, "fire", "no fire"),
+         snow_ice_flag_qa = ifelse(bit_12 == 1, "yes", "no"),
+         pixel_adjacent_cloud_qa = ifelse(bit_13 == 1, "yes", "no"),
+         salt_pan_qa = ifelse(bit_14 == 1, "yes", "no"),
+         snow_mask_qa = ifelse(bit_15 == 1, "yes", "no"))
+```
+
+Now, let's check the resulting dataset:
+
+```{r}
+state_1km__description |> 
+        select(-starts_with("bit")) |> 
+        paged_table()
+```
+
+## Testing the function with `q_scan` 
+
+```{r}
+# Obtain the bit string
+qc_data <- obtain_bit_qc_df(variable = "q_scan", bits = 8)
+
+# Create the categories according to documentation
+q_scan_description <- qc_data |> 
+  mutate(scan_quadrant_1 = ifelse(bit_0 == 1, "yes", "no"),
+         scan_quadrant_2 = ifelse(bit_0 == 1, "yes", "no"),
+         scan_quadrant_3 = ifelse(bit_0 == 1, "yes", "no"),
+         scan_quadrant_4 = ifelse(bit_0 == 1, "yes", "no"),
+         missing_obs_1 = ifelse(bit_1 == 1, "same", "different"),
+         missing_obs_2 = ifelse(bit_1 == 1, "same", "different"),
+         missing_obs_3 = ifelse(bit_1 == 1, "same", "different"),
+         missing_obs_4 = ifelse(bit_1 == 1, "same", "different"))
+
+q_scan_description |> 
+        paged_table()
+```
+
+# Conclusions on the bit conversion
+
+ - The function I developed successfully performs the bit mask conversion.
+ - This function can be exported to a new file and documented formally 
+   for use in the next steps of the data analysis*.
+ - After applying the function, it is necessary to incorporate the corresponding
+   categories based on the official MODIS documentation.
+ - The new data frames, containing the bit strings and categories for each 
+   unique value, will be used to filter the original observations from the 
+   datasets according to their quality.
+
+::: {.column-margin}
+*The documented function is available in one of the [GitHub repository thesis files](https://github.com/ronnyhdez/thesis_msc/blob/main/R/create_bit_string.R)
+where it was used to perform the analysis for my [thesis](https://doi.org/10.7939/r3-f8dw-0t12).
+:::
+
+# Quality filtering
+
+With the function validated and the categories for each bit-masked variable 
+obtained from the MODIS documentation, I can now proceed to filter out pixels 
+with low quality.
+
+## Filter by `state_1km`
+
+Let's start with `state_1km`. Here I will get the categories we want that
+indicate the best possible observations in the dataset. One we have those
+observations, we will obtain the `qc_ints` values.
+
+```{r}
+# quality values from state_1km
+# bit 6-7 and bit 13 can be anything as regarded by richard
+state_1km_highest_quality <- state_1km__description |>
+  filter(cloud_state_qa == "clear") |> 
+  filter(cloud_shadow_qa == "no") |>
+  filter(land_water_qa == "land") |> 
+  filter(cirrus_detected_qa == "none") |> 
+  filter(bit_10 == "0") |> 
+  filter(fire_flag_qa == "no fire") |> 
+  filter(snow_ice_flag_qa == "no") |> 
+  filter(bit_14 == "0") |> 
+  filter(bit_15 == "0") |> 
+  # Select the qc_ints values as a vector
+  select(qc_ints) |> 
+  pull()
+
+state_1km_highest_quality
+```
+
+## Filter by `qc_500m`
+
+```{r}
+# quality values from qc_500
+# All should be 0 for all of the bits, except for 
+qc_500_highest_quality <- qc_500_description |>
+  filter(modland_qa == "ideal quality - all bands") |>
+  filter(band1_qa == "highest_quality") |>
+  filter(band2_qa == "highest_quality") |>
+  filter(band3_qa == "highest_quality") |>
+  filter(band4_qa == "highest_quality") |>
+  filter(band5_qa == "highest_quality") |>
+  filter(band6_qa == "highest_quality") |>
+  filter(band7_qa == "highest_quality") |>
+  filter(atmospheric_correction == "yes") |>
+  # filter(adjacency_correction == "yes") |> 
+  select(qc_ints) |> 
+  pull()
+
+qc_500_highest_quality
+```
+
+## Filter by `q_scan` and `gflags`
+
+For our original dataset, the variable gflags has only one unique value, so it 
+doesn't provide much information. In the case of q_scan, we will exclude this 
+variable from the analysis.
+
+## Filtering the Complete Data with Selected Bitmasks
+
+So far, I have identified the bitmasks that indicate the highest quality, 
+allowing me to filter out the remaining data from the reflectance_500 dataset.
+
+```{r}
+state_1km_filter <- reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
+  nrow()
+
+state_1km_filter
+```
+
+These numbers of observations represent the filtering based solely on the 
+`state_1km` variable. Now, I will continue with the `qc_500` variable:
+
+```{r}
+state_1km_filter_qc_500 <- reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
+  filter(qc_500m %in% qc_500_highest_quality) |> 
+  nrow()
+
+state_1km_filter_qc_500
+```
+
+## Some plots with clean reflectance_500 data
+
+```{r}
+#| fig-width: 11
+reflectance_500 |> 
+  filter(state_1km %in% state_1km_highest_quality) |> 
+  select(date) |> 
+  # pull() |> 
+  mutate(year_month = zoo::as.yearmon(date)) |> 
+  ggplot(aes(x = date)) + 
+  geom_histogram(bins = 30) +
+  scale_x_date(date_labels = "%b%Y", breaks = "months") +
+        theme_light(base_size = 12) +
+  theme(axis.text.x = element_text(angle = 90, h = 1)) +
+  labs(x = "Date",
+       y = "Number of pixels",
+       title = "Borden  MODIS pixels per month after quality filtering")
+```
+
+# Final notes
+
+ - A function such as `obtain_bit_qc_df()` can be used to do the bit string
+   conversion repeatedly in the dataset.
+ - A second function that contains all the data quality categories can be useful
+   to perform the operation on the objects resulting of applying the 
+   `obtain_bit_qc_df()`. On this blog post we didn't create that function but
+   you can check an example of it [here](https://github.com/ronnyhdez/thesis_msc/blob/211f46784871c670ebc488b79549d03ec1a63b84/R/create_bit_string.R#L212)
+
+::: {.callout-note}
+This blog post is derived from my early development notes on my thesis work [@hernandez_mora_2024_10882134]. If
+you’d like to explore the code further, you can visit my [thesis repository](https://github.com/ronnyhdez/thesis_msc),
+where I have documented everything and made it publicly accessible in an effort
+of open science.
+:::
+
+# References
+
+::: {#refs}
+:::
