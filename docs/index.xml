@@ -3368,7 +3368,7 @@ Conversion with R.”</span> August 24, 2024. <a href="https://ronnyale.com/post
   <category>bits</category>
   <guid>https://ronnyale.com/posts/2023-12-25-modis-bitstring/index.html</guid>
   <pubDate>Sat, 24 Aug 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/lakes.png" medium="image" type="image/png" height="67" width="144"/>
+  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/lakes.png" medium="image" type="image/png" height="67" width="144"/>
 </item>
 <item>
   <title>Configuring nvim with Lua and packer for R</title>

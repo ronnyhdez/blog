@@ -7,7 +7,7 @@ description: |
 date: 2024-08-24
 categories: [MODIS, R, bits]
 licence: "CC BY-NC"
-image: images/lakes.png
+image: lakes.png
 editor_options: 
   chunk_output_type: console
 bibliography: ref.bib
