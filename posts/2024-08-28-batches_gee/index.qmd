@@ -1,5 +1,10 @@
 ---
 title: "Exporting asset when exceding GEE API limit: batches"
+description: ""
+date: 2024-09-07
+categories: [GEE, batch, API]
+licence: "CC BY-NC"
+image: lakes.png
 author: Ronny A. Hernandez Mora
 execute:
   message: false
@@ -23,23 +28,15 @@ editor_options:
   chunk_output_type: console
 ---
 
-So, we have geodatabase that we want to work with in Google Earth Engine.
-Turns out that we are working with the python API and after reading the
-necessary layer, we want to export it as an asset to GEE but we get the
-error: `ee.ee_exception.EEException: Request payload size exceeds the limit: 10485760 bytes.`
+So, we have geodatabase that we want to work with in Google Earth Engine. Turns out that we are working with the python API and after reading the necessary layer, we want to export it as an asset to GEE but we get the error: `ee.ee_exception.EEException: Request payload size exceeds the limit: 10485760 bytes.`
 
-I don't want to export locally as a shape file, and then upload the file
-manually to GEE. I want this process to be in python code. How can we
-achieve this? Well, we will have to divide our data in batches and 
-upload the batches. Nonetheless, it can be tricky because we will have
-a lot of assets, that we need as just one asset. 
+I don't want to export locally as a shape file, and then upload the file manually to GEE. I want this process to be in python code. How can we achieve this? Well, we will have to divide our data in batches and upload the batches. Nonetheless, it can be tricky because we will have a lot of assets, that we need as just one asset.
 
 In this tutorial, I will show you the steps to make it possible.
 
 # Read the data
 
-I will use some polygons reservoirs from the province of Alberta, Canada.
-This dataset comes from ABMI ... TODO: complete the reference.
+I will use some polygons reservoirs from the province of Alberta, Canada. This dataset comes from ABMI ... TODO: complete the reference.
 
 ```{python}
 import geopandas as gpd
@@ -57,9 +54,7 @@ reservoirs = gpd.read_file(path,
                            layer='o01_Reservoirs_HFI_2021')
 ```
 
-Now, I don't need all the variables and also I want to clean
-the names. Also, I want to know the total number of  rows and
-the CRS:
+Now, I don't need all the variables and also I want to clean the names. Also, I want to know the total number of rows and the CRS:
 
 ```{python}
 reservoirs = reservoirs.clean_names()
@@ -70,9 +65,7 @@ print(f'Total number of reservoirs: {len(reservoirs)}')
 print(reservoirs.crs)
 ```
 
-Everything seems fine. At this point, if I try to export
-the data as it is, it will fail and return the API exceed limit
-message:
+Everything seems fine. At this point, if I try to export the data as it is, it will fail and return the API exceed limit message:
 
 ```{python}
 # Initialize the GEE
@@ -95,23 +88,13 @@ exportTask.start()
 
 # Export in batches
 
-So, we are exceeding the API rate limit. Instead of uploading
-the data all at once, I will create batches and upload them
-one by one. 
+So, we are exceeding the API rate limit. Instead of uploading the data all at once, I will create batches and upload them one by one.
 
-This has one consequence: it will create many assets. But, we
-will fix this in the following steps.
+This has one consequence: it will create many assets. But, we will fix this in the following steps.
 
-For this, I will need to define the batch size, the number of
-batches and loop through the batches to upload them with a
-unique ID. For the unique ID I can assign the number of
-batch.
+For this, I will need to define the batch size, the number of batches and loop through the batches to upload them with a unique ID. For the unique ID I can assign the number of batch.
 
-One important thing: when I read the data, it contains the 
-original CRS. When uploading as it is, it will keep this CRS
-which it will create a distorsion on the polygons when working
-in GEE. To avoid this I'm going to change the CRS to `epsg=4326`
-which is the one used by GEE.
+One important thing: when I read the data, it contains the original CRS. When uploading as it is, it will keep this CRS which it will create a distorsion on the polygons when working in GEE. To avoid this I'm going to change the CRS to `epsg=4326` which is the one used by GEE.
 
 ```{python}
 ee.Initialize()
@@ -147,21 +130,16 @@ for i, batch in enumerate(reservoirs.groupby(reservoirs.index // batch_size)):
     exportTask.start()
 ```
 
-There we have. In total, there are 17 new assets in GEE. 
-Now I need to merge all of them into one single asset.
+There we have. In total, there are 17 new assets in GEE. Now I need to merge all of them into one single asset.
 
 TODO: include screenshot of the assets created
 
 # Merge assets in one
 
-I have to define in a list all the assets I want to merge.
-So, I will create a list taking advantage of the name pattern
-that the individual reservoirs assets have (just the final id batch
-number changes)
+I have to define in a list all the assets I want to merge. So, I will create a list taking advantage of the name pattern that the individual reservoirs assets have (just the final id batch number changes)
 
-Then I will loop on each one and merge them. This will create
-an object that lives in GEE but it's not saved. That's why
-I will need to export it as the new merged asset
+Then I will loop on each one and merge them. This will create an object that lives in GEE but it's not saved. That's why I will need to export it as the new merged asset
+
 ```{python}
 batch_asset_ids = [f'projects/ee-ronnyale/assets/reservoirs_batch_{i+1}' for i in range(num_batches)]
 reservoirs_fc = ee.FeatureCollection(batch_asset_ids[0])
@@ -179,10 +157,7 @@ exportTask.start()
 
 # Removing individual assets
 
-Finally, we ended up with many reservoirs assets (one per each batch)
-and the merged reservoirs asset. I just need the final one, so I want
-to remove the rest. Instead of doing this manually click-ing each one
-in GEE, I'm can do it in a loop:
+Finally, we ended up with many reservoirs assets (one per each batch) and the merged reservoirs asset. I just need the final one, so I want to remove the rest. Instead of doing this manually click-ing each one in GEE, I'm can do it in a loop:
 
 ```{python}
 for asset_id in batch_asset_ids:
@@ -193,8 +168,7 @@ for asset_id in batch_asset_ids:
 
 # Steps summary
 
-Here is the complete steps with some `prints()` that will
-inform the user what is happening when running the code:
+Here is the complete steps with some `prints()` that will inform the user what is happening when running the code:
 
 ```{python}
 ee.Initialize()
