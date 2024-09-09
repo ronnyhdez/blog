@@ -29,11 +29,10 @@ In this tutorial, we'll work on a approach that allows us to:
  2. Export these batches as assets to GEE programmatically.
  3. Consolidate the uploaded batches into a single asset within GEE.
 
-# Read and pre-process the data
+## Setting Up the Environment
 
-For this tutorial, we'll use a dataset of reservoirs polygons from the province
-of Alberta, Canada. This dataset is provided by the Alberta Biodiversity 
-Monitoring Institute (ABMI) [@abmi_hfi_2021].
+Before we dive into the main process, let's set up our environment and import 
+the necessary libraries and initialize GEE:
 
 ```{python}
 import geopandas as gpd
@@ -44,69 +43,75 @@ import ee
 import json
 import math
 
-import os
-path = str(os.getcwd()) + '/data_check/HFI2021.gdb'
-print(path)
-reservoirs = gpd.read_file(path,
-                           layer='o01_Reservoirs_HFI_2021')
+# Initialize Google Earth Engine
+ee.Initialize()
 ```
 
-Now, I don't need all the variables and also I want to clean the names. Also, I want to know the total number of rows and the CRS:
+# Read and pre-process the data
+
+For this tutorial, we'll use a dataset of reservoirs polygons from the province
+of Alberta, Canada. This dataset is provided by the Alberta Biodiversity 
+Monitoring Institute (ABMI) [@abmi_hfi_2021].
 
 ```{python}
+# Set the path to your geodatabase
+path = str(os.getcwd()) + '/data_check/HFI2021.gdb'
+print(f'Reading data from: {path}')
+
+# Read the specific layer from the geodatabase
+reservoirs = gpd.read_file(path, layer = 'o01_Reservoirs_HFI_2021')
+
+# Clean column names and select necessary columns
 reservoirs = reservoirs.clean_names()
 reservoirs = reservoirs[['feature_ty', 'geometry']]
 
 print(reservoirs.head())
 print(f'Total number of reservoirs: {len(reservoirs)}')
-print(reservoirs.crs)
+print(f'CRS: {reservoirs.crs}')
 ```
 
-Everything seems fine. At this point, if I try to export the data as it is, it will fail and return the API exceed limit message:
+In this step, we read a specific layer from our dataset, clean the column names,
+and select only the necessary columns. While additional pre-processing steps can
+be performed locally, in this case, we focus on selecting the specific data we 
+need. Additionally, we print the number of observations included in the layer
+and the CRS.
 
+# The API Limit Challenge
+
+If we try to export this entire dataset to GEE at once, we'll encounter an error
+due to the API's payload size limit:
+
+::: {.column-margin}
+From this point forward, whenever you see 'projects/ee-ronnyale/assets/', be 
+sure to replace it with your own GEE project path.
+:::
 ```{python}
 #| error: true
 
-# Initialize the GEE
-ee.Initialize()
-
-# Transform the dataframe to a json object
+# This code will raise an error due to payload size
 reservoirs_geojson = reservoirs.to_json()
-
-# Load GeoJSON as an Earth Engine FeatureCollection
 reservoirs_fc = ee.FeatureCollection(json.loads(reservoirs_geojson))
 exportTask = ee.batch.Export.table.toAsset(
-    collection=reservoirs_fc,
-    description='Reservoirs Export',
-    assetId='projects/ee-ronnyale/assets/reservoirs'
+    collection = reservoirs_fc,
+    description = 'Cleaned Reservoirs Export',
+    assetId = 'projects/ee-ronnyale/assets/reservoirs'
 )
-
-# Start the export task (This works for 10 reservoirs)
 exportTask.start()
 ```
 
 # Exporting Data in Batches
 
-To overcome the API rate limit, we'll divide our data into manageable batches and upload them individually. This approach has a trade-off: it will create multiple assets in GEE, which we'll need to merge later. Here's how we'll do it:
+To overcome the API rate limit, we'll divide our data into manageable batches 
+and upload them individually. This approach has a trade-off: it will create
+multiple assets in GEE, which we'll need to merge later. Here's how we'll do it:
 
-1. Define a batch size
-2. Calculate the number of batches needed
-3. Loop through the data, creating and uploading each batch
-4. Assign a unique ID to each batch for easy identification
+ 1. Define a batch size
+ 2. Calculate the number of batches needed
+ 3. Loop through the data, creating and uploading each batch
+ 4. Assign a unique ID to each batch for easy identification
 
-One crucial step: before uploading, we'll change the CRS to `epsg=4326`, which is used by GEE. This prevents distortion of the polygons when working in GEE.
-
-
-
-<!-- # Export in batches -->
-
-<!-- So, we are exceeding the API rate limit. Instead of uploading the data all at once, I will create batches and upload them one by one. -->
-
-<!-- This has one consequence: it will create many assets. But, we will fix this in the following steps. -->
-
-<!-- For this, I will need to define the batch size, the number of batches and loop through the batches to upload them with a unique ID. For the unique ID I can assign the number of batch. -->
-
-<!-- One important thing: when I read the data, it contains the original CRS. When uploading as it is, it will keep this CRS which it will create a distorsion on the polygons when working in GEE. To avoid this I'm going to change the CRS to `epsg=4326` which is the one used by GEE. -->
+One crucial step: before uploading, we'll change the CRS to `epsg=4326`, which 
+is used by GEE. This prevents distortion of the polygons when working in GEE.
 
 ```{python}
 #| error: true
@@ -120,7 +125,7 @@ num_batches = math.ceil(len(reservoirs) / batch_size)
 
 for i, batch in enumerate(reservoirs.groupby(reservoirs.index // batch_size)):
     # Reproject to WGS 84 (EPSG:4326)
-    batch = batch[1].to_crs(epsg=4326)
+    batch = batch[1].to_crs(epsg = 4326)
 
     # Convert to GeoJSON
     batch_geojson = batch.to_json()
@@ -134,16 +139,17 @@ for i, batch in enumerate(reservoirs.groupby(reservoirs.index // batch_size)):
     # Export the batch to GEE
     print(f'Exporting the batch: {batch_asset_id}')
     exportTask = ee.batch.Export.table.toAsset(
-        collection=batch_fc,
-        description=f'Reservoirs Batch {i+1}',
-        assetId=batch_asset_id
+        collection = batch_fc,
+        description = f'Reservoirs Batch {i+1}',
+        assetId = batch_asset_id
     )
 
     # Start the export task
     exportTask.start()
 ```
 
-There we have. In total, there are 17 new assets in GEE. Now I need to merge all of them into one single asset.
+There we have. In total, there are 17 new assets in GEE. Now I need to merge 
+all of them into one single asset.
 
 On your GEE assets you should be able to see something like:
 
