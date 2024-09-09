@@ -1,42 +1,39 @@
 ---
-title: "Exporting asset when exceding GEE API limit: batches"
-description: ""
+title: "A Step-by-Step Guide to Exporting 'Large' Datasets to Google Earth Engine via Python"
+description: "If you've encountered the dreaded `Request payload size exceeds the limit` error, you're not alone."
 date: 2024-09-07
 categories: [GEE, batch, API]
 licence: "CC BY-NC"
-image: lakes.png
-author: Ronny A. Hernandez Mora
-execute:
-  message: false
-  warning: false
-format: 
-  html:
-    theme:
-      - flatly
-    linkcolor: "#FF5500"
-    highlight-style: tango
-    toc: true
-    toc-title: Table of contents
-    toc-location: left
-    number-sections: false
-    colorlinks: true
-    code-fold: true
-    code-line-numbers: true
-editor: visual
+image: alberta.png
 jupyter: python3
 editor_options: 
   chunk_output_type: console
+bibliography: ref.bib
 ---
 
-So, we have geodatabase that we want to work with in Google Earth Engine. Turns out that we are working with the python API and after reading the necessary layer, we want to export it as an asset to GEE but we get the error: `ee.ee_exception.EEException: Request payload size exceeds the limit: 10485760 bytes.`
+Have you ever found yourself pre-processing a local geodatabase, expecting to
+use the cleaned version on Google Earth Engine (GEE), only to get stuck when
+you try to export it as an asset? After a few seconds waiting for the task to
+complete the get the message: `ee.ee_exception.EEException: Request payload size exceeds the limit: 10485760 bytes.`
 
-I don't want to export locally as a shape file, and then upload the file manually to GEE. I want this process to be in python code. How can we achieve this? Well, we will have to divide our data in batches and upload the batches. Nonetheless, it can be tricky because we will have a lot of assets, that we need as just one asset.
+You might consider exporting it as a `.shp` file and manually uploading it to 
+GEE, but we both know that’s not an ideal, long-term solution. Our goal is to 
+maintain streamlined, code-base approach for our project. 
 
-In this tutorial, I will show you the steps to make it possible.
+So, how can we export our exceeding API rate limit data without doing any manual
+export? The answer: divide and conquer!
 
-# Read the data
+In this tutorial, we'll work on a approach that allows us to:
 
-I will use some polygons reservoirs from the province of Alberta, Canada. This dataset comes from ABMI ... TODO: complete the reference.
+ 1. Divide our data into manageable chunks.
+ 2. Export these batches as assets to GEE programmatically.
+ 3. Consolidate the uploaded batches into a single asset within GEE.
+
+# Read and pre-process the data
+
+For this tutorial, we'll use a dataset of reservoirs polygons from the province
+of Alberta, Canada. This dataset is provided by the Alberta Biodiversity 
+Monitoring Institute (ABMI) [@abmi_hfi_2021].
 
 ```{python}
 import geopandas as gpd
@@ -68,6 +65,8 @@ print(reservoirs.crs)
 Everything seems fine. At this point, if I try to export the data as it is, it will fail and return the API exceed limit message:
 
 ```{python}
+#| error: true
+
 # Initialize the GEE
 ee.Initialize()
 
@@ -86,17 +85,31 @@ exportTask = ee.batch.Export.table.toAsset(
 exportTask.start()
 ```
 
-# Export in batches
+# Exporting Data in Batches
 
-So, we are exceeding the API rate limit. Instead of uploading the data all at once, I will create batches and upload them one by one.
+To overcome the API rate limit, we'll divide our data into manageable batches and upload them individually. This approach has a trade-off: it will create multiple assets in GEE, which we'll need to merge later. Here's how we'll do it:
 
-This has one consequence: it will create many assets. But, we will fix this in the following steps.
+1. Define a batch size
+2. Calculate the number of batches needed
+3. Loop through the data, creating and uploading each batch
+4. Assign a unique ID to each batch for easy identification
 
-For this, I will need to define the batch size, the number of batches and loop through the batches to upload them with a unique ID. For the unique ID I can assign the number of batch.
+One crucial step: before uploading, we'll change the CRS to `epsg=4326`, which is used by GEE. This prevents distortion of the polygons when working in GEE.
 
-One important thing: when I read the data, it contains the original CRS. When uploading as it is, it will keep this CRS which it will create a distorsion on the polygons when working in GEE. To avoid this I'm going to change the CRS to `epsg=4326` which is the one used by GEE.
+
+
+<!-- # Export in batches -->
+
+<!-- So, we are exceeding the API rate limit. Instead of uploading the data all at once, I will create batches and upload them one by one. -->
+
+<!-- This has one consequence: it will create many assets. But, we will fix this in the following steps. -->
+
+<!-- For this, I will need to define the batch size, the number of batches and loop through the batches to upload them with a unique ID. For the unique ID I can assign the number of batch. -->
+
+<!-- One important thing: when I read the data, it contains the original CRS. When uploading as it is, it will keep this CRS which it will create a distorsion on the polygons when working in GEE. To avoid this I'm going to change the CRS to `epsg=4326` which is the one used by GEE. -->
 
 ```{python}
+#| error: true
 ee.Initialize()
 
 # Define the batch size
@@ -132,7 +145,9 @@ for i, batch in enumerate(reservoirs.groupby(reservoirs.index // batch_size)):
 
 There we have. In total, there are 17 new assets in GEE. Now I need to merge all of them into one single asset.
 
-TODO: include screenshot of the assets created
+On your GEE assets you should be able to see something like:
+
+![Batches as assets in GEE](images/reservoirs_batches.png)
 
 # Merge assets in one
 
@@ -141,6 +156,7 @@ I have to define in a list all the assets I want to merge. So, I will create a l
 Then I will loop on each one and merge them. This will create an object that lives in GEE but it's not saved. That's why I will need to export it as the new merged asset
 
 ```{python}
+#| error: true
 batch_asset_ids = [f'projects/ee-ronnyale/assets/reservoirs_batch_{i+1}' for i in range(num_batches)]
 reservoirs_fc = ee.FeatureCollection(batch_asset_ids[0])
 for asset_id in batch_asset_ids[1:]:
@@ -160,6 +176,7 @@ exportTask.start()
 Finally, we ended up with many reservoirs assets (one per each batch) and the merged reservoirs asset. I just need the final one, so I want to remove the rest. Instead of doing this manually click-ing each one in GEE, I'm can do it in a loop:
 
 ```{python}
+#| error: true
 for asset_id in batch_asset_ids:
     try:
         ee.data.deleteAsset(asset_id)
@@ -171,6 +188,7 @@ for asset_id in batch_asset_ids:
 Here is the complete steps with some `prints()` that will inform the user what is happening when running the code:
 
 ```{python}
+#| error: true
 ee.Initialize()
 
 # Define the batch size
