@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ronny A. Hernandez Mora">
+<meta name="dcterms.date" content="2024-09-09">
+<meta name="description" content="If you’ve encountered the dreaded Request payload size exceeds the limit error, you’re not alone.">
+
+<title>Ronny A. Hernández Mora - A Step-by-Step Guide to Exporting ‘Large’ Datasets to Google Earth Engine via Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="Ronny A. Hernández Mora - A Step-by-Step Guide to Exporting ‘Large’ Datasets to Google Earth Engine via Python">
+<meta property="og:description" content="If you’ve encountered the dreaded Request payload size exceeds the limit error, you’re not alone.">
+<meta property="og:image" content="https://ronnyale.com/posts/2024-08-28-batches_gee/alberta.png">
+<meta property="og:site-name" content="Ronny A. Hernández Mora">
+<meta property="og:image:height" content="833">
+<meta property="og:image:width" content="1627">
+</head>
+
+<body class="floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Posts</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About this blog</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ronnyhdez/blog" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/ronny_hdezmora" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://ronnyale.com/" rel="" target=""><i class="bi bi-person-circle" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A Step-by-Step Guide to Exporting ‘Large’ Datasets to Google Earth Engine via Python</h1>
+                  <div>
+        <div class="description">
+          If you’ve encountered the dreaded <em>Request payload size exceeds the limit</em> error, you’re not alone.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">GEE</div>
+                <div class="quarto-category">batch</div>
+                <div class="quarto-category">API</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://ronnyale.com/">Ronny A. Hernandez Mora</a> <a href="https://orcid.org/0000-0001-6225-7096" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 9, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setting-up-the-environment" id="toc-setting-up-the-environment" class="nav-link active" data-scroll-target="#setting-up-the-environment">Setting Up the Environment</a></li>
+  <li><a href="#read-and-pre-process-the-data" id="toc-read-and-pre-process-the-data" class="nav-link" data-scroll-target="#read-and-pre-process-the-data">Read and pre-process the Data</a></li>
+  <li><a href="#the-api-limit-challenge" id="toc-the-api-limit-challenge" class="nav-link" data-scroll-target="#the-api-limit-challenge">The API Limit Challenge</a></li>
+  <li><a href="#exporting-data-in-batches" id="toc-exporting-data-in-batches" class="nav-link" data-scroll-target="#exporting-data-in-batches">Exporting Data in Batches</a>
+  <ul class="collapse">
+  <li><a href="#merging-assets-in-gee" id="toc-merging-assets-in-gee" class="nav-link" data-scroll-target="#merging-assets-in-gee">Merging Assets in GEE</a></li>
+  </ul></li>
+  <li><a href="#cleaning-up-removing-individual-assets" id="toc-cleaning-up-removing-individual-assets" class="nav-link" data-scroll-target="#cleaning-up-removing-individual-assets">Cleaning Up: Removing Individual Assets</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>Have you ever found yourself pre-processing a local geodatabase, expecting to use the cleaned version on Google Earth Engine (GEE), only to get stuck when you try to export it as an asset? Most likely, you exceed the <a href="https://developers.google.com/earth-engine/guides/usage">quota limit on GEE</a> and saw this message: <code>ee.ee_exception.EEException: Request payload size exceeds the limit: 10485760 bytes.</code></p>
+<p>This limitation can be frustrating, especially when you want to maintain a Python-based workflow without resorting to manual uploads (i.e.&nbsp;saving your cleaned data to a <code>.shp</code> file and uploading it through the GEE Asset Manager in the Code Editor). In this tutorial, we’ll explore a programmatic solution to overcome GEE’s upload limit.</p>
+<p>We’ll work on a approach that allows us to:</p>
+<ol type="1">
+<li>Divide our data into manageable chunks.</li>
+<li>Export these batches as assets to GEE programmatically.</li>
+<li>Consolidate the uploaded batches into a single asset within GEE.</li>
+</ol>
+<section id="setting-up-the-environment" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-environment">Setting Up the Environment</h2>
+<p>Before we dive into the main process, let’s set up our environment and import the necessary libraries and initialize GEE:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> os</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> sys</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> janitor</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> ee</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> json</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> math</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Initialize Google Earth Engine</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>ee.Initialize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-and-pre-process-the-data" class="level1">
+<h1>Read and pre-process the Data</h1>
+<p>For this tutorial, we’ll use a dataset of reservoirs polygons from the province of Alberta, Canada. This dataset is provided by the Alberta Biodiversity Monitoring Institute (ABMI) <span class="citation" data-cites="abmi_hfi_2021">(<a href="#ref-abmi_hfi_2021" role="doc-biblioref">ABMI 2023</a>)</span>.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Set the path to your geodatabase</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>path <span class="op">=</span> <span class="bu">str</span>(os.getcwd()) <span class="op">+</span> <span class="st">'/data_check/HFI2021.gdb'</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># print(f'Reading data from: {path}')</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># Read the specific layer from the geodatabase</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>reservoirs <span class="op">=</span> gpd.read_file(path, layer <span class="op">=</span> <span class="st">'o01_Reservoirs_HFI_2021'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Clean column names and select necessary columns</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>reservoirs <span class="op">=</span> reservoirs.clean_names()</span>
+<span id="cb2-10"><a href="#cb2-10"></a>reservoirs <span class="op">=</span> reservoirs[[<span class="st">'feature_ty'</span>, <span class="st">'geometry'</span>]]</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="bu">print</span>(reservoirs.head())</span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="bu">print</span>(<span class="ss">f'Total number of reservoirs: </span><span class="sc">{</span><span class="bu">len</span>(reservoirs)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="bu">print</span>(<span class="ss">f'CRS: </span><span class="sc">{</span>reservoirs<span class="sc">.</span>crs<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  feature_ty                                           geometry
+0  RESERVOIR  MULTIPOLYGON (((807480.895 5943839.731, 807492...
+1  RESERVOIR  MULTIPOLYGON (((721133.55 6291704.327, 721119....
+2  RESERVOIR  MULTIPOLYGON (((716030.577 6294731.491, 715977...
+3  RESERVOIR  MULTIPOLYGON (((817815.182 5949939.667, 817857...
+4  RESERVOIR  MULTIPOLYGON (((388703.975 6217051.101, 388699...
+Total number of reservoirs: 8101
+CRS: EPSG:3400</code></pre>
+</div>
+</div>
+<p>In this step, we read a specific layer from our dataset, cleaned the column names, and selected only the necessary columns. While additional pre-processing steps can be performed locally, in this case, we focus on selecting the specific data we need. Additionally, we print the number of observations included in the layer and the CRS.</p>
+</section>
+<section id="the-api-limit-challenge" class="level1 page-columns page-full">
+<h1>The API Limit Challenge</h1>
+<p>If we try to export this entire dataset as it is to GEE at once, we’ll encounter the mentioned error due to the API’s payload size limit:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>From this point forward, whenever you see ‘projects/ee-ronnyale/assets/’, be sure to replace it with your own GEE project path.</p>
+</div></div><div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># This code will raise an error due to payload size</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>reservoirs_geojson <span class="op">=</span> reservoirs.to_json()</span>
+<span id="cb4-3"><a href="#cb4-3"></a>reservoirs_fc <span class="op">=</span> ee.FeatureCollection(json.loads(reservoirs_geojson))</span>
+<span id="cb4-4"><a href="#cb4-4"></a>exportTask <span class="op">=</span> ee.batch.Export.table.toAsset(</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    collection <span class="op">=</span> reservoirs_fc,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    description <span class="op">=</span> <span class="st">'Cleaned Reservoirs Export'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    assetId <span class="op">=</span> <span class="st">'projects/ee-ronnyale/assets/reservoirs'</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9"></a>exportTask.start()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>EEException: Request payload size exceeds the limit: 10485760 bytes.</code></pre>
+</div>
+</div>
+</section>
+<section id="exporting-data-in-batches" class="level1 page-columns page-full">
+<h1>Exporting Data in Batches</h1>
+<p>To overcome the API rate limit, we’ll divide our data into manageable batches and upload them individually. This approach has a trade-off: it will create multiple assets in GEE, which we’ll need to merge later. Here’s how we’ll do it:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>*How to know the batch size we should use? In my case it was about trial and error. I knew from the code above that I had 8101 observations, so batches of 500 seemed fine given that each observation contains one round-ish polygon. This could change if we have much more complicated polygons, which will be bigger in size (bytes not area) and hence, that extra information will force us to downsize the number of observations per each batch.</p>
+</div></div><ol type="1">
+<li>Define a batch size*</li>
+<li>Calculate the number of batches needed</li>
+<li>Loop through the data, creating and uploading each batch</li>
+<li>Assign a unique ID to each batch for easy identification</li>
+</ol>
+<p>One crucial step: before uploading, we’ll change the CRS to <code>epsg=4326</code>, which <a href="https://developers.google.com/earth-engine/guides/table_upload">is used by GEE</a>. This prevents distortion of the polygons when working in GEE.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Define the batch size</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>batch_size <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Calculate the number of batches needed</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>num_batches <span class="op">=</span> math.ceil(<span class="bu">len</span>(reservoirs) <span class="op">/</span> batch_size)</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="cf">for</span> i, batch <span class="kw">in</span> <span class="bu">enumerate</span>(reservoirs.groupby(reservoirs.index <span class="op">//</span> batch_size)):</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="co"># Reproject to WGS 84 (EPSG:4326)</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>    batch <span class="op">=</span> batch[<span class="dv">1</span>].to_crs(epsg <span class="op">=</span> <span class="dv">4326</span>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a>    <span class="co"># Convert to GeoJSON</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    batch_geojson <span class="op">=</span> batch.to_json()</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="co"># Load GeoJSON as an Earth Engine FeatureCollection</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>    batch_fc <span class="op">=</span> ee.FeatureCollection(json.loads(batch_geojson))</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a>    <span class="co"># Define a unique asset ID for each batch</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a>    batch_asset_id <span class="op">=</span> <span class="ss">f'projects/ee-ronnyale/assets/reservoirs_batch_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a></span>
+<span id="cb6-20"><a href="#cb6-20"></a>    <span class="co"># Export the batch to GEE</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>    <span class="bu">print</span>(<span class="ss">f'Exporting the batch: </span><span class="sc">{</span>batch_asset_id<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb6-22"><a href="#cb6-22"></a>    exportTask <span class="op">=</span> ee.batch.Export.table.toAsset(</span>
+<span id="cb6-23"><a href="#cb6-23"></a>        collection <span class="op">=</span> batch_fc,</span>
+<span id="cb6-24"><a href="#cb6-24"></a>        description <span class="op">=</span> <span class="ss">f'Reservoirs Batch </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb6-25"><a href="#cb6-25"></a>        assetId <span class="op">=</span> batch_asset_id</span>
+<span id="cb6-26"><a href="#cb6-26"></a>    )</span>
+<span id="cb6-27"><a href="#cb6-27"></a></span>
+<span id="cb6-28"><a href="#cb6-28"></a>    <span class="co"># Start the export task</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a>    exportTask.start()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_1
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_2
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_3
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_4
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_5
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_6
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_7
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_8
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_9
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_10
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_11
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_12
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_13
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_14
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_15
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_16
+Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_17</code></pre>
+</div>
+</div>
+<p>On your GEE assets you should be able to see something like:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reservoirs_batches.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Batches as assets in GEE</figcaption>
+</figure>
+</div>
+<section id="merging-assets-in-gee" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="merging-assets-in-gee">Merging Assets in GEE</h2>
+<p>Now that we have all our data in GEE as separate assets, we need to merge them into a single dataset. First, we’ll create a list of all the batches already created. We’ll loop through the total number of batches to get the unique batch IDs in a list. Afterward, iterate through each batch and merge them into a single object. This object will exist in GEE but it’s not saved. That’s why we’ll need to export it as the new merged asset.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Create a list of all batch asset IDs</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>batch_asset_ids <span class="op">=</span> [<span class="ss">f'projects/ee-ronnyale/assets/reservoirs_batch_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_batches)]</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co"># Merge all batches into a single FeatureCollection</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>reservoirs_fc <span class="op">=</span> ee.FeatureCollection(batch_asset_ids[<span class="dv">0</span>])</span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="cf">for</span> asset_id <span class="kw">in</span> batch_asset_ids[<span class="dv">1</span>:]:</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    batch_fc <span class="op">=</span> ee.FeatureCollection(asset_id)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    reservoirs_fc <span class="op">=</span> reservoirs_fc.merge(batch_fc)</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="bu">print</span>(<span class="ss">f'Total number of features in merged collection: </span><span class="sc">{</span>reservoirs_fc<span class="sc">.</span>size()<span class="sc">.</span>getInfo()<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co"># Export the merged collection as a new asset</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>exportTask <span class="op">=</span> ee.batch.Export.table.toAsset(</span>
+<span id="cb8-14"><a href="#cb8-14"></a>    collection <span class="op">=</span> reservoirs_fc,</span>
+<span id="cb8-15"><a href="#cb8-15"></a>    description <span class="op">=</span> <span class="st">'Merged Reservoirs'</span>,</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    assetId <span class="op">=</span> <span class="st">'projects/ee-ronnyale/assets/reservoirs_merged'</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>)</span>
+<span id="cb8-18"><a href="#cb8-18"></a>exportTask.start()</span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="bu">print</span>(<span class="st">"Merged asset export task started. Check your GEE Tasks tab for progress."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total number of features in merged collection: 8101
+Merged asset export task started. Check your GEE Tasks tab for progress.</code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>I like to print the final number of observations, so I can be sure that all the original observations are there. This could be translated into an automated test for the project.</p>
+</div></div><p>This step creates a new single asset that contains all our data. We can use it later in our analysis as a single FeatureCollection.</p>
+</section>
+</section>
+<section id="cleaning-up-removing-individual-assets" class="level1">
+<h1>Cleaning Up: Removing Individual Assets</h1>
+<p>Finally, let’s clean up by removing the individual batch assets, keeping only our merged dataset:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="cf">for</span> asset_id <span class="kw">in</span> batch_asset_ids:</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-3"><a href="#cb10-3"></a>        ee.data.deleteAsset(asset_id)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>        <span class="bu">print</span>(<span class="ss">f'Successfully deleted: </span><span class="sc">{</span>asset_id<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb10-6"><a href="#cb10-6"></a>        <span class="bu">print</span>(<span class="ss">f'Failed to delete </span><span class="sc">{</span>asset_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="bu">print</span>(<span class="st">"Cleanup complete. Check your GEE Assets to confirm."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_1
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_2
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_3
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_4
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_5
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_6
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_7
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_8
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_9
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_10
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_11
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_12
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_13
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_14
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_15
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_16
+Successfully deleted: projects/ee-ronnyale/assets/reservoirs_batch_17
+Cleanup complete. Check your GEE Assets to confirm.</code></pre>
+</div>
+</div>
+<p>And we are done! We were able to export from our local computer the selected layer and all it’s observations as an asset to GEE. Be aware that bigger datasets can take a lot of time uploading!</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-abmi_hfi_2021" class="csl-entry" role="listitem">
+ABMI. 2023. <span>“ABMI Human Footprint Inventory (HFI) for Alberta 2021 (Version 1.0).”</span> Alberta Biodiversity Monitoring Institute; Alberta Human Footprint Monitoring Program.
+</div>
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a. hernandez mora2024,
+  author = {A. Hernandez Mora, Ronny},
+  title = {A {Step-by-Step} {Guide} to {Exporting} “{Large}” {Datasets}
+    to {Google} {Earth} {Engine} via {Python}},
+  date = {2024-09-09},
+  url = {https://ronnyale.com/posts/2024-08-28-batches_gee},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+A. Hernandez Mora, Ronny. 2024. <span>“A Step-by-Step Guide to Exporting
+<span>‘Large’</span> Datasets to Google Earth Engine via Python.”</span>
+September 9, 2024. <a href="https://ronnyale.com/posts/2024-08-28-batches_gee">https://ronnyale.com/posts/2024-08-28-batches_gee</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp("https:\/\/ronnyale\.com");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://ronnyale.com">ronnyale.com</a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

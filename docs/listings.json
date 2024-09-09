@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2024-08-28-batches_gee/index.html",
       "/posts/2023-12-25-modis-bitstring/index.html",
       "/posts/2023-06-17-nvim_lua_packer/index.html",
       "/posts/2023-02-27-nvim-and-r/index.html",

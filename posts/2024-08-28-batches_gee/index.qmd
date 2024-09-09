@@ -1,7 +1,7 @@
 ---
 title: "A Step-by-Step Guide to Exporting 'Large' Datasets to Google Earth Engine via Python"
 description: "If you've encountered the dreaded _Request payload size exceeds the limit_ error, you're not alone."
-date: 2024-09-07
+date: 2024-09-09
 categories: [GEE, batch, API]
 licence: "CC BY-NC"
 image: alberta.png
@@ -43,7 +43,7 @@ import math
 ee.Initialize()
 ```
 
-# Read and pre-process the data
+# Read and pre-process the Data
 
 For this tutorial, we'll use a dataset of reservoirs polygons from the province
 of Alberta, Canada. This dataset is provided by the Alberta Biodiversity 
@@ -66,16 +66,15 @@ print(f'Total number of reservoirs: {len(reservoirs)}')
 print(f'CRS: {reservoirs.crs}')
 ```
 
-In this step, we read a specific layer from our dataset, clean the column names,
-and select only the necessary columns. While additional pre-processing steps can
-be performed locally, in this case, we focus on selecting the specific data we 
-need. Additionally, we print the number of observations included in the layer
-and the CRS.
+In this step, we read a specific layer from our dataset, cleaned the column
+names, and selected only the necessary columns. While additional pre-processing
+steps can be performed locally, in this case, we focus on selecting the specific
+data we need. Additionally, we print the number of observations included in the layer and the CRS.
 
 # The API Limit Challenge
 
-If we try to export this entire dataset to GEE at once, we'll encounter an error
-due to the API's payload size limit:
+If we try to export this entire dataset as it is to GEE at once, we'll 
+encounter the mentioned error due to the API's payload size limit:
 
 ::: {.column-margin}
 From this point forward, whenever you see 'projects/ee-ronnyale/assets/', be 
@@ -101,13 +100,23 @@ To overcome the API rate limit, we'll divide our data into manageable batches
 and upload them individually. This approach has a trade-off: it will create
 multiple assets in GEE, which we'll need to merge later. Here's how we'll do it:
 
- 1. Define a batch size
+::: {.column-margin}
+*How to know the batch size we should use? In my case it was about trial and
+error. I knew from the code above that I had 8101 observations, so batches of
+500 seemed fine given that each observation contains one round-ish polygon. This
+could change if we have much more complicated polygons, which will be bigger in
+size (bytes not area) and hence, that extra information will force us to 
+downsize the number of observations per each batch. 
+:::
+
+ 1. Define a batch size*
  2. Calculate the number of batches needed
  3. Loop through the data, creating and uploading each batch
  4. Assign a unique ID to each batch for easy identification
 
 One crucial step: before uploading, we'll change the CRS to `epsg=4326`, which 
-is used by GEE. This prevents distortion of the polygons when working in GEE.
+[is used by GEE](https://developers.google.com/earth-engine/guides/table_upload).
+This prevents distortion of the polygons when working in GEE.
 
 ```{python}
 #| error: true
@@ -142,9 +151,6 @@ for i, batch in enumerate(reservoirs.groupby(reservoirs.index // batch_size)):
     # Start the export task
     exportTask.start()
 ```
-
-There we have. In total, there are 17 new assets in GEE. Now I need to merge 
-all of them into one single asset.
 
 On your GEE assets you should be able to see something like:
 
@@ -182,6 +188,12 @@ exportTask.start()
 print("Merged asset export task started. Check your GEE Tasks tab for progress.")
 ```
 
+:::{.column-margin}
+I like to print the final number of observations, so I can be sure that all the
+original observations are there. This could be translated into an automated test
+for the project.
+:::
+
 This step creates a new single asset that contains all our data. We can use it
 later in our analysis as a single FeatureCollection.
 
@@ -202,3 +214,6 @@ for asset_id in batch_asset_ids:
 print("Cleanup complete. Check your GEE Assets to confirm.")
 ```
 
+And we are done! We were able to export from our local computer
+the selected layer and all it's observations as an asset to GEE. Be aware that
+bigger datasets can take a lot of time uploading! 
