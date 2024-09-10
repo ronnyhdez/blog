@@ -37,3 +37,6 @@ format:
     linkcolor: "#FF5500"
     highlight-style: tango 
     code-line-numbers: true
+
+metadata-files: 
+  - _metadata.yml

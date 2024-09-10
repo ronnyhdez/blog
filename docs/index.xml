@@ -6,8 +6,8 @@
       version="2.0">
 <channel>
 <title>Ronny A. Hernández Mora</title>
-<link>https://ronnyale.com/index.html</link>
-<atom:link href="https://ronnyale.com/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://profound-caramel-d8abb6.netlify.app/index.html</link>
+<atom:link href="https://profound-caramel-d8abb6.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
 <description>By Ronny A. Hernández Mora
 </description>
 <generator>quarto-1.3.450</generator>
@@ -15,7 +15,7 @@
 <item>
   <title>A Step-by-Step Guide to Exporting ‘Large’ Datasets to Google Earth Engine via Python</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2024-08-28-batches_gee/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee/index.html</link>
   <description><![CDATA[ 
 
 
@@ -345,7 +345,7 @@ Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_17</code></pre
 <p>On your GEE assets you should be able to see something like:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2024-08-28-batches_gee/images/reservoirs_batches.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee/images/reservoirs_batches.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Batches as assets in GEE</figcaption>
 </figure>
 </div>
@@ -543,25 +543,25 @@ ABMI. 2023. <span>“ABMI Human Footprint Inventory (HFI) for Alberta 2021 (Vers
   title = {A {Step-by-Step} {Guide} to {Exporting} “{Large}” {Datasets}
     to {Google} {Earth} {Engine} via {Python}},
   date = {2024-09-09},
-  url = {https://ronnyale.com/posts/2024-08-28-batches_gee},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2024" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2024. <span>“A Step-by-Step Guide to Exporting
 <span>‘Large’</span> Datasets to Google Earth Engine via Python.”</span>
-September 9, 2024. <a href="https://ronnyale.com/posts/2024-08-28-batches_gee">https://ronnyale.com/posts/2024-08-28-batches_gee</a>.
+September 9, 2024. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee">https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee</a>.
 </div></div></section></div> ]]></description>
   <category>GEE</category>
   <category>batch</category>
   <category>API</category>
-  <guid>https://ronnyale.com/posts/2024-08-28-batches_gee/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee/index.html</guid>
   <pubDate>Mon, 09 Sep 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2024-08-28-batches_gee/alberta.png" medium="image" type="image/png" height="74" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2024-08-28-batches_gee/alberta.png" medium="image" type="image/png" height="74" width="144"/>
 </item>
 <item>
   <title>MODIS pixel bit strings conversion with R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-12-25-modis-bitstring/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/index.html</link>
   <description><![CDATA[ 
 
 
@@ -789,21 +789,21 @@ font-style: inherit;">1</span>]</span></code></pre></div>
 <p>In the USGS video explanation, they show the binary conversion process with an example. I’m going to use the same integer value <code>1131675649</code> to validate if our code steps work as expected.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_int.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/images/usgs_example_int.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">USGS video integer example</figcaption>
 </figure>
 </div>
 <p>The bit string obtained from the binary conversion should be:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_binary.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/images/usgs_example_binary.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">USGS bit string example</figcaption>
 </figure>
 </div>
 <p>That bit string should be matched with the categories assigned and described in the documentation:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_bit_conversion_video.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/images/usgs_bit_conversion_video.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">USGS bit string quality categories</figcaption>
 </figure>
 </div>
@@ -1338,7 +1338,7 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 <p>From the documentation, we have which bit strings should be considered together to classify the values into categories. Based on those bit positions, we are going to unite the columns to obtain the bit combination. For example, for the <code>Parameter Name</code> MODLAND QA bits, we have to take the bit in position 0 and the bit position 1, which can have 4 different combinations: <code>00</code>, <code>01</code>, <code>10</code>, and <code>11</code>. Each of those 4 combinations will be categorized into their respective categories.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/qc_bit_order.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/images/qc_bit_order.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Coarse Resolution Surface Reflectance Band Quality Description</figcaption>
 </figure>
 </div>
@@ -2400,7 +2400,7 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 </div>
 </div>
 </div>
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/modland_qa.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/images/modland_qa.png" class="img-fluid"></p>
 <p>From our dataset, I obtained two of the categories from the total 4. The <code>qc_ints</code> have 19 different observations in total, but those integers will give us information for the rest of the parameters.</p>
 </section>
 <section id="proof-of-concept-for-16-bits" class="level2">
@@ -3859,7 +3859,7 @@ font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Borden  MODIS pixels per month after quality filtering"</span>)</span></code></pre></div>
 <div class="cell-output-display">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="1056"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="1056"></p>
 </div>
 </div>
 </section>
@@ -3902,24 +3902,24 @@ Vermote, Wolfe, E. 2021. <span>“MODIS/Terra Surface Reflectance Daily L2G Glob
   author = {A. Hernandez Mora, Ronny},
   title = {MODIS Pixel Bit Strings Conversion with {R}},
   date = {2024-08-24},
-  url = {https://ronnyale.com/posts/2023-12-25-modis-bitstring},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2024" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2024. <span>“MODIS Pixel Bit Strings
-Conversion with R.”</span> August 24, 2024. <a href="https://ronnyale.com/posts/2023-12-25-modis-bitstring">https://ronnyale.com/posts/2023-12-25-modis-bitstring</a>.
+Conversion with R.”</span> August 24, 2024. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring">https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring</a>.
 </div></div></section></div> ]]></description>
   <category>MODIS</category>
   <category>R</category>
   <category>bits</category>
-  <guid>https://ronnyale.com/posts/2023-12-25-modis-bitstring/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/index.html</guid>
   <pubDate>Sat, 24 Aug 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/lakes.png" medium="image" type="image/png" height="67" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2023-12-25-modis-bitstring/lakes.png" medium="image" type="image/png" height="67" width="144"/>
 </item>
 <item>
   <title>Configuring nvim with Lua and packer for R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/index.html</link>
   <description><![CDATA[ 
 
 
@@ -3932,7 +3932,7 @@ Conversion with R.”</span> August 24, 2024. <a href="https://ronnyale.com/post
 <p>Let’s get started with the installation and configuration process. If you are familiar with some of the steps, feel free to jump ahead to the specific sections you need.</p>
 <p>By the end of this tutorial, you will have a customized Neovim setup that enhances your R programming experience and boosts your productivity.</p>
 <p>Our results will be something similar to:</p>
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/final_result.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/final_result.png" class="img-fluid"></p>
 <p>On next blogposts, I will describe how to take this further.</p>
 </section>
 <section id="installation-and-configuration" class="level1">
@@ -3979,7 +3979,7 @@ font-style: inherit;">mkdir</span> /home/user_name/.config/nvim</span></code></p
 <p>Remember to replace <code>user_name</code> with your actual workstation user name.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/mkdir_nvim.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/mkdir_nvim.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Creating nvim directory in <code>.config</code></figcaption>
 </figure>
 </div>
@@ -4020,7 +4020,7 @@ font-style: inherit;">'settings'</span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </div>
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
 <p>The <code>init.lua</code> file acts as the entry point for loading the settings and plugins. If you make changes to the plugins, such as adding a new one, you can revisit the <code>init.lua</code> file and invoke <code>:PackerSync</code> to synchronize the plugins. However, for now, you don’t need to worry about this step.</p>
 </section>
 <section id="configuring-general-settings-for-lua" class="level2">
@@ -4048,7 +4048,7 @@ font-style: inherit;">nvim</span> lua/settings.lua</span></code></pre></div>
 <p>When doing the step above, probably you will find an error:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/error.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/error.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Error message when modifyng the <code>settings.lua</code> file</figcaption>
 </figure>
 </div>
@@ -4084,7 +4084,7 @@ font-style: inherit;">"80"</span></span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/nvim_settings.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/nvim_settings.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Settings for nvim in the file <code>settings.lua</code></figcaption>
 </figure>
 </div>
@@ -4216,7 +4216,7 @@ font-style: inherit;">ensure_packer()</span></span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/packer.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/packer.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Packer code snippet for installation</figcaption>
 </figure>
 </div>
@@ -4299,7 +4299,7 @@ font-style: inherit;">:PackerSync</span></span></code></pre></div>
 <p>At this point you should have the following structure:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/tree.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/tree.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">File structure for our settings</figcaption>
 </figure>
 </div>
@@ -4482,7 +4482,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/create_test.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/create_test.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Creating a <code>test.rmd</code> file</figcaption>
 </figure>
 </div>
@@ -4491,7 +4491,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/r_console.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/r_console.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Opening R console with nvim-r</figcaption>
 </figure>
 </div>
@@ -4500,7 +4500,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/run_code.png" class="img-fluid figure-img"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/run_code.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Running the R code!</figcaption>
 </figure>
 </div>
@@ -4517,26 +4517,26 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Configuring Nvim with {Lua} and Packer for {R}},
   date = {2023-06-18},
-  url = {https://ronnyale.com/posts/2023-06-17-nvim_lua_packer},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2023" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2023. <span>“Configuring Nvim with Lua and
-Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer">https://ronnyale.com/posts/2023-06-17-nvim_lua_packer</a>.
+Packer for R.”</span> June 18, 2023. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer">https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
   <category>R</category>
   <category>Lua</category>
   <category>packer</category>
-  <guid>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/index.html</guid>
   <pubDate>Sun, 18 Jun 2023 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png" medium="image" type="image/png" height="72" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2023-06-17-nvim_lua_packer/images/keyboard.png" medium="image" type="image/png" height="72" width="144"/>
 </item>
 <item>
   <title>Workflow to use R with Neovim</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r/index.html</link>
   <description><![CDATA[ 
 
 
@@ -4605,25 +4605,25 @@ Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com/posts/2023-
   author = {A. Hernandez Mora, Ronny},
   title = {Workflow to Use {R} with {Neovim}},
   date = {2023-02-27},
-  url = {https://ronnyale.com/posts/2023-02-27-nvim-and-r},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2023" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2023. <span>“Workflow to Use R with
-Neovim.”</span> February 27, 2023. <a href="https://ronnyale.com/posts/2023-02-27-nvim-and-r">https://ronnyale.com/posts/2023-02-27-nvim-and-r</a>.
+Neovim.”</span> February 27, 2023. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r">https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
   <category>R</category>
-  <guid>https://ronnyale.com/posts/2023-02-27-nvim-and-r/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r/index.html</guid>
   <pubDate>Mon, 27 Feb 2023 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-02-27-nvim-and-r/images/computer.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2023-02-27-nvim-and-r/images/computer.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Packages citation and zotero</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
   <dc:creator>Erick Calderon Morales</dc:creator>
-  <link>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</link>
   <description><![CDATA[ 
 
 
@@ -4696,14 +4696,14 @@ A BibTeX entry for LaTeX users is
   url = {https://CRAN.R-project.org/package=dplyr},
 }</code></pre>
 <p>Save it with the extention <code>.bib</code>:</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/save_bib.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/images/save_bib.png" class="img-fluid"></p>
 </section>
 <section id="importing-the-file-in-zotero" class="level1">
 <h1>Importing the file in Zotero</h1>
 <p>Open Zotero and look for the option <code>import</code>. It will open a window.</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/images/import_zotero.png" class="img-fluid"></p>
 <p>Select the option <code>(BibTex, RIS, Zotero RDF, etc.)</code> and from there, look the file in the path you saved. Open the file and a new window will pop up. The options to select there are up to you:</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero_2.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/images/import_zotero_2.png" class="img-fluid"></p>
 <p>Finally, you will see that you have the references imported to Zotero!</p>
 
 
@@ -4713,23 +4713,23 @@ A BibTeX entry for LaTeX users is
   author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},
   title = {Packages Citation and Zotero},
   date = {2022-09-14},
-  url = {https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2022.
-<span>“Packages Citation and Zotero.”</span> September 14, 2022. <a href="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html">https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</a>.
+<span>“Packages Citation and Zotero.”</span> September 14, 2022. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html">https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</a>.
 </div></div></section></div> ]]></description>
   <category>R packages</category>
   <category>Zotero</category>
-  <guid>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</guid>
   <pubDate>Wed, 14 Sep 2022 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/study.png" medium="image" type="image/png" height="165" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-14-package-citation-zotero/images/study.png" medium="image" type="image/png" height="165" width="144"/>
 </item>
 <item>
   <title>Using Neovim for R Users</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users/index.html</link>
   <description><![CDATA[ 
 
 
@@ -4942,7 +4942,7 @@ font-style: inherit;">:PlugInstall</span></span></code></pre></div>
 <p>When installing the rest of the plugins, you will see something similar to:</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid" width="370"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid" width="370"></p>
 </div>
 </div>
 <p>If I want to know which pluggins are installed, with the following vim-plug command we can check them:</p>
@@ -4986,23 +4986,23 @@ font-style: inherit;">nvim</span> my_file.R</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Using {Neovim} for {R} {Users}},
   date = {2022-09-13},
-  url = {https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2022. <span>“Using Neovim for R Users.”</span>
-September 13, 2022. <a href="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users">https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users</a>.
+September 13, 2022. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users">https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users/index.html</guid>
   <pubDate>Tue, 13 Sep 2022 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
 </item>
 <item>
   <title>Creating a website using mkdocs, Rmarkdown and GitHub pages</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/index.html</link>
   <description><![CDATA[ 
 
 
@@ -5069,7 +5069,7 @@ font-style: inherit;"># ---</span></span></code></pre></div>
 <p>But, the problem with this approach is that at the end of the day, I have my desktop or other folders with a lot of individual <code>.md</code> or <code>txt</code> files laying around without any intuitive context. This got me in troubles and in loosing time when I wanted to get back to something that I did and that I had somewhere in my computer.</p>
 <p>If at this point your are asking yourself: why you didn’t use a wiki? or a vignette? or an Rmarkdwon file? or something more organized? The answer is simple: In the middle of a project execution, when I doubt about something, I would go to google or a reference book, grab what I needed and take a quick note about the steps that I followed to accomplish my task. If it didn’t work I would throw away the file, if it worked, I would keep the file.</p>
 <p>Then, I found out about <a href="https://www.mkdocs.org/">MkDocs</a> (actually <a href="https://twitter.com/fransvandunne">Frans</a> was who showed me this) and it was the perfect solution: a simple web page, an index and most important: a search toolbar that can search in all the web page content (I mean, all my notes in there)!</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/mkdocs_example.jpg" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/mkdocs_example.jpg" class="img-fluid"></p>
 <p>As they state in their site:</p>
 <blockquote class="blockquote">
 <p>MkDocs is a fast, simple and downright gorgeous static site generator that’s geared towards building project documentation. Documentation source files are written in Markdown, and configured with a single YAML configuration file.</p>
@@ -5130,11 +5130,11 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <p>You will need to have an account already on GitHub. When you are done with this step, you can go and create a repository. Also you will need to go to settings, search for <strong>Pages</strong> on the left hand side menu and there select the <strong>main</strong> branch to enable GitHub Pages for your repository.</p>
 <p>The steps are the following:</p>
 <p><strong>Create a new repository</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01_new_repo.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/01_new_repo.png" class="img-fluid"></p>
 <p><strong>Options for the new repo</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02_create_new_repo.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/02_create_new_repo.png" class="img-fluid"></p>
 <p><strong>Settings to enable GitHub pages</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/setting_gh_pages.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/setting_gh_pages.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="cloning-your-project" class="level2">
@@ -5143,17 +5143,17 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <p>Up to this point we just have created the repository on GitHub and tweak some settings. It’s time to clone the repository created on GitHub to our computer. We will be working with the RStudio IDE.</p>
 <p><strong>Create new project</strong></p>
 <ul>
-<li><p>Select the <code>Version Control</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-clone.png" class="img-fluid"></p></li>
-<li><p>Then select the <code>Git</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02-clone.png" class="img-fluid"></p></li>
-<li><p>Now, go to your repository on GitHub and under the <code>Code</code> button copy the url. Make sure that the <code>HTTPS</code> option is highlighted. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-clone.png" class="img-fluid"></p></li>
-<li><p>Copy the URL in the <code>Repository URL</code> section. The <code>Project directory name</code> should auto-populate. Then select your path where you want to locate your repository folder. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-clone.png" class="img-fluid"></p></li>
+<li><p>Select the <code>Version Control</code> option <img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/01-clone.png" class="img-fluid"></p></li>
+<li><p>Then select the <code>Git</code> option <img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/02-clone.png" class="img-fluid"></p></li>
+<li><p>Now, go to your repository on GitHub and under the <code>Code</code> button copy the url. Make sure that the <code>HTTPS</code> option is highlighted. <img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/03-clone.png" class="img-fluid"></p></li>
+<li><p>Copy the URL in the <code>Repository URL</code> section. The <code>Project directory name</code> should auto-populate. Then select your path where you want to locate your repository folder. <img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/04-clone.png" class="img-fluid"></p></li>
 <li><p>Now, RStudio should open a new session for working on your repository!</p></li>
 </ul>
 </section>
 <section id="working-on-your-notes" class="level2">
 <h2 class="anchored" data-anchor-id="working-on-your-notes">Working on your notes</h2>
 <p>Now we are all set. We can start creating our Rmarkdown documents:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-notes.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/01-notes.png" class="img-fluid"></p>
 <p>Create as many <code>Rmd</code> documents as you need. Each document will be a “section” on your final website.</p>
 <p>Each of the titles and subtitles in your document will be sections inside the specific page.</p>
 <p>Also, use relative paths. This will make everything less error prone.</p>
@@ -5164,12 +5164,12 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <li><strong>Don’t use <code>docs</code> folder</strong>. This is a special folder designated to save the files needed to build the web page. <code>docmaker</code> package will be in charge of the use of this folder, so you don’t have to worry about it.</li>
 </ul>
 <p>Your files in your repository should look something like this:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-notes.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/03-notes.png" class="img-fluid"></p>
 <section id="gitignore-advice" class="level3">
 <h3 class="anchored" data-anchor-id="gitignore-advice"><code>.gitignore</code> advice</h3>
 <p>In order to not make your control version slow or run out of space in your GitHub account, ignore some files writing them in your <code>.gitignore</code> file.</p>
 <p>Just open that file in RStudio and add the following lines to not include images, data, credentials or other files that are not necessary for control versioning:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-notes.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/04-notes.png" class="img-fluid"></p>
 <p>In there I added:</p>
 <pre><code># Personal files
 data/
@@ -5240,7 +5240,7 @@ background-color: null;
 font-style: inherit;">"Ronny A. Hernández Mora"</span>)</span></code></pre></div>
 </div>
 <p>We can get the URL of our repository in the settings &gt; page on GitHub. After we enabled this in a step before, there should appear the URL designated by GitHub for our web site.</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/page_url.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/page_url.png" class="img-fluid"></p>
 <p>The <code>site_author</code> should be our name.</p>
 <p>This function will do the following:</p>
 <ul>
@@ -5272,9 +5272,9 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <li>Create an specifi branch for the pages deployment: <code>gh-deploy</code></li>
 </ul>
 <p>Now, given that we are using a new branch to be deployed, we need to go back to GitHub pages and make a small change: change the branch selected to be build from:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/gh_deploy.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/gh_deploy.png" class="img-fluid"></p>
 <p>After some seconds (or a few minutes), we should be able to see our site alive!</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="img-fluid"></p>
+<p><img src="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="img-fluid"></p>
 <p>As we can see, our 3 files are sections in the left side menu. The titles and subtitles of each document will be shown in the <strong>Table of contents</strong> in the right side menu.</p>
 </section>
 </section>
@@ -5294,23 +5294,23 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
   title = {Creating a Website Using Mkdocs, {Rmarkdown} and {GitHub}
     Pages},
   date = {2022-01-13},
-  url = {https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2022. <span>“Creating a Website Using Mkdocs,
-Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd">https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd</a>.
+Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd</a>.
 </div></div></section></div> ]]></description>
   <category>MkDocs</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/index.html</guid>
   <pubDate>Thu, 13 Jan 2022 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
 </item>
 <item>
   <title>Usando tmux: apuntes breves de mi jornada</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux/index.html</link>
   <description><![CDATA[ 
 
 
@@ -5567,23 +5567,23 @@ font-style: inherit;">"mi_proyecto"</span></span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Usando Tmux: Apuntes Breves de Mi Jornada},
   date = {2021-01-03},
-  url = {https://ronnyale.com/posts/2021-12-11-usando-tmux},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2021" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2021. <span>“Usando Tmux: Apuntes Breves de Mi
-Jornada.”</span> January 3, 2021. <a href="https://ronnyale.com/posts/2021-12-11-usando-tmux">https://ronnyale.com/posts/2021-12-11-usando-tmux</a>.
+Jornada.”</span> January 3, 2021. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux</a>.
 </div></div></section></div> ]]></description>
   <category>tmux</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-usando-tmux/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux/index.html</guid>
   <pubDate>Sun, 03 Jan 2021 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>Desplegando mi app de shiny con shiny-server</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny/index.html</link>
   <description><![CDATA[ 
 
 
@@ -5953,23 +5953,23 @@ font-style: inherit;">sudo</span> systemctl status shiny-server</span></code></p
   author = {A. Hernandez Mora, Ronny},
   title = {Desplegando Mi App de Shiny Con Shiny-Server},
   date = {2020-12-28},
-  url = {https://ronnyale.com/posts/2021-12-11-desplegando-shiny},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2020" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2020. <span>“Desplegando Mi App de Shiny Con
-Shiny-Server.”</span> December 28, 2020. <a href="https://ronnyale.com/posts/2021-12-11-desplegando-shiny">https://ronnyale.com/posts/2021-12-11-desplegando-shiny</a>.
+Shiny-Server.”</span> December 28, 2020. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny</a>.
 </div></div></section></div> ]]></description>
   <category>Shiny</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny/index.html</guid>
   <pubDate>Mon, 28 Dec 2020 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
 </item>
 <item>
   <title>Tiempo en R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r/index.html</link>
   <description><![CDATA[ 
 
 
@@ -6610,22 +6610,22 @@ font-style: inherit;">7</span>)</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Tiempo En {R}},
   date = {2018-03-14},
-  url = {https://ronnyale.com/posts/2021-12-11-tiempo-en-r},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2018. <span>“Tiempo En R.”</span> March 14,
-2018. <a href="https://ronnyale.com/posts/2021-12-11-tiempo-en-r">https://ronnyale.com/posts/2021-12-11-tiempo-en-r</a>.
+2018. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r/index.html</guid>
   <pubDate>Wed, 14 Mar 2018 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 <item>
   <title>Intro a datos y estructuras en R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r/index.html</link>
   <description><![CDATA[ 
 
 
@@ -7250,23 +7250,23 @@ font-style: inherit;">#glimpse(cientificos) con librería dplyr</span></span></c
   author = {A. Hernandez Mora, Ronny},
   title = {Intro a Datos y Estructuras En {R}},
   date = {2018-02-01},
-  url = {https://ronnyale.com/posts/2021-12-11-estructuras-r},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2018. <span>“Intro a Datos y Estructuras En
-R.”</span> February 1, 2018. <a href="https://ronnyale.com/posts/2021-12-11-estructuras-r">https://ronnyale.com/posts/2021-12-11-estructuras-r</a>.
+R.”</span> February 1, 2018. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-estructuras-r/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r/index.html</guid>
   <pubDate>Thu, 01 Feb 2018 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>Datos abiertos municipalidad de San José, Costa Rica</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
   <dc:creator>Erick Calderon Morales</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</link>
   <description><![CDATA[ 
 
 
@@ -7774,22 +7774,22 @@ font-style: italic;">## $ `Porcentaje de población con educación superior y t�
   author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},
   title = {Datos Abiertos Municipalidad de {San} {José,} {Costa} {Rica}},
   date = {2018-01-13},
-  url = {https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2018. <span>“Datos
 Abiertos Municipalidad de San José, Costa Rica.”</span> January 13,
-2018. <a href="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose">https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose</a>.
+2018. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose</a>.
 </div></div></section></div> ]]></description>
-  <guid>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose/index.html</guid>
   <pubDate>Sat, 13 Jan 2018 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
 <item>
   <title>Otra introducción a git</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</link>
+  <link>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git/index.html</link>
   <description><![CDATA[ 
 
 
@@ -7978,17 +7978,17 @@ font-style: inherit;">git</span> pull</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Otra Introducción a Git},
   date = {2016-04-20},
-  url = {https://ronnyale.com/posts/2021-12-11-otra-intro-a-git},
+  url = {https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a. hernandez mora2016" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2016. <span>“Otra Introducción a Git.”</span>
-April 20, 2016. <a href="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git">https://ronnyale.com/posts/2021-12-11-otra-intro-a-git</a>.
+April 20, 2016. <a href="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git">https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git</a>.
 </div></div></section></div> ]]></description>
   <category>git</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/index.html</guid>
+  <guid>https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git/index.html</guid>
   <pubDate>Wed, 20 Apr 2016 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>
+  <media:content url="https://profound-caramel-d8abb6.netlify.app/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>
 </item>
 </channel>
 </rss>

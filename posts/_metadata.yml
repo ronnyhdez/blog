@@ -25,3 +25,5 @@ citation: true
 
 # Open links externally
 link-external-newwindow: true
+
+open-graph: true
