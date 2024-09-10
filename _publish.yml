@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: b7cd9e54-477e-4c97-bb00-d9daef2fd1c0
+      url: 'https://blog.ronnyale.com'

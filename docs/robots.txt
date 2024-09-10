@@ -1,1 +1,1 @@
-Sitemap: https://ronnyale.com/sitemap.xml
+Sitemap: https://profound-caramel-d8abb6.netlify.app/sitemap.xml
