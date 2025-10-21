@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2025-06-18">
 <meta name="description" content="A hands-on tutorial for downloading Sentinel-2 imagery from Copernicus, understanding the file structure, and processing RGB bands and vegetation indices using Python.">
 
-<title>Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery Using Python – Ronny A. Hernández Mora</title>
+<title>Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python – Ronny A. Hernández Mora</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta property="og:title" content="Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery Using Python – Ronny A. Hernández Mora">
+<meta property="og:title" content="Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python – Ronny A. Hernández Mora">
 <meta property="og:description" content="A hands-on tutorial for downloading Sentinel-2 imagery from Copernicus, understanding the file structure, and processing RGB bands and vegetation indices using Python.">
 <meta property="og:image" content="https://ronnyale.com/posts/20250618-sentinel-manual/img/portada.png">
 <meta property="og:site_name" content="Ronny A. Hernández Mora">
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery Using Python</h1>
+      <h1 class="title">Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python</h1>
                   <div>
         <div class="description">
           A hands-on tutorial for downloading Sentinel-2 imagery from Copernicus, understanding the file structure, and processing RGB bands and vegetation indices using Python.
@@ -232,19 +232,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="getting-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="getting-the-data">Getting the data</h2>
-<p>There are several solutions to obtain the satellite images. In this case, we just want to obtain one image to explore the necessary steps to understan the files, meta data, transform the pixels and visualize the image.</p>
+<p>There are several solutions to obtain the satellite images. In this case, we just want to obtain one image to explore the necessary steps to understand the files, metadata, transform the pixels and visualize the image.</p>
 <p>To download any satellite image from the Copernicus Sentinel Missions we can use <a href="https://browser.dataspace.copernicus.eu/">Copernicus Data Space</a></p>
-<p>When you visit that link, you can see something similar to (as January 2025):</p>
-<p><img src="img/copernicus_1.png" class="img-fluid"></p>
+<p>When you visit that link, you can see something similar to (as of January 2025):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/copernicus_1.png" class="img-fluid figure-img"></p>
+<figcaption>Copernicus Data Space browser interface showing the main search page</figcaption>
+</figure>
+</div>
 <p>Select the image by zooming into the area of interest. You can set a group of filter parameters from the <code>parameters</code> tab that will help you to select the image.</p>
-<p><img src="img/copernicus_2.png" class="img-fluid"></p>
-<p>To download the images you will need to have an account. If you just want to explore around it’s not necessary to have the account.</p>
-<p>Once the search process is done, you will have a set of options to choose from. For this example we just one to work with one image and not several of them (which can imply merging them in a separated process)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/copernicus_2.png" class="img-fluid figure-img"></p>
+<figcaption>Copernicus Data Space parameters tab showing filter options for satellite imagery search</figcaption>
+</figure>
+</div>
+<p>To download images, you’ll need an account. However, you can explore without one.</p>
+<p>Once the search process is done, you will have a set of options to choose from. For this example we just want to work with one image and not several of them (which can imply merging them in a separate process)</p>
 <p>Your search process can look something like:</p>
-<p><img src="img/copernicus_3.png" class="img-fluid"></p>
-<p>In my case, I wanted a clear image with atmospheric correction, so I proceed to download the <code>L2A</code> product.</p>
-<p><img src="img/copernicus_4.png" class="img-fluid"></p>
-<p>You can see the names are quite long. This has a reason, which is to provide some information about the product we are about to decide to use.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/copernicus_3.png" class="img-fluid figure-img"></p>
+<figcaption>Search results showing available Sentinel-2 images with their metadata and preview</figcaption>
+</figure>
+</div>
+<p>In my case, I wanted a clear image with atmospheric correction, so I proceeded to download the <code>L2A</code> product.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/copernicus_4.png" class="img-fluid figure-img"></p>
+<figcaption>Download options showing L2A and L1C products with their file names and sizes</figcaption>
+</figure>
+</div>
+<p>You can see the names are quite long. There’s a reason for this: the filename provides key information about the product we’re using.</p>
 <p>For example, the file name pattern <code>S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS</code> contains:</p>
 <ul>
 <li>S2A: Sentinel-2A satellite (one of two satellites in the constellation)</li>
@@ -256,21 +276,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>T16PFS: Tile identifier</li>
 </ul>
 <p>Why do we have some size differences?</p>
-<p>L2A: 1054MB L1C: 753MB and 690MB The L2A product is larger because it contains additional atmospheric correction data.</p>
+<ul>
+<li>L2A: 1054MB</li>
+<li>L1C: 753MB and 690MB</li>
+</ul>
+<p>The L2A product is larger because it contains additional atmospheric correction data.</p>
 </section>
 <section id="what-are-all-those-files" class="level2">
 <h2 class="anchored" data-anchor-id="what-are-all-those-files">What are all those files?</h2>
 <p>So, now we have the file locally. It is unzipped and in a folder in our repository</p>
 <p>The product will contain many files</p>
-<p><img src="img/contents.png" class="img-fluid"></p>
-<p>The images will be contained in the <code>GRANULE</code>. Inside this one we will find another set of folders which will separate the files by resolution:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/contents.png" class="img-fluid figure-img"></p>
+<figcaption>Directory structure of a Sentinel-2 L2A product showing GRANULE folder and metadata files</figcaption>
+</figure>
+</div>
+<p>The images are contained in the <code>GRANULE</code> folder. Inside this one we will find another set of folders which will separate the files by resolution:</p>
 <ul>
 <li>R10m: 10 meter resolution (highest)</li>
 <li>R20m: 20 meter resolution</li>
 <li>R60m: 60 meter resolution (lowest)</li>
 </ul>
-<p>Inside each of those, there are going to be other files …</p>
-<p>… Key bands and their common uses:</p>
+<p>Inside each of those folders, you’ll find the actual band files.</p>
+<p>Key bands and their common uses:</p>
 <ul>
 <li>B02 (Blue), B03 (Green), B04 (Red): Natural color imagery</li>
 <li>B08: Near Infrared (NIR) - vegetation studies</li>
@@ -284,15 +313,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="reading-the-product" class="level2">
 <h2 class="anchored" data-anchor-id="reading-the-product">Reading the product</h2>
-<p>Now that we understand what are the contents of the product we downloaded, we can proceed to read some files and check them out. As a first step, I just want to process 3 bands (Red, Green, Blue) to obtain a natural composite image. Later I will use other bands to calculate some vegetation indices and explore how the looked like on March 3rd, 2024 (Satellite image date)</p>
-<div id="bc4044b7" class="cell" data-execution_count="1">
+<p>Now that we understand what the contents are of the product we downloaded, we can proceed to read some files and check them out. As a first step, I just want to process 3 bands (Red, Green, Blue) to obtain a natural composite image. Later I will use other bands to calculate some vegetation indices and explore how they looked on March 3rd, 2024 (Satellite image date)</p>
+<div id="2417c5b5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> rasterio</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">from</span> rasterio <span class="im">import</span> plot</span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Given that the path is so long, I’m going to create some objects with the relative path, so later I would use just the object name, and save a lot of typing.</p>
-<div id="7ef5e01f" class="cell" data-execution_count="2">
+<p>Given that the path is so long, I’m going to create some objects with the relative path, so later I can use just the object name, and save a lot of typing.</p>
+<div id="6e2eb950" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>red <span class="op">=</span> <span class="st">'S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS_20240303T212049.SAFE/GRANULE/L2A_T16PFS_A045425_20240303T161440/IMG_DATA/R10m/T16PFS_20240303T160141_B04_10m.jp2'</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>green <span class="op">=</span> <span class="st">'S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS_20240303T212049.SAFE/GRANULE/L2A_T16PFS_A045425_20240303T161440/IMG_DATA/R10m/T16PFS_20240303T160141_B03_10m.jp2'</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>blue <span class="op">=</span> <span class="st">'S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS_20240303T212049.SAFE/GRANULE/L2A_T16PFS_A045425_20240303T161440/IMG_DATA/R10m/T16PFS_20240303T160141_B02_10m.jp2'</span></span>
@@ -300,48 +329,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="explore-the-file-with-lazy-loading" class="level3">
 <h3 class="anchored" data-anchor-id="explore-the-file-with-lazy-loading">Explore the file with lazy loading</h3>
-<p>I’m using the <code>open</code> method from <code>rasterio</code> which is going to create a reference to the file without loading its content to the memory (lazy loading). That way we will be able to explore the object and validate that we have something reasonable.</p>
-<div id="0e7df2e5" class="cell" data-execution_count="3">
+<p>I’m using the <code>open</code> method from <code>rasterio</code> which is going to create a reference to the file without loading its content into memory (lazy loading). That way we will be able to explore the object and validate that we have something reasonable.</p>
+<div id="f1051fe3" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>red_band <span class="op">=</span> rasterio.<span class="bu">open</span>(red)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>green_band <span class="op">=</span> rasterio.<span class="bu">open</span>(green)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>blue_band <span class="op">=</span> rasterio.<span class="bu">open</span>(blue)</span>
 <span id="cb3-4"><a href="#cb3-4"></a>nir_band <span class="op">=</span> rasterio.<span class="bu">open</span>(nir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now that we read the necessary bands with a reference to each of the objects, we can access the metadata without loading the whole file into our computer RAM.</p>
-<div id="810bd6d6" class="cell" data-execution_count="4">
+<div id="23c986f7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="bu">print</span>(red_band.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(10980, 10980)</code></pre>
 </div>
 </div>
-<div id="2acea1ea" class="cell" data-execution_count="5">
+<div id="d9f764dc" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="bu">print</span>(red_band.crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>EPSG:32616</code></pre>
 </div>
 </div>
-<div id="49b10b4a" class="cell" data-execution_count="6">
+<div id="489120de" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>red_band.count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>1</code></pre>
 </div>
 </div>
 <p>What is the type of byte data?</p>
-<div id="feca8343" class="cell" data-execution_count="7">
+<div id="2916405c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>red_band.dtypes[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>'uint16'</code></pre>
 </div>
 </div>
 <p>What are the geospatial limits of our image?</p>
-<div id="0c1206ee" class="cell" data-execution_count="8">
+<div id="28a118f4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>red_band.bounds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>BoundingBox(left=600000.0, bottom=1090200.0, right=709800.0, top=1200000.0)</code></pre>
 </div>
 </div>
 <p>Now, let’s plot one of them to validate that everything is fine:</p>
-<div id="16b6459a" class="cell" data-execution_count="9">
+<div id="11f33310" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>plot.show(red_band)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -354,8 +383,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="load-the-file-to-memory" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-file-to-memory">Load the file to memory</h3>
-<p>Everything looks fine, there is nothing that indicates that there is a problem so let’s load into memory the files. This step could be a little bit problematic if the image is so big that we ran out of memory. Be aware!</p>
-<div id="d6a156df" class="cell" data-execution_count="10">
+<p>Everything looks fine, there is nothing that indicates that there is a problem so let’s load into memory the files. This step could be a little bit problematic if the image is so big that we run out of memory. Be aware!</p>
+<div id="0cf3d619" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>red <span class="op">=</span> red_band.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span>
 <span id="cb15-2"><a href="#cb15-2"></a>green <span class="op">=</span> green_band.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span>
 <span id="cb15-3"><a href="#cb15-3"></a>blue <span class="op">=</span> blue_band.read(<span class="dv">1</span>).astype(<span class="st">'float32'</span>)</span>
@@ -366,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="visualizing-the-image" class="level2">
 <h2 class="anchored" data-anchor-id="visualizing-the-image">Visualizing the image</h2>
-<p>Now that we have all the data in memory, we can visualize the satellite image. We would need some processing to make it look nice</p>
+<p>Now that we have all the data in memory, we can visualize the satellite image. We’ll need some processing to make it look nice</p>
 <div id="cell-fig-enhanced_image" class="cell" data-fig-height="14" data-fig-width="12" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">def</span> enhance_image(array, percentile<span class="op">=</span><span class="dv">2</span>):</span>
 <span id="cb16-2"><a href="#cb16-2"></a>    <span class="co">"""Enhance image contrast using percentile cuts and histogram stretching"""</span></span>
@@ -401,7 +430,7 @@ Figure&nbsp;1: Natural color composite of the Nicoya Peninsula, Costa Rica, deri
 </div>
 </div>
 </div>
-<p>Other options to improve the image. This is just a process to make it look better as a visualization of the landscape in a attractive manner. It doesn’t have any research purpose so far.</p>
+<p>Here’s another option to improve the image. This is purely for visualization purposes to make the landscape more visually appealing—it doesn’t have any research application at this stage.</p>
 <div id="cell-fig-vignette" class="cell" data-fig-height="14" data-fig-width="12" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">def</span> add_vignette(image, strength<span class="op">=</span><span class="fl">0.3</span>):  </span>
 <span id="cb17-2"><a href="#cb17-2"></a>    rows, cols <span class="op">=</span> image.shape[:<span class="dv">2</span>]</span>
@@ -435,17 +464,18 @@ Figure&nbsp;2: Enhanced natural color composite of the Nicoya Peninsula, Costa R
 </div>
 </div>
 <p>Finally, let’s not forget to close the band files when done</p>
-<div id="3346a100" class="cell" data-execution_count="13">
+<div id="d2d93632" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>red_band.close()</span>
 <span id="cb18-2"><a href="#cb18-2"></a>green_band.close()</span>
-<span id="cb18-3"><a href="#cb18-3"></a>blue_band.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3"></a>blue_band.close()</span>
+<span id="cb18-4"><a href="#cb18-4"></a>nir_band.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="vegetation-indices" class="level2">
 <h2 class="anchored" data-anchor-id="vegetation-indices">Vegetation indices</h2>
-<p>So far we have the RGB bands and the visualization for humans. But, we can do much more and take advantage of the rest of bands we have within the data product we downloaded. Remember we had several folders with files at different resolutions? Well, there are more than RGB bands in there.</p>
-<p>We created the visualization above using the RBG bands at a resolution of 10m, but there is one more band in there: Near Infrared or NIR.</p>
-<p>To remember there are:</p>
+<p>So far we have the RGB bands and the visualization for humans. But, we can do much more and take advantage of the rest of the bands we have within the data product we downloaded. Remember we had several folders with files at different resolutions? Well, there are more than RGB bands in there.</p>
+<p>We created the visualization above using the RGB bands at a resolution of 10m, but there is one more band in there: Near Infrared or NIR.</p>
+<p>As a reminder, the 10m resolution bands are:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -472,7 +502,7 @@ Figure&nbsp;2: Enhanced natural color composite of the Nicoya Peninsula, Costa R
 </tr>
 </tbody>
 </table>
-<div id="60750272" class="cell" data-execution_count="14">
+<div id="f537c98a" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">def</span> calculate_index(band1, band2, name, formula):</span>
 <span id="cb19-2"><a href="#cb19-2"></a>    <span class="co">"""</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a><span class="co">    Calculate vegetation index and create visualization</span></span>
@@ -594,15 +624,14 @@ Standard deviation: 0.201</code></pre>
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a._hernandez_mora2025,
   author = {A. Hernandez Mora, Ronny},
   title = {Getting {Started} with {Sentinel-2} {Downloading,}
-    {Processing,} and {Analyzing} {Satellite} {Imagery} {Using}
-    {Python}},
+    {Processing,} and {Analyzing} {Satellite} {Imagery} with {Python}},
   date = {2025-06-18},
   url = {https://ronnyale.com/posts/20250618-sentinel-manual/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 A. Hernandez Mora, Ronny. 2025. <span>“Getting Started with Sentinel-2
-Downloading, Processing, and Analyzing Satellite Imagery Using
+Downloading, Processing, and Analyzing Satellite Imagery with
 Python.”</span> June 18, 2025. <a href="https://ronnyale.com/posts/20250618-sentinel-manual/">https://ronnyale.com/posts/20250618-sentinel-manual/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

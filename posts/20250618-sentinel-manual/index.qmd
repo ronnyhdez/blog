@@ -21,13 +21,13 @@ use [Copernicus Data Space](https://browser.dataspace.copernicus.eu/)
 
 When you visit that link, you can see something similar to (as of January 2025):
 
-![](img/copernicus_1)
+![Copernicus Data Space browser interface showing the main search page](img/copernicus_1.png)
 
 Select the image by zooming into the area of interest. You can set a group of
 filter parameters from the `parameters` tab that will help you to select the
 image.
 
-![](img/copernicus_2)
+![Copernicus Data Space parameters tab showing filter options for satellite imagery search](img/copernicus_2.png)
 
 To download images, you'll need an account. However, you can explore without one.
 
@@ -37,12 +37,12 @@ For this example we just want to work with one image and not several of them
 
 Your search process can look something like:
 
-![](img/copernicus_3)
+![Search results showing available Sentinel-2 images with their metadata and preview](img/copernicus_3.png)
 
 In my case, I wanted a clear image with atmospheric correction, so I proceeded to
-download the `L2A` product. 
+download the `L2A` product.
 
-![](img/copernicus_4)
+![Download options showing L2A and L1C products with their file names and sizes](img/copernicus_4.png)
 
 You can see the names are quite long. There's a reason for this: the filename provides
 key information about the product we're using.
@@ -73,7 +73,7 @@ repository
 
 The product will contain many files
 
-![](img/contents)
+![Directory structure of a Sentinel-2 L2A product showing GRANULE folder and metadata files](img/contents.png)
 
 The images are contained in the `GRANULE` folder. Inside this one we will find
 another set of folders which will separate the files by resolution:
