@@ -4,6 +4,9 @@ project:
   resources:
     - CNAME
 
+execute:
+  freeze: auto
+
 website:
   title: "Ronny A. Hernández Mora"
   site-url: https://ronnyale.com
