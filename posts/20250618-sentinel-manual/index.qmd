@@ -4,7 +4,7 @@ description: "A hands-on tutorial for downloading Sentinel-2 imagery from Copern
 date: 2025-06-18
 categories: [Sentinel-2, Python, Remote Sensing]
 licence: "CC BY-NC"
-image: portada.png
+image: img/portada.png
 jupyter: python3
 editor_options: 
   chunk_output_type: console
