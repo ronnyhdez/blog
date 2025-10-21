@@ -1,27 +1,13 @@
 ---
 title: Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery Using Python 
-author: Ronny A. Hernandez Mora
-execute:
-  message: false
-  warning: false
-toc: true
-toc-title: Table of contents
-toc-location: left
-lightbox: true
-format: 
-  html:
-    theme:
-      - flatly
-    linkcolor: "#FF5500"
-    highlight-style: tango
-    number-sections: false
-    colorlinks: true
-    code-fold: true
-    code-line-numbers: true
-editor: visual
+description: "A hands-on tutorial for downloading Sentinel-2 imagery from Copernicus, understanding the file structure, and processing RGB bands and vegetation indices using Python."
+date: 2025-06-18
+categories: [Sentinel-2, Python, Remote Sensing]
+licence: "CC BY-NC"
+image: portada.png
 jupyter: python3
 editor_options: 
-  chunk_output_type: 
+  chunk_output_type: console
 ---
 
 ## Getting the data
