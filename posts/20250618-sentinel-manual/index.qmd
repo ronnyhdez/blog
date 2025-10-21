@@ -1,5 +1,5 @@
 ---
-title: Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery Using Python 
+title: "Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python" 
 description: "A hands-on tutorial for downloading Sentinel-2 imagery from Copernicus, understanding the file structure, and processing RGB bands and vegetation indices using Python."
 date: 2025-06-18
 categories: [Sentinel-2, Python, Remote Sensing]
@@ -13,13 +13,13 @@ editor_options:
 ## Getting the data
 
 There are several solutions to obtain the satellite images. In this case, we
-just want to obtain one image to explore the necessary steps to understan the
-files, meta data, transform the pixels and visualize the image.
+just want to obtain one image to explore the necessary steps to understand the
+files, metadata, transform the pixels and visualize the image.
 
 To download any satellite image from the Copernicus Sentinel Missions we can 
 use [Copernicus Data Space](https://browser.dataspace.copernicus.eu/)
 
-When you visit that link, you can see something similar to (as January 2025):
+When you visit that link, you can see something similar to (as of January 2025):
 
 ![](img/copernicus_1)
 
@@ -29,24 +29,23 @@ image.
 
 ![](img/copernicus_2)
 
-To download the images you will need to have an account. If you just want
-to explore around it's not necessary to have the account.
+To download images, you'll need an account. However, you can explore without one.
 
 Once the search process is done, you will have a set of options to choose from.
-For this example we just one to work with one image and not several of them 
-(which can imply merging them in a separated process)
+For this example we just want to work with one image and not several of them
+(which can imply merging them in a separate process)
 
 Your search process can look something like:
 
 ![](img/copernicus_3)
 
-In my case, I wanted a clear image with atmospheric correction, so I proceed to
+In my case, I wanted a clear image with atmospheric correction, so I proceeded to
 download the `L2A` product. 
 
 ![](img/copernicus_4)
 
-You can see the names are quite long. This has a reason, which is to provide
-some information about the product we are about to decide to use.
+You can see the names are quite long. There's a reason for this: the filename provides
+key information about the product we're using.
 
 For example, the file name pattern `S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS`
 contains:
@@ -59,10 +58,11 @@ contains:
   - R097: Relative orbit number
   - T16PFS: Tile identifier
 
-Why do we have some size differences? 
+Why do we have some size differences?
 
-L2A: 1054MB
-L1C: 753MB and 690MB
+- L2A: 1054MB
+- L1C: 753MB and 690MB
+
 The L2A product is larger because it contains additional atmospheric correction data.
 
 
@@ -75,16 +75,16 @@ The product will contain many files
 
 ![](img/contents)
 
-The images will be contained in the `GRANULE`. Inside this one we will find
+The images are contained in the `GRANULE` folder. Inside this one we will find
 another set of folders which will separate the files by resolution:
 
   - R10m: 10 meter resolution (highest)
   - R20m: 20 meter resolution
   - R60m: 60 meter resolution (lowest)
 
-Inside each of those, there are going to be other files ...
+Inside each of those folders, you'll find the actual band files.
 
-... Key bands and their common uses:
+Key bands and their common uses:
 
   - B02 (Blue), B03 (Green), B04 (Red): Natural color imagery
   - B08: Near Infrared (NIR) - vegetation studies
@@ -97,11 +97,11 @@ Inside each of those, there are going to be other files ...
 
 ## Reading the product
 
-Now that we understand what are the contents of the product we downloaded, we
+Now that we understand what the contents are of the product we downloaded, we
 can proceed to read some files and check them out. As a first step, I just
 want to process 3 bands (Red, Green, Blue) to obtain a natural composite
 image. Later I will use other bands to calculate some vegetation indices and
-explore how the looked like on March 3rd, 2024 (Satellite image date)
+explore how they looked on March 3rd, 2024 (Satellite image date)
 
 
 ```{python}
@@ -112,7 +112,7 @@ import matplotlib.pyplot as plt
 ```
 
 Given that the path is so long, I'm going to create some objects with the
-relative path, so later I would use just the object name, and save a lot of
+relative path, so later I can use just the object name, and save a lot of
 typing.
 
 ```{python}
@@ -124,8 +124,8 @@ nir = 'S2A_MSIL2A_20240303T160141_N0510_R097_T16PFS_20240303T212049.SAFE/GRANULE
 ### Explore the file with lazy loading
 
 I'm using the `open` method from `rasterio` which is going to create a reference
-to the file without loading its content to the memory (lazy loading). That way 
-we will be able to explore the object and validate that we have something 
+to the file without loading its content into memory (lazy loading). That way
+we will be able to explore the object and validate that we have something
 reasonable.
 
 ```{python}
@@ -172,7 +172,7 @@ plot.show(red_band)
 
 Everything looks fine, there is nothing that indicates that there is a problem
 so let's load into memory the files. This step could be a little bit problematic
-if the image is so big that we ran out of memory. Be aware!
+if the image is so big that we run out of memory. Be aware!
 
 
 ```{python}
@@ -187,7 +187,7 @@ So far, so good.
 ## Visualizing the image
 
 Now that we have all the data in memory, we can visualize the satellite image.
-We would need some processing to make it look nice 
+We'll need some processing to make it look nice 
 
 ```{python}
 #| label: fig-enhanced_image
@@ -216,9 +216,9 @@ plt.axis('off')
 plt.tight_layout()
 plt.show()
 ```
-Other options to improve the image. This is just a process to make it look
-better as a visualization of the landscape in a attractive manner. It doesn't
-have any research purpose so far. 
+Here's another option to improve the image. This is purely for visualization purposes
+to make the landscape more visually appealing—it doesn't have any research application
+at this stage. 
 
 ```{python}
 #| label: fig-vignette
@@ -252,19 +252,20 @@ Finally, let's not forget to close the band files when done
 red_band.close()
 green_band.close()
 blue_band.close()
+nir_band.close()
 ```
 
 ## Vegetation indices
 
 So far we have the RGB bands and the visualization for humans. But, we can
-do much more and take advantage of the rest of bands we have within the data
+do much more and take advantage of the rest of the bands we have within the data
 product we downloaded. Remember we had several folders with files at
-different resolutions? Well, there are more than RGB bands in there. 
+different resolutions? Well, there are more than RGB bands in there.
 
-We created the visualization above using the RBG bands at a resolution of 10m, 
+We created the visualization above using the RGB bands at a resolution of 10m,
 but there is one more band in there: Near Infrared or NIR. 
 
-To remember there are:
+As a reminder, the 10m resolution bands are:
 
 | Band | Name | 
 | ---- | ---- |
