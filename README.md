@@ -71,7 +71,8 @@ quarto publish netlify
 
 ### Pre-commit Hook: Open Graph Image Validation
 
-A pre-commit hook automatically validates Open Graph images before allowing commits. This ensures blog posts look good when shared on social media (LinkedIn, Twitter, WhatsApp, etc.).
+A pre-commit hook automatically validates Open Graph images before allowing
+commits. This ensures blog posts look good when shared on social media.
 
 **What it checks:**
 - ✓ Images are landscape orientation (width > height)
@@ -103,7 +104,6 @@ git commit -m "Add new post"
 ```bash
 git commit --no-verify -m "message"
 ```
-
 ### Social Media Image Best Practices
 
 When adding a cover image to your blog post frontmatter:
@@ -114,13 +114,4 @@ title: "My Post Title"
 image: img/cover.png  # This image will be used for social sharing
 ---
 ```
-
-**Recommended dimensions:**
-- **LinkedIn**: 1200×627px (1.91:1 ratio)
-- **Twitter/X**: 1200×675px (16:9 ratio)
-- **Facebook**: 1200×630px (~1.9:1 ratio)
-- **General rule**: Use landscape images around 1200×630px
-
-**Why it matters:**
-When you share your blog post link on social media, platforms use Open Graph meta tags to generate a preview card. The `image` field in your post's frontmatter becomes the `og:image` tag, which social media bots fetch and display.
 
