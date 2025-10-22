@@ -63,6 +63,64 @@ quarto publish netlify
 │       └── index.qmd    # Post content
 ├── docs/                # Generated site (committed to git)
 ├── styles.scss          # Custom styles for readability
-└── _publish.yml         # Netlify deployment config
+├── _publish.yml         # Netlify deployment config
+└── .git/hooks/          # Git hooks (pre-commit validation)
 ```
+
+## Quality Checks
+
+### Pre-commit Hook: Open Graph Image Validation
+
+A pre-commit hook automatically validates Open Graph images before allowing commits. This ensures blog posts look good when shared on social media (LinkedIn, Twitter, WhatsApp, etc.).
+
+**What it checks:**
+- ✓ Images are landscape orientation (width > height)
+- ✓ Images are at least 1200px wide
+- ✓ Aspect ratio is suitable for social media (1.5:1 to 2.5:1)
+
+**When it runs:**
+```bash
+git commit -m "Add new post"
+# Hook runs automatically before commit completes
+```
+
+**Example output:**
+```
+🔍 Checking Open Graph images...
+
+📸 Checking: posts/2025-01-15-my-post/index.qmd
+   Image: img/cover.png
+   Dimensions: 734x929
+   ❌ FAIL: Image is portrait, should be landscape
+
+❌ Found 1 image(s) with portrait orientation
+```
+
+**Requirements:**
+- ImageMagick must be installed: `sudo apt install imagemagick`
+
+**Bypass the hook (not recommended):**
+```bash
+git commit --no-verify -m "message"
+```
+
+### Social Media Image Best Practices
+
+When adding a cover image to your blog post frontmatter:
+
+```yaml
+---
+title: "My Post Title"
+image: img/cover.png  # This image will be used for social sharing
+---
+```
+
+**Recommended dimensions:**
+- **LinkedIn**: 1200×627px (1.91:1 ratio)
+- **Twitter/X**: 1200×675px (16:9 ratio)
+- **Facebook**: 1200×630px (~1.9:1 ratio)
+- **General rule**: Use landscape images around 1200×630px
+
+**Why it matters:**
+When you share your blog post link on social media, platforms use Open Graph meta tags to generate a preview card. The `image` field in your post's frontmatter becomes the `og:image` tag, which social media bots fetch and display.
 
