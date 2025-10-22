@@ -24,8 +24,6 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/ronnyhdez/blog
-      - icon: twitter
-        href: https://twitter.com/ronny_hdezmora
       - icon: person-circle
         href: https://ronnyale.com/
   page-footer:

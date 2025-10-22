@@ -4,9 +4,6 @@ image: images/profile.jpg
 about:
   template: jolla
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/ronny_hdezmora
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/ronny-hernandez-mora/
@@ -21,6 +18,6 @@ Hi! I'm [Ronny A. Hernández Mora](https://ronnyale.com/). I have been working i
 the data science industry for several years and I have learned from many people
 who create free resources over the internet and that also are my friends and 
 co-workers. So I decided to be more serious about sharing tricks and tips about 
-R, linux, git and other tools that I use to create data products.
+Python, R, linux, git and other tools that I use to create data products.
 
 Feel free to use and share whatever you find useful in the blog posts! 
