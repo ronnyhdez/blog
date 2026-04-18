@@ -1,0 +1,55 @@
+---
+title: "Interactive " 
+description: "Debugging Matplotlib backends in a terminal-based workflow using IPython and QtAgg"
+date: 2026-04-18
+categories: [Sentinel-2, Python, Remote Sensing]
+licence: "CC BY-NC"
+image: img/portada.png
+jupyter: python3
+editor_options: 
+  chunk_output_type: console
+---
+
+## The setup 
+
+I'm using nvim + quarto for my daily analysis. Although I could use the
+render option to check the quarto output, I rather to plot some of the 
+intermediate results and check the results/images for validation. 
+
+
+But, when using the terminal there is no way to show interactively a plot, 
+unless you save the figure, and open it. But that means moving away from my 
+terminal. 
+
+One solution is to use QtAgg to setup the matplotlib [backend](https://matplotlib.org/stable/users/explain/figure/backends.html#backends)
+
+The setup that worked with my workflow is: 
+
+## The steps
+
+At the start of any project I use uv to setup the env: 
+
+```{bash}
+uv init
+
+```
+
+## The file 
+
+```{python}
+import numpy as np
+import matplotlib
+matplotlib.use("QtAgg")
+
+import matplotlib.pyplot as plt
+```
+
+
+```{python}
+img = np.random.rand(100, 100, 3)
+
+plt.imshow(img)
+plt.axis("off")
+plt.title("Random image")
+plt.show()
+```
