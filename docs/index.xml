@@ -11,7 +11,160 @@
 <description>By Ronny A. Hernández Mora
 </description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Wed, 18 Jun 2025 06:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 20 Apr 2026 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>Interactive Plotting in a Quarto + Neovim + IPython Workflow</title>
+  <dc:creator>Ronny A. Hernandez Mora</dc:creator>
+  <link>https://ronnyale.com/posts/20260418-plots-nvim-ipython/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="the-setup" class="level2">
+<h2 class="anchored" data-anchor-id="the-setup">The setup</h2>
+<p>I’m using nvim + quarto for my day-to-day work. Nowadays this work consists of displaying annotated images, processed satellite images, or plots resulting from a data analysis. I’m switching between projects in Python and R, but most of the work that requires checking intermediate steps from processing images is with Python.</p>
+<p>Given that those images are intermediate results, I don’t need to save them as files, so I just need to display them during the working session and make a decision on the next step or validation.</p>
+<p>One option could be to use the render option to check the quarto output, but I don’t want to deal with the computation of each chunk of code, or freezing results. I’d rather simply plot some of the intermediate results and check the results/images for validation.</p>
+</section>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
+<p>Because I’m using the terminal with neovim there is no way to show interactively a plot, unless you save the figure, and open it. But that means moving away from my terminal. And when working I want to stay in my terminal.</p>
+<p>So, if I try to run the following code:</p>
+<div id="58db3ba0" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span></code></pre></div>
+</div>
+<div id="92f6a55e" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1">img <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.rand(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb2-2"></span>
+<span id="cb2-3">plt.imshow(img)</span>
+<span id="cb2-4">plt.axis(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"off"</span>)</span>
+<span id="cb2-5">plt.title(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Random image"</span>)</span>
+<span id="cb2-6">plt.show()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/index_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I’ll obtain the following error:</p>
+<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/error_display_image.png" class="img-fluid"></p>
+</section>
+<section id="the-solution" class="level2">
+<h2 class="anchored" data-anchor-id="the-solution">The solution</h2>
+<p>One solution is to use QtAgg to setup the matplotlib <a href="https://matplotlib.org/stable/users/explain/figure/backends.html#backends">backend</a></p>
+<p>This solution will combine using <a href="https://pypi.org/project/PyQt6/">PyQt6</a>, which will help by opening a new window with the figure I want to quickly check.</p>
+<section id="the-steps-for-the-solution" class="level3">
+<h3 class="anchored" data-anchor-id="the-steps-for-the-solution">The steps for the solution</h3>
+<p>At the start of any project I use uv to setup the env:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1">uv init</span>
+<span id="cb3-2">uv venv</span>
+<span id="cb3-3"></span>
+<span id="cb3-4">uv pip install pyqt6 matplotlib jupyter</span>
+<span id="cb3-5"></span>
+<span id="cb3-6">source .venv/bin/activate</span>
+<span id="cb3-7"></span>
+<span id="cb3-8">nvim analysis_plots.qmd</span></code></pre></div>
+</section>
+</section>
+<section id="implementation" class="level2">
+<h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
+<div id="9b1f1f16" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb4-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib</span>
+<span id="cb4-3">matplotlib.use(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"QtAgg"</span>)</span>
+<span id="cb4-4"></span>
+<span id="cb4-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span></code></pre></div>
+</div>
+<div id="dc62a81c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1">img <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.random.rand(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb5-2"></span>
+<span id="cb5-3">plt.imshow(img)</span>
+<span id="cb5-4">plt.axis(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"off"</span>)</span>
+<span id="cb5-5">plt.title(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Random image"</span>)</span>
+<span id="cb5-6">plt.show()</span></code></pre></div>
+</div>
+<p>When running each chunk of code, I’ll have the output in the IPython console, but when it comes to the section where I want to show the image, a new window is created to display the figure:</p>
+<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/solution_display_img.png" class="img-fluid"></p>
+</section>
+<section id="important-note" class="level2">
+<h2 class="anchored" data-anchor-id="important-note">Important note</h2>
+<p>One critical detail about this solution: <code>matplotlib.use("QtAgg")</code> must be called <strong>before</strong> importing <code>matplotlib.pyplot</code>. The backend needs to be set before the plotting interface is initialized. If you import <code>pyplot</code> first and then try to set the backend, it will have no effect and you’ll still encounter the display error.</p>
+<p>This workflow allows me to stay in my terminal, quickly validate intermediate results, and continue working without the overhead of rendering the full Quarto document or saving temporary image files.</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{a._hernandez_mora2026,
+  author = {A. Hernandez Mora, Ronny},
+  title = {Interactive {Plotting} in a {Quarto} + {Neovim} + {IPython}
+    {Workflow}},
+  date = {2026-04-20},
+  url = {https://ronnyale.com/posts/20260418-plots-nvim-ipython/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2026" class="csl-entry quarto-appendix-citeas">
+A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
++ Neovim + IPython Workflow.”</span> April 20, 2026. <a href="https://ronnyale.com/posts/20260418-plots-nvim-ipython/">https://ronnyale.com/posts/20260418-plots-nvim-ipython/</a>.
+</div></div></section></div> ]]></description>
+  <category>nvim</category>
+  <category>quarto</category>
+  <category>matplotlib</category>
+  <guid>https://ronnyale.com/posts/20260418-plots-nvim-ipython/</guid>
+  <pubDate>Mon, 20 Apr 2026 06:00:00 GMT</pubDate>
+  <media:content url="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/qtagg.png" medium="image" type="image/png" height="75" width="144"/>
+</item>
 <item>
   <title>Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
