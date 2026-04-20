@@ -1,10 +1,10 @@
 ---
-title: "Interactive " 
+title: "Interactive Plotting in a Quarto + Neovim + IPython Workflow" 
 description: "Debugging Matplotlib backends in a terminal-based workflow using IPython and QtAgg"
-date: 2026-04-18
-categories: [Sentinel-2, Python, Remote Sensing]
+date: 2026-04-20
+categories: [nvim, quarto, matplotlib]
 licence: "CC BY-NC"
-image: img/portada.png
+image: img/qtagg.png
 jupyter: python3
 editor_options: 
   chunk_output_type: console
@@ -12,26 +12,70 @@ editor_options:
 
 ## The setup 
 
-I'm using nvim + quarto for my daily analysis. Although I could use the
-render option to check the quarto output, I rather to plot some of the 
-intermediate results and check the results/images for validation. 
+I'm using nvim + quarto for my day-to-day work. Nowadays this one consist on 
+displaying annotated images, processed satellite images, or plots resulting
+from a data analysis. I'm switching between projects in Python and R, but most
+of the work that requires to check intermediate steps from processing images
+is with Python. 
+
+Given that those images are intermediate results, I don't need to save them as
+files, so I just need to display them during the working session and make a 
+decision on the next step or validation. 
+
+One option could be to  use the render option to check the quarto output, but I
+don't want to deal with the computation of each chunk of code, or freezing
+results. I'll rather to simply plot some of the intermediate results and check
+the results/images for validation. 
+
+## The problem 
+
+Because I'm using the terminal with neovim there is no way to show interactively
+a plot, unless you save the figure, and open it. But that means moving away from
+my terminal. And when working I want to stay in my terminal. 
+
+So, if I try to run the following code:
+
+```{python}
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+```
+
+```{python}
+img = np.random.rand(100, 100, 3)
+
+plt.imshow(img)
+plt.axis("off")
+plt.title("Random image")
+plt.show()
+```
+
+I'll obtain the following error:
+
+![](./img/error_display_image.png)
 
 
-But, when using the terminal there is no way to show interactively a plot, 
-unless you save the figure, and open it. But that means moving away from my 
-terminal. 
+## The solution 
 
-One solution is to use QtAgg to setup the matplotlib [backend](https://matplotlib.org/stable/users/explain/figure/backends.html#backends)
+One solution is to use QtAgg to setup the matplotlib
+[backend](https://matplotlib.org/stable/users/explain/figure/backends.html#backends)
 
-The setup that worked with my workflow is: 
+This solution will combine using [PyQt6](https://pypi.org/project/PyQt6/), which 
+will help by opening a new window with the figure I want to quickly check. 
 
-## The steps
+### The steps for the solution
 
 At the start of any project I use uv to setup the env: 
 
 ```{bash}
 uv init
+uv venv
 
+uv pip install pyqt6 matplotlib jupyter
+
+source .venv/bin/activate
+
+nvim analysis_plots.qmd
 ```
 
 ## The file 
@@ -44,7 +88,6 @@ matplotlib.use("QtAgg")
 import matplotlib.pyplot as plt
 ```
 
-
 ```{python}
 img = np.random.rand(100, 100, 3)
 
@@ -53,3 +96,9 @@ plt.axis("off")
 plt.title("Random image")
 plt.show()
 ```
+
+When running each chunk of code, I'll have the output in the IPython console, 
+but when it comes to the section where I want to show the image, a new window 
+is created to display the figure: 
+
+![](./img/solution_display_img.png)
