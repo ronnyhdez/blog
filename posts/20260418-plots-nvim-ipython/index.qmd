@@ -105,11 +105,12 @@ is created to display the figure:
 
 ## Important note
 
-One critical detail about this solution: `matplotlib.use("QtAgg")` must be called
-**before** importing `matplotlib.pyplot`. The backend needs to be set before the
-plotting interface is initialized. If you import `pyplot` first and then try to
-set the backend, it will have no effect and you'll still encounter the display error.
+One critical detail about this solution: `matplotlib.use("QtAgg")` must be
+called **before** importing `matplotlib.pyplot`. The backend needs to be set
+before the plotting interface is initialized. If you import `pyplot` first and
+then try to set the backend, it will have no effect and you'll still encounter
+the display error.
 
-This workflow allows me to stay in my terminal, quickly validate intermediate results,
-and continue working without the overhead of rendering the full Quarto document or
-saving temporary image files.
+This workflow allows me to stay in my terminal, quickly validate intermediate
+results, and continue working without the overhead of rendering the full Quarto
+document or saving temporary image files.
