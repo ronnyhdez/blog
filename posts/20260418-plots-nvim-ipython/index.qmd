@@ -5,6 +5,8 @@ date: 2026-04-20
 categories: [nvim, quarto, matplotlib]
 licence: "CC BY-NC"
 image: img/qtagg.png
+execute:
+  echo: false
 jupyter: python3
 editor_options: 
   chunk_output_type: console
