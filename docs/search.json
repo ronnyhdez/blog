@@ -266,123 +266,32 @@
     "text": "Code and example site\nAll the code and configuration files of the example site are in this GitHub repository:\n\nRepository\nSite"
   },
   {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html",
-    "title": "Desplegando mi app de shiny con shiny-server",
+    "objectID": "posts/2023-02-27-nvim-and-r/index.html",
+    "href": "posts/2023-02-27-nvim-and-r/index.html",
+    "title": "Workflow to use R with Neovim",
     "section": "",
-    "text": "# ---\n# title: \"Desplegando mi app de shiny con shiny-server\"\n# description: |\n#  Vamos a \"llevar a internet\" nuestra aplicación y hacerla accesible al mundo.\n# author:\n#   - name: Ronny A. Hernández Mora\n#     url: http://ronnyhdez.rbind.io/\n# date: 2020-12-28\n# creative_commons: CC BY-NC\n# preview: images/app.png\n# twitter:\n#   creator: \"@RonnyHdezM\"\n# output:\n#   distill::distill_article:\n#     self_contained: true\n# ---"
+    "text": "There are several reasons why using Neovim with Lua and Packer for working with R can be beneficial:\n\nLightweight and Customizable: Neovim is a lightweight text editor that runs in the terminal, providing a clean and minimalistic interface. By configuring it with Lua, you have the flexibility to customize and personalize your editor to match your preferences and workflow.\nEfficient R Coding: Neovim offers powerful features and key bindings specifically tailored for working with R, such as sending code to the R console, code navigation, code completion, and documentation lookup. These features help streamline your R coding workflow and enhance your productivity.\nPackage Management with Packer: Packer is a plugin manager for Neovim that simplifies the installation and management of plugins. With Packer, you can easily add, update, and remove plugins, allowing you to extend the functionality of Neovim and enhance your R coding experience.\nTerminal-based Environment: Working in a terminal-based environment can be advantageous for R development. It allows you to focus on your code without distractions and provides a consistent experience across different platforms and systems.\n\nBy following the tutorial here, you can learn how to install and configure Neovim with Lua and Packer to set up an efficient and streamlined environment for working with R.\nGive it a try and see how this setup can enhance your R coding experience!"
   },
   {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#requisitos",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#requisitos",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "Requisitos:",
-    "text": "Requisitos:\nPara poder seguir la guía, es necesario que ya haya desarrollado una aplicación de shiny. Puede seguir los pasos acá indicados haciendo uso de la aplicación modular que presenté en los webinarios de DataLatam\nAsí mismo es necesario contar con un servidor en el que pueda desplegar la aplicación.\nTambién necesitamos tener conocimiento de git. La guía muestra los pasos haciendo uso de esta herramienta."
+    "objectID": "posts/2023-02-27-nvim-and-r/index.html#movements",
+    "href": "posts/2023-02-27-nvim-and-r/index.html#movements",
+    "title": "Workflow to use R with Neovim",
+    "section": "Movements",
+    "text": "Movements\nctrl + w + l Jump to left panel\nctrl + w + h Jump to right panel\ngg Move to of file\nG Move bottom of file\nfunction + Shift + up or down Take to the upper or lower page section\n{ Go one paragraph up\n} Go one paragraph down"
   },
   {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#recomendaciones-del-servidor",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#recomendaciones-del-servidor",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "Recomendaciones del servidor:",
-    "text": "Recomendaciones del servidor:\nSi queremos probar, lo ideal es usar un servidor con el mínimo posible. Conforme nuestra aplicación crezca y querramos que sea usada por más usuarios podemos revisar:\n\nmemoria\nCPU\ndisco\n\nEl sistema operativo puede ser cualquiera de su elección siempre y cuando sea Linux. Los pasos en esta guía están basados en la distribución Ubuntu mayor a 18.04.4. Validar que elegimos LTS (Long Term Support)"
+    "objectID": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
+    "href": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
+    "title": "Workflow to use R with Neovim",
+    "section": "R specific commands",
+    "text": "R specific commands\n\\rf Connect to R Console\n\\rq Quit R Console\n\\d Run current line and move to the next line\n\\l Run current line, but cursor will stay on the same line.\n\\pp Run paragraph. But cursor will stay on the same block.\n\\pd Runs block and move to the next one\n\\ss Execute a block of selected code. This has to be done with visual mode\n\\aa Run entire script\n\\ro Open the “Global Environment”\n\\r= Expand all\n\\r- Collapse all\n\\qp Render preview .qmd (If I save the doc, it will re-render the site)\n\\gn Next chunk\n\\gN Previous chunk\n\\ch Run all previous chunks to here\n\\cc Run current chunk\nspace bar Run one line of code (You need to create this key binding)"
   },
   {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-r-en-el-servidor",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-r-en-el-servidor",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "1- Instalando R en el servidor:",
-    "text": "1- Instalando R en el servidor:\nPara evitar inconvenientes de versiones desactualizadas de R, podemos seguir las siguientes instrucciones:\n\n# Agregamos llave\nsudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \n\n# Agregamos repositorio\nsudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'\n \n# Si estamos con ubuntu 20 el repositorio es:\nsudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'\n\n# Si queremos remover el repo no hacerlo a mano y usar el siguiente:\nsudo add-apt-repository --remove 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'\n\n# Actualizamos paquetes Ubuntu\nsudo apt update\n\n# Instalamos R\nsudo apt install r-base\n\n# Verificamos que versión de R sea la 4.0.1 (o las más actualizado al momento\n# de la instalación) \nR --version"
-  },
-  {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-librerías-linux-comunes-para-r-en-el-servidor",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-librerías-linux-comunes-para-r-en-el-servidor",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "2- Instalando librerías linux comunes para R en el servidor",
-    "text": "2- Instalando librerías linux comunes para R en el servidor\n\nsudo apt install libxml2-dev\nsudo apt install libssl-dev \nsudo apt install libcurl4-gnutls-dev \nsudo apt-get install unixodbc unixodbc-dev\n\nLuego tomamos un paso para asegurarnos que todos los paquetes de Ubuntu se encuentren actualizados en el servidor\n\nsudo apt update\nsudo apt upgrade\nsudo apt autoremove"
-  },
-  {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-shiny-server",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-shiny-server",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "3- Instalando shiny server",
-    "text": "3- Instalando shiny server\nAntes de iniciar con la instalación de shiny server, debemos de instalar el paquete de R shiny:\n\nsudo su - \\\n-c \"R -e \\\"install.packages('shiny', repos='https://cran.rstudio.com/')\\\"\"\n\nPara seguir la instalación de shiny server primero hay que instalarle a la máquina gdebi\n\nsudo apt-get install gdebi-core\n\nLuego en la pagina de shiny server copiamos la direccion de donde tienen la última version.\nDebemos de asegurarnos de obtener la versión más actualizada. La instrucción acá mostrada puede quedar desactualizada.\nLa versión la validamos con el número que aparece luego de la palabra shiny-server En este caso, la usada para la guía es (shiny-server-1.5.13.944)\n\n# Damos dirección de donde traemos la descarga\nwget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb\n\n# Procedemos con la instalación\nsudo gdebi shiny-server-1.5.13.944-amd64.deb\n\nUna vez instalado podemos revisar el estado de shiny-server:\n\nsudo systemctl status shiny-server\n\nPare reiniciar el servidor de shiny cuando tenemos problema:\n\nsudo systemctl restart shiny-server \n\nUna vez que tenemos instalado shiny-server,vamos a revisar por la puerta que está sirviendo. Podemos tomar la dirección IP externa del servidor, copiarla en el navegador (yo tengo preferencia por firefox) y de seguido escribimos : y la puerta 3838 (Por defecto, la que sirve shiny)\n\nip_externa_del_servidor:3838\n\nSi no tenemos un servicio disponible (no vemos una página funcionando) debemos de revisar las reglas firewall del servidor e indicarle la salida del app."
-  },
-  {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#llevando-la-aplicación-al-servidor",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#llevando-la-aplicación-al-servidor",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "4- Llevando la aplicación al servidor",
-    "text": "4- Llevando la aplicación al servidor\nA este punto tenemos nuestro servidor con R instalado, con shiny-server funcionando y las principales librerías linux para usar con una aplicación de shiny. Ahora el paso que sigue es llevar nuestra aplicación de shiny al servidor.\nEs aquí donde usaremos git. Lo haremos con mi aplicación de ejemplo que se encuentra en github\nDentro del servidor, las aplicaciones deben de estar bajo el siguiente directorio:\n/srv/shiny-server\nAllí es donde debemos de llevar nuestra aplicación.\n\n# Nos cambiamos al directorio\ncd /srv/shiny-server\n\n# Clonamos el repositorio que contiene la aplicación\ngit clone https://github.com/ronnyhdez/shiny_modular.git\n\nLuego, necesitamos instalar en el servidor los paquetes que son necesarios para nuestra aplicación. Todos aquellos paquetes que hayamos usado necesitamos incluirlos. Si dejamos alguno por fuera es muy probable que nuestra aplicación no levante. (Es el error más común que cometo)\nHay dos maneras de realizar este paso. Uno es dando el comando desde bash y el otro es abrir una sesión de R como usuario root e instalarlo tal cual lo haríamos en una sesión de R en nuestro computador:\n\n# Con comando de bash\nsudo su - \\\n-c \"R -e \\\"install.packages(c('shiny', 'tm', 'SnowballC', 'wordcloud',\n'shinydashboard', 'RColorBrewer', 'ggplot2', 'purrr', 'nycflights13', 'dplyr'), repos='https://cran.rstudio.com/')\\\"\"\n\nSi hay algún paquete que no está en el CRAN porque es una versión en desarrollo, podemos echar mano del paquete remotes (el cual debimos de incluir en el paso anterior)\n\n# Ejemplo de instalación de paquete en desarrollo:\nsudo su - \\\n-c \"R -e \\\"remotes::install_github(\"datastorm-open/shinymanager\", \nforce = TRUE)"
-  },
-  {
-    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#levantando-la-aplicación",
-    "href": "posts/2021-12-11-desplegando-shiny/index.html#levantando-la-aplicación",
-    "title": "Desplegando mi app de shiny con shiny-server",
-    "section": "5- Levantando la aplicación",
-    "text": "5- Levantando la aplicación\nCon todos los pasos anteriores listos, procedemos a detener y volver a iniciar el servicio de shiny-server, para luego probar si nos podemos conectar a ella:\n\n# Reiniciar el servicio de manera recomendada:\nsudo systemctl stop shiny-server\nsudo systemctl start shiny-server\n\n# Revisar status del servicio\nsudo systemctl status shiny-server\n\nSi el servicio está activo, podemos probar con la IP externa, la puerta 3838 e indicamos el nombre de la aplicación. Debería de ser algo similar a: ip:3838/shiny_modular/\n¡Y listo! Con esto tenemos los pasos básicos para desplegar nuestra aplicación de shiny en nuestro servidor y hacerla disponible al mundo.\n\nReferencias\nEl resumen de pasos mostrados en esta guía han sido tomados y adaptados de diversas fuentes como:\nDigitalOcean (Algún día lograré documentar como lo hacen ellos)\nShiny Server Professional v1.5.15 Administrator’s Guide El sitio a visitar cuando hay problemas con shiny-server. Es documentación técnica"
-  },
-  {
-    "objectID": "posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html",
-    "href": "posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html",
-    "title": "Packages citation and zotero",
-    "section": "",
-    "text": "Why?\nWhen working on your research project, probably you will need to cite the R packages used in your data analysis. Also, probably you use Zotero as your reference manager, so, how can you manage the R packages references in Zotero?\nWell, here I will show you one manual way to do it.\n\n\nObtain the package citation\nThis one is easy. You just use the function `citation(“dplyr”) and in your console will appear all the bibliographic info from that package.\n\ncitation(\"dplyr\")\n\n\nTo cite package 'dplyr' in publications use:\n\n  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of\n  Data Manipulation_. R package version 1.0.9,\n  &lt;https://CRAN.R-project.org/package=dplyr&gt;.\n\nA BibTeX entry for LaTeX users is\n\n  @Manual{,\n    title = {dplyr: A Grammar of Data Manipulation},\n    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},\n    year = {2022},\n    note = {R package version 1.0.9},\n    url = {https://CRAN.R-project.org/package=dplyr},\n  }\n\n\nNow, you need to pay attention on the section that says: A BibTeX entry for LaTeX users is\n\n\nCreating the BibTex file\nFrom where the @ starts, that’s what you need. So, copy (be aware of selecting the last } line) and paste it in a text file. This can be your Text Editor in ubuntu, Notepad, notes or even a Text File in your RStudio.\nYou can copy and paste as many references you need. It can look something like this:\n@Article{,\n  title = {{weathercan}: {D}ownload and format weather data from Environment and Climate Change Canada},\n  author = {Stefanie E LaZerte and Sam Albers},\n  journal = {The Journal of Open Source Software},\n  volume = {3},\n  number = {22},\n  pages = {571},\n  year = {2018},\n  url = {https://joss.theoj.org/papers/10.21105/joss.00571},\n}\n\n@Manual{,\n title = {R: A Language and Environment for Statistical Computing},\n author = {{R Core Team}},\n organization = {R Foundation for Statistical Computing},\n address = {Vienna, Austria},\n year = {2021},\n url = {https://www.R-project.org/},\n}\n\n@Manual{,\n  title = {dplyr: A Grammar of Data Manipulation},\n  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},\n  year = {2022},\n  note = {R package version 1.0.9},\n  url = {https://CRAN.R-project.org/package=dplyr},\n}\nSave it with the extention .bib:\n\n\n\nImporting the file in Zotero\nOpen Zotero and look for the option import. It will open a window.\n\nSelect the option (BibTex, RIS, Zotero RDF, etc.) and from there, look the file in the path you saved. Open the file and a new window will pop up. The options to select there are up to you:\n\nFinally, you will see that you have the references imported to Zotero!\n\n\n\n\nReuseCC BY 4.0CitationBibTeX citation:@online{a._hernandez_mora2022,\n  author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},\n  title = {Packages Citation and Zotero},\n  date = {2022-09-14},\n  url = {https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nA. Hernandez Mora, Ronny, and Erick Calderon Morales. 2022.\n“Packages Citation and Zotero.” September 14, 2022. https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html."
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html",
-    "href": "posts/2021-12-11-estructuras-r/index.html",
-    "title": "Intro a datos y estructuras en R",
-    "section": "",
-    "text": "# ---\n# title: \"Intro a datos y estructuras en R\"\n# description: |\n#   Una breve intro a estructuras en R.\n# author:\n#   - name: Ronny A. Hernández Mora\n#     url: http://ronnyhdez.rbind.io/\n# date: 2018-02-01\n# creative_commons: CC BY-NC\n# preview: images/structure.png\n# twitter:\n#   creator: \"@RonnyHdezM\"\n# output:\n#   distill::distill_article:\n#     self_contained: true\n# ---"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#primer-paso",
-    "href": "posts/2021-12-11-estructuras-r/index.html#primer-paso",
-    "title": "Intro a datos y estructuras en R",
-    "section": "Primer paso:",
-    "text": "Primer paso:\nPrimero tenemos que entender que R lee los datos que le damos de distintas maneras para poder manejarlos y hacer tareas que le pidamos. Entre estos tenemos:\n\ncharacter: corresponden a texto\nnumeric: corresponden a números\ninteger: son números enteros (sin decimales)\nlogical: son condicionales y están en forma de verdadero o falso\ncomplex: corresponden a números complejos\n\nPara crear vectores c( )\n\na &lt;- c(\"biologia\", \"A\", \"estadistica\")\nclass(a)\n\n[1] \"character\"\n\n\n\nb &lt;- c(18.6, 90)\nclass(b)\n\n[1] \"numeric\"\n\n\n\nc &lt;- c(18L, 26L)\nclass(c)\n\n[1] \"integer\"\n\n\n\nd &lt;- 2 + 4i\nclass(d)\n\n[1] \"complex\"\n\n\n\ne &lt;- c(TRUE, FALSE)\nclass(e)\n\n[1] \"logical\""
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#vectores-elementos-son-del-mismo-tipo",
-    "href": "posts/2021-12-11-estructuras-r/index.html#vectores-elementos-son-del-mismo-tipo",
-    "title": "Intro a datos y estructuras en R",
-    "section": "Vectores elementos son del mismo tipo",
-    "text": "Vectores elementos son del mismo tipo\n\nv_1 &lt;- c(10,20,30)\nv_2 &lt;- c(\"a\",\"b\",\"c\")\nv_3 &lt;- c(TRUE,FALSE,TRUE)"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#listas-elementos-son-de-diferente-tipo",
-    "href": "posts/2021-12-11-estructuras-r/index.html#listas-elementos-son-de-diferente-tipo",
-    "title": "Intro a datos y estructuras en R",
-    "section": "Listas elementos son de diferente tipo",
-    "text": "Listas elementos son de diferente tipo\n\nl_1 &lt;- list(v_1,v_2,v_3)\n\nl_1\n\n[[1]]\n[1] 10 20 30\n\n[[2]]\n[1] \"a\" \"b\" \"c\"\n\n[[3]]\n[1]  TRUE FALSE  TRUE"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo",
-    "href": "posts/2021-12-11-estructuras-r/index.html#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo",
-    "title": "Intro a datos y estructuras en R",
-    "section": "matrix es de dos dimensiones con elementos del mismo tipo:",
-    "text": "matrix es de dos dimensiones con elementos del mismo tipo:\n\nmatrix_1 &lt;- matrix(1:9,nrow = 3, ncol = 3)\nmatrix_1\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo",
-    "href": "posts/2021-12-11-estructuras-r/index.html#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo",
-    "title": "Intro a datos y estructuras en R",
-    "section": "data frame es de dos dimensiones con elementos de diferente tipo:",
-    "text": "data frame es de dos dimensiones con elementos de diferente tipo:\n\n# Primero creamos un par de vectores para unirlos en un dataframe\nnumero &lt;- 1:5\nnombre &lt;- c(\"Mercurio\",\"Venus\",\"Tierra\",\"Marte\",\"Jupiter\")\nplaneta &lt;- data.frame(numero,nombre)\nplaneta\n\n  numero   nombre\n1      1 Mercurio\n2      2    Venus\n3      3   Tierra\n4      4    Marte\n5      5  Jupiter"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#array-es-una-estructura-de-tres-o-más-dimensiones",
-    "href": "posts/2021-12-11-estructuras-r/index.html#array-es-una-estructura-de-tres-o-más-dimensiones",
-    "title": "Intro a datos y estructuras en R",
-    "section": "Array es una estructura de tres o más dimensiones:",
-    "text": "Array es una estructura de tres o más dimensiones:\n\nD &lt;- 1:12\ndim(D) &lt;- c(2,3,2)        # Dos filas, tres columnas y dos \"caras\"\nD\n\n, , 1\n\n     [,1] [,2] [,3]\n[1,]    1    3    5\n[2,]    2    4    6\n\n, , 2\n\n     [,1] [,2] [,3]\n[1,]    7    9   11\n[2,]    8   10   12"
-  },
-  {
-    "objectID": "posts/2021-12-11-estructuras-r/index.html#qué-siginifica-dir-y-ls",
-    "href": "posts/2021-12-11-estructuras-r/index.html#qué-siginifica-dir-y-ls",
-    "title": "Intro a datos y estructuras en R",
-    "section": "¿Qué siginifica dir() y ls()?",
-    "text": "¿Qué siginifica dir() y ls()?\ndir () me refiere a los archivos que se encuentran en el directorio de trabajo. ls () me refiere a los objetos que se encuentran en el espacio de trabajo"
+    "objectID": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
+    "href": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
+    "title": "Workflow to use R with Neovim",
+    "section": "Edit files",
+    "text": "Edit files\n:%s/word_in_file/word_to_insert Substitute all matches\n:set spell will set the grammar check in the document\nz= will open the options to correct a word."
   },
   {
     "objectID": "posts/2023-06-17-nvim_lua_packer/index.html",
@@ -441,32 +350,165 @@
     "text": "Configure settings for Nvim-R\nAt this point you should have the following structure:\n\n\n\nFile structure for our settings\n\n\nFor this, we need to create a file with the name of the plugin. We are going to configure a couple of settings for our nvim-r plugin.\n\nNavigate to the plugin/ folder in your Neovim configuration directory.\nCreate a new file called nvimr.lua inside the plugin/ folder.\nOpen the nvimr.lua file and add the following configurations:\n\n\n-- To use spacebar for running code\nvim.cmd([[\n  let g:markdown_fenced_languages = ['r', 'python']\n  let g:rmd_fenced_languages = ['r', 'python']\n\n  if has(\"gui_running\")\n      inoremap &lt;C-Space&gt; &lt;C-x&gt;&lt;C-o&gt;\n  else\n      inoremap &lt;Nul&gt; &lt;C-x&gt;&lt;C-o&gt;\n  endif\n  vmap &lt;Space&gt; &lt;Plug&gt;RDSendSelection\n  nmap &lt;Space&gt; &lt;Plug&gt;RDSendLine\n]])\n\n\n-- R filetypes\nvim.cmd([[\nautocmd BufNewFile,BufRead *.Rmd set ft=rmd\nautocmd BufNewFile,BufRead *.rmd set ft=rmd\nautocmd BufNewFile,BufRead *.qmd set ft=rmd\n]])\n\nThe above configurations will:\n\nSet the fenced code block languages to ‘r’ and ‘python’ for R Markdown and quarto files.\nEnable the space bar as a shortcut for running lines of code.\nSet the key mapping &lt;Space&gt; for visual mode to send the selected lines to the R terminal.\nSet the key mapping &lt;Space&gt; for normal mode to send the current line to the R terminal.\nSet the filetypes to rmd for .Rmd, .rmd, and .qmd files.\n\nSave the changes to the nvimr.lua file.\nWith these settings in place, Nvim-R will be configured to enhance your workflow with .rmd and .qmd files, providing a convenient way to run R code within Neovim."
   },
   {
-    "objectID": "posts/2023-02-27-nvim-and-r/index.html",
-    "href": "posts/2023-02-27-nvim-and-r/index.html",
-    "title": "Workflow to use R with Neovim",
+    "objectID": "posts/2021-12-11-estructuras-r/index.html",
+    "href": "posts/2021-12-11-estructuras-r/index.html",
+    "title": "Intro a datos y estructuras en R",
     "section": "",
-    "text": "There are several reasons why using Neovim with Lua and Packer for working with R can be beneficial:\n\nLightweight and Customizable: Neovim is a lightweight text editor that runs in the terminal, providing a clean and minimalistic interface. By configuring it with Lua, you have the flexibility to customize and personalize your editor to match your preferences and workflow.\nEfficient R Coding: Neovim offers powerful features and key bindings specifically tailored for working with R, such as sending code to the R console, code navigation, code completion, and documentation lookup. These features help streamline your R coding workflow and enhance your productivity.\nPackage Management with Packer: Packer is a plugin manager for Neovim that simplifies the installation and management of plugins. With Packer, you can easily add, update, and remove plugins, allowing you to extend the functionality of Neovim and enhance your R coding experience.\nTerminal-based Environment: Working in a terminal-based environment can be advantageous for R development. It allows you to focus on your code without distractions and provides a consistent experience across different platforms and systems.\n\nBy following the tutorial here, you can learn how to install and configure Neovim with Lua and Packer to set up an efficient and streamlined environment for working with R.\nGive it a try and see how this setup can enhance your R coding experience!"
+    "text": "# ---\n# title: \"Intro a datos y estructuras en R\"\n# description: |\n#   Una breve intro a estructuras en R.\n# author:\n#   - name: Ronny A. Hernández Mora\n#     url: http://ronnyhdez.rbind.io/\n# date: 2018-02-01\n# creative_commons: CC BY-NC\n# preview: images/structure.png\n# twitter:\n#   creator: \"@RonnyHdezM\"\n# output:\n#   distill::distill_article:\n#     self_contained: true\n# ---"
   },
   {
-    "objectID": "posts/2023-02-27-nvim-and-r/index.html#movements",
-    "href": "posts/2023-02-27-nvim-and-r/index.html#movements",
-    "title": "Workflow to use R with Neovim",
-    "section": "Movements",
-    "text": "Movements\nctrl + w + l Jump to left panel\nctrl + w + h Jump to right panel\ngg Move to of file\nG Move bottom of file\nfunction + Shift + up or down Take to the upper or lower page section\n{ Go one paragraph up\n} Go one paragraph down"
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#primer-paso",
+    "href": "posts/2021-12-11-estructuras-r/index.html#primer-paso",
+    "title": "Intro a datos y estructuras en R",
+    "section": "Primer paso:",
+    "text": "Primer paso:\nPrimero tenemos que entender que R lee los datos que le damos de distintas maneras para poder manejarlos y hacer tareas que le pidamos. Entre estos tenemos:\n\ncharacter: corresponden a texto\nnumeric: corresponden a números\ninteger: son números enteros (sin decimales)\nlogical: son condicionales y están en forma de verdadero o falso\ncomplex: corresponden a números complejos\n\nPara crear vectores c( )\n\na &lt;- c(\"biologia\", \"A\", \"estadistica\")\nclass(a)\n\n[1] \"character\"\n\n\n\nb &lt;- c(18.6, 90)\nclass(b)\n\n[1] \"numeric\"\n\n\n\nc &lt;- c(18L, 26L)\nclass(c)\n\n[1] \"integer\"\n\n\n\nd &lt;- 2 + 4i\nclass(d)\n\n[1] \"complex\"\n\n\n\ne &lt;- c(TRUE, FALSE)\nclass(e)\n\n[1] \"logical\""
   },
   {
-    "objectID": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
-    "href": "posts/2023-02-27-nvim-and-r/index.html#r-specific-commands",
-    "title": "Workflow to use R with Neovim",
-    "section": "R specific commands",
-    "text": "R specific commands\n\\rf Connect to R Console\n\\rq Quit R Console\n\\d Run current line and move to the next line\n\\l Run current line, but cursor will stay on the same line.\n\\pp Run paragraph. But cursor will stay on the same block.\n\\pd Runs block and move to the next one\n\\ss Execute a block of selected code. This has to be done with visual mode\n\\aa Run entire script\n\\ro Open the “Global Environment”\n\\r= Expand all\n\\r- Collapse all\n\\qp Render preview .qmd (If I save the doc, it will re-render the site)\n\\gn Next chunk\n\\gN Previous chunk\n\\ch Run all previous chunks to here\n\\cc Run current chunk\nspace bar Run one line of code (You need to create this key binding)"
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#vectores-elementos-son-del-mismo-tipo",
+    "href": "posts/2021-12-11-estructuras-r/index.html#vectores-elementos-son-del-mismo-tipo",
+    "title": "Intro a datos y estructuras en R",
+    "section": "Vectores elementos son del mismo tipo",
+    "text": "Vectores elementos son del mismo tipo\n\nv_1 &lt;- c(10,20,30)\nv_2 &lt;- c(\"a\",\"b\",\"c\")\nv_3 &lt;- c(TRUE,FALSE,TRUE)"
   },
   {
-    "objectID": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
-    "href": "posts/2023-02-27-nvim-and-r/index.html#edit-files",
-    "title": "Workflow to use R with Neovim",
-    "section": "Edit files",
-    "text": "Edit files\n:%s/word_in_file/word_to_insert Substitute all matches\n:set spell will set the grammar check in the document\nz= will open the options to correct a word."
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#listas-elementos-son-de-diferente-tipo",
+    "href": "posts/2021-12-11-estructuras-r/index.html#listas-elementos-son-de-diferente-tipo",
+    "title": "Intro a datos y estructuras en R",
+    "section": "Listas elementos son de diferente tipo",
+    "text": "Listas elementos son de diferente tipo\n\nl_1 &lt;- list(v_1,v_2,v_3)\n\nl_1\n\n[[1]]\n[1] 10 20 30\n\n[[2]]\n[1] \"a\" \"b\" \"c\"\n\n[[3]]\n[1]  TRUE FALSE  TRUE"
+  },
+  {
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo",
+    "href": "posts/2021-12-11-estructuras-r/index.html#matrix-es-de-dos-dimensiones-con-elementos-del-mismo-tipo",
+    "title": "Intro a datos y estructuras en R",
+    "section": "matrix es de dos dimensiones con elementos del mismo tipo:",
+    "text": "matrix es de dos dimensiones con elementos del mismo tipo:\n\nmatrix_1 &lt;- matrix(1:9,nrow = 3, ncol = 3)\nmatrix_1\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9"
+  },
+  {
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo",
+    "href": "posts/2021-12-11-estructuras-r/index.html#data-frame-es-de-dos-dimensiones-con-elementos-de-diferente-tipo",
+    "title": "Intro a datos y estructuras en R",
+    "section": "data frame es de dos dimensiones con elementos de diferente tipo:",
+    "text": "data frame es de dos dimensiones con elementos de diferente tipo:\n\n# Primero creamos un par de vectores para unirlos en un dataframe\nnumero &lt;- 1:5\nnombre &lt;- c(\"Mercurio\",\"Venus\",\"Tierra\",\"Marte\",\"Jupiter\")\nplaneta &lt;- data.frame(numero,nombre)\nplaneta\n\n  numero   nombre\n1      1 Mercurio\n2      2    Venus\n3      3   Tierra\n4      4    Marte\n5      5  Jupiter"
+  },
+  {
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#array-es-una-estructura-de-tres-o-más-dimensiones",
+    "href": "posts/2021-12-11-estructuras-r/index.html#array-es-una-estructura-de-tres-o-más-dimensiones",
+    "title": "Intro a datos y estructuras en R",
+    "section": "Array es una estructura de tres o más dimensiones:",
+    "text": "Array es una estructura de tres o más dimensiones:\n\nD &lt;- 1:12\ndim(D) &lt;- c(2,3,2)        # Dos filas, tres columnas y dos \"caras\"\nD\n\n, , 1\n\n     [,1] [,2] [,3]\n[1,]    1    3    5\n[2,]    2    4    6\n\n, , 2\n\n     [,1] [,2] [,3]\n[1,]    7    9   11\n[2,]    8   10   12"
+  },
+  {
+    "objectID": "posts/2021-12-11-estructuras-r/index.html#qué-siginifica-dir-y-ls",
+    "href": "posts/2021-12-11-estructuras-r/index.html#qué-siginifica-dir-y-ls",
+    "title": "Intro a datos y estructuras en R",
+    "section": "¿Qué siginifica dir() y ls()?",
+    "text": "¿Qué siginifica dir() y ls()?\ndir () me refiere a los archivos que se encuentran en el directorio de trabajo. ls () me refiere a los objetos que se encuentran en el espacio de trabajo"
+  },
+  {
+    "objectID": "posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html",
+    "href": "posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html",
+    "title": "Packages citation and zotero",
+    "section": "",
+    "text": "Why?\nWhen working on your research project, probably you will need to cite the R packages used in your data analysis. Also, probably you use Zotero as your reference manager, so, how can you manage the R packages references in Zotero?\nWell, here I will show you one manual way to do it.\n\n\nObtain the package citation\nThis one is easy. You just use the function `citation(“dplyr”) and in your console will appear all the bibliographic info from that package.\n\ncitation(\"dplyr\")\n\n\nTo cite package 'dplyr' in publications use:\n\n  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of\n  Data Manipulation_. R package version 1.0.9,\n  &lt;https://CRAN.R-project.org/package=dplyr&gt;.\n\nA BibTeX entry for LaTeX users is\n\n  @Manual{,\n    title = {dplyr: A Grammar of Data Manipulation},\n    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},\n    year = {2022},\n    note = {R package version 1.0.9},\n    url = {https://CRAN.R-project.org/package=dplyr},\n  }\n\n\nNow, you need to pay attention on the section that says: A BibTeX entry for LaTeX users is\n\n\nCreating the BibTex file\nFrom where the @ starts, that’s what you need. So, copy (be aware of selecting the last } line) and paste it in a text file. This can be your Text Editor in ubuntu, Notepad, notes or even a Text File in your RStudio.\nYou can copy and paste as many references you need. It can look something like this:\n@Article{,\n  title = {{weathercan}: {D}ownload and format weather data from Environment and Climate Change Canada},\n  author = {Stefanie E LaZerte and Sam Albers},\n  journal = {The Journal of Open Source Software},\n  volume = {3},\n  number = {22},\n  pages = {571},\n  year = {2018},\n  url = {https://joss.theoj.org/papers/10.21105/joss.00571},\n}\n\n@Manual{,\n title = {R: A Language and Environment for Statistical Computing},\n author = {{R Core Team}},\n organization = {R Foundation for Statistical Computing},\n address = {Vienna, Austria},\n year = {2021},\n url = {https://www.R-project.org/},\n}\n\n@Manual{,\n  title = {dplyr: A Grammar of Data Manipulation},\n  author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},\n  year = {2022},\n  note = {R package version 1.0.9},\n  url = {https://CRAN.R-project.org/package=dplyr},\n}\nSave it with the extention .bib:\n\n\n\nImporting the file in Zotero\nOpen Zotero and look for the option import. It will open a window.\n\nSelect the option (BibTex, RIS, Zotero RDF, etc.) and from there, look the file in the path you saved. Open the file and a new window will pop up. The options to select there are up to you:\n\nFinally, you will see that you have the references imported to Zotero!\n\n\n\n\nReuseCC BY 4.0CitationBibTeX citation:@online{a._hernandez_mora2022,\n  author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},\n  title = {Packages Citation and Zotero},\n  date = {2022-09-14},\n  url = {https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nA. Hernandez Mora, Ronny, and Erick Calderon Morales. 2022.\n“Packages Citation and Zotero.” September 14, 2022. https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html."
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "",
+    "text": "# ---\n# title: \"Desplegando mi app de shiny con shiny-server\"\n# description: |\n#  Vamos a \"llevar a internet\" nuestra aplicación y hacerla accesible al mundo.\n# author:\n#   - name: Ronny A. Hernández Mora\n#     url: http://ronnyhdez.rbind.io/\n# date: 2020-12-28\n# creative_commons: CC BY-NC\n# preview: images/app.png\n# twitter:\n#   creator: \"@RonnyHdezM\"\n# output:\n#   distill::distill_article:\n#     self_contained: true\n# ---"
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#requisitos",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#requisitos",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "Requisitos:",
+    "text": "Requisitos:\nPara poder seguir la guía, es necesario que ya haya desarrollado una aplicación de shiny. Puede seguir los pasos acá indicados haciendo uso de la aplicación modular que presenté en los webinarios de DataLatam\nAsí mismo es necesario contar con un servidor en el que pueda desplegar la aplicación.\nTambién necesitamos tener conocimiento de git. La guía muestra los pasos haciendo uso de esta herramienta."
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#recomendaciones-del-servidor",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#recomendaciones-del-servidor",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "Recomendaciones del servidor:",
+    "text": "Recomendaciones del servidor:\nSi queremos probar, lo ideal es usar un servidor con el mínimo posible. Conforme nuestra aplicación crezca y querramos que sea usada por más usuarios podemos revisar:\n\nmemoria\nCPU\ndisco\n\nEl sistema operativo puede ser cualquiera de su elección siempre y cuando sea Linux. Los pasos en esta guía están basados en la distribución Ubuntu mayor a 18.04.4. Validar que elegimos LTS (Long Term Support)"
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-r-en-el-servidor",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-r-en-el-servidor",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "1- Instalando R en el servidor:",
+    "text": "1- Instalando R en el servidor:\nPara evitar inconvenientes de versiones desactualizadas de R, podemos seguir las siguientes instrucciones:\n\n# Agregamos llave\nsudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \n\n# Agregamos repositorio\nsudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'\n \n# Si estamos con ubuntu 20 el repositorio es:\nsudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'\n\n# Si queremos remover el repo no hacerlo a mano y usar el siguiente:\nsudo add-apt-repository --remove 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'\n\n# Actualizamos paquetes Ubuntu\nsudo apt update\n\n# Instalamos R\nsudo apt install r-base\n\n# Verificamos que versión de R sea la 4.0.1 (o las más actualizado al momento\n# de la instalación) \nR --version"
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-librerías-linux-comunes-para-r-en-el-servidor",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-librerías-linux-comunes-para-r-en-el-servidor",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "2- Instalando librerías linux comunes para R en el servidor",
+    "text": "2- Instalando librerías linux comunes para R en el servidor\n\nsudo apt install libxml2-dev\nsudo apt install libssl-dev \nsudo apt install libcurl4-gnutls-dev \nsudo apt-get install unixodbc unixodbc-dev\n\nLuego tomamos un paso para asegurarnos que todos los paquetes de Ubuntu se encuentren actualizados en el servidor\n\nsudo apt update\nsudo apt upgrade\nsudo apt autoremove"
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#instalando-shiny-server",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#instalando-shiny-server",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "3- Instalando shiny server",
+    "text": "3- Instalando shiny server\nAntes de iniciar con la instalación de shiny server, debemos de instalar el paquete de R shiny:\n\nsudo su - \\\n-c \"R -e \\\"install.packages('shiny', repos='https://cran.rstudio.com/')\\\"\"\n\nPara seguir la instalación de shiny server primero hay que instalarle a la máquina gdebi\n\nsudo apt-get install gdebi-core\n\nLuego en la pagina de shiny server copiamos la direccion de donde tienen la última version.\nDebemos de asegurarnos de obtener la versión más actualizada. La instrucción acá mostrada puede quedar desactualizada.\nLa versión la validamos con el número que aparece luego de la palabra shiny-server En este caso, la usada para la guía es (shiny-server-1.5.13.944)\n\n# Damos dirección de donde traemos la descarga\nwget https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-1.5.13.944-amd64.deb\n\n# Procedemos con la instalación\nsudo gdebi shiny-server-1.5.13.944-amd64.deb\n\nUna vez instalado podemos revisar el estado de shiny-server:\n\nsudo systemctl status shiny-server\n\nPare reiniciar el servidor de shiny cuando tenemos problema:\n\nsudo systemctl restart shiny-server \n\nUna vez que tenemos instalado shiny-server,vamos a revisar por la puerta que está sirviendo. Podemos tomar la dirección IP externa del servidor, copiarla en el navegador (yo tengo preferencia por firefox) y de seguido escribimos : y la puerta 3838 (Por defecto, la que sirve shiny)\n\nip_externa_del_servidor:3838\n\nSi no tenemos un servicio disponible (no vemos una página funcionando) debemos de revisar las reglas firewall del servidor e indicarle la salida del app."
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#llevando-la-aplicación-al-servidor",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#llevando-la-aplicación-al-servidor",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "4- Llevando la aplicación al servidor",
+    "text": "4- Llevando la aplicación al servidor\nA este punto tenemos nuestro servidor con R instalado, con shiny-server funcionando y las principales librerías linux para usar con una aplicación de shiny. Ahora el paso que sigue es llevar nuestra aplicación de shiny al servidor.\nEs aquí donde usaremos git. Lo haremos con mi aplicación de ejemplo que se encuentra en github\nDentro del servidor, las aplicaciones deben de estar bajo el siguiente directorio:\n/srv/shiny-server\nAllí es donde debemos de llevar nuestra aplicación.\n\n# Nos cambiamos al directorio\ncd /srv/shiny-server\n\n# Clonamos el repositorio que contiene la aplicación\ngit clone https://github.com/ronnyhdez/shiny_modular.git\n\nLuego, necesitamos instalar en el servidor los paquetes que son necesarios para nuestra aplicación. Todos aquellos paquetes que hayamos usado necesitamos incluirlos. Si dejamos alguno por fuera es muy probable que nuestra aplicación no levante. (Es el error más común que cometo)\nHay dos maneras de realizar este paso. Uno es dando el comando desde bash y el otro es abrir una sesión de R como usuario root e instalarlo tal cual lo haríamos en una sesión de R en nuestro computador:\n\n# Con comando de bash\nsudo su - \\\n-c \"R -e \\\"install.packages(c('shiny', 'tm', 'SnowballC', 'wordcloud',\n'shinydashboard', 'RColorBrewer', 'ggplot2', 'purrr', 'nycflights13', 'dplyr'), repos='https://cran.rstudio.com/')\\\"\"\n\nSi hay algún paquete que no está en el CRAN porque es una versión en desarrollo, podemos echar mano del paquete remotes (el cual debimos de incluir en el paso anterior)\n\n# Ejemplo de instalación de paquete en desarrollo:\nsudo su - \\\n-c \"R -e \\\"remotes::install_github(\"datastorm-open/shinymanager\", \nforce = TRUE)"
+  },
+  {
+    "objectID": "posts/2021-12-11-desplegando-shiny/index.html#levantando-la-aplicación",
+    "href": "posts/2021-12-11-desplegando-shiny/index.html#levantando-la-aplicación",
+    "title": "Desplegando mi app de shiny con shiny-server",
+    "section": "5- Levantando la aplicación",
+    "text": "5- Levantando la aplicación\nCon todos los pasos anteriores listos, procedemos a detener y volver a iniciar el servicio de shiny-server, para luego probar si nos podemos conectar a ella:\n\n# Reiniciar el servicio de manera recomendada:\nsudo systemctl stop shiny-server\nsudo systemctl start shiny-server\n\n# Revisar status del servicio\nsudo systemctl status shiny-server\n\nSi el servicio está activo, podemos probar con la IP externa, la puerta 3838 e indicamos el nombre de la aplicación. Debería de ser algo similar a: ip:3838/shiny_modular/\n¡Y listo! Con esto tenemos los pasos básicos para desplegar nuestra aplicación de shiny en nuestro servidor y hacerla disponible al mundo.\n\nReferencias\nEl resumen de pasos mostrados en esta guía han sido tomados y adaptados de diversas fuentes como:\nDigitalOcean (Algún día lograré documentar como lo hacen ellos)\nShiny Server Professional v1.5.15 Administrator’s Guide El sitio a visitar cuando hay problemas con shiny-server. Es documentación técnica"
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html",
+    "href": "posts/20260418-plots-nvim-ipython/index.html",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "",
+    "text": "I’m using nvim + quarto for my day-to-day work. Nowadays this work consists of displaying annotated images, processed satellite images, or plots resulting from a data analysis. I’m switching between projects in Python and R, but most of the work that requires checking intermediate steps from processing images is with Python.\nGiven that those images are intermediate results, I don’t need to save them as files, so I just need to display them during the working session and make a decision on the next step or validation.\nOne option could be to use the render option to check the quarto output, but I don’t want to deal with the computation of each chunk of code, or freezing results. I’d rather simply plot some of the intermediate results and check the results/images for validation."
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-setup",
+    "href": "posts/20260418-plots-nvim-ipython/index.html#the-setup",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "",
+    "text": "I’m using nvim + quarto for my day-to-day work. Nowadays this work consists of displaying annotated images, processed satellite images, or plots resulting from a data analysis. I’m switching between projects in Python and R, but most of the work that requires checking intermediate steps from processing images is with Python.\nGiven that those images are intermediate results, I don’t need to save them as files, so I just need to display them during the working session and make a decision on the next step or validation.\nOne option could be to use the render option to check the quarto output, but I don’t want to deal with the computation of each chunk of code, or freezing results. I’d rather simply plot some of the intermediate results and check the results/images for validation."
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-problem",
+    "href": "posts/20260418-plots-nvim-ipython/index.html#the-problem",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "The problem",
+    "text": "The problem\nBecause I’m using the terminal with neovim there is no way to show interactively a plot, unless you save the figure, and open it. But that means moving away from my terminal. And when working I want to stay in my terminal.\nSo, if I try to run the following code:\n\nimport numpy as np\nimport matplotlib\nimport matplotlib.pyplot as plt\n\n\nimg = np.random.rand(100, 100, 3)\n\nplt.imshow(img)\nplt.axis(\"off\")\nplt.title(\"Random image\")\nplt.show()\n\nI’ll obtain the following error:"
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-solution",
+    "href": "posts/20260418-plots-nvim-ipython/index.html#the-solution",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "The solution",
+    "text": "The solution\nOne solution is to use QtAgg to setup the matplotlib backend\nThis solution will combine using PyQt6, which will help by opening a new window with the figure I want to quickly check.\n\nThe steps for the solution\nAt the start of any project I use uv to setup the env:\nuv init\nuv venv\nuv add pyqt6 matplotlib ipython\n\nsource .venv/bin/activate\n\nnvim analysis_plots.qmd"
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html#implementation",
+    "href": "posts/20260418-plots-nvim-ipython/index.html#implementation",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "Implementation",
+    "text": "Implementation\n\nimport numpy as np\nimport matplotlib\nmatplotlib.use(\"QtAgg\")\n\nimport matplotlib.pyplot as plt\n\n\nimg = np.random.rand(100, 100, 3)\n\nplt.imshow(img)\nplt.axis(\"off\")\nplt.title(\"Random image\")\nplt.show()\n\nWhen running each chunk of code, I’ll have the output in the IPython console, but when it comes to the section where I want to show the image, a new window is created to display the figure:"
+  },
+  {
+    "objectID": "posts/20260418-plots-nvim-ipython/index.html#important-note",
+    "href": "posts/20260418-plots-nvim-ipython/index.html#important-note",
+    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
+    "section": "Important note",
+    "text": "Important note\nOne critical detail about this solution: matplotlib.use(\"QtAgg\") must be called before importing matplotlib.pyplot. The backend needs to be set before the plotting interface is initialized. If you import pyplot first and then try to set the backend, it will have no effect and you’ll still encounter the display error.\nThis workflow allows me to stay in my terminal, quickly validate intermediate results, and continue working without the overhead of rendering the full Quarto document or saving temporary image files."
   },
   {
     "objectID": "posts/2021-12-11-datos-abiertos-muni-sanjose/index.html",
@@ -628,47 +670,5 @@
     "title": "About this blog",
     "section": "",
     "text": "A place to find notes about my journey creating data science products\nHi! I’m Ronny A. Hernández Mora. I have been working in the data science industry for several years and I have learned from many people who create free resources over the internet and that also are my friends and co-workers. So I decided to be more serious about sharing tricks and tips about Python, R, linux, git and other tools that I use to create data products.\nFeel free to use and share whatever you find useful in the blog posts!"
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html",
-    "href": "posts/20260418-plots-nvim-ipython/index.html",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "",
-    "text": "I’m using nvim + quarto for my day-to-day work. Nowadays this work consists of displaying annotated images, processed satellite images, or plots resulting from a data analysis. I’m switching between projects in Python and R, but most of the work that requires checking intermediate steps from processing images is with Python.\nGiven that those images are intermediate results, I don’t need to save them as files, so I just need to display them during the working session and make a decision on the next step or validation.\nOne option could be to use the render option to check the quarto output, but I don’t want to deal with the computation of each chunk of code, or freezing results. I’d rather simply plot some of the intermediate results and check the results/images for validation."
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-setup",
-    "href": "posts/20260418-plots-nvim-ipython/index.html#the-setup",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "",
-    "text": "I’m using nvim + quarto for my day-to-day work. Nowadays this work consists of displaying annotated images, processed satellite images, or plots resulting from a data analysis. I’m switching between projects in Python and R, but most of the work that requires checking intermediate steps from processing images is with Python.\nGiven that those images are intermediate results, I don’t need to save them as files, so I just need to display them during the working session and make a decision on the next step or validation.\nOne option could be to use the render option to check the quarto output, but I don’t want to deal with the computation of each chunk of code, or freezing results. I’d rather simply plot some of the intermediate results and check the results/images for validation."
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-problem",
-    "href": "posts/20260418-plots-nvim-ipython/index.html#the-problem",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "The problem",
-    "text": "The problem\nBecause I’m using the terminal with neovim there is no way to show interactively a plot, unless you save the figure, and open it. But that means moving away from my terminal. And when working I want to stay in my terminal.\nSo, if I try to run the following code:\n\nimport numpy as np\nimport matplotlib\nimport matplotlib.pyplot as plt\n\n\nimg = np.random.rand(100, 100, 3)\n\nplt.imshow(img)\nplt.axis(\"off\")\nplt.title(\"Random image\")\nplt.show()\n\n\n\n\n\n\n\n\nI’ll obtain the following error:"
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html#the-solution",
-    "href": "posts/20260418-plots-nvim-ipython/index.html#the-solution",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "The solution",
-    "text": "The solution\nOne solution is to use QtAgg to setup the matplotlib backend\nThis solution will combine using PyQt6, which will help by opening a new window with the figure I want to quickly check.\n\nThe steps for the solution\nAt the start of any project I use uv to setup the env:\nuv init\nuv venv\n\nuv pip install pyqt6 matplotlib jupyter\n\nsource .venv/bin/activate\n\nnvim analysis_plots.qmd"
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html#implementation",
-    "href": "posts/20260418-plots-nvim-ipython/index.html#implementation",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "Implementation",
-    "text": "Implementation\n\nimport numpy as np\nimport matplotlib\nmatplotlib.use(\"QtAgg\")\n\nimport matplotlib.pyplot as plt\n\n\nimg = np.random.rand(100, 100, 3)\n\nplt.imshow(img)\nplt.axis(\"off\")\nplt.title(\"Random image\")\nplt.show()\n\nWhen running each chunk of code, I’ll have the output in the IPython console, but when it comes to the section where I want to show the image, a new window is created to display the figure:"
-  },
-  {
-    "objectID": "posts/20260418-plots-nvim-ipython/index.html#important-note",
-    "href": "posts/20260418-plots-nvim-ipython/index.html#important-note",
-    "title": "Interactive Plotting in a Quarto + Neovim + IPython Workflow",
-    "section": "Important note",
-    "text": "Important note\nOne critical detail about this solution: matplotlib.use(\"QtAgg\") must be called before importing matplotlib.pyplot. The backend needs to be set before the plotting interface is initialized. If you import pyplot first and then try to set the backend, it will have no effect and you’ll still encounter the display error.\nThis workflow allows me to stay in my terminal, quickly validate intermediate results, and continue working without the overhead of rendering the full Quarto document or saving temporary image files."
   }
 ]

@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <meta property="og:title" content="Interactive Plotting in a Quarto + Neovim + IPython Workflow – Ronny A. Hernández Mora">
 <meta property="og:description" content="Debugging Matplotlib backends in a terminal-based workflow using IPython and QtAgg">
-<meta property="og:image" content="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/qtagg.png">
+<meta property="og:image" content="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/img/qtagg.png">
 <meta property="og:site_name" content="Ronny A. Hernández Mora">
 <meta property="og:image:height" content="1000">
 <meta property="og:image:width" content="1910">
@@ -234,25 +234,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
 <p>Because I’m using the terminal with neovim there is no way to show interactively a plot, unless you save the figure, and open it. But that means moving away from my terminal. And when working I want to stay in my terminal.</p>
 <p>So, if I try to run the following code:</p>
-<div id="58db3ba0" class="cell" data-execution_count="1">
+<div id="713692bd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> matplotlib</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="92f6a55e" class="cell" data-execution_count="2">
+<div id="d5af55ef" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>img <span class="op">=</span> np.random.rand(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a>plt.imshow(img)</span>
 <span id="cb2-4"><a href="#cb2-4"></a>plt.axis(<span class="st">"off"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5"></a>plt.title(<span class="st">"Random image"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
 </div>
 <p>I’ll obtain the following error:</p>
 <p><img src="./img/error_display_image.png" class="img-fluid"></p>
@@ -266,24 +259,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>At the start of any project I use uv to setup the env:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>uv init</span>
 <span id="cb3-2"><a href="#cb3-2"></a>uv venv</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a>uv pip install pyqt6 matplotlib jupyter</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>source .venv/bin/activate</span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>nvim analysis_plots.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3"></a>uv add pyqt6 matplotlib ipython</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>source .venv/bin/activate</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>nvim analysis_plots.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<div id="9b1f1f16" class="cell" data-execution_count="3">
+<div id="e9b4ff66" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> matplotlib</span>
 <span id="cb4-3"><a href="#cb4-3"></a>matplotlib.use(<span class="st">"QtAgg"</span>)</span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dc62a81c" class="cell" data-execution_count="4">
+<div id="cfa83b90" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>img <span class="op">=</span> np.random.rand(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">3</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a>plt.imshow(img)</span>
@@ -307,12 +299,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   title = {Interactive {Plotting} in a {Quarto} + {Neovim} + {IPython}
     {Workflow}},
   date = {2026-04-20},
-  url = {https://ronnyale.com/posts/20260418-plots-nvim-ipython/},
+  url = {https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2026" class="csl-entry quarto-appendix-citeas" role="listitem">
 A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
-+ Neovim + IPython Workflow.”</span> April 20, 2026. <a href="https://ronnyale.com/posts/20260418-plots-nvim-ipython/">https://ronnyale.com/posts/20260418-plots-nvim-ipython/</a>.
++ Neovim + IPython Workflow.”</span> April 20, 2026. <a href="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/">https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -404,7 +396,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/ronnyale\.com");
+      var filterRegex = new RegExp("https:\/\/blog\.ronnyale\.com");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

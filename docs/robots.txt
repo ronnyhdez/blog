@@ -1,1 +1,1 @@
-Sitemap: https://ronnyale.com/sitemap.xml
+Sitemap: https://blog.ronnyale.com/sitemap.xml
