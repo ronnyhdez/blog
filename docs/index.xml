@@ -32,7 +32,7 @@
 <h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
 <p>Because I’m using the terminal with neovim there is no way to show interactively a plot, unless you save the figure, and open it. But that means moving away from my terminal. And when working I want to stay in my terminal.</p>
 <p>So, if I try to run the following code:</p>
-<div id="58db3ba0" class="cell" data-execution_count="1">
+<div id="713692bd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
@@ -47,7 +47,7 @@ font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="co
 background-color: null;
 font-style: inherit;">as</span> plt</span></code></pre></div>
 </div>
-<div id="92f6a55e" class="cell" data-execution_count="2">
+<div id="d5af55ef" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1">img <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.random.rand(<span class="dv" style="color: #AD0000;
@@ -66,13 +66,6 @@ font-style: inherit;">"off"</span>)</span>
 background-color: null;
 font-style: inherit;">"Random image"</span>)</span>
 <span id="cb2-6">plt.show()</span></code></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/index_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
 </div>
 <p>I’ll obtain the following error:</p>
 <p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/error_display_image.png" class="img-fluid"></p>
@@ -86,17 +79,16 @@ font-style: inherit;">"Random image"</span>)</span>
 <p>At the start of any project I use uv to setup the env:</p>
 <div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource {bash} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1">uv init</span>
 <span id="cb3-2">uv venv</span>
-<span id="cb3-3"></span>
-<span id="cb3-4">uv pip install pyqt6 matplotlib jupyter</span>
-<span id="cb3-5"></span>
-<span id="cb3-6">source .venv/bin/activate</span>
-<span id="cb3-7"></span>
-<span id="cb3-8">nvim analysis_plots.qmd</span></code></pre></div>
+<span id="cb3-3">uv add pyqt6 matplotlib ipython</span>
+<span id="cb3-4"></span>
+<span id="cb3-5">source .venv/bin/activate</span>
+<span id="cb3-6"></span>
+<span id="cb3-7">nvim analysis_plots.qmd</span></code></pre></div>
 </section>
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<div id="9b1f1f16" class="cell" data-execution_count="3">
+<div id="e9b4ff66" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
@@ -115,7 +107,7 @@ font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="co
 background-color: null;
 font-style: inherit;">as</span> plt</span></code></pre></div>
 </div>
-<div id="dc62a81c" class="cell" data-execution_count="4">
+<div id="cfa83b90" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1">img <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> np.random.rand(<span class="dv" style="color: #AD0000;
@@ -1001,13 +993,13 @@ Standard deviation: 0.201</code></pre>
   title = {Getting {Started} with {Sentinel-2} {Downloading,}
     {Processing,} and {Analyzing} {Satellite} {Imagery} with {Python}},
   date = {2025-06-18},
-  url = {https://ronnyale.com/posts/20250618-sentinel-manual/},
+  url = {https://blog.ronnyale.com/posts/20250618-sentinel-manual/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2025" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2025. <span>“Getting Started with Sentinel-2
 Downloading, Processing, and Analyzing Satellite Imagery with
-Python.”</span> June 18, 2025. <a href="https://ronnyale.com/posts/20250618-sentinel-manual/">https://ronnyale.com/posts/20250618-sentinel-manual/</a>.
+Python.”</span> June 18, 2025. <a href="https://blog.ronnyale.com/posts/20250618-sentinel-manual/">https://blog.ronnyale.com/posts/20250618-sentinel-manual/</a>.
 </div></div></section></div> ]]></description>
   <category>Sentinel-2</category>
   <category>Python</category>
@@ -1558,13 +1550,13 @@ ABMI. 2023. <span>“ABMI Human Footprint Inventory (HFI) for Alberta 2021 (Vers
   title = {A {Step-by-Step} {Guide} to {Exporting} “{Large}” {Datasets}
     to {Google} {Earth} {Engine} via {Python}},
   date = {2024-09-09},
-  url = {https://ronnyale.com/posts/2024-08-28-batches_gee/},
+  url = {https://blog.ronnyale.com/posts/2024-08-28-batches_gee/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2024" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2024. <span>“A Step-by-Step Guide to Exporting
 <span>‘Large’</span> Datasets to Google Earth Engine via Python.”</span>
-September 9, 2024. <a href="https://ronnyale.com/posts/2024-08-28-batches_gee/">https://ronnyale.com/posts/2024-08-28-batches_gee/</a>.
+September 9, 2024. <a href="https://blog.ronnyale.com/posts/2024-08-28-batches_gee/">https://blog.ronnyale.com/posts/2024-08-28-batches_gee/</a>.
 </div></div></section></div> ]]></description>
   <category>GEE</category>
   <category>batch</category>
@@ -4925,12 +4917,12 @@ Vermote, Wolfe, E. 2021. <span>“MODIS/Terra Surface Reflectance Daily L2G Glob
   author = {A. Hernandez Mora, Ronny},
   title = {MODIS Pixel Bit Strings Conversion with {R}},
   date = {2024-08-24},
-  url = {https://ronnyale.com/posts/2023-12-25-modis-bitstring/},
+  url = {https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2024" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2024. <span>“MODIS Pixel Bit Strings
-Conversion with R.”</span> August 24, 2024. <a href="https://ronnyale.com/posts/2023-12-25-modis-bitstring/">https://ronnyale.com/posts/2023-12-25-modis-bitstring/</a>.
+Conversion with R.”</span> August 24, 2024. <a href="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/">https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/</a>.
 </div></div></section></div> ]]></description>
   <category>MODIS</category>
   <category>R</category>
@@ -5561,12 +5553,12 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Configuring Nvim with {Lua} and Packer for {R}},
   date = {2023-06-18},
-  url = {https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/},
+  url = {https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2023" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2023. <span>“Configuring Nvim with Lua and
-Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/">https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/</a>.
+Packer for R.”</span> June 18, 2023. <a href="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/">https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
@@ -5650,12 +5642,12 @@ Packer for R.”</span> June 18, 2023. <a href="https://ronnyale.com/posts/2023-
   author = {A. Hernandez Mora, Ronny},
   title = {Workflow to Use {R} with {Neovim}},
   date = {2023-02-27},
-  url = {https://ronnyale.com/posts/2023-02-27-nvim-and-r/},
+  url = {https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2023" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2023. <span>“Workflow to Use R with
-Neovim.”</span> February 27, 2023. <a href="https://ronnyale.com/posts/2023-02-27-nvim-and-r/">https://ronnyale.com/posts/2023-02-27-nvim-and-r/</a>.
+Neovim.”</span> February 27, 2023. <a href="https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/">https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
@@ -5759,12 +5751,12 @@ A BibTeX entry for LaTeX users is
   author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},
   title = {Packages Citation and Zotero},
   date = {2022-09-14},
-  url = {https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},
+  url = {https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2022.
-<span>“Packages Citation and Zotero.”</span> September 14, 2022. <a href="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html">https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</a>.
+<span>“Packages Citation and Zotero.”</span> September 14, 2022. <a href="https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html">https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</a>.
 </div></div></section></div> ]]></description>
   <category>R packages</category>
   <category>Zotero</category>
@@ -6041,12 +6033,12 @@ font-style: inherit;">nvim</span> my_file.R</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Using {Neovim} for {R} {Users}},
   date = {2022-09-13},
-  url = {https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/},
+  url = {https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2022. <span>“Using Neovim for R Users.”</span>
-September 13, 2022. <a href="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/">https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</a>.
+September 13, 2022. <a href="https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/">https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</a>.
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
@@ -6351,12 +6343,12 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
   title = {Creating a Website Using Mkdocs, {Rmarkdown} and {GitHub}
     Pages},
   date = {2022-01-13},
-  url = {https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2022" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2022. <span>“Creating a Website Using Mkdocs,
-Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/">https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</a>.
+Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/">https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</a>.
 </div></div></section></div> ]]></description>
   <category>MkDocs</category>
   <category>Linux</category>
@@ -6627,12 +6619,12 @@ font-style: inherit;">"mi_proyecto"</span></span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Usando Tmux: Apuntes Breves de Mi Jornada},
   date = {2021-01-03},
-  url = {https://ronnyale.com/posts/2021-12-11-usando-tmux/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2021" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2021. <span>“Usando Tmux: Apuntes Breves de Mi
-Jornada.”</span> January 3, 2021. <a href="https://ronnyale.com/posts/2021-12-11-usando-tmux/">https://ronnyale.com/posts/2021-12-11-usando-tmux/</a>.
+Jornada.”</span> January 3, 2021. <a href="https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/">https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/</a>.
 </div></div></section></div> ]]></description>
   <category>tmux</category>
   <category>Linux</category>
@@ -7014,12 +7006,12 @@ font-style: inherit;">sudo</span> systemctl status shiny-server</span></code></p
   author = {A. Hernandez Mora, Ronny},
   title = {Desplegando Mi App de Shiny Con Shiny-Server},
   date = {2020-12-28},
-  url = {https://ronnyale.com/posts/2021-12-11-desplegando-shiny/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2020" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2020. <span>“Desplegando Mi App de Shiny Con
-Shiny-Server.”</span> December 28, 2020. <a href="https://ronnyale.com/posts/2021-12-11-desplegando-shiny/">https://ronnyale.com/posts/2021-12-11-desplegando-shiny/</a>.
+Shiny-Server.”</span> December 28, 2020. <a href="https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/">https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/</a>.
 </div></div></section></div> ]]></description>
   <category>Shiny</category>
   <category>Linux</category>
@@ -7672,12 +7664,12 @@ font-style: inherit;">7</span>)</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Tiempo En {R}},
   date = {2018-03-14},
-  url = {https://ronnyale.com/posts/2021-12-11-tiempo-en-r/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2018. <span>“Tiempo En R.”</span> March 14,
-2018. <a href="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/">https://ronnyale.com/posts/2021-12-11-tiempo-en-r/</a>.
+2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/">https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
   <guid>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/</guid>
@@ -8319,12 +8311,12 @@ font-style: inherit;">#glimpse(cientificos) con librería dplyr</span></span></c
   author = {A. Hernandez Mora, Ronny},
   title = {Intro a Datos y Estructuras En {R}},
   date = {2018-02-01},
-  url = {https://ronnyale.com/posts/2021-12-11-estructuras-r/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2018. <span>“Intro a Datos y Estructuras En
-R.”</span> February 1, 2018. <a href="https://ronnyale.com/posts/2021-12-11-estructuras-r/">https://ronnyale.com/posts/2021-12-11-estructuras-r/</a>.
+R.”</span> February 1, 2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/">https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
   <guid>https://ronnyale.com/posts/2021-12-11-estructuras-r/</guid>
@@ -8844,13 +8836,13 @@ font-style: italic;">## $ `Porcentaje de población con educación superior y t�
   author = {A. Hernandez Mora, Ronny and Calderon Morales, Erick},
   title = {Datos Abiertos Municipalidad de {San} {José,} {Costa} {Rica}},
   date = {2018-01-13},
-  url = {https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2018" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2018. <span>“Datos
 Abiertos Municipalidad de San José, Costa Rica.”</span> January 13,
-2018. <a href="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/">https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</a>.
+2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/">https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</a>.
 </div></div></section></div> ]]></description>
   <guid>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</guid>
   <pubDate>Sat, 13 Jan 2018 07:00:00 GMT</pubDate>
@@ -9053,12 +9045,12 @@ font-style: inherit;">git</span> pull</span></code></pre></div>
   author = {A. Hernandez Mora, Ronny},
   title = {Otra Introducción a Git},
   date = {2016-04-20},
-  url = {https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/},
+  url = {https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2016" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2016. <span>“Otra Introducción a Git.”</span>
-April 20, 2016. <a href="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/">https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/</a>.
+April 20, 2016. <a href="https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/">https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/</a>.
 </div></div></section></div> ]]></description>
   <category>git</category>
   <guid>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/</guid>
