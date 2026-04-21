@@ -5,8 +5,8 @@ date: 2026-04-20
 categories: [nvim, quarto, matplotlib]
 licence: "CC BY-NC"
 image: img/qtagg.png
-execute:
-  echo: false
+execute: 
+  eval: false
 jupyter: python3
 editor_options: 
   chunk_output_type: console
@@ -72,8 +72,7 @@ At the start of any project I use uv to setup the env:
 ```{bash}
 uv init
 uv venv
-
-uv pip install pyqt6 matplotlib jupyter
+uv add pyqt6 matplotlib ipython
 
 source .venv/bin/activate
 
