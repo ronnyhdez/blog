@@ -6,8 +6,8 @@
       version="2.0">
 <channel>
 <title>Ronny A. Hernández Mora</title>
-<link>https://ronnyale.com/</link>
-<atom:link href="https://ronnyale.com/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://blog.ronnyale.com/</link>
+<atom:link href="https://blog.ronnyale.com/index.xml" rel="self" type="application/rss+xml"/>
 <description>By Ronny A. Hernández Mora
 </description>
 <generator>quarto-1.6.39</generator>
@@ -15,7 +15,7 @@
 <item>
   <title>Interactive Plotting in a Quarto + Neovim + IPython Workflow</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/20260418-plots-nvim-ipython/</link>
+  <link>https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/</link>
   <description><![CDATA[ 
 
 
@@ -68,7 +68,7 @@ font-style: inherit;">"Random image"</span>)</span>
 <span id="cb2-6">plt.show()</span></code></pre></div>
 </div>
 <p>I’ll obtain the following error:</p>
-<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/error_display_image.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/img/error_display_image.png" class="img-fluid"></p>
 </section>
 <section id="the-solution" class="level2">
 <h2 class="anchored" data-anchor-id="the-solution">The solution</h2>
@@ -128,7 +128,7 @@ font-style: inherit;">"Random image"</span>)</span>
 <span id="cb5-6">plt.show()</span></code></pre></div>
 </div>
 <p>When running each chunk of code, I’ll have the output in the IPython console, but when it comes to the section where I want to show the image, a new window is created to display the figure:</p>
-<p><img src="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/solution_display_img.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/img/solution_display_img.png" class="img-fluid"></p>
 </section>
 <section id="important-note" class="level2">
 <h2 class="anchored" data-anchor-id="important-note">Important note</h2>
@@ -143,24 +143,24 @@ font-style: inherit;">"Random image"</span>)</span>
   title = {Interactive {Plotting} in a {Quarto} + {Neovim} + {IPython}
     {Workflow}},
   date = {2026-04-20},
-  url = {https://ronnyale.com/posts/20260418-plots-nvim-ipython/},
+  url = {https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-a._hernandez_mora2026" class="csl-entry quarto-appendix-citeas">
 A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
-+ Neovim + IPython Workflow.”</span> April 20, 2026. <a href="https://ronnyale.com/posts/20260418-plots-nvim-ipython/">https://ronnyale.com/posts/20260418-plots-nvim-ipython/</a>.
++ Neovim + IPython Workflow.”</span> April 20, 2026. <a href="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/">https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/</a>.
 </div></div></section></div> ]]></description>
   <category>nvim</category>
   <category>quarto</category>
   <category>matplotlib</category>
-  <guid>https://ronnyale.com/posts/20260418-plots-nvim-ipython/</guid>
+  <guid>https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/</guid>
   <pubDate>Mon, 20 Apr 2026 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/20260418-plots-nvim-ipython/img/qtagg.png" medium="image" type="image/png" height="75" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/20260418-plots-nvim-ipython/img/qtagg.png" medium="image" type="image/png" height="75" width="144"/>
 </item>
 <item>
   <title>Getting Started with Sentinel-2 Downloading, Processing, and Analyzing Satellite Imagery with Python</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/20250618-sentinel-manual/</link>
+  <link>https://blog.ronnyale.com/posts/20250618-sentinel-manual/</link>
   <description><![CDATA[ 
 
 
@@ -174,14 +174,14 @@ A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
 <p>When you visit that link, you can see something similar to (as of January 2025):</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_1.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_1.png" class="img-fluid figure-img"></p>
 <figcaption>Copernicus Data Space browser interface showing the main search page</figcaption>
 </figure>
 </div>
 <p>Select the image by zooming into the area of interest. You can set a group of filter parameters from the <code>parameters</code> tab that will help you to select the image.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_2.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_2.png" class="img-fluid figure-img"></p>
 <figcaption>Copernicus Data Space parameters tab showing filter options for satellite imagery search</figcaption>
 </figure>
 </div>
@@ -190,14 +190,14 @@ A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
 <p>Your search process can look something like:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_3.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_3.png" class="img-fluid figure-img"></p>
 <figcaption>Search results showing available Sentinel-2 images with their metadata and preview</figcaption>
 </figure>
 </div>
 <p>In my case, I wanted a clear image with atmospheric correction, so I proceeded to download the <code>L2A</code> product.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_4.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/copernicus_4.png" class="img-fluid figure-img"></p>
 <figcaption>Download options showing L2A and L1C products with their file names and sizes</figcaption>
 </figure>
 </div>
@@ -225,7 +225,7 @@ A. Hernandez Mora, Ronny. 2026. <span>“Interactive Plotting in a Quarto
 <p>The product will contain many files</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/img/contents.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/contents.png" class="img-fluid figure-img"></p>
 <figcaption>Directory structure of a Sentinel-2 L2A product showing GRANULE folder and metadata files</figcaption>
 </figure>
 </div>
@@ -364,7 +364,7 @@ font-style: inherit;">0</span>]</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -486,7 +486,7 @@ font-style: inherit;">'off'</span>)</span>
 <div id="fig-enhanced_image" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-enhanced_image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/fig-enhanced_image-output-1.png" class="img-fluid figure-img">
+<img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/fig-enhanced_image-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-enhanced_image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Natural color composite of the Nicoya Peninsula, Costa Rica, derived from Sentinel-2A imagery (March 3, 2024. 16:01:41 UTC). Image produced using bands B04 (Red), B03 (Green), and B02 (Blue) at 10m spatial resolution from a Level-2A atmospherically corrected product.
@@ -609,7 +609,7 @@ font-style: inherit;">'off'</span>)</span>
 <div id="fig-vignette" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-vignette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/fig-vignette-output-1.png" class="img-fluid figure-img">
+<img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/fig-vignette-output-1.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vignette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Enhanced natural color composite of the Nicoya Peninsula, Costa Rica, from Sentinel-2A imagery (March 3, 2024. 16:01:41 UTC). The image combines contrast enhancement and vignette effect to emphasize landscape features. Produced using 10m resolution bands (B04, B03, B02) from Level-2A atmospherically corrected data.
@@ -938,28 +938,28 @@ font-style: inherit;">"</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-3.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/20250618-sentinel-manual/index_files/figure-html/cell-15-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1004,14 +1004,14 @@ Python.”</span> June 18, 2025. <a href="https://blog.ronnyale.com/posts/202506
   <category>Sentinel-2</category>
   <category>Python</category>
   <category>Remote Sensing</category>
-  <guid>https://ronnyale.com/posts/20250618-sentinel-manual/</guid>
+  <guid>https://blog.ronnyale.com/posts/20250618-sentinel-manual/</guid>
   <pubDate>Wed, 18 Jun 2025 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/20250618-sentinel-manual/img/portada.png" medium="image" type="image/png" height="182" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/20250618-sentinel-manual/img/portada.png" medium="image" type="image/png" height="182" width="144"/>
 </item>
 <item>
   <title>A Step-by-Step Guide to Exporting ‘Large’ Datasets to Google Earth Engine via Python</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2024-08-28-batches_gee/</link>
+  <link>https://blog.ronnyale.com/posts/2024-08-28-batches_gee/</link>
   <description><![CDATA[ 
 
 
@@ -1344,7 +1344,7 @@ Exporting the batch: projects/ee-ronnyale/assets/reservoirs_batch_17</code></pre
 <p>On your GEE assets you should be able to see something like:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2024-08-28-batches_gee/images/reservoirs_batches.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2024-08-28-batches_gee/images/reservoirs_batches.png" class="img-fluid figure-img"></p>
 <figcaption>Batches as assets in GEE</figcaption>
 </figure>
 </div>
@@ -1561,14 +1561,14 @@ September 9, 2024. <a href="https://blog.ronnyale.com/posts/2024-08-28-batches_g
   <category>GEE</category>
   <category>batch</category>
   <category>API</category>
-  <guid>https://ronnyale.com/posts/2024-08-28-batches_gee/</guid>
+  <guid>https://blog.ronnyale.com/posts/2024-08-28-batches_gee/</guid>
   <pubDate>Mon, 09 Sep 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2024-08-28-batches_gee/alberta.png" medium="image" type="image/png" height="74" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2024-08-28-batches_gee/alberta.png" medium="image" type="image/png" height="74" width="144"/>
 </item>
 <item>
   <title>MODIS pixel bit strings conversion with R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-12-25-modis-bitstring/</link>
+  <link>https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/</link>
   <description><![CDATA[ 
 
 
@@ -1797,21 +1797,21 @@ font-style: inherit;">1</span>]</span></code></pre></div>
 <p>In the USGS video explanation, they show the binary conversion process with an example. I’m going to use the same integer value <code>1131675649</code> to validate if our code steps work as expected.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_int.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_int.png" class="img-fluid figure-img"></p>
 <figcaption>USGS video integer example</figcaption>
 </figure>
 </div>
 <p>The bit string obtained from the binary conversion should be:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_binary.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_example_binary.png" class="img-fluid figure-img"></p>
 <figcaption>USGS bit string example</figcaption>
 </figure>
 </div>
 <p>That bit string should be matched with the categories assigned and described in the documentation:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_bit_conversion_video.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/images/usgs_bit_conversion_video.png" class="img-fluid figure-img"></p>
 <figcaption>USGS bit string quality categories</figcaption>
 </figure>
 </div>
@@ -2345,7 +2345,7 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 <p>From the documentation, we have which bit strings should be considered together to classify the values into categories. Based on those bit positions, we are going to unite the columns to obtain the bit combination. For example, for the <code>Parameter Name</code> MODLAND QA bits, we have to take the bit in position 0 and the bit position 1, which can have 4 different combinations: <code>00</code>, <code>01</code>, <code>10</code>, and <code>11</code>. Each of those 4 combinations will be categorized into their respective categories.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/qc_bit_order.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/images/qc_bit_order.png" class="img-fluid figure-img"></p>
 <figcaption>Coarse Resolution Surface Reflectance Band Quality Description</figcaption>
 </figure>
 </div>
@@ -3405,7 +3405,7 @@ font-style: inherit;">paged_table</span>()</span></code></pre></div>
 </div>
 </div>
 </div>
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/images/modland_qa.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/images/modland_qa.png" class="img-fluid"></p>
 <p>From our dataset, I obtained two of the categories from the total 4. The <code>qc_ints</code> have 19 different observations in total, but those integers will give us information for the rest of the parameters.</p>
 </section>
 <section id="proof-of-concept-for-16-bits" class="level2">
@@ -4872,7 +4872,7 @@ font-style: inherit;">"Borden  MODIS pixels per month after quality filtering"</
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="1056"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="1056"></p>
 </figure>
 </div>
 </div>
@@ -4927,14 +4927,14 @@ Conversion with R.”</span> August 24, 2024. <a href="https://blog.ronnyale.com
   <category>MODIS</category>
   <category>R</category>
   <category>bits</category>
-  <guid>https://ronnyale.com/posts/2023-12-25-modis-bitstring/</guid>
+  <guid>https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/</guid>
   <pubDate>Sat, 24 Aug 2024 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-12-25-modis-bitstring/lakes.png" medium="image" type="image/png" height="67" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2023-12-25-modis-bitstring/lakes.png" medium="image" type="image/png" height="67" width="144"/>
 </item>
 <item>
   <title>Configuring nvim with Lua and packer for R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/</link>
+  <link>https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/</link>
   <description><![CDATA[ 
 
 
@@ -4948,7 +4948,7 @@ Conversion with R.”</span> August 24, 2024. <a href="https://blog.ronnyale.com
 <p>Let’s get started with the installation and configuration process. If you are familiar with some of the steps, feel free to jump ahead to the specific sections you need.</p>
 <p>By the end of this tutorial, you will have a customized Neovim setup that enhances your R programming experience and boosts your productivity.</p>
 <p>Our results will be something similar to:</p>
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/final_result.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/final_result.png" class="img-fluid"></p>
 <p>On next blogposts, I will describe how to take this further.</p>
 </section>
 <section id="installation-and-configuration" class="level1">
@@ -4995,7 +4995,7 @@ font-style: inherit;">mkdir</span> /home/user_name/.config/nvim</span></code></p
 <p>Remember to replace <code>user_name</code> with your actual workstation user name.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/mkdir_nvim.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/mkdir_nvim.png" class="img-fluid figure-img"></p>
 <figcaption>Creating nvim directory in <code>.config</code></figcaption>
 </figure>
 </div>
@@ -5038,7 +5038,7 @@ background-color: null;
 font-weight: bold;
 font-style: inherit;">)</span></span></code></pre></div>
 </div>
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/requirements.png" class="img-fluid" alt="Include the requirements in the init.lua file"> These requirements reference the files that we are about to create: <code>plugins.lua</code> and <code>settings.lua</code>. Both files should be placed in the <code>lua/</code> directory.</p>
 <p>The <code>init.lua</code> file acts as the entry point for loading the settings and plugins. If you make changes to the plugins, such as adding a new one, you can revisit the <code>init.lua</code> file and invoke <code>:PackerSync</code> to synchronize the plugins. However, for now, you don’t need to worry about this step.</p>
 </section>
 <section id="configuring-general-settings-for-lua" class="level2">
@@ -5066,7 +5066,7 @@ font-style: inherit;">nvim</span> lua/settings.lua</span></code></pre></div>
 <p>When doing the step above, probably you will find an error:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/error.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/error.png" class="img-fluid figure-img"></p>
 <figcaption>Error message when modifyng the <code>settings.lua</code> file</figcaption>
 </figure>
 </div>
@@ -5102,7 +5102,7 @@ font-style: inherit;">"80"</span></span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/nvim_settings.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/nvim_settings.png" class="img-fluid figure-img"></p>
 <figcaption>Settings for nvim in the file <code>settings.lua</code></figcaption>
 </figure>
 </div>
@@ -5241,7 +5241,7 @@ font-style: inherit;">ensure_packer()</span></span></code></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/packer.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/packer.png" class="img-fluid figure-img"></p>
 <figcaption>Packer code snippet for installation</figcaption>
 </figure>
 </div>
@@ -5328,7 +5328,7 @@ font-style: inherit;">:PackerSync</span></span></code></pre></div>
 <p>At this point you should have the following structure:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/tree.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/tree.png" class="img-fluid figure-img"></p>
 <figcaption>File structure for our settings</figcaption>
 </figure>
 </div>
@@ -5518,7 +5518,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/create_test.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/create_test.png" class="img-fluid figure-img"></p>
 <figcaption>Creating a <code>test.rmd</code> file</figcaption>
 </figure>
 </div>
@@ -5527,7 +5527,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/r_console.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/r_console.png" class="img-fluid figure-img"></p>
 <figcaption>Opening R console with nvim-r</figcaption>
 </figure>
 </div>
@@ -5536,7 +5536,7 @@ font-style: inherit;">nvim</span> test.rmd</span></code></pre></div>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/run_code.png" class="img-fluid figure-img"></p>
+<p><img src="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/run_code.png" class="img-fluid figure-img"></p>
 <figcaption>Running the R code!</figcaption>
 </figure>
 </div>
@@ -5565,14 +5565,14 @@ Packer for R.”</span> June 18, 2023. <a href="https://blog.ronnyale.com/posts/
   <category>R</category>
   <category>Lua</category>
   <category>packer</category>
-  <guid>https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/</guid>
+  <guid>https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/</guid>
   <pubDate>Sun, 18 Jun 2023 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png" medium="image" type="image/png" height="72" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2023-06-17-nvim_lua_packer/images/keyboard.png" medium="image" type="image/png" height="72" width="144"/>
 </item>
 <item>
   <title>Workflow to use R with Neovim</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2023-02-27-nvim-and-r/</link>
+  <link>https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/</link>
   <description><![CDATA[ 
 
 
@@ -5652,15 +5652,15 @@ Neovim.”</span> February 27, 2023. <a href="https://blog.ronnyale.com/posts/20
   <category>Neovim</category>
   <category>Linux</category>
   <category>R</category>
-  <guid>https://ronnyale.com/posts/2023-02-27-nvim-and-r/</guid>
+  <guid>https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/</guid>
   <pubDate>Mon, 27 Feb 2023 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2023-02-27-nvim-and-r/images/computer.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://blog.ronnyale.com/posts/2023-02-27-nvim-and-r/images/computer.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Packages citation and zotero</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
   <dc:creator>Erick Calderon Morales</dc:creator>
-  <link>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</link>
+  <link>https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</link>
   <description><![CDATA[ 
 
 
@@ -5734,14 +5734,14 @@ A BibTeX entry for LaTeX users is
   url = {https://CRAN.R-project.org/package=dplyr},
 }</code></pre>
 <p>Save it with the extention <code>.bib</code>:</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/save_bib.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/images/save_bib.png" class="img-fluid"></p>
 </section>
 <section id="importing-the-file-in-zotero" class="level1">
 <h1>Importing the file in Zotero</h1>
 <p>Open Zotero and look for the option <code>import</code>. It will open a window.</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero.png" class="img-fluid"></p>
 <p>Select the option <code>(BibTex, RIS, Zotero RDF, etc.)</code> and from there, look the file in the path you saved. Open the file and a new window will pop up. The options to select there are up to you:</p>
-<p><img src="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero_2.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/images/import_zotero_2.png" class="img-fluid"></p>
 <p>Finally, you will see that you have the references imported to Zotero!</p>
 
 
@@ -5760,14 +5760,14 @@ A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2022.
 </div></div></section></div> ]]></description>
   <category>R packages</category>
   <category>Zotero</category>
-  <guid>https://ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</guid>
+  <guid>https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/packages_citation_zotero.html</guid>
   <pubDate>Wed, 14 Sep 2022 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2022-09-14-package-citation-zotero/images/study.png" medium="image" type="image/png" height="165" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2022-09-14-package-citation-zotero/images/study.png" medium="image" type="image/png" height="165" width="144"/>
 </item>
 <item>
   <title>Using Neovim for R Users</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</link>
+  <link>https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</link>
   <description><![CDATA[ 
 
 
@@ -5987,7 +5987,7 @@ font-style: inherit;">:PlugInstall</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid figure-img" width="370"></p>
+<p><img src="https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/plug_install.png" class="img-fluid figure-img" width="370"></p>
 </figure>
 </div>
 </div>
@@ -6042,14 +6042,14 @@ September 13, 2022. <a href="https://blog.ronnyale.com/posts/2022-09-11-using-nv
 </div></div></section></div> ]]></description>
   <category>Neovim</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</guid>
+  <guid>https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/</guid>
   <pubDate>Tue, 13 Sep 2022 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2022-09-11-using-nvim-for-r-users/images/nvim_r.png" medium="image" type="image/png" height="79" width="144"/>
 </item>
 <item>
   <title>Creating a website using mkdocs, Rmarkdown and GitHub pages</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</link>
   <description><![CDATA[ 
 
 
@@ -6117,7 +6117,7 @@ font-style: inherit;"># ---</span></span></code></pre></div>
 <p>But, the problem with this approach is that at the end of the day, I have my desktop or other folders with a lot of individual <code>.md</code> or <code>txt</code> files laying around without any intuitive context. This got me in troubles and in loosing time when I wanted to get back to something that I did and that I had somewhere in my computer.</p>
 <p>If at this point your are asking yourself: why you didn’t use a wiki? or a vignette? or an Rmarkdwon file? or something more organized? The answer is simple: In the middle of a project execution, when I doubt about something, I would go to google or a reference book, grab what I needed and take a quick note about the steps that I followed to accomplish my task. If it didn’t work I would throw away the file, if it worked, I would keep the file.</p>
 <p>Then, I found out about <a href="https://www.mkdocs.org/">MkDocs</a> (actually <a href="https://twitter.com/fransvandunne">Frans</a> was who showed me this) and it was the perfect solution: a simple web page, an index and most important: a search toolbar that can search in all the web page content (I mean, all my notes in there)!</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/mkdocs_example.jpg" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/mkdocs_example.jpg" class="img-fluid"></p>
 <p>As they state in their site:</p>
 <blockquote class="blockquote">
 <p>MkDocs is a fast, simple and downright gorgeous static site generator that’s geared towards building project documentation. Documentation source files are written in Markdown, and configured with a single YAML configuration file.</p>
@@ -6179,11 +6179,11 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <p>You will need to have an account already on GitHub. When you are done with this step, you can go and create a repository. Also you will need to go to settings, search for <strong>Pages</strong> on the left hand side menu and there select the <strong>main</strong> branch to enable GitHub Pages for your repository.</p>
 <p>The steps are the following:</p>
 <p><strong>Create a new repository</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01_new_repo.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01_new_repo.png" class="img-fluid"></p>
 <p><strong>Options for the new repo</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02_create_new_repo.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02_create_new_repo.png" class="img-fluid"></p>
 <p><strong>Settings to enable GitHub pages</strong></p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/setting_gh_pages.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/setting_gh_pages.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="cloning-your-project" class="level2">
@@ -6192,17 +6192,17 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <p>Up to this point we just have created the repository on GitHub and tweak some settings. It’s time to clone the repository created on GitHub to our computer. We will be working with the RStudio IDE.</p>
 <p><strong>Create new project</strong></p>
 <ul>
-<li><p>Select the <code>Version Control</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-clone.png" class="img-fluid"></p></li>
-<li><p>Then select the <code>Git</code> option <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02-clone.png" class="img-fluid"></p></li>
-<li><p>Now, go to your repository on GitHub and under the <code>Code</code> button copy the url. Make sure that the <code>HTTPS</code> option is highlighted. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-clone.png" class="img-fluid"></p></li>
-<li><p>Copy the URL in the <code>Repository URL</code> section. The <code>Project directory name</code> should auto-populate. Then select your path where you want to locate your repository folder. <img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-clone.png" class="img-fluid"></p></li>
+<li><p>Select the <code>Version Control</code> option <img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-clone.png" class="img-fluid"></p></li>
+<li><p>Then select the <code>Git</code> option <img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/02-clone.png" class="img-fluid"></p></li>
+<li><p>Now, go to your repository on GitHub and under the <code>Code</code> button copy the url. Make sure that the <code>HTTPS</code> option is highlighted. <img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-clone.png" class="img-fluid"></p></li>
+<li><p>Copy the URL in the <code>Repository URL</code> section. The <code>Project directory name</code> should auto-populate. Then select your path where you want to locate your repository folder. <img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-clone.png" class="img-fluid"></p></li>
 <li><p>Now, RStudio should open a new session for working on your repository!</p></li>
 </ul>
 </section>
 <section id="working-on-your-notes" class="level2">
 <h2 class="anchored" data-anchor-id="working-on-your-notes">Working on your notes</h2>
 <p>Now we are all set. We can start creating our Rmarkdown documents:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-notes.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/01-notes.png" class="img-fluid"></p>
 <p>Create as many <code>Rmd</code> documents as you need. Each document will be a “section” on your final website.</p>
 <p>Each of the titles and subtitles in your document will be sections inside the specific page.</p>
 <p>Also, use relative paths. This will make everything less error prone.</p>
@@ -6213,12 +6213,12 @@ font-style: inherit;">$</span> pip3 install mkdocs-material</span></code></pre><
 <li><strong>Don’t use <code>docs</code> folder</strong>. This is a special folder designated to save the files needed to build the web page. <code>docmaker</code> package will be in charge of the use of this folder, so you don’t have to worry about it.</li>
 </ul>
 <p>Your files in your repository should look something like this:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-notes.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/03-notes.png" class="img-fluid"></p>
 <section id="gitignore-advice" class="level3">
 <h3 class="anchored" data-anchor-id="gitignore-advice"><code>.gitignore</code> advice</h3>
 <p>In order to not make your control version slow or run out of space in your GitHub account, ignore some files writing them in your <code>.gitignore</code> file.</p>
 <p>Just open that file in RStudio and add the following lines to not include images, data, credentials or other files that are not necessary for control versioning:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-notes.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/04-notes.png" class="img-fluid"></p>
 <p>In there I added:</p>
 <pre><code># Personal files
 data/
@@ -6289,7 +6289,7 @@ background-color: null;
 font-style: inherit;">"Ronny A. Hernández Mora"</span>)</span></code></pre></div>
 </div>
 <p>We can get the URL of our repository in the settings &gt; page on GitHub. After we enabled this in a step before, there should appear the URL designated by GitHub for our web site.</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/page_url.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/page_url.png" class="img-fluid"></p>
 <p>The <code>site_author</code> should be our name.</p>
 <p>This function will do the following:</p>
 <ul>
@@ -6321,9 +6321,9 @@ font-style: inherit;">TRUE</span>)</span></code></pre></div>
 <li>Create an specifi branch for the pages deployment: <code>gh-deploy</code></li>
 </ul>
 <p>Now, given that we are using a new branch to be deployed, we need to go back to GitHub pages and make a small change: change the branch selected to be build from:</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/gh_deploy.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/gh_deploy.png" class="img-fluid"></p>
 <p>After some seconds (or a few minutes), we should be able to see our site alive!</p>
-<p><img src="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="img-fluid"></p>
+<p><img src="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" class="img-fluid"></p>
 <p>As we can see, our 3 files are sections in the left side menu. The titles and subtitles of each document will be shown in the <strong>Table of contents</strong> in the right side menu.</p>
 </section>
 </section>
@@ -6352,14 +6352,14 @@ Rmarkdown and GitHub Pages.”</span> January 13, 2022. <a href="https://blog.ro
 </div></div></section></div> ]]></description>
   <category>MkDocs</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/</guid>
   <pubDate>Thu, 13 Jan 2022 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-usingmkdocsrmd/images/site_alive.png" medium="image" type="image/png" height="64" width="144"/>
 </item>
 <item>
   <title>Usando tmux: apuntes breves de mi jornada</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-usando-tmux/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/</link>
   <description><![CDATA[ 
 
 
@@ -6628,14 +6628,14 @@ Jornada.”</span> January 3, 2021. <a href="https://blog.ronnyale.com/posts/202
 </div></div></section></div> ]]></description>
   <category>tmux</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-usando-tmux/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/</guid>
   <pubDate>Sun, 03 Jan 2021 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-usando-tmux/images/tmux.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>Desplegando mi app de shiny con shiny-server</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/</link>
   <description><![CDATA[ 
 
 
@@ -7015,14 +7015,14 @@ Shiny-Server.”</span> December 28, 2020. <a href="https://blog.ronnyale.com/po
 </div></div></section></div> ]]></description>
   <category>Shiny</category>
   <category>Linux</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-desplegando-shiny/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/</guid>
   <pubDate>Mon, 28 Dec 2020 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-desplegando-shiny/images/app.png" medium="image" type="image/png" height="101" width="144"/>
 </item>
 <item>
   <title>Tiempo en R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/</link>
   <description><![CDATA[ 
 
 
@@ -7672,14 +7672,14 @@ A. Hernandez Mora, Ronny. 2018. <span>“Tiempo En R.”</span> March 14,
 2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/">https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-tiempo-en-r/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/</guid>
   <pubDate>Wed, 14 Mar 2018 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-tiempo-en-r/images/time.png" medium="image" type="image/png" height="144" width="144"/>
 </item>
 <item>
   <title>Intro a datos y estructuras en R</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-estructuras-r/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/</link>
   <description><![CDATA[ 
 
 
@@ -8319,15 +8319,15 @@ A. Hernandez Mora, Ronny. 2018. <span>“Intro a Datos y Estructuras En
 R.”</span> February 1, 2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/">https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/</a>.
 </div></div></section></div> ]]></description>
   <category>Base R</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-estructuras-r/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/</guid>
   <pubDate>Thu, 01 Feb 2018 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-estructuras-r/images/structure.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>Datos abiertos municipalidad de San José, Costa Rica</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
   <dc:creator>Erick Calderon Morales</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</link>
   <description><![CDATA[ 
 
 
@@ -8844,14 +8844,14 @@ A. Hernandez Mora, Ronny, and Erick Calderon Morales. 2018. <span>“Datos
 Abiertos Municipalidad de San José, Costa Rica.”</span> January 13,
 2018. <a href="https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/">https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</a>.
 </div></div></section></div> ]]></description>
-  <guid>https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/</guid>
   <pubDate>Sat, 13 Jan 2018 07:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-datos-abiertos-muni-sanjose/images/city.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
 <item>
   <title>Otra introducción a git</title>
   <dc:creator>Ronny A. Hernandez Mora</dc:creator>
-  <link>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/</link>
+  <link>https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/</link>
   <description><![CDATA[ 
 
 
@@ -9053,9 +9053,9 @@ A. Hernandez Mora, Ronny. 2016. <span>“Otra Introducción a Git.”</span>
 April 20, 2016. <a href="https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/">https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/</a>.
 </div></div></section></div> ]]></description>
   <category>git</category>
-  <guid>https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/</guid>
+  <guid>https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/</guid>
   <pubDate>Wed, 20 Apr 2016 06:00:00 GMT</pubDate>
-  <media:content url="https://ronnyale.com/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>
+  <media:content url="https://blog.ronnyale.com/posts/2021-12-11-otra-intro-a-git/images/files.png" medium="image" type="image/png" height="202" width="144"/>
 </item>
 </channel>
 </rss>
